@@ -1,11 +1,6 @@
         <div class="container">
             <h3>Maintenance Calendar</h3>
-            <div class="calendar-wrapper">
-                <div id='calendar'></div>
-            </div>
-
-			<br>
-
+			
 			<table
 			id="user-table"
 			data-toolbar="#toolbar"

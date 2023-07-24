@@ -51,6 +51,13 @@
 			data-url='<?= BASEURL; ?>/client/getClients'
             data-resizable="true">
 			</table>
+
+			<br>
+			<h3>Maintenance Calendar</h3>
+
+			<div class="calendar-wrapper mb-3">
+					<div id='calendar'></div>
+			</div>
 		</div>
 	</section>
 
