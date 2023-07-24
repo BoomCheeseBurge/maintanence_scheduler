@@ -1,0 +1,4 @@
+# If there is a user who tries to access the 'app' folder and its child folders
+# and as long as within those folders there are no 'index.php/html' files
+# then block the content view of those folders
+Options -Indexes

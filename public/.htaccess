@@ -1,0 +1,22 @@
+# Avoid ambiguity in accessing files within the 'public' folder
+Options -Multiviews
+
+# Rewrite the URL address
+RewriteEngine On
+
+# RewriteEngine Configurations
+
+# Configuration to ignore a folder passed in the URL 
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Configuration to prevent duplication of folder/file name with the controllers and methods
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Rule to rewrite the URL
+# ^ => Read the whole string passed in the URL parameter from the beginning (i.e. the value after '../public/' directory)
+# (.*)$ => Retrieve the characters passed in the URL param one by one until the end
+# index.php?url=<> => Redirect to the index file that sends the url
+# $l => Placeholder that stores the characters retrieved by the regex
+# [L] => If there is a rule already fulfilled for that rule then don't run subsequent rules
+# RewriteRule ^(.*)$ index.php?url=$1 [L] <- Deprecated
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
