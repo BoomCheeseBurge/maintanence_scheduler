@@ -1,5 +1,5 @@
         <div class="container">
-            <h3>Maintenance Calendar</h3>
+            <h3>User</h3>
 			
 			<table
 			id="user-table"
@@ -19,89 +19,88 @@
 			data-check-on-init="true"
 			data-url='data1.json'
 			data-resizable="true">
-				<!-- <a class="btn btn-primary addClientBtn" href="/task" role="button">Add</a> -->
 			</table>
 		</div>
     </section>
 
-    <!-- Update Maintenance Schedule popup dialog box -->
-	<div class="modal fade" id="update_schedule_Modal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+	<!-- ===================================================== Add New User Modal ===================================================== -->
+	<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-md" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-				<h5 class="modal-title fs-5" id="updateModalLabel">Update Current Schedule</h5>
+				<h5 class="modal-title fs-5" id="addUserModalLabel">New User</h5>
         		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div class="container">
-						<div class="row">
-							<div class="col-sm-12">  
-								<div class="form-group">
-								  <label for="event_name">Maintenance Title</label>
-								  <input type="text" name="event_name" id="update_event_name" class="form-control" placeholder="Enter your event name">
-								</div>
-							</div>
-						</div><br>
-						<div class="row">
-							<div class="col-sm-6">  
-								<div class="form-group">
-								  <label for="event_start_date">Start Date</label>
-								  <input type="date" name="start_date" id="update_start_date" class="form-control onlydatepicker" placeholder="Event start date">
-								 </div>
-							</div>
-							<div class="col-sm-6">  
-								<div class="form-group">
-								  <label for="event_end_date">End Date</label>
-								  <input type="date" name="end_date" id="update_end_date" class="form-control" placeholder="Event end date">
-								</div>
-							</div>
+					<form action="" method="post">
+						<div class="form-floating mb-3">
+							<input type="text" class="form-control" id="floatingText" placeholder="fullname">
+							<label for="floatingText">Full-name</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+							<label for="floatingEmail">Email</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="password" class="form-control" id="floatingPass" placeholder="********">
+							<label for="floatingPass">Password</label>
+						</div>
+						<div class="input-group mb-3">
+							<label class="input-group-text" for="roleInput">Role</label>
+							<select class="form-select" id="roleInput">
+								<option selected disabled>Choose role</option>
+								<option value="admin">Admin</option>
+								<option value="manager">Manager</option>
+								<option value="user">User</option>
+							</select>
 						</div>
 					</div>
-				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" onclick="save_event()">Save Changes</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Create</button>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- End popup dialog box -->
 
-    <!-- Update Maintenance Schedule popup dialog box -->
-	<div class="modal fade" id="new_schedule_Modal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+    <!-- ===================================================== Edit User Modal ===================================================== -->
+	<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-md" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-				<h5 class="modal-title fs-5" id="newModalLabel">New Maintenance Schedule</h5>
+				<h5 class="modal-title fs-5" id="editUserModalLabel">Edit User</h5>
         		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div class="container">
-						<div class="row">
-							<div class="col-sm-12">  
-								<div class="form-group">
-								  <label for="event_name">Maintenance Title</label>
-								  <input type="text" name="event_name" id="new_event_name" class="form-control" placeholder="Enter your event name">
-								</div>
-							</div>
-						</div><br>
-						<div class="row">
-							<div class="col-sm-6">  
-								<div class="form-group">
-								  <label for="event_start_date">Start Date</label>
-								  <input type="date" name="start_date" id="new_start_date" class="form-control onlydatepicker" placeholder="Event start date">
-								 </div>
-							</div>
-							<div class="col-sm-6">  
-								<div class="form-group">
-								  <label for="event_end_date">End Date</label>
-								  <input type="date" name="end_date" id="new_end_date" class="form-control" placeholder="Event end date">
-								</div>
-							</div>
+					<form action="" method="post">
+						<div class="form-floating mb-3">
+							<input type="text" class="form-control" id="floatingText" placeholder="fullname">
+							<label for="floatingText">Full-name</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+							<label for="floatingEmail">Email</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="password" class="form-control" id="floatingPass" placeholder="********">
+							<label for="floatingPass">Password</label>
+						</div>
+						<div class="input-group mb-3">
+							<label class="input-group-text" for="roleInput">Role</label>
+							<select class="form-select" id="roleInput">
+								<option selected disabled>Choose role</option>
+								<option value="admin">Admin</option>
+								<option value="manager">Manager</option>
+								<option value="user">User</option>
+							</select>
 						</div>
 					</div>
-				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" onclick="create_event()">Create</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save</button>
+					</form>
 				</div>
 			</div>
 		</div>

@@ -3,7 +3,7 @@ var $userTable = $('#user-table')
 
 function editUserFormatter(value, row, index) {
     return [
-		'<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">',
+		'<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editUserModal">',
 		'Edit',
 		'</button>'
     ].join('')
@@ -63,6 +63,8 @@ $(function() {
 	const buttonElement = document.createElement('button');
 	buttonElement.textContent = 'Add';
 	buttonElement.className = 'btn btn-primary';
+	buttonElement.setAttribute('data-bs-target', '#addUserModal');
+	buttonElement.setAttribute('data-bs-toggle', 'modal');
 
 	emptyDiv.appendChild(buttonElement);
 })
