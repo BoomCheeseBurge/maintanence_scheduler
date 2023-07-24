@@ -1,14 +1,44 @@
 // Bootstrap Table Extended
 var $userTable = $('#user-table')
 
+function setForm() {
+
+	// Event listener for the show.bs.modal event on the scheduledDateModal
+	$('#userModal').on('show.bs.modal', function(event) {
+		// Get the button that triggered the modal
+		var button = $(event.relatedTarget);
+		
+		// Extract the data-id attribute value from the button
+		var maintenanceId = button.data('id');
+
+		// Set the value of the input field in the modal form
+		$('#id').val(maintenanceId);
+
+		console.log(maintenanceId);
+	});
+
+	$('.newUserBtn').on('click', function() {
+
+		$('#userModalLabel').html('New User');
+		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/user/addUser');
+		$('.modal-footer button[type=submit]').html('Add');
+	});
+
+	$('.editUserBtn').on('click', function() {
+
+		$('#userModalLabel').html('Edit User');
+		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/user/editUser');
+		$('.modal-footer button[type=submit]').html('Save');
+	});
+}
+
 function editUserFormatter(value, row, index) {
     return [
-		'<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editUserModal">',
+		'<button type="button" class="btn btn-warning editUserBtn" data-bs-toggle="modal" data-bs-target="#userModal">',
 		'Edit',
 		'</button>'
     ].join('')
   }
-
 
 function initUserTable() {
 	var icons = {
@@ -46,7 +76,8 @@ function initUserTable() {
 			align: 'center',
 			switchable: 'false',
 		    formatter: editUserFormatter
-	  }]
+	  }],
+	  onPostBody: setForm
 	})
 }
 
@@ -62,8 +93,8 @@ $(function() {
 
 	const buttonElement = document.createElement('button');
 	buttonElement.textContent = 'Add';
-	buttonElement.className = 'btn btn-primary';
-	buttonElement.setAttribute('data-bs-target', '#addUserModal');
+	buttonElement.className = 'btn btn-primary newUserBtn';
+	buttonElement.setAttribute('data-bs-target', '#userModal');
 	buttonElement.setAttribute('data-bs-toggle', 'modal');
 
 	emptyDiv.appendChild(buttonElement);

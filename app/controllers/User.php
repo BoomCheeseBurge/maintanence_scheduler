@@ -11,4 +11,38 @@ class User extends Controller{
 		$this->view('user/index');
 		$this->view('templates/footer', $data);
     }
+
+    public function addUser() {
+
+		if( $this->model('User_model')->addNewUser($_POST) > 0 ) {
+
+			Flasher::setFlash('User', ' successfully', ' added', 'success');
+
+			header('Location: ' . BASEURL);
+			exit;
+		}else {
+
+			Flasher::setFlash('User', ' failed', ' to be added', 'danger');
+
+			header('Location: ' . BASEURL);
+			exit;
+		}
+	}
+
+	public function editUser() {
+
+		if( $this->model('User_model')->editUserData($_POST) > 0 ) {
+
+			Flasher::setFlash('User', ' successfully', ' saved', 'success');
+
+			header('Location: ' . BASEURL);
+			exit;
+		}else {
+
+			Flasher::setFlash('User', ' failed', ' to be saved', 'danger');
+
+			header('Location: ' . BASEURL);
+			exit;
+		}
+	}
 }
