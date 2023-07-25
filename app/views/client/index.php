@@ -62,18 +62,18 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="" method="post">
+          <form action="<?= BASEURL; ?>/client/addClient" method="post">
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="floatingText">
+              <input type="text" class="form-control" id="floatingText" placeholder="clientName">
               <label for="floatingText">Client Name</label>
             </div>
-            <div>PIC Client 1</div>
+            <h6>PIC Client 1</h6>
             <div class="form-floating mb-1">
-              <input type="text" class="form-control" id="floatingPIC">
-              <label for="floatingPIC">PIC Client</label>
+              <input type="text" class="form-control" id="floatingPIC" placeholder="picName">
+              <label for="floatingPIC">PIC Name</label>
             </div>
-            <div class="form-floating mb-2">
-                <input type="email" class="form-control" id="floatingEmail">
+            <div class="form-floating mb-4">
+                <input type="email" class="form-control" id="floatingEmail" placeholder="picEmail">
                 <label for="floatingEmail">PIC Email</label>
             </div>
           <!-- Container for additional PIC fields -->

@@ -22,19 +22,19 @@ class Client extends Controller {
 
 		// $_POST larger than zero indicates that there is new record found
 		// then that means the new data is successfully passed into the webserver
-		if( $this->model('Client_model')->addDataClient($_POST) > 0 ) {
+		if( $this->model('Client_model')->addClientData($_POST) > 0 ) {
 
 			// Set the parameter values for the flash message
-			Flasher::setFlash('successfully', ' added', 'success');
+			Flasher::setFlash('Client', 'successfully', ' added', 'success');
 
 			// Redirect to the main page of the mahasiswa
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}else {
 
-			Flasher::setFlash('failed', ' to be added', 'danger');
+			Flasher::setFlash('Client', 'failed', ' to be added', 'danger');
 
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}
 	}
@@ -44,13 +44,13 @@ class Client extends Controller {
 
 		if( $this->model('Client_model')->delDataClient($id) > 0 ) {
 
-			Flasher::setFlash('successfully', ' deleted', 'success');
+			Flasher::setFlash('Client', 'successfully', ' deleted', 'success');
 
 			header('Location: ' . BASEURL . '/dashboard');
 			exit;
 		}else {
 
-			Flasher::setFlash('failed', ' to be deleted', 'danger');
+			Flasher::setFlash('Client', 'failed', ' to be deleted', 'danger');
 
 			header('Location: ' . BASEURL . '/dashboard');
 			exit;
@@ -71,13 +71,13 @@ class Client extends Controller {
 
 		if( $this->model('Client_model')->editDataClient($_POST) > 0 ) {
 
-			Flasher::setFlash('successfully', ' edited', 'success');
+			Flasher::setFlash('Client', 'successfully', ' edited', 'success');
 
 			header('Location: ' . BASEURL . '/dashboard');
 			exit;
 		}else {
 
-			Flasher::setFlash('failed', ' to edit', 'danger');
+			Flasher::setFlash('Client', 'failed', ' to edit', 'danger');
 
 			header('Location: ' . BASEURL . '/dashboard');
 			exit;

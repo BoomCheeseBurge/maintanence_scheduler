@@ -28,18 +28,22 @@ class Client_model {
 	}
 
 
-	public function addDataClient($data) {
+	public function addClientData($data) {
 
-		$query = "INSERT INTO client VALUE
-					('', :nama, :email, :telepon, :lokasi)";
+        // Check if picName and picEmail arrays exist in the $data
+        if (isset($data['picName']) && isset($data['picEmail'])) {
+            $picNames = $data['picName'];
+            $picEmails = $data['picEmail'];
 
-		$this->db->query($query);
-		$this->db->bind('nama', $data['nama']);
-		$this->db->bind('email', $data['email']);
-		$this->db->bind('telepon', $data['telepon']);
-		$this->db->bind('lokasi', $data['lokasi']);
-
-		$this->db->execute();
+            // Loop through the pic data arrays and insert each set as a separate record
+            for ($i = 0; $i < count($picNames); $i++) {
+                $query = "INSERT INTO pic_data ('', pic_name, pic_email) VALUES (:client_id, :pic_name, :pic_email)";
+                $this->db->query($query);
+                $this->db->bind('pic_name', $picNames[$i]);
+                $this->db->bind('pic_email', $picEmails[$i]);
+                $this->db->execute();
+            }
+        }
 
 		return $this->db->rowCount();
 	}
