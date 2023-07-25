@@ -1,9 +1,40 @@
 // Bootstrap Table Extended
 var $clientTable = $('#client-table')
 
+function setForm() {
+
+	// Event listener for the show.bs.modal event on the scheduledDateModal
+	$('#clientModal').on('show.bs.modal', function(event) {
+		// Get the button that triggered the modal
+		var button = $(event.relatedTarget);
+		
+		// Extract the data-id attribute value from the button
+		var clientId = button.data('id');
+
+		// Set the value of the input field in the modal form
+		$('#id').val(clientId);
+
+		console.log(clientId);
+	});
+
+	$('.addClientBtn').on('click', function() {
+
+		$('#clientModalLabel').html('New Client');
+		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/client/addClient');
+		$('.modal-footer button[type=submit]').html('Add');
+	});
+
+	$('.editClientBtn').on('click', function() {
+
+		$('#clientModalLabel').html('Edit Client');
+		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/client/editClient');
+		$('.modal-footer button[type=submit]').html('Save');
+	});
+}
+
 function editClientFormatter(value, row, index) {
     return [
-		'<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">',
+		'<button type="button" class="btn btn-warning editClientBtn" data-bs-toggle="modal" data-bs-target="#clientModal">',
 		'Edit',
 		'</button>'
     ].join('')
@@ -24,14 +55,14 @@ function initClientTable() {
 			align: 'center',
 			valign: 'middle'
 		},{
-			title: 'Nama',
-			field: 'nama',
+			title: 'Name',
+			field: 'client_name',
 			align: 'center',
 			sortable: true,
 			align: 'center'
 		  }, {
 			title: 'PIC Client',
-			field: 'pic_client',
+			field: 'pic_name',
 			align: 'center',
 			valign: 'middle'
 		  }, {
@@ -45,7 +76,8 @@ function initClientTable() {
 			align: 'center',
 			switchable: 'false',
 		    formatter: editClientFormatter
-	  }]
+	  }],
+	  onPostBody: setForm
 	})
 }
 
@@ -61,8 +93,8 @@ $(function() {
 
 	const buttonElement = document.createElement('button');
 	buttonElement.textContent = 'Add';
-	buttonElement.className = 'btn btn-primary';
-	buttonElement.setAttribute('data-bs-target', '#clientForm');
+	buttonElement.className = 'btn btn-primary addClientBtn';
+	buttonElement.setAttribute('data-bs-target', '#clientModal');
 	buttonElement.setAttribute('data-bs-toggle', 'modal');
 
 	emptyDiv.appendChild(buttonElement);
@@ -71,7 +103,7 @@ $(function() {
 	let picCounter = 2;
 
 	// Container for the delete button
-	const deleteButton = $(`<button type="button" class="btn btn-danger delete-pic mb-4">Delete</button>`);
+	const deleteButton = $(`<button type="button" class="btn btn-danger delete-pic mb-4">-</button>`);
 
 	// Click event for the plus button
 	$('#addPicFieldsBtn').click(function() {
@@ -100,7 +132,6 @@ $(function() {
 		// Increment the counter
 		picCounter++;
 	});
-
 	
 	// Event delegation to handle the click event of delete buttons
 	$('#picFieldsContainer').on('click', '.delete-pic', function() {
@@ -125,10 +156,3 @@ $(function() {
 })
 
 // ---------------------------------------------------------------
-
-// Add PIC button
-document.querySelector('.addPIC').on('click', function(e) {
-	// When button is clicked, add another PIC input before the add button
-	// Count which PIC input is this one
-	// Get the modal form dialog box element
-});

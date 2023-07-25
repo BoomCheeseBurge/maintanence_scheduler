@@ -94,4 +94,9 @@ class Database {
 		// The rowCount() function here belongs to PDO
 		return $this->stmt->rowCount();
 	}
+
+	// Add a method to fetch the last inserted ID
+	public function lastInsertId() {
+		return $this->dbh->lastInsertId();
+	}
 }

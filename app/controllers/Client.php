@@ -42,17 +42,17 @@ class Client extends Controller {
 
 	public function delClient($id) {
 
-		if( $this->model('Client_model')->delDataClient($id) > 0 ) {
+		if( $this->model('Client_model')->delClientData($id) > 0 ) {
 
 			Flasher::setFlash('Client', 'successfully', ' deleted', 'success');
 
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}else {
 
 			Flasher::setFlash('Client', 'failed', ' to be deleted', 'danger');
 
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}
 	}

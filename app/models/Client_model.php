@@ -8,13 +8,15 @@ class Client_model {
 
 	public function __construct() {
 
-		$this->db = new Database;
+		$this->db=  new Database;
 	}
 
 
 	public function getAllClient() {
 
-		$this->db->query('SELECT * FROM ' . $this->table);
+		$this->db->query('SELECT pic.id AS id, client.name AS client_name, pic.name AS pic_name, pic.email AS pic_email
+		FROM client
+		JOIN pic ON client.id = pic.client_id');
 		return $this->db->resultSet();
 	}
 
@@ -30,6 +32,15 @@ class Client_model {
 
 	public function addClientData($data) {
 
+		$client_name = $data['clientName'];
+		$query1 = "INSERT INTO client (id, name) VALUES ('', :client_name)";
+		$this->db->query($query1);
+		$this->db->bind('client_name', $client_name);
+		$this->db->execute();
+
+		// After executing the INSERT query for the 'client' table
+		$clientId = $this->db->lastInsertId();
+
         // Check if picName and picEmail arrays exist in the $data
         if (isset($data['picName']) && isset($data['picEmail'])) {
             $picNames = $data['picName'];
@@ -37,8 +48,9 @@ class Client_model {
 
             // Loop through the pic data arrays and insert each set as a separate record
             for ($i = 0; $i < count($picNames); $i++) {
-                $query = "INSERT INTO pic_data ('', pic_name, pic_email) VALUES (:client_id, :pic_name, :pic_email)";
-                $this->db->query($query);
+                $query2 = "INSERT INTO pic (id, client_id, name, email) VALUES ('', :client_id, :pic_name, :pic_email)";
+                $this->db->query($query2);
+                $this->db->bind('client_id', $clientId);
                 $this->db->bind('pic_name', $picNames[$i]);
                 $this->db->bind('pic_email', $picEmails[$i]);
                 $this->db->execute();
@@ -49,7 +61,7 @@ class Client_model {
 	}
 
 
-	public function delDataClient($id) {
+	public function delClientData($id) {
 
 		$query = "DELETE FROM client WHERE id = :id";
 		$this->db->query($query);
