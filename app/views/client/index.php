@@ -64,16 +64,16 @@
         <div class="modal-body">
           <form action="<?= BASEURL; ?>/client/addClient" method="post">
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="floatingText" placeholder="clientName">
+              <input type="text" class="form-control" id="floatingText" required placeholder="clientName">
               <label for="floatingText">Client Name</label>
             </div>
             <h6>PIC Client 1</h6>
             <div class="form-floating mb-1">
-              <input type="text" class="form-control" id="floatingPIC" placeholder="picName">
+              <input type="text" class="form-control" id="floatingPIC" required placeholder="picName">
               <label for="floatingPIC">PIC Name</label>
             </div>
             <div class="form-floating mb-4">
-                <input type="email" class="form-control" id="floatingEmail" placeholder="picEmail">
+                <input type="email" class="form-control" id="floatingEmail" required placeholder="picEmail">
                 <label for="floatingEmail">PIC Email</label>
             </div>
           <!-- Container for additional PIC fields -->

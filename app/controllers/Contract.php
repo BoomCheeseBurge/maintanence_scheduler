@@ -27,4 +27,38 @@ class Contract extends Controller {
 			exit; // Make sure to exit after sending the JSON response
 		}
 	}
+
+	public function addContract() {
+
+		if( $this->model('Contract_model')->addContractData($_POST) > 0 ) {
+
+			Flasher::setFlash('Contract', ' successfully', ' added', 'success');
+
+			header('Location: ' . BASEURL . '/contract');
+			exit;
+		}else {
+
+			Flasher::setFlash('Contract', ' failed', ' to be added', 'danger');
+
+			header('Location: ' . BASEURL . '/contract');
+			exit;
+		}
+	}
+
+	public function editContract() {
+
+		if( $this->model('Contract_model')->editContractData($_POST) > 0 ) {
+
+			Flasher::setFlash('Contract', ' successfully', ' saved', 'success');
+
+			header('Location: ' . BASEURL . '/contract');
+			exit;
+		}else {
+
+			Flasher::setFlash('Contract', ' failed', ' to be saved', 'danger');
+
+			header('Location: ' . BASEURL . '/contract');
+			exit;
+		}
+	}
 }
