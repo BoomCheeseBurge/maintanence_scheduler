@@ -1,14 +1,47 @@
 // Bootstrap Table Extended
 var $contractTable = $('#contract-table')
 
-function editContractFormatter(value, row, index) {
+function setForm() {
+
+	// Event listener for the show.bs.modal event on the scheduledDateModal
+	$('#contractModal').on('show.bs.modal', function(event) {
+		// Get the button that triggered the modal
+		var button = $(event.relatedTarget);
+		
+		// Extract the data-id attribute value from the button
+		var contractId = button.data('id');
+
+		// Set the value of the input field in the modal form
+		$('#id').val(contractId);
+
+		console.log(contractId);
+	});
+
+	$('.addContractBtn').on('click', function() {
+
+		$('#contractModalLabel').html('New Contract');
+		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/contract/addContract');
+		$('.modal-footer .contractSubmitBtn').html('Add');
+	});
+
+	$('.editContractBtn').on('click', function() {
+
+		$('#contractModalLabel').html('Edit Contract');
+		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/contract/editContract');
+		$('.modal-footer .contractSubmitBtn').html('Save');
+	});
+}
+
+function contractFormatter(value, row, index) {
     return [
-		'<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">',
+		'<button type="button" class="btn btn-warning editContractBtn" data-bs-toggle="modal" data-bs-target="#contractModal">',
 		'Edit',
+		'</button>',
+		'<button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#scheduleModal">',
+		'<i class="fa-solid fa-calendar-plus"></i>',
 		'</button>'
     ].join('')
   }
-
 
 function initContractTable() {
 	var icons = {
@@ -42,6 +75,11 @@ function initContractTable() {
 			align: 'center',
 			sortable: true,
 			align: 'center'
+		},{
+			title: 'PM Frequency',
+			field: 'pm_freq',
+			align: 'center',
+			align: 'center'
 		}, {
 			title: 'Start Date',
 			field: 'start_date',
@@ -57,8 +95,10 @@ function initContractTable() {
 			field: 'view',
 			align: 'center',
 			switchable: 'false',
-		    formatter: editContractFormatter
-	  }]
+			width: 150,
+		    formatter: contractFormatter
+	  }],
+	  onPostBody: setForm
 	})
 }
 
@@ -74,7 +114,9 @@ $(function() {
 
 	const buttonElement = document.createElement('button');
 	buttonElement.textContent = 'Add';
-	buttonElement.className = 'btn btn-primary';
+	buttonElement.className = 'btn btn-primary addContractBtn';
+	buttonElement.setAttribute('data-bs-target', '#contractModal');
+	buttonElement.setAttribute('data-bs-toggle', 'modal');
 
 	emptyDiv.appendChild(buttonElement);
 })

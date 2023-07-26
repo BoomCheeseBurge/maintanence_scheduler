@@ -12,6 +12,16 @@ class Contract extends Controller {
 		$this->view('templates/footer', $data);
 	}
 
+	public function newContract() {
+
+		$data['title'] = 'Task-Scheduler | Contract';
+		$data['identifier'] = 'contract';
+
+		$this->view('templates/header', $data);
+		$this->view('contract/newContract');
+		$this->view('templates/footer', $data);
+	}
+
     public function searchContract()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -25,6 +35,40 @@ class Contract extends Controller {
 			header('Content-Type: application/json');
 			echo json_encode($results);
 			exit; // Make sure to exit after sending the JSON response
+		}
+	}
+
+	public function addContract() {
+
+		if( $this->model('Contract_model')->addContractData($_POST) > 0 ) {
+
+			Flasher::setFlash('Contract', ' successfully', ' added', 'success');
+
+			header('Location: ' . BASEURL . '/contract');
+			exit;
+		}else {
+
+			Flasher::setFlash('Contract', ' failed', ' to be added', 'danger');
+
+			header('Location: ' . BASEURL . '/contract');
+			exit;
+		}
+	}
+
+	public function editContract() {
+
+		if( $this->model('Contract_model')->editContractData($_POST) > 0 ) {
+
+			Flasher::setFlash('Contract', ' successfully', ' saved', 'success');
+
+			header('Location: ' . BASEURL . '/contract');
+			exit;
+		}else {
+
+			Flasher::setFlash('Contract', ' failed', ' to be saved', 'danger');
+
+			header('Location: ' . BASEURL . '/contract');
+			exit;
 		}
 	}
 }

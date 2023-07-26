@@ -8,13 +8,15 @@ class Client_model {
 
 	public function __construct() {
 
-		$this->db = new Database;
+		$this->db=  new Database;
 	}
 
 
 	public function getAllClient() {
 
-		$this->db->query('SELECT * FROM ' . $this->table);
+		$this->db->query('SELECT pic.id AS id, client.name AS client_name, pic.name AS pic_name, pic.email AS pic_email
+		FROM client
+		JOIN pic ON client.id = pic.client_id');
 		return $this->db->resultSet();
 	}
 
@@ -28,24 +30,38 @@ class Client_model {
 	}
 
 
-	public function addDataClient($data) {
+	public function addClientData($data) {
 
-		$query = "INSERT INTO client VALUE
-					('', :nama, :email, :telepon, :lokasi)";
-
-		$this->db->query($query);
-		$this->db->bind('nama', $data['nama']);
-		$this->db->bind('email', $data['email']);
-		$this->db->bind('telepon', $data['telepon']);
-		$this->db->bind('lokasi', $data['lokasi']);
-
+		$client_name = $data['clientName'];
+		$query1 = "INSERT INTO client (id, name) VALUES ('', :client_name)";
+		$this->db->query($query1);
+		$this->db->bind('client_name', $client_name);
 		$this->db->execute();
+
+		// After executing the INSERT query for the 'client' table
+		$clientId = $this->db->lastInsertId();
+
+        // Check if picName and picEmail arrays exist in the $data
+        if (isset($data['picName']) && isset($data['picEmail'])) {
+            $picNames = $data['picName'];
+            $picEmails = $data['picEmail'];
+
+            // Loop through the pic data arrays and insert each set as a separate record
+            for ($i = 0; $i < count($picNames); $i++) {
+                $query2 = "INSERT INTO pic (id, client_id, name, email) VALUES ('', :client_id, :pic_name, :pic_email)";
+                $this->db->query($query2);
+                $this->db->bind('client_id', $clientId);
+                $this->db->bind('pic_name', $picNames[$i]);
+                $this->db->bind('pic_email', $picEmails[$i]);
+                $this->db->execute();
+            }
+        }
 
 		return $this->db->rowCount();
 	}
 
 
-	public function delDataClient($id) {
+	public function delClientData($id) {
 
 		$query = "DELETE FROM client WHERE id = :id";
 		$this->db->query($query);
@@ -89,17 +105,9 @@ class Client_model {
 		return $this->db->resultSet();
 	}
 	
-	public function getClient($keyword)
+	public function getClientName($keyword)
     {
-        $query = 'SELECT nama FROM client WHERE nama LIKE :keyword';
-        $this->db->query($query);
-        $this->db->bind('keyword', "%$keyword%");
-        return $this->db->resultSet();
-    }
-
-	public function getAssignee($keyword)
-    {
-        $query = 'SELECT nama FROM client WHERE nama LIKE :keyword';
+        $query = 'SELECT name FROM client WHERE name LIKE :keyword';
         $this->db->query($query);
         $this->db->bind('keyword', "%$keyword%");
         return $this->db->resultSet();

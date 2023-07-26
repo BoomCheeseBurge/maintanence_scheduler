@@ -97,17 +97,11 @@
         <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-tall mb-2 navbar-color">
             <div class="container-fluid">
                 <a class="navbar-brand ms-4" href="<?= BASEURL; ?>">Task-Scheduler</a>
-                <a href="<?= BASEURL; ?>/maintenance" class="btn btn-custom mx-auto me-1" role="button">New Client<i class="fa-solid fa-circle-plus plus-btn ms-2"></i></a>
-                <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-custom" type="submit">Search</button>
-                    </form>
-                </li>
-                <li class="nav-item ms-3">
-                    <a class="nav-link" href="<?= BASEURL; ?>/mahasiswa"><i class="fa-solid fa-user"></i></a>
-                </li>
-                </ul>
+                <div class="d-flex justify-content-end">
+                    <a href="<?= BASEURL; ?>/maintenance" class="btn btn-custom me-1" role="button"><i class="fa-solid fa-circle-plus plus-btn me-2"></i> Schedule</a>
+                    <a href="<?= BASEURL; ?>/contract/newContract" class="btn btn-custom me-1" role="button"><i class="fa-solid fa-circle-plus plus-btn me-2"></i> Contract</a>
+                    <a href="<?= BASEURL; ?>/client/newClient" class="btn btn-custom me-1" role="button"><i class="fa-solid fa-circle-plus plus-btn me-2"></i> Client</a>
+                    <a class="nav-link" href="<?= BASEURL; ?>/mahasiswa"><i class="fa-solid fa-user fa-xl ms-3 me-3"></i></a>
+                </div>
             </div>
         </nav>

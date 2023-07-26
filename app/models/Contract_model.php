@@ -1,19 +1,23 @@
 <?php
 
-class User_model {
+class Contract_model {
 
-	private $table = 'user';
+	private $table = 'contract';
 	private $db;
-
 
 	public function __construct() {
 
 		$this->db = new Database;
 	}
 
-	public function addNewUser($data) {
+    public function getContract() {
+        $this->db->query('SELECT * FROM ' . $this->table);
+        return $this->db->resultSet();
+    }
 
-		$query = "INSERT INTO user VALUE
+    public function addContractData($data) {
+
+		$query = "INSERT INTO maintenance_schedule VALUE
 					('', :nama, :nrp, :email, :jurusan)";
 
 		$this->db->query($query);
@@ -27,7 +31,7 @@ class User_model {
 		return $this->db->rowCount();
 	}
 
-	public function editUserData($data) {
+    public function editContractData($data) {
 
 		$query = "UPDATE user SET
 					event_nama = :setdate
@@ -42,12 +46,4 @@ class User_model {
 
 		return $this->db->rowCount();
 	}
-
-    public function getAssignee($keyword)
-    {
-        $query = 'SELECT full_name FROM user WHERE full_name LIKE :keyword';
-        $this->db->query($query);
-        $this->db->bind('keyword', "%$keyword%");
-        return $this->db->resultSet();
-    }
 }

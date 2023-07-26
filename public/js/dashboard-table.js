@@ -176,10 +176,30 @@ function engineerDashboardFormatter(value, row, index) {
 		return '<span data-bs-toggle="modal" data-bs-target="#formModal" data-id="' + row.id + '"><button class="btn btn-primary scheduledDateBtn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Set the scheduled date"><i class="fa-regular fa-calendar-days"></i></button></span>';		
 	// Check if the actual date is empty
 	} else if(!row.actual_date) {
-		return '<span data-bs-toggle="modal" data-bs-target="#formModal" data-id="' + row.id + '"><button class="btn btn-primary actualDateBtn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Set the actual date"><i class="fa-solid fa-calendar-check"></i></button></span>';
+		return [
+			'<span data-bs-toggle="modal" data-bs-target="#formModal" data-id="' + row.id + '">',
+			'<button class="btn btn-primary scheduledDateBtn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Reschedule the scheduled date">',
+			'<i class="fa-regular fa-calendar-days"></i>',
+			'</button>',
+			'</span>',
+			'<span data-bs-toggle="modal" data-bs-target="#formModal" data-id="' + row.id + '">',
+			'<button class="btn btn-primary actualDateBtn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Set the actual date">',
+			'<i class="fa-solid fa-calendar-check"></i>',
+			'</button>',
+			'</span>'
+		].join('')
 	// Check if the maintenance is finished
 	} else if (!row.maintenance_status) {
-		return '<button class="btn btn-primary" data-id="' + row.id + '" data-action="finishedMaintenance" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Maintenance Finished"><i class="fa-solid fa-square-check"></i></button>';
+		return [
+			'<span data-bs-toggle="modal" data-bs-target="#formModal" data-id="' + row.id + '">',
+			'<button class="btn btn-primary actualDateBtn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Set the actual date">',
+			'<i class="fa-solid fa-calendar-check"></i>',
+			'</button>',
+			'</span>',
+			'<button class="btn btn-primary" data-id="' + row.id + '" data-action="finishedMaintenance" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Maintenance Finished">',
+			'<i class="fa-solid fa-square-check"></i>',
+			'</button>'
+		].join('')
 	// Check if the report is delivered
 	} else if (!row.report_status) {
 		return '<button class="btn btn-primary" data-id="' + row.id + '" data-action="deliveredReport" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Report Delivered"><i class="fa-solid fa-file-circle-check"></i></button>';

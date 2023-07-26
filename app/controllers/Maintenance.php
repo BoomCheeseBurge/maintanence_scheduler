@@ -5,7 +5,7 @@ class Maintenance extends Controller {
     public function index() {
 
         $data['title'] = 'Task-Scheduler | MaintenanceSchedule';
-        $data['identifier'] = 'createMaintenance';
+        $data['identifier'] = 'maintenance';
 
 		$this->view('templates/header', $data);
 		$this->view('maintenance/index');

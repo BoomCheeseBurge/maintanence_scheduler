@@ -12,6 +12,15 @@ class Client extends Controller {
 		$this->view('templates/footer', $data);
 	}
 
+	public function newClient() {
+		$data['title'] = 'Task-Scheduler | NewClient';
+		$data['identifier'] = 'newClient';
+
+		$this->view('templates/header', $data);
+		$this->view('client/newClient');
+		$this->view('templates/footer', $data);
+	}
+
 	public function getClients() {
 		$clientData = $this->model('Client_model')->getAllClient();
 		echo json_encode($clientData);
@@ -22,19 +31,19 @@ class Client extends Controller {
 
 		// $_POST larger than zero indicates that there is new record found
 		// then that means the new data is successfully passed into the webserver
-		if( $this->model('Client_model')->addDataClient($_POST) > 0 ) {
+		if( $this->model('Client_model')->addClientData($_POST) > 0 ) {
 
 			// Set the parameter values for the flash message
-			Flasher::setFlash('successfully', ' added', 'success');
+			Flasher::setFlash('Client', 'successfully', ' added', 'success');
 
 			// Redirect to the main page of the mahasiswa
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}else {
 
-			Flasher::setFlash('failed', ' to be added', 'danger');
+			Flasher::setFlash('Client', 'failed', ' to be added', 'danger');
 
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}
 	}
@@ -42,17 +51,17 @@ class Client extends Controller {
 
 	public function delClient($id) {
 
-		if( $this->model('Client_model')->delDataClient($id) > 0 ) {
+		if( $this->model('Client_model')->delClientData($id) > 0 ) {
 
-			Flasher::setFlash('successfully', ' deleted', 'success');
+			Flasher::setFlash('Client', 'successfully', ' deleted', 'success');
 
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}else {
 
-			Flasher::setFlash('failed', ' to be deleted', 'danger');
+			Flasher::setFlash('Client', 'failed', ' to be deleted', 'danger');
 
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}
 	}
@@ -71,27 +80,17 @@ class Client extends Controller {
 
 		if( $this->model('Client_model')->editDataClient($_POST) > 0 ) {
 
-			Flasher::setFlash('successfully', ' edited', 'success');
+			Flasher::setFlash('Client', 'successfully', ' edited', 'success');
 
 			header('Location: ' . BASEURL . '/dashboard');
 			exit;
 		}else {
 
-			Flasher::setFlash('failed', ' to edit', 'danger');
+			Flasher::setFlash('Client', 'failed', ' to edit', 'danger');
 
 			header('Location: ' . BASEURL . '/dashboard');
 			exit;
 		}
-	}
-
-
-	public function search() {
-
-		$data['title'] = 'Data Client';
-		$data['client'] = $this->model('Client_model')->getDataClient();
-		$this->view('templates/header', $data);
-		$this->view('dashboard/index', $data);
-		$this->view('templates/footer');
 	}
 
 	public function searchClientName()
@@ -101,23 +100,7 @@ class Client extends Controller {
 			$searchQuery = $_GET['keyword'];
 	
 			// Call the model's method to get the search results
-			$results = $this->model('Client_model')->getClient($searchQuery);
-	
-			// Return the search results as a JSON response
-			header('Content-Type: application/json');
-			echo json_encode($results);
-			exit; // Make sure to exit after sending the JSON response
-		}
-	}
-
-	public function searchAssignee()
-	{
-		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-			// Retrieve the search query from the request
-			$searchQuery = $_GET['keyword'];
-	
-			// Call the model's method to get the search results
-			$results = $this->model('Client_model')->getAssignee($searchQuery);
+			$results = $this->model('Client_model')->getClientName($searchQuery);
 	
 			// Return the search results as a JSON response
 			header('Content-Type: application/json');

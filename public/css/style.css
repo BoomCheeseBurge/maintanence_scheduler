@@ -178,7 +178,7 @@ body {
 }
 
 /* CSS for company name search input */
-.input-box #companyNameList {
+#companyNameList {
     background-color: var(--primary-color-light);
     border: 1px solid black;
     border-radius: 5px;
@@ -186,14 +186,14 @@ body {
     top: 100%; /* Position the div below the input field */
     left: 0;
     right: 0;
-    z-index: 1; /* Set z-index to 1 to ensure it appears above the input */
+    z-index: 100; /* Set z-index to 1 to ensure it appears above the input */
 }
 
-.input-box #companyNameList .companyNameOption {
+#companyNameList .companyNameOption {
     transition: 0.5s ease;
 }
 
-.input-box #companyNameList .companyNameOption:hover {
+#companyNameList .companyNameOption:hover {
     background-color: var(--primary-color);
     color: var(--primary-color-light);
     cursor: pointer;
@@ -222,7 +222,7 @@ body {
 }
 
 /* CSS for assignee search input */
-.input-box #assigneeList {
+#assigneeList {
     background-color: var(--primary-color-light);
     border: 1px solid black;
     border-radius: 5px;
@@ -233,11 +233,11 @@ body {
     z-index: 1; /* Set z-index to 1 to ensure it appears above the input */
 }
 
-.input-box #assigneeList .assigneeOption {
+#assigneeList .assigneeOption {
     transition: 0.5s ease;
 }
 
-.input-box #assigneeList .assigneeOption:hover {
+#assigneeList .assigneeOption:hover {
     background-color: var(--primary-color);
     color: var(--primary-color-light);
     cursor: pointer;
@@ -270,6 +270,7 @@ body {
 
     .form-box form .divider-container {
         flex-wrap: wrap;
+        overflow-y: scroll;
     }
 
     .form-box form .divider {
