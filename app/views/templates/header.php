@@ -98,9 +98,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand ms-4" href="<?= BASEURL; ?>">Task-Scheduler</a>
                 <div class="d-flex justify-content-end">
-                    <a href="<?= BASEURL; ?>/maintenance" class="btn btn-custom me-1" role="button"><i class="fa-solid fa-circle-plus plus-btn me-2"></i> Schedule</a>
-                    <a href="<?= BASEURL; ?>/contract/newContract" class="btn btn-custom me-1" role="button"><i class="fa-solid fa-circle-plus plus-btn me-2"></i> Contract</a>
-                    <a href="<?= BASEURL; ?>/client/newClient" class="btn btn-custom me-1" role="button"><i class="fa-solid fa-circle-plus plus-btn me-2"></i> Client</a>
+                    <h6> <?= $_SESSION['name'] ?> </h6>
                     <a class="nav-link" href="<?= BASEURL; ?>/mahasiswa"><i class="fa-solid fa-user fa-xl ms-3 me-3"></i></a>
                 </div>
             </div>
