@@ -49,17 +49,13 @@
 							<input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
 							<label for="floatingEmail">Email</label>
 						</div>
-						<div class="form-floating mb-3">
-							<input type="password" class="form-control" id="floatingPass" placeholder="********">
-							<label for="floatingPass">Password</label>
-						</div>
 						<div class="input-group mb-3">
 							<label class="input-group-text" for="roleInput">Role</label>
 							<select class="form-select" id="roleInput">
 								<option selected disabled>Choose role</option>
 								<option value="admin">Admin</option>
 								<option value="manager">Manager</option>
-								<option value="user">User</option>
+								<option value="user">Engineer</option>
 							</select>
 						</div>
 					</div>
