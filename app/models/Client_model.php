@@ -105,17 +105,9 @@ class Client_model {
 		return $this->db->resultSet();
 	}
 	
-	public function getClient($keyword)
+	public function getClientName($keyword)
     {
-        $query = 'SELECT nama FROM client WHERE nama LIKE :keyword';
-        $this->db->query($query);
-        $this->db->bind('keyword', "%$keyword%");
-        return $this->db->resultSet();
-    }
-
-	public function getAssignee($keyword)
-    {
-        $query = 'SELECT nama FROM client WHERE nama LIKE :keyword';
+        $query = 'SELECT name FROM client WHERE name LIKE :keyword';
         $this->db->query($query);
         $this->db->bind('keyword', "%$keyword%");
         return $this->db->resultSet();

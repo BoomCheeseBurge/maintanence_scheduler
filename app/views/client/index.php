@@ -1,5 +1,11 @@
 	<div class="container">
 
+		<div class="row">
+			<div class="col-lg-6">
+				<?php Flasher::flash(); ?>
+			</div>
+		</div>
+
 		<h3 class="header-title">Client</h3>
 
 		<table
@@ -20,7 +26,9 @@
 		data-check-on-init="true"
 		data-url='<?= BASEURL; ?>/client/getClients'
 		data-resizable="true">
-		    <!-- <a class="btn btn-primary addClientBtn" href="/task" role="button">Add</a> -->
+			<div class="spinner-border d-none" id="spinner" style="width: 5rem; height: 5rem;" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
 		</table>
 		</div>
 	</section>

@@ -101,23 +101,7 @@ class Client extends Controller {
 			$searchQuery = $_GET['keyword'];
 	
 			// Call the model's method to get the search results
-			$results = $this->model('Client_model')->getClient($searchQuery);
-	
-			// Return the search results as a JSON response
-			header('Content-Type: application/json');
-			echo json_encode($results);
-			exit; // Make sure to exit after sending the JSON response
-		}
-	}
-
-	public function searchAssignee()
-	{
-		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-			// Retrieve the search query from the request
-			$searchQuery = $_GET['keyword'];
-	
-			// Call the model's method to get the search results
-			$results = $this->model('Client_model')->getAssignee($searchQuery);
+			$results = $this->model('Client_model')->getClientName($searchQuery);
 	
 			// Return the search results as a JSON response
 			header('Content-Type: application/json');

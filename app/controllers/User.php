@@ -45,4 +45,20 @@ class User extends Controller{
 			exit;
 		}
 	}
+
+	public function searchAssignee()
+	{
+		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+			// Retrieve the search query from the request
+			$searchQuery = $_GET['keyword'];
+	
+			// Call the model's method to get the search results
+			$results = $this->model('User_model')->getAssignee($searchQuery);
+	
+			// Return the search results as a JSON response
+			header('Content-Type: application/json');
+			echo json_encode($results);
+			exit; // Make sure to exit after sending the JSON response
+		}
+	}
 }

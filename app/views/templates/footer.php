@@ -31,7 +31,7 @@
 <!-- ========================================= Custom Script ========================================= -->
 	<script src="/taskscheduler/public/js/script.js"></script>
 
-	<?php if ($data['identifier'] === 'createSchedule') : ?>
+	<?php if ($data['identifier'] === 'maintenance' || $data['identifier'] === 'contract') : ?>
 		<script src="/taskscheduler/public/js/search-input.js"></script>
 	<?php endif; ?>
 	<?php if ($data['identifier'] === 'client') : ?>

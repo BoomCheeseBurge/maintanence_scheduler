@@ -42,4 +42,12 @@ class User_model {
 
 		return $this->db->rowCount();
 	}
+
+    public function getAssignee($keyword)
+    {
+        $query = 'SELECT full_name FROM user WHERE full_name LIKE :keyword';
+        $this->db->query($query);
+        $this->db->bind('keyword', "%$keyword%");
+        return $this->db->resultSet();
+    }
 }

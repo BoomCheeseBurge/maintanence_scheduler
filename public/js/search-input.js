@@ -10,7 +10,7 @@ document.getElementById('assignee').addEventListener('input', function () {
   
 	// Make an AJAX request to fetch the assignees based on the search query
 	$.ajax({
-	  url: 'http://localhost/taskscheduler/public/client/searchAssignee',
+	  url: 'http://localhost/taskscheduler/public/user/searchAssignee',
 	  type: 'GET',
 	  dataType: 'json',
 	  data: { keyword: searchQuery }, // Pass the search query as data
@@ -30,10 +30,10 @@ document.getElementById('assignee').addEventListener('input', function () {
 	if (response.length > 0) {
 	  response.forEach(function (assignee) {
 		const option = document.createElement('div');
-		option.textContent = assignee.nama; // Replace 'name' with the correct property from the response
+		option.textContent = assignee.full_name; // Replace 'name' with the correct property from the response
 		option.className = 'assigneeOption';
 		option.addEventListener('click', function () {
-		  document.getElementById('assignee').value = assignee.nama; // Replace 'name' with the correct property from the response
+		  document.getElementById('assignee').value = assignee.full_name; // Replace 'name' with the correct property from the response
 		  assigneeList.innerHTML = '';
 		});
 		assigneeList.appendChild(option);
@@ -73,7 +73,7 @@ document.getElementById('companyName').addEventListener('input', function () {
 	  },
 	});
   });
-  
+
   function displayCompanyName(response) {
 	const companyNameList = document.getElementById('companyNameList');
 	companyNameList.innerHTML = '';
@@ -81,10 +81,10 @@ document.getElementById('companyName').addEventListener('input', function () {
 	if (response.length > 0) {
 	  response.forEach(function (company) {
 		const option = document.createElement('div');
-		option.textContent = company.nama; // Replace 'name' with the correct property from the response
+		option.textContent = company.name; // Replace 'name' with the correct property from the response
 		option.className = 'companyNameOption';
 		option.addEventListener('click', function () {
-		  document.getElementById('companyName').value = company.nama; // Replace 'name' with the correct property from the response
+		  document.getElementById('companyName').value = company.name; // Replace 'name' with the correct property from the response
 		  companyNameList.innerHTML = '';
 		});
 		companyNameList.appendChild(option);

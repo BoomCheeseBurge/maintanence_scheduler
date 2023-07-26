@@ -21,23 +21,23 @@ function setForm() {
 
 		$('#contractModalLabel').html('New Contract');
 		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/contract/addContract');
-		('.modal-footer button[type=submit]').html('Add');
+		$('.modal-footer .contractSubmitBtn').html('Add');
 	});
 
 	$('.editContractBtn').on('click', function() {
 
 		$('#contractModalLabel').html('Edit Contract');
 		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/contract/editContract');
-		('.modal-footer button[type=submit]').html('Save');
+		$('.modal-footer .contractSubmitBtn').html('Save');
 	});
 }
 
 function contractFormatter(value, row, index) {
     return [
-		'<button type="button" class="btn btn-warning editContractBtn" data-bs-toggle="modal" data-bs-target="#editContractModal">',
+		'<button type="button" class="btn btn-warning editContractBtn" data-bs-toggle="modal" data-bs-target="#contractModal">',
 		'Edit',
 		'</button>',
-		'<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addScheduleModal">',
+		'<button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#scheduleModal">',
 		'<i class="fa-solid fa-calendar-plus"></i>',
 		'</button>'
     ].join('')
@@ -75,6 +75,11 @@ function initContractTable() {
 			align: 'center',
 			sortable: true,
 			align: 'center'
+		},{
+			title: 'PM Frequency',
+			field: 'pm_freq',
+			align: 'center',
+			align: 'center'
 		}, {
 			title: 'Start Date',
 			field: 'start_date',
@@ -90,8 +95,10 @@ function initContractTable() {
 			field: 'view',
 			align: 'center',
 			switchable: 'false',
-		    formatter: editContractFormatter
-	  }]
+			width: 150,
+		    formatter: contractFormatter
+	  }],
+	  onPostBody: setForm
 	})
 }
 
@@ -108,6 +115,8 @@ $(function() {
 	const buttonElement = document.createElement('button');
 	buttonElement.textContent = 'Add';
 	buttonElement.className = 'btn btn-primary addContractBtn';
+	buttonElement.setAttribute('data-bs-target', '#contractModal');
+	buttonElement.setAttribute('data-bs-toggle', 'modal');
 
 	emptyDiv.appendChild(buttonElement);
 })

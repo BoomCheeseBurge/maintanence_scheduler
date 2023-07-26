@@ -99,6 +99,8 @@ $(function() {
 
 	emptyDiv.appendChild(buttonElement);
 
+	$("#spinner").addClass("d-none");
+
 	// Initialize the counter variable
 	let picCounter = 2;
 
@@ -152,6 +154,11 @@ $(function() {
 			const deleteButton = $('<button type="button" class="btn btn-danger delete-pic mb-4">Delete</button>');
 			prevPicFieldsDiv.append(deleteButton);
 		}
+	});
+
+	$('.modal-footer button[type=submit]').on('click', function() {
+		// Show the spinner during form submission
+		$('#spinner').removeClass('d-none');
 	});
 })
 
