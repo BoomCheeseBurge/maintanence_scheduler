@@ -12,15 +12,6 @@ class Client extends Controller {
 		$this->view('templates/footer', $data);
 	}
 
-	public function newClient() {
-		$data['title'] = 'Task-Scheduler | NewClient';
-		$data['identifier'] = 'newClient';
-
-		$this->view('templates/header', $data);
-		$this->view('client/newClient');
-		$this->view('templates/footer', $data);
-	}
-
 	public function getClients() {
 		$clientData = $this->model('Client_model')->getAllClient();
 		echo json_encode($clientData);

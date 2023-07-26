@@ -98,10 +98,15 @@
             <div class="container-fluid">
                 <a class="navbar-brand ms-4" href="<?= BASEURL; ?>">Task-Scheduler</a>
                 <div class="d-flex justify-content-end">
-                    <a href="<?= BASEURL; ?>/maintenance" class="btn btn-custom me-1" role="button"><i class="fa-solid fa-circle-plus plus-btn me-2"></i> Schedule</a>
-                    <a href="<?= BASEURL; ?>/contract/newContract" class="btn btn-custom me-1" role="button"><i class="fa-solid fa-circle-plus plus-btn me-2"></i> Contract</a>
-                    <a href="<?= BASEURL; ?>/client/newClient" class="btn btn-custom me-1" role="button"><i class="fa-solid fa-circle-plus plus-btn me-2"></i> Client</a>
-                    <a class="nav-link" href="<?= BASEURL; ?>/mahasiswa"><i class="fa-solid fa-user fa-xl ms-3 me-3"></i></a>
+                    <div class="btn-group dropstart me-3">
+                        <button type="button" class="btn userColor dropdown-toggle userBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user fa-xl"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-lg-end userColor">
+                            <li><a class="dropdown-item" href="#">Profile<i class="fa-regular fa-id-badge ms-1"></i></a></li>
+                            <li><a class="dropdown-item" href="#">Logout<i class="fa-solid fa-right-from-bracket ms-1"></i></a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
