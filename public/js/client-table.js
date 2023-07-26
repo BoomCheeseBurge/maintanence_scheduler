@@ -160,6 +160,6 @@ $(function() {
 		// Show the spinner during form submission
 		$('#spinner').removeClass('d-none');
 	});
-})
+});
 
 // ---------------------------------------------------------------

@@ -186,7 +186,7 @@ body {
     top: 100%; /* Position the div below the input field */
     left: 0;
     right: 0;
-    z-index: 1; /* Set z-index to 1 to ensure it appears above the input */
+    z-index: 100; /* Set z-index to 1 to ensure it appears above the input */
 }
 
 #companyNameList .companyNameOption {
@@ -270,6 +270,7 @@ body {
 
     .form-box form .divider-container {
         flex-wrap: wrap;
+        overflow-y: scroll;
     }
 
     .form-box form .divider {

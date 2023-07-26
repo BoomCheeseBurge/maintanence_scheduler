@@ -12,6 +12,15 @@ class Client extends Controller {
 		$this->view('templates/footer', $data);
 	}
 
+	public function newClient() {
+		$data['title'] = 'Task-Scheduler | NewClient';
+		$data['identifier'] = 'newClient';
+
+		$this->view('templates/header', $data);
+		$this->view('client/newClient');
+		$this->view('templates/footer', $data);
+	}
+
 	public function getClients() {
 		$clientData = $this->model('Client_model')->getAllClient();
 		echo json_encode($clientData);
@@ -82,16 +91,6 @@ class Client extends Controller {
 			header('Location: ' . BASEURL . '/dashboard');
 			exit;
 		}
-	}
-
-
-	public function search() {
-
-		$data['title'] = 'Data Client';
-		$data['client'] = $this->model('Client_model')->getDataClient();
-		$this->view('templates/header', $data);
-		$this->view('dashboard/index', $data);
-		$this->view('templates/footer');
 	}
 
 	public function searchClientName()

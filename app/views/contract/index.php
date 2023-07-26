@@ -61,9 +61,9 @@
 							<label for="floatingText">Device</label>
 						</div>
 						<div class="form-floating mb-3">
-							<label class="input-group-text" for="inputGroupSelect01">PM Periode ke-</label>
-							<select class="form-select" id="inputGroupSelect01" required>
-								<option selected disabled>Klik sini...</option>
+							<label class="input-group-text" for="pmPeriod">PM Periode ke-</label>
+							<select class="form-select" id="pmPeriod" required>
+								<option selected disabled>Choose here</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
