@@ -12,16 +12,6 @@ class Contract extends Controller {
 		$this->view('templates/footer', $data);
 	}
 
-	public function newContract() {
-
-		$data['title'] = 'Task-Scheduler | Contract';
-		$data['identifier'] = 'contract';
-
-		$this->view('templates/header', $data);
-		$this->view('contract/newContract');
-		$this->view('templates/footer', $data);
-	}
-
     public function searchContract()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
