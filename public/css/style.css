@@ -70,23 +70,26 @@ body {
   .userBtn {
     color: #000;
   }
-  
 
-  /* Custom Button CSS */
+  .dropdown-item {
+    width: fit-content; /* Set the width to "fit-content" to fit the content */
+  }
 
-  .btn-custom:focus {
-    box-shadow: #D6D6E7 0 0 0 1.5px inset, #695CFE 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -2px 0 inset;
-  }
-  
-  .btn-custom:hover {
-    box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -2px 0 inset;
-    transform: translateY(-1px);
-  }
-  
-  .btn-custom:active {
-    box-shadow: #D6D6E7 0 2px 7px inset;
-    transform: translateY(2px);
-  }
+  /* ============ Date Range Input CSS Start ============ */
+  /* Custom CSS to style the connecting box */
+.bridge-text {
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--body-color);
+}
+
+/* Adjust the width and alignment as needed */
+#startDate, #endDate {
+  width: 180px;
+}
+  /* ============ Date Range Input CSS End ============ */
 
 
 /* ============ Create Task Button Icon ============ */
@@ -189,8 +192,8 @@ body {
   padding: 0 20px 0 5px;
 }
 
-/* CSS for company name search input */
-#companyNameList {
+/* CSS for client name search input */
+#clientNameList {
     background-color: var(--primary-color-light);
     border: 1px solid black;
     border-radius: 5px;
@@ -201,11 +204,11 @@ body {
     z-index: 100; /* Set z-index to 1 to ensure it appears above the input */
 }
 
-#companyNameList .companyNameOption {
+#clientNameList .clientNameOption {
     transition: 0.5s ease;
 }
 
-#companyNameList .companyNameOption:hover {
+#clientNameList .clientNameOption:hover {
     background-color: var(--primary-color);
     color: var(--primary-color-light);
     cursor: pointer;
@@ -363,9 +366,6 @@ body.dark{
     transition: var(--tran-05);
     z-index: 100;
 }
-.sidebar.close{
-    width: 88px;
-}
 
 /* ===== Reusable code - Here ===== */
 .sidebar li{
@@ -404,9 +404,6 @@ body.dark{
     white-space: nowrap;
     opacity: 1;
 }
-.sidebar.close .text{
-    opacity: 0;
-}
 
 /* ======================================== Side Header Start ======================================== */
 .sidebar header{
@@ -443,28 +440,6 @@ header .image-text .profession{
 .sidebar header .image img{
     width: 50px;
     border-radius: 6px;
-}
-
-.sidebar header .toggle{
-    position: absolute;
-    top: 60%;
-    right: -25px;
-    transform: translateY(-50%) rotate(180deg);
-    height: 25px;
-    width: 25px;
-    background-color: var(--primary-color);
-    color: var(--sidebar-color);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    cursor: pointer;
-    transition: var(--tran-05);
-}
-
-body.dark .sidebar header .toggle{
-    color: var(--text-color);
 }
 
 body.dark .sidebar {
@@ -511,9 +486,6 @@ body.dark .wrapper .input-box i{
 
 /* ================================ Form Dark Mode End ================================ */
 
-.sidebar.close .toggle{
-    transform: translateY(-50%) rotate(0deg);
-}
 /* ======================================== Side Header End ======================================== */
 
 /* .sidebar .menu{
@@ -676,11 +648,6 @@ body.dark .switch::before{
     transition: var(--tran-05);
 }
 
-.sidebar.close ~ .home{
-    left: 88px;
-    height: 100vh;
-    width: calc(100% - 78px);
-}
 body.dark .home{
     color: var(--text-color);
 }

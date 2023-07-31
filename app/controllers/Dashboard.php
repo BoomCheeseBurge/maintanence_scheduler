@@ -10,6 +10,22 @@ class Dashboard extends Controller {
 		$this->view('templates/footer');
 	}
 
+	public function dashboard_admin() {
+
+		$data['title'] = 'Task-Scheduler | Dashboard';
+		$this->view('templates/header', $data);
+		$this->view('dashboard/dashboard_admin');
+		$this->view('templates/footer');
+	}
+
+	public function dashboard_engineer() {
+
+		$data['title'] = 'Task-Scheduler | Dashboard';
+		$this->view('templates/header', $data);
+		$this->view('dashboard/dashboard_engineer');
+		$this->view('templates/footer');
+	}
+
 	public function setScheduledDate() {
 
 		if( $this->model('Maintenance_model')->setScheduledDate($_POST) > 0 ) {

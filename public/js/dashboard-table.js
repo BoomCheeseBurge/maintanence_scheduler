@@ -100,8 +100,6 @@ function setForm() {
 
 		// Set the value of the input field in the modal form
 		$('#id').val(maintenanceId);
-
-		console.log(maintenanceId);
 	});
 
 	$('.scheduledDateBtn').on('click', function() {
@@ -118,41 +116,14 @@ function setForm() {
 }
 
 function setButton() {
-	$('#maintenanceTable').on('click', 'button[data-action="finishedMaintenance"]', function() {
-		// Get the maintenance ID and perform the necessary action
-		var maintenanceId = $(this).data('id');
-		
-		// Implement your logic to mark the maintenance as completed
-		// Send the updated data to the server using an AJAX request
-		// Update the table data accordingly
-		$.ajax({
-			url: 'http://localhost/taskscheduler/public/maintenance/setMaintenanceStatus', // Replace with the correct URL to your updateScheduleDate function
-			type: 'POST',
-			data: {
-			  maintenanceId: maintenanceId
-			},
-			success: function(response) {
-			  // Update the table data accordingly
-			  // For example, you can update the table row to display the "Completed" status
-			  // or you can reload the entire table to fetch the updated data from the server
-			},
-			error: function(xhr, status, error) {
-			  // Handle the error, if any
-			  console.error(error);
-			}
-		  });
-	});
 
-	$('#maintenanceTable').on('click', 'button[data-action="deliveredReport"]', function() {
-		// Get the maintenance ID and perform the necessary action
+	$('.deliveredReport').on('click', function() {
+
 		var maintenanceId = $(this).data('id');
-		
-		// Implement your logic to submit the maintenance report
-		// Send the updated data to the server using an AJAX request
-		// Update the table data accordingly
+
 		$.ajax({
-			url: 'http://localhost/taskscheduler/public/maintenance/setReportStatus', // Replace with the correct URL to your updateScheduleDate function
-			type: 'POST',
+			url: 'http://localhost/taskscheduler/public/maintenance/setReportStatus',
+			method: 'POST',
 			data: {
 			  id: maintenanceId
 			},
@@ -165,7 +136,10 @@ function setButton() {
 			  // Handle the error, if any
 			  console.error(error);
 			}
-		  });
+		});
+
+		// Refresh the table data
+		$('#engineer-dashboard-table').bootstrapTable('refresh');
 	});
 }
 
@@ -173,7 +147,13 @@ function setButton() {
 function engineerDashboardFormatter(value, row, index) {
 	// Check if the scheduled date is empty
 	if (!row.scheduled_date) {
-		return '<span data-bs-toggle="modal" data-bs-target="#formModal" data-id="' + row.id + '"><button class="btn btn-primary scheduledDateBtn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Set the scheduled date"><i class="fa-regular fa-calendar-days"></i></button></span>';		
+		return [
+			'<span data-bs-toggle="modal" data-bs-target="#formModal" data-id="' + row.id + '">',
+			'<button class="btn btn-primary scheduledDateBtn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Set the scheduled date">',
+			'<i class="fa-regular fa-calendar-days"></i>',
+			'</button>',
+			'</span>'
+		].join('')
 	// Check if the actual date is empty
 	} else if(!row.actual_date) {
 		return [
@@ -188,24 +168,20 @@ function engineerDashboardFormatter(value, row, index) {
 			'</button>',
 			'</span>'
 		].join('')
-	// Check if the maintenance is finished
-	} else if (!row.maintenance_status) {
+	// Check if the report is delivered
+	} else if (row.report_status !== 'delivered') {
 		return [
-			'<span data-bs-toggle="modal" data-bs-target="#formModal" data-id="' + row.id + '">',
-			'<button class="btn btn-primary actualDateBtn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Set the actual date">',
-			'<i class="fa-solid fa-calendar-check"></i>',
-			'</button>',
-			'</span>',
-			'<button class="btn btn-primary" data-id="' + row.id + '" data-action="finishedMaintenance" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Maintenance Finished">',
+			'<button class="btn btn-primary deliveredReport" data-id="' + row.id + '" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Report Delivered">',
 			'<i class="fa-solid fa-square-check"></i>',
 			'</button>'
 		].join('')
-	// Check if the report is delivered
-	} else if (!row.report_status) {
-		return '<button class="btn btn-primary" data-id="' + row.id + '" data-action="deliveredReport" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Report Delivered"><i class="fa-solid fa-file-circle-check"></i></button>';
 	// Once the maintenance is completed, the record is stored and no longer displayed on the table
 	} else {
-		return;
+		return [
+			'<button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="This maintenance is completed" disabled>',
+			'Completed',
+			'</button>'
+		].join('')
 	}
 }
 
@@ -216,6 +192,7 @@ function initEngineerDashboardTable() {
 	}
 	$engineerDashboardTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
+		exportTypes: ['csv', 'excel', 'pdf'],
 		locale: 'en-US',
 		columns: [
 		{
@@ -226,13 +203,13 @@ function initEngineerDashboardTable() {
 		switchable: false
 		}, {
 		title: 'Client',
-		field: 'client_name',
+		field: 'name',
 		align: 'center',
 		sortable: true,
 		align: 'center'
 		}, {
-		title: 'SOP No',
-		field: 'sopnumber',
+		title: 'Device',
+		field: 'device',
 		align: 'center',
 		sortable: true,
 		align: 'center'

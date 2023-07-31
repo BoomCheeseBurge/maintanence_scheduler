@@ -12,8 +12,8 @@ class Client extends Controller {
 		$this->view('templates/footer', $data);
 	}
 
-	public function getClients() {
-		$clientData = $this->model('Client_model')->getAllClient();
+	public function getAllClient() {
+		$clientData = $this->model('Client_model')->getClientData();
 		echo json_encode($clientData);
 	}
 
@@ -39,47 +39,27 @@ class Client extends Controller {
 		}
 	}
 
+	public function editClientPIC() {
 
-	public function delClient($id) {
+		// Retrieve the client_id using the client name
+		$clientId = $this->model('Client_model')->getClientIdByName($_POST['name']);
 
-		if( $this->model('Client_model')->delClientData($id) > 0 ) {
+		// If the client_id and assigneeId is found, add the data
+		if ($clientId !== null) {
+			$_POST['client_id'] = $clientId;
 
-			Flasher::setFlash('Client', 'successfully', ' deleted', 'success');
+			if( $this->model('Client_model')->editClientPICData($_POST) > 0 ) {
 
-			header('Location: ' . BASEURL . '/client');
-			exit;
-		}else {
+				Flasher::setFlash('Client', 'successfully', ' edited', 'success');
 
-			Flasher::setFlash('Client', 'failed', ' to be deleted', 'danger');
-
-			header('Location: ' . BASEURL . '/client');
-			exit;
-		}
-	}
-
-
-	public function getEdit() {
-
-		// Previously, the data was in the form of an associative array
-		// By adding the echo statement, the JSON-encoded data will be sent back as the response to the AJAX request,
-		// allowing the success function in the AJAX request to handle the data and populate the form fields accordingly.
-		echo json_encode($this->model('Client_model')->getClientById($_POST['id']));
-	}
-
-
-	public function edit() {
-
-		if( $this->model('Client_model')->editDataClient($_POST) > 0 ) {
-
-			Flasher::setFlash('Client', 'successfully', ' edited', 'success');
-
-			header('Location: ' . BASEURL . '/dashboard');
-			exit;
+				header('Location: ' . BASEURL . '/client');
+				exit;
+			}
 		}else {
 
 			Flasher::setFlash('Client', 'failed', ' to edit', 'danger');
 
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}
 	}
@@ -97,6 +77,27 @@ class Client extends Controller {
 			header('Content-Type: application/json');
 			echo json_encode($results);
 			exit; // Make sure to exit after sending the JSON response
+		}
+	}
+
+	public function getClientPICData() {
+		echo json_encode($this->model('Client_model')->getClientPICById($_POST['id']));
+	}
+
+	public function delClient($id) {
+
+		if( $this->model('Client_model')->delClientData($id) > 0 ) {
+
+			Flasher::setFlash('Client', 'successfully', ' deleted', 'success');
+
+			header('Location: ' . BASEURL . '/client');
+			exit;
+		}else {
+
+			Flasher::setFlash('Client', 'failed', ' to be deleted', 'danger');
+
+			header('Location: ' . BASEURL . '/client');
+			exit;
 		}
 	}
 }

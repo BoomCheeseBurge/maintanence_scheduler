@@ -4,37 +4,47 @@ var $clientTable = $('#client-table')
 function setForm() {
 
 	// Event listener for the show.bs.modal event on the scheduledDateModal
-	$('#clientModal').on('show.bs.modal', function(event) {
+	$('#editClientPICModal').on('show.bs.modal', function(event) {
 		// Get the button that triggered the modal
 		var button = $(event.relatedTarget);
 		
 		// Extract the data-id attribute value from the button
-		var clientId = button.data('id');
+		var contractId = button.data('id');
 
 		// Set the value of the input field in the modal form
-		$('#id').val(clientId);
-
-		console.log(clientId);
-	});
-
-	$('.addClientBtn').on('click', function() {
-
-		$('#clientModalLabel').html('New Client');
-		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/client/addClient');
-		$('.modal-footer button[type=submit]').html('Add');
+		$('#id').val(contractId);
 	});
 
 	$('.editClientBtn').on('click', function() {
 
-		$('#clientModalLabel').html('Edit Client');
-		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/client/editClient');
-		$('.modal-footer button[type=submit]').html('Save');
+		// Retrieve the specific id of the clicked row
+		const id = $(this).data('id');
+
+		// Request data without reloading the whole webpage
+		$.ajax({
+
+			// Retrieve data from here
+			url: 'http://localhost/taskscheduler/public/client/getClientPICData',
+			// Left 'id' => variabe name, Right 'id' => data
+			// Send the id of a mahasiswa to the url
+			data: {id : id},
+			method: 'POST',
+			// Return data in json file
+			dataType: 'json',
+			// data here refers to a temporary parameter variable that stores any data returned by the url above
+			success: function(data) {
+				$('#id').val(data.id);
+				$('#name').val(data.client_name);
+				$('#pic_name').val(data.pic_name);
+				$('#pic_email').val(data.email);
+			}
+		});
 	});
 }
 
 function editClientFormatter(value, row, index) {
     return [
-		'<button type="button" class="btn btn-warning editClientBtn" data-bs-toggle="modal" data-bs-target="#clientModal">',
+		'<button type="button" class="btn btn-warning editClientBtn" data-bs-toggle="modal" data-bs-target="#editClientPICModal" data-id="' + row.id + '">',
 		'Edit',
 		'</button>'
     ].join('')
@@ -47,6 +57,7 @@ function initClientTable() {
 	}
 	$clientTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
+		exportTypes: ['csv', 'excel', 'pdf'],
 		locale: 'en-US',
 		columns: [
 		{
@@ -94,7 +105,7 @@ $(function() {
 	const buttonElement = document.createElement('button');
 	buttonElement.textContent = 'Add';
 	buttonElement.className = 'btn btn-primary addClientBtn';
-	buttonElement.setAttribute('data-bs-target', '#clientModal');
+	buttonElement.setAttribute('data-bs-target', '#addClientModal');
 	buttonElement.setAttribute('data-bs-toggle', 'modal');
 
 	emptyDiv.appendChild(buttonElement);

@@ -12,23 +12,13 @@ class Client_model {
 	}
 
 
-	public function getAllClient() {
+	public function getClientData() {
 
 		$this->db->query('SELECT pic.id AS id, client.name AS client_name, pic.name AS pic_name, pic.email AS pic_email
 		FROM client
 		JOIN pic ON client.id = pic.client_id');
 		return $this->db->resultSet();
 	}
-
-
-	public function getClientById($id) {
-
-		// :id will store the binded data (to prevent SQL injection)
-		$this->db->query('SELECT * FROM client WHERE id=:id');
-		$this->db->bind('id', $id);
-		return $this->db->single();
-	}
-
 
 	public function addClientData($data) {
 
@@ -60,41 +50,54 @@ class Client_model {
 		return $this->db->rowCount();
 	}
 
+	public function editClientPICData($data) {
 
-	public function delClientData($id) {
-
-		$query = "DELETE FROM client WHERE id = :id";
-		$this->db->query($query);
-		$this->db->bind('id', $id);
-
-		$this->db->execute();
-
-		return $this->db->rowCount();
-	}
-
-
-	public function editDataClient($data) {
-
-		$query = "UPDATE client SET
-					nama = :nama,
-					email = :email,
-					telepon = :telepon,
-					lokasi = :lokasi
+		$query = "UPDATE pic SET
+					client_id = :client_id,
+					name = :name,
+					email = :email
 				WHERE id = :id
 		";
 
 		$this->db->query($query);
-		$this->db->bind('nama', $data['nama']);
-		$this->db->bind('email', $data['email']);
-		$this->db->bind('telepon', $data['telepon']);
-		$this->db->bind('lokasi', $data['lokasi']);
+		$this->db->bind('client_id', $data['client_id']);
+		$this->db->bind('name', $data['pic_name']);
+		$this->db->bind('email', $data['pic_email']);
 		$this->db->bind('id', $data['id']);
 
 		$this->db->execute();
 
+		$query2 = "UPDATE pic SET
+				client_id = :client_id,
+				name = :name,
+				email = :email
+			WHERE id = :id
+		";
+
 		return $this->db->rowCount();
 	}
 
+	public function getClientPICById($id) {
+
+		$query = "SELECT p.id, cl.name AS client_name, p.name AS pic_name, p.email
+		FROM pic p
+		INNER JOIN client cl ON p.client_id = cl.id
+		WHERE p.id = :id";
+
+		$this->db->query($query);
+		$this->db->bind('id', $id);
+		return $this->db->single();
+	}
+
+	public function getClientIdByName($clientName) {
+		$query = "SELECT id FROM client WHERE name = :client_name";
+		$this->db->query($query);
+		$this->db->bind(':client_name', $clientName);
+		$result = $this->db->single();
+		
+		// Return the client_id or null if not found
+		return $result ? $result['id'] : null;
+	}
 
 	public function getDataClient() {
 
@@ -113,21 +116,14 @@ class Client_model {
         return $this->db->resultSet();
     }
 
-	function emptyDataFile() {
-		$filePath = 'data1.json'; // Replace with the correct file path
-		
-		// Open the file in write mode
-		$file = fopen($filePath, 'w');
-		
-		if ($file) {
-			// Truncate the file to 0 length, effectively clearing its content
-			ftruncate($file, 0);
-			
-			// Close the file
-			fclose($file);
-		} else {
-			// Handle file opening error
-			echo 'Could not open file:  '.$filePath;
-		}
-	}	
+	public function delClientData($id) {
+
+		$query = "DELETE FROM client WHERE id = :id";
+		$this->db->query($query);
+		$this->db->bind('id', $id);
+
+		$this->db->execute();
+
+		return $this->db->rowCount();
+	}
 }

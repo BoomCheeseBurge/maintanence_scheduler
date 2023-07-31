@@ -5,95 +5,104 @@ class Maintenance extends Controller {
     public function index() {
 
         $data['title'] = 'Task-Scheduler | MaintenanceSchedule';
-        $data['identifier'] = 'maintenance';
+        $data['identifier'] = 'history';
 
 		$this->view('templates/header', $data);
 		$this->view('maintenance/index');
 		$this->view('templates/footer', $data);
     }
 
-    public function detail() {
-        $data['title'] = 'Task-Scheduler | Detail';
+    // For Engineer Bootstrap Table
+    public function getMaintenanceSchedule() {
+        $maintenanceData = $this->model('Maintenance_model')->getMaintenanceData();
 
-        // $data['assignee'] = $this->function to get assignee name
-        // then retrieve the status of this maintenance
-        // then retrieve the report that has been submitted on this maintenance if exist display that report file on the page
-        // then retrieve the activity log for this maintenance if exist
-
-		$this->view('templates/header', $data);
-		$this->view('maintenance/detail');
-		$this->view('templates/footer');
+		echo json_encode($maintenanceData);
     }
 
-    public function getSchedule() {
-        $results = $this->model('Maintenance_model')->getMaintenanceSchedule();
-        $count = count($results);
-        if ($count > 0) {
-            $data_arr = array();
-            $i = 1;
-            foreach ($results as $data_row) {
-                $data_arr[$i]['event_id'] = $data_row['event_id'];
-                $data_arr[$i]['title'] = $data_row['event_name'];
-                $data_arr[$i]['start'] = date("Y-m-d", strtotime($data_row['event_start_date']));
-                $data_arr[$i]['end'] = date("Y-m-d", strtotime($data_row['event_end_date']));
-                $i++;
+    // For Maintenance History Bootstrap Table
+    public function getMaintenanceHistory() {
+        $historyData = $this->model('Maintenance_model')->getHistoryData();
+
+        echo json_encode($historyData);
+    }
+
+	public function createMaintenance() {
+
+        // Retrieve the client_id using the client name
+		$clientId = $this->model('Client_model')->getClientIdByName($_POST['name']);
+		// Retrieve the engineer_id using the assignee name
+		$assigneeId = $this->model('User_model')->getEngineerIdByAssignee($_POST['full_name']);
+        // Retrieve the contract_id using the SOP number
+		$contractId = $this->model('Contract_model')->getContractIdBySOP($_POST['sop_number']);
+
+        // If the client_id, assignee_id, and contract_id are found, add the data
+		if ($clientId !== null && $assigneeId !== null && $contractId !== null) {
+			// Add the clientId, assigneeId, and contractId to the $_POST data
+			$_POST['client_id'] = $clientId;
+			$_POST['assignee_id'] = $assigneeId;
+			$_POST['contract_id'] = $contractId;
+
+            if( $this->model('Maintenance_model')->addMaintenanceData($_POST) > 0 ) {
+
+                Flasher::setFlash('Maintenance schedule', ' successfully', ' added', 'success');
+
+                header('Location: ' . BASEURL . '/dashboard');
+                exit;
             }
-    
-            $data = array(
-                'status' => true,
-                'msg' => 'successfully!',
-                'data' => $data_arr
-            );
-        } else {
-            $data = array(
-                'status' => false,
-                'msg' => 'Error!'				
-            );
+        }else {
+
+            Flasher::setFlash('Maintenance schedule', ' failed', ' to be added', 'danger');
+
+            header('Location: ' . BASEURL . '/dashboard');
+            exit;
         }
-        
-        echo json_encode($data);
+	}
+
+    public function setScheduledDate() {
+        if( $this->model('Maintenance_model')->setScheduledDate($_POST) > 0 ) {
+
+            Flasher::setFlash('Scheduled date', ' successfully', ' set', 'success');
+
+            header('Location: ' . BASEURL . '/dashboard');
+            exit;
+        }else {
+
+            Flasher::setFlash('Scheduled date', ' failed', ' to be set', 'danger');
+
+            header('Location: ' . BASEURL . '/dashboard');
+            exit;
+        }
     }
 
-    public function addSchedule() {
-		// $_POST larger than zero indicates that there is new record found
-		// then that means the new data is successfully passed into the webserver
-		if( $this->model('Maintenance_model')->addMaintenance($_POST) > 0 ) {
+    public function setActualDate() {
+        if( $this->model('Maintenance_model')->setActualDate($_POST) > 0 ) {
 
-			// Set the parameter values for the flash message
-			Flasher::setFlash('Maintenance schedule', 'successfully', ' added', 'success');
+            Flasher::setFlash('Actual date', ' successfully', ' set', 'success');
 
-			// Redirect to the main page of the mahasiswa
-			header('Location: ' . BASEURL . '/maintenance');
-			exit;
-		}else {
+            header('Location: ' . BASEURL . '/dashboard');
+            exit;
+        }else {
 
-			Flasher::setFlash('Maintenance schedule', 'failed', ' to be added', 'danger');
+            Flasher::setFlash('Actual date', ' failed', ' to be set', 'danger');
 
-			header('Location: ' . BASEURL . '/maintenance');
-			exit;
-		}
+            header('Location: ' . BASEURL . '/dashboard');
+            exit;
+        }
     }
 
-    public function updateSchedule() {
-        $event_name = $_POST['event_name'];
-        $event_start_date = date("y-m-d", strtotime($_POST['event_start_date'])); 
-        $event_end_date = date("y-m-d", strtotime($_POST['event_end_date'])); 
-                    
-        $insert_query = "insert into `calendar_event_master`(`event_name`,`event_start_date`,`event_end_date`) values ('".$event_name."','".$event_start_date."','".$event_end_date."')";             
-        // if(mysqli_query($con, $insert_query))
-        // {
-        //     $data = array(
-        //                 'status' => true,
-        //                 'msg' => 'Event added successfully!'
-        //             );
-        // }
-        // else
-        // {
-        //     $data = array(
-        //                 'status' => false,
-        //                 'msg' => 'Sorry, Event not added.'				
-        //             );
-        // }
-        // echo json_encode($data);
+    public function setReportStatus() {
+        if( $this->model('Maintenance_model')->setReportValue($_POST['id']) > 0 ) {
+
+            Flasher::setFlash('Report', ' successfully', ' delivered', 'success');
+
+            header('Location: ' . BASEURL . '/dashboard');
+            exit;
+        }else {
+
+            Flasher::setFlash('Report', ' failed', ' to be marked', 'danger');
+
+            header('Location: ' . BASEURL . '/dashboard');
+            exit;
+        }
     }
 }

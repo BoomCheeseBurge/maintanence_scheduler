@@ -16,17 +16,12 @@
 	<script src="/taskscheduler/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js"></script>
 	<script src="/taskscheduler/bootstrap-table/dist/extensions/resizable/bootstrap-table-resizable.min.js"></script>
 	<script src="/taskscheduler/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.min.js"></script>
-	<script src="https://unpkg.com/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js"></script>
+	<script src="/taskscheduler/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js"></script>
 
-<!-- ========================================= Date Range Picker Script ========================================= -->
-	<script type="text/javascript" src="/taskscheduler/daterangepicker/moment.min.js"></script>
-	<script type="text/javascript" src="/taskscheduler/daterangepicker/daterangepicker.js"></script>
-
-<!-- ========================================= Event Calendar Script ========================================= -->
-	<script src="/taskscheduler/fullcalendar-6.1.8/packages/core/index.global.min.js"></script>
-	<script src="/taskscheduler/fullcalendar-6.1.8/packages/daygrid/index.global.min.js"></script>
-	<script src="/taskscheduler/fullcalendar-6.1.8/packages/interaction/index.global.min.js"></script>
-	<script src="/taskscheduler/fullcalendar-6.1.8/packages/moment/index.global.min.js"></script>
+<!-- ========================================= Table Export Script ========================================= -->
+	<script src="/taskscheduler/tableExport.jquery.plugin/tableExport.min.js"></script>
+	<script src="/taskscheduler/tableExport.jquery.plugin/libs/FileSaver/FileSaver.min.js"></script>
+	<script src="/taskscheduler/tableExport.jquery.plugin/libs/jsPDF/jspdf.umd.min.js"></script>
 
 <!-- ========================================= Custom Script ========================================= -->
 	<script src="/taskscheduler/public/js/script.js"></script>
@@ -34,7 +29,10 @@
 	<?php if ($data['identifier'] === 'maintenance' || $data['identifier'] === 'contract') : ?>
 		<script src="/taskscheduler/public/js/search-input.js"></script>
 	<?php endif; ?>
-	<?php if ($data['identifier'] === 'client') : ?>
+
+	<?php if ($data['identifier'] === 'history') : ?>
+		<script src="/taskscheduler/public/js/history-table.js"></script>
+	<?php elseif ($data['identifier'] === 'client') : ?>
 		<script src="/taskscheduler/public/js/client-table.js"></script>
 	<?php elseif ($data['identifier'] === 'newClient') : ?>
 		<script src="/taskscheduler/public/js/client-form.js"></script>

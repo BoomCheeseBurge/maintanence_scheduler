@@ -8,7 +8,7 @@
 
 			<h3>Dashboard</h3>
 
-			<table
+			<!-- <table
 			id="admin-dashboard-table"
 			data-toolbar="#toolbar"
 			data-search="true"
@@ -25,11 +25,11 @@
 			data-page-list="[10, 25, 50, 100, all]"
             data-mobile-responsive="true"
             data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/client/getClients'
+			data-url='/client/getClients'
             data-resizable="true">
-			</table>
+			</table> -->
 
-            <br>
+            <!-- <br> -->
 
             <table
 			id="engineer-dashboard-table"
@@ -38,6 +38,8 @@
 			data-advanced-search="true"
 			data-show-refresh="true"
 			data-auto-refresh="true"
+			data-auto-refresh-silent="true"
+			data-show-auto-refresh="false"
 			data-show-fullscreen="true"
 			data-show-columns="true"
 			data-show-columns-toggle-all="true"
@@ -48,16 +50,9 @@
 			data-page-list="[10, 25, 50, 100, all]"
             data-mobile-responsive="true"
             data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/client/getClients'
+			data-url='<?= BASEURL; ?>/maintenance/getMaintenanceSchedule'
             data-resizable="true">
 			</table>
-
-			<br>
-			<h3>Maintenance Calendar</h3>
-
-			<div class="calendar-wrapper mb-3">
-					<div id='calendar'></div>
-			</div>
 		</div>
 	</section>
 
@@ -102,7 +97,7 @@
 					<form action="" method="post">
 						<input type="hidden" name="id" id="id">
 						<div class="mb-3">
-							<input type="date" id="setdate" name="setdate" class="form-control">
+							<input type="date" id="setdate" name="setdate" class="form-control dateInput">
 						</div>
 				</div>
 				<div class="modal-footer">

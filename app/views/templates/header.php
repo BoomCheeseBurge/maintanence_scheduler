@@ -12,8 +12,7 @@
 
     <!-- ================================== Bootstrap Table Extension ================================== -->
 	<link rel="stylesheet" href="/taskscheduler/bootstrap-table/dist/bootstrap-table.min.css">
-    <!-- ================================== Date Range Picker CSS ================================== -->
-	<link rel="stylesheet" type="text/css" href="/taskscheduler/daterangepicker/daterangepicker.css">
+
     <!-- ================================== Custom Bootstrap ================================== -->
 	<link rel="stylesheet" href="/taskscheduler/public/css/style.css">
 
@@ -34,7 +33,6 @@
                 </div>
             </div>
 
-            <i class="fa-solid fa-chevron-right fa-2xs toggle"></i>
         </header>
 
         <div class="menu-bar">
@@ -47,7 +45,7 @@
                 </li>
 
                 <li class="nav-link">
-                    <a href="<?= BASEURL; ?>">
+                    <a href="<?= BASEURL; ?>/maintenance">
                         <i class="fa-solid fa-list icon"></i>
                         <span class="text nav-text">Maintenance</span>
                     </a>
@@ -98,13 +96,13 @@
             <div class="container-fluid">
                 <a class="navbar-brand ms-4" href="<?= BASEURL; ?>">Task-Scheduler</a>
                 <div class="d-flex justify-content-end">
-                    <div class="btn-group dropstart me-3">
+                    <div class="btn-group dropstart">
                         <button type="button" class="btn userColor dropdown-toggle userBtn" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-user fa-xl"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-lg-end userColor">
-                            <li><a class="dropdown-item" href="#">Profile<i class="fa-regular fa-id-badge ms-1"></i></a></li>
-                            <li><a class="dropdown-item" href="#">Logout<i class="fa-solid fa-right-from-bracket ms-1"></i></a></li>
+                            <li><a class="dropdown-item ms-4" href="#">Profile<i class="fa-regular fa-id-badge ms-1"></i></a></li>
+                            <li><a class="dropdown-item ms-4" href="#">Logout<i class="fa-solid fa-right-from-bracket ms-1"></i></a></li>
                         </ul>
                     </div>
                 </div>

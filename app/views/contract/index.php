@@ -24,7 +24,7 @@
         data-page-list="[10, 25, 50, 100, all]"
         data-mobile-responsive="true"
         data-check-on-init="true"
-        data-url='data1.json'
+        data-url='<?= BASEURL; ?>/contract/getAllContract'
         data-resizable="true">
         </table>
       </div>
@@ -42,41 +42,29 @@
 					<form action="" method="post">
 						<input type="hidden" name="id" id="id">
 						<div class="form-floating mb-3">
-							<input type="search" class="form-control" name="companyName" id="companyName" required placeholder="companyName">
-							<div id="companyNameList"></div>
-							<label for="companyName">Company</label>
+							<input type="search" class="form-control" name="clientName" id="clientName" required placeholder="clientName">
+							<div id="clientNameList"></div>
+							<label for="clientName">Client</label>
 						</div>
 						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="floatingText" required placeholder="clientName">
-							<label for="floatingText">No SOP</label>
+							<input type="text" class="form-control" id="sopNumber" name="sopNumber" required placeholder="SOP Number">
+							<label for="sopNumber">No SOP</label>
 						</div>
-						<div class="form-floating mb-3">
-							<div>
-								<label class="form-label" for="daterange">Contract Period</label>
+						<div class="form-group mb-3">
+							<label class="mb-1" for="daterange">Contract Period</label>
+							<div class="input-group">
+								<input type="date" class="form-control" id="startDate" name="startDate" required>
+								<div class="bridge-text">to</div>
+								<input type="date" class="form-control" id="endDate" name="endDate" required>
 							</div>
-							<input type="text" id="daterange" name="daterange" value="" required/>
 						</div>
 						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="floatingText" required placeholder="clientName">
-							<label for="floatingText">Device</label>
+							<input type="text" class="form-control" id="deviceName" name="deviceName" required placeholder="deviceName">
+							<label for="deviceName">Device</label>
 						</div>
-						<div class="form-floating mb-3">
-							<label class="input-group-text" for="pmPeriod">PM Periode ke-</label>
-							<select class="form-select" id="pmPeriod" required>
-								<option selected disabled>Choose here</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
-								<option value="7">7</option>
-								<option value="8">8</option>
-								<option value="9">9</option>
-								<option value="10">10</option>
-								<option value="11">11</option>
-								<option value="12">12</option>
-                            </select>
+						<div class="input-group mb-3">
+							<span class="input-group-text">PM Frequency</span>
+							<input type="number" class="form-control" id="pmFreq" name="pmFreq" min="1" required>
 						</div>
 						<div class="form-floating mb-3">
 							<input type="search" class="form-control" name="assignee" id="assignee" required placeholder="assignee">
@@ -102,26 +90,59 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="" method="post">
+					<form action="<?= BASEURL; ?>/maintenance/createMaintenance" method="post">
 						<input type="hidden" name="id" id="id">
-						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="floatingText" required placeholder="clientName">
-							<label for="floatingText">No SOP</label>
+						<div class="mb-3">
+							<label for="name" class="form-label">Client Name</label>
+							<input class="form-control" type="text" id="name" name="name" readonly>
 						</div>
-						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="floatingText" required placeholder="clientName">
-							<label for="floatingText">Device</label>
+						<div class="mb-3">
+							<label for="sop_number" class="form-label">SOP</label>
+							<input class="form-control" type="text" id="sop_number" name="sop_number" readonly>
 						</div>
-						<div class="form-floating mb-3">
-							<input type="search" class="form-control" name="companyName" id="companyName" required placeholder="companyName">
-							<div id="companyNameList"></div>
-							<label for="floatingText">Engineer</label>
+						<div class="mb-3">
+							<label for="device" class="form-label">Device</label>
+							<input class="form-control" type="text" id="device" name="device" readonly>
 						</div>
-						<div class="form-floating mb-3">
-							<input type="search" class="form-control" name="assignee" id="assignee" required placeholder="assignee">
-							<div id="assigneeList"></div>
-							<label for="floatingText">Engineer</label>
+						<div class="mb-3">
+							<label for="pm_frequency" class="form-label">PM Frequency</label>
+							<input class="form-control" type="text" id="pm_frequency" name="pm_frequency" readonly>
 						</div>
+						<div class="mb-3">
+							<label for="start_date" class="form-label">Start Date</label>
+							<input class="form-control" type="date" id="start_date" name="start_date" readonly>
+						</div>
+						<div class="mb-3">
+							<label for="end_date" class="form-label">End Date</label>
+							<input class="form-control" type="date" id="end_date" name="end_date" readonly>
+						</div>
+						<div class="mb-3">
+							<label for="full_name" class="form-label">Assigned Engineer</label>
+							<input class="form-control" type="text" id="full_name" name="full_name" readonly>
+						</div>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="pmCount">PM ke-</span>
+							<input type="number" class="form-control" id="pmCount" name="pmCount" min="1" required>
+						</div>
+						<div class="mb-3">
+							<label for="month" class="form-label">Maintenance Month</label>
+							<select class="form-select" id="month" name="month" aria-label="Default select example">
+								<option selected>Choose month</option>
+								<option value="January">January</option>
+								<option value="February">February</option>
+								<option value="March">March</option>
+								<option value="April">April</option>
+								<option value="May">May</option>
+								<option value="June">June</option>
+								<option value="July">July</option>
+								<option value="August">August</option>
+								<option value="September">September</option>
+								<option value="October">October</option>
+								<option value="November">November</option>
+								<option value="December">December</option>
+							</select>
+						</div>
+						
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

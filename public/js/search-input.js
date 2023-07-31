@@ -50,51 +50,51 @@ document.getElementById('assignee').addEventListener('input', function () {
 // ---------------------------------------------------------------
 
 // Search Input for Engineer
-document.getElementById('companyName').addEventListener('input', function () {
+document.getElementById('clientName').addEventListener('input', function () {
 	const searchQuery = this.value.trim();
   
-	// If the search query is empty, hide the company list and return
+	// If the search query is empty, hide the client list and return
 	if (searchQuery === '') {
-	  document.getElementById('companyNameList').innerHTML = '';
+	  document.getElementById('clientNameList').innerHTML = '';
 	  return;
 	}
   
-	// Make an AJAX request to fetch the company names based on the search query
+	// Make an AJAX request to fetch the client names based on the search query
 	$.ajax({
 	  url: 'http://localhost/taskscheduler/public/client/searchClientName',
 	  type: 'GET',
 	  dataType: 'json',
 	  data: { keyword: searchQuery }, // Pass the search query as data
 	  success: function (response) {
-		displayCompanyName(response);
+		displayClientName(response);
 	  },
 	  error: function (xhr, status, error) {
-		console.error('Failed to fetch company names.');
+		console.error('Failed to fetch client names.');
 	  },
 	});
   });
 
-  function displayCompanyName(response) {
-	const companyNameList = document.getElementById('companyNameList');
-	companyNameList.innerHTML = '';
+  function displayClientName(response) {
+	const clientNameList = document.getElementById('clientNameList');
+	clientNameList.innerHTML = '';
   
 	if (response.length > 0) {
-	  response.forEach(function (company) {
+	  response.forEach(function (client) {
 		const option = document.createElement('div');
-		option.textContent = company.name; // Replace 'name' with the correct property from the response
-		option.className = 'companyNameOption';
+		option.textContent = client.name; // Replace 'name' with the correct property from the response
+		option.className = 'clientNameOption';
 		option.addEventListener('click', function () {
-		  document.getElementById('companyName').value = company.name; // Replace 'name' with the correct property from the response
-		  companyNameList.innerHTML = '';
+		  document.getElementById('clientName').value = client.name; // Replace 'name' with the correct property from the response
+		  clientNameList.innerHTML = '';
 		});
-		companyNameList.appendChild(option);
+		clientNameList.appendChild(option);
 	  });
 	} else {
 	  // Show a message when no results are found
 	  const noResultsMessage = document.createElement('div');
 	  noResultsMessage.textContent = 'No results found.';
-	  noResultsMessage.className = 'companyNameOption';
-	  companyNameList.appendChild(noResultsMessage);
+	  noResultsMessage.className = 'clientNameOption';
+	  clientNameList.appendChild(noResultsMessage);
 	}
   }
 
