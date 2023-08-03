@@ -76,7 +76,13 @@ class Contract_model {
 		$this->db->query($query);
 		$this->db->bind(':id', $data['id']);
 
-		$this->db->execute();
+		try {
+			$this->db->execute();
+			// Success: The client record was deleted successfully
+		} catch (PDOException $e) {
+			// Error: The client record could not be deleted due to the foreign key constraint
+			echo "Error: Cannot delete the contract record because it has related records in other tables.";
+		}
 
 		return $this->db->rowCount();
 	}

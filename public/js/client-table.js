@@ -129,8 +129,8 @@ function initClientTable() {
 			align: 'center',
 			valign: 'middle',
 		  }, {
-			title: 'View',
-			field: 'view',
+			title: 'Action',
+			field: 'action',
 			align: 'center',
 			switchable: 'false',
 		    formatter: clientFormatter

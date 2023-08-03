@@ -1,3 +1,4 @@
+<?php
 // migrations/Migration.php
 
 class Migration

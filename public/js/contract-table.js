@@ -192,8 +192,8 @@ function initContractTable() {
 			sortable: true,
 			align: 'center'
 		}, {
-			title: 'View',
-			field: 'view',
+			title: 'Action',
+			field: 'action',
 			align: 'center',
 			switchable: 'false',
 			width: '200',

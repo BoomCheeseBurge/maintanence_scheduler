@@ -1,6 +1,4 @@
-// migrations/create_maintenance_table.php
-
-require_once 'Migration.php';
+<?php
 
 class CreateMaintenanceTable extends Migration
 {
@@ -13,15 +11,15 @@ class CreateMaintenanceTable extends Migration
                     contract_id INT NOT NULL,
                     pm_count INT NOT NULL,
                     month VARCHAR(50) NOT NULL,
-                    scheduled_date DATE NOT NULL,
-                    actual_date DATE NOT NULL,
-                    maintenance_status VARCHAR(20) NOT NULL,
-                    report_status VARCHAR(20) NOT NULL,
-                    report_date DATETIME,
+                    scheduled_date DATE NULL,
+                    actual_date DATE NULL,
+                    maintenance_status VARCHAR(20) NULL,
+                    report_status VARCHAR(20) NULL,
+                    report_date DATETIME NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    FOREIGN KEY (client_id) REFERENCES clients(id),
-                    FOREIGN KEY (engineer_id) REFERENCES engineers(id),
-                    FOREIGN KEY (contract_id) REFERENCES contracts(id)
+                    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE RESTRICT,
+                    FOREIGN KEY (engineer_id) REFERENCES engineers(id) ON DELETE RESTRICT,
+                    FOREIGN KEY (contract_id) REFERENCES contracts(id) ON DELETE RESTRICT
                   )";
 
         $this->db->query($query);

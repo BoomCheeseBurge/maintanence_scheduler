@@ -1,3 +1,5 @@
+<?php
+
 class CreateUserTable extends Migration
 {
     public function up()
