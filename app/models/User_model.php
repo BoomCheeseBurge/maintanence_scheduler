@@ -174,4 +174,14 @@ class User_model {
 		// var_dump($data);
 		echo json_encode($data);
 	}
+	
+	public function getEngineerIdByAssignee($assignee) {
+		$query = "SELECT id FROM user WHERE full_name = :assignee";
+		$this->db->query($query);
+		$this->db->bind(':assignee', $assignee);
+		$result = $this->db->single();
+		
+		// Return the client_id or null if not found
+		return $result ? $result['id'] : null;
+	}
 }

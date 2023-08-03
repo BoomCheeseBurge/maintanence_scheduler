@@ -1,4 +1,5 @@
 $(function() {
+
 	// Initialize the counter variable
 	let picCounter = 2;
 
@@ -37,7 +38,6 @@ $(function() {
 	$('#picFieldsContainer').on('click', '.delete-pic', function() {
 		// Get the parent div of the delete button (i.e., the PIC fields div)
 		const picFieldsDiv = $(this).closest('.pic-fields');
-		const picFieldsId = picFieldsDiv.attr('id');
 
 		// Remove the current set of input fields
 		picFieldsDiv.remove();
@@ -46,11 +46,8 @@ $(function() {
 		picCounter--;
 
 		// Get the previous set of PIC fields and add the delete button to it
-		if (picCounter > 2) {
-			const prevPicFieldsId = `picClient${picCounter - 1}`;
-			const prevPicFieldsDiv = $(`#${prevPicFieldsId}`);
-			const deleteButton = $('<button type="button" class="btn btn-danger delete-pic mb-4">Delete</button>');
-			prevPicFieldsDiv.append(deleteButton);
-		}
+		const prevPicFieldsId = `picClient${picCounter - 1}`;
+		const prevPicFieldsDiv = $(`#${prevPicFieldsId}`);
+		prevPicFieldsDiv.append(deleteButton);
 	});
 });

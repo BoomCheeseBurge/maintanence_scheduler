@@ -12,8 +12,7 @@
 
     <!-- ================================== Bootstrap Table Extension ================================== -->
 	<link rel="stylesheet" href="/taskscheduler/bootstrap-table/dist/bootstrap-table.min.css">
-    <!-- ================================== Date Range Picker CSS ================================== -->
-	<link rel="stylesheet" type="text/css" href="/taskscheduler/daterangepicker/daterangepicker.css">
+
     <!-- ================================== Custom Bootstrap ================================== -->
 	<link rel="stylesheet" href="/taskscheduler/public/css/my.css">
 	<link rel="stylesheet" href="/taskscheduler/public/css/sign-in.css">
@@ -26,18 +25,9 @@
   <?php if ( $_SESSION['role'] != 'engineer' ): ?>
     <nav class="sidebar close">
         <header>
-            <div class="image-text">
-                <div class="image">
-                <img src="/taskscheduler/public/img/itpro-removebg-logo-without-text.png" alt="ITPro Logo">
-                </div>
-
-                <div class="text logo-text">
-                    <div class="name">ITPro</div>
-                    <div class="profession">Security Professionals</div>
-                </div>
+            <div class="image">
+                <img src="/taskscheduler/public/img/itpro-removebg-logo-with-text.png" alt="ITPro Logo">
             </div>
-
-            <i class="fa-solid fa-chevron-right fa-2xs toggle"></i>
         </header>
 
         <div class="menu-bar">
@@ -50,7 +40,7 @@
                 </li>
 
                 <li class="nav-link">
-                    <a href="<?= BASEURL; ?>">
+                    <a href="<?= BASEURL; ?>/maintenance">
                         <i class="fa-solid fa-list icon"></i>
                         <span class="text nav-text">Maintenance</span>
                     </a>
@@ -79,7 +69,6 @@
             </ul>
 
             <div class="bottom-content">
-
                 <li class="mode">
                     <div class="sun-moon">
                         <i class="fa-solid fa-moon icon moon"></i>
@@ -116,9 +105,9 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-lg-end userColor">
 
-                            <li><a class="dropdown-item editUserProfileModal" href="#" data-bs-toggle="modal" data-bs-target="#editUserProfileModal" data-id="<?=$_SESSION['id']?>" >Profile<i class="fa-regular fa-id-badge ms-1"></i></a></li>
+                            <li><a class="dropdown-item editUserProfileModal ms-4" href="#" data-bs-toggle="modal" data-bs-target="#editUserProfileModal" data-id="<?=$_SESSION['id']?>" >Profile<i class="fa-regular fa-id-badge ms-1"></i></a></li>
                             
-                            <li><a class="dropdown-item" href="<?= BASEURL ?>/Logout">Logout<i class="fa-solid fa-right-from-bracket ms-1"></i></a></li>
+                            <li><a class="dropdown-item ms-4" href="<?= BASEURL ?>/Logout">Logout<i class="fa-solid fa-right-from-bracket ms-1"></i></a></li>
 
                         </ul>
                     </div>

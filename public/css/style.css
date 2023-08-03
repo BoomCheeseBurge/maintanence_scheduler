@@ -32,10 +32,15 @@ body {
 .navbar-tall {
     height: 4.375rem;
   }
-  
-  #clientTable .table .detail-btn {
-    color: var(--crt-btn-color);
+
+.header-title {
+    font-size: 28px;
+}
+
+.custom-font-size {
+    font-size: 14px; /* Set the desired font size here */
   }
+  
 
   .btn-custom {
     background-color: #695CFE !important;
@@ -70,23 +75,26 @@ body {
   .userBtn {
     color: #000;
   }
-  
 
-  /* Custom Button CSS */
+  .dropdown-item {
+    width: fit-content; /* Set the width to "fit-content" to fit the content */
+  }
 
-  .btn-custom:focus {
-    box-shadow: #D6D6E7 0 0 0 1.5px inset, #695CFE 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -2px 0 inset;
-  }
-  
-  .btn-custom:hover {
-    box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -2px 0 inset;
-    transform: translateY(-1px);
-  }
-  
-  .btn-custom:active {
-    box-shadow: #D6D6E7 0 2px 7px inset;
-    transform: translateY(2px);
-  }
+  /* ============ Date Range Input CSS Start ============ */
+  /* Custom CSS to style the connecting box */
+.bridge-text {
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--body-color);
+}
+
+/* Adjust the width and alignment as needed */
+#startDate, #endDate {
+  width: 180px;
+}
+  /* ============ Date Range Input CSS End ============ */
 
 
 /* ============ Create Task Button Icon ============ */
@@ -189,8 +197,8 @@ body {
   padding: 0 20px 0 5px;
 }
 
-/* CSS for company name search input */
-#companyNameList {
+/* CSS for client name search input */
+#clientNameList {
     background-color: var(--primary-color-light);
     border: 1px solid black;
     border-radius: 5px;
@@ -201,11 +209,11 @@ body {
     z-index: 100; /* Set z-index to 1 to ensure it appears above the input */
 }
 
-#companyNameList .companyNameOption {
+#clientNameList .clientNameOption {
     transition: 0.5s ease;
 }
 
-#companyNameList .companyNameOption:hover {
+#clientNameList .clientNameOption:hover {
     background-color: var(--primary-color);
     color: var(--primary-color-light);
     cursor: pointer;
@@ -363,9 +371,6 @@ body.dark{
     transition: var(--tran-05);
     z-index: 100;
 }
-.sidebar.close{
-    width: 88px;
-}
 
 /* ===== Reusable code - Here ===== */
 .sidebar li{
@@ -376,7 +381,6 @@ body.dark{
     margin-top: 15px;
 }
 
-.sidebar header .image,
 .sidebar .icon{
     min-width: 50px;
     border-radius: 6px;
@@ -404,34 +408,12 @@ body.dark{
     white-space: nowrap;
     opacity: 1;
 }
-.sidebar.close .text{
-    opacity: 0;
-}
 
 /* ======================================== Side Header Start ======================================== */
 .sidebar header{
     position: relative;
     margin-top: 0.938rem;
-}
-
-/* .sidebar header .image-text{
-    display: flex;
-    align-items: center;
-} */
-.sidebar header .logo-text{
-    display: flex;
-    flex-direction: column;
-}
-header .image-text .name {
-    margin-top: 3px;
-    font-size: 25px;
-    font-weight: 600;
-}
-
-header .image-text .profession{
-    font-size: 15px;
-    margin-top: -2px;
-    display: block;
+    margin-bottom: 0.938rem;
 }
 
 .sidebar header .image{
@@ -441,30 +423,8 @@ header .image-text .profession{
 }
 
 .sidebar header .image img{
-    width: 50px;
-    border-radius: 6px;
-}
-
-.sidebar header .toggle{
-    position: absolute;
-    top: 60%;
-    right: -25px;
-    transform: translateY(-50%) rotate(180deg);
-    height: 25px;
-    width: 25px;
-    background-color: var(--primary-color);
-    color: var(--sidebar-color);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    cursor: pointer;
-    transition: var(--tran-05);
-}
-
-body.dark .sidebar header .toggle{
-    color: var(--text-color);
+    width: 160px;
+    /* border-radius: 6px; */
 }
 
 body.dark .sidebar {
@@ -511,9 +471,6 @@ body.dark .wrapper .input-box i{
 
 /* ================================ Form Dark Mode End ================================ */
 
-.sidebar.close .toggle{
-    transform: translateY(-50%) rotate(0deg);
-}
 /* ======================================== Side Header End ======================================== */
 
 /* .sidebar .menu{
@@ -604,7 +561,7 @@ body.dark .mode .sun-moon i.moon{
 }
 
 .menu-bar .bottom-content {
-    padding-bottom: 6.25rem;
+    padding-bottom: 2.5rem;
 }
 
 .menu-bar .bottom-content .toggle-switch{
@@ -676,122 +633,7 @@ body.dark .switch::before{
     transition: var(--tran-05);
 }
 
-.sidebar.close ~ .home{
-    left: 88px;
-    height: 100vh;
-    width: calc(100% - 78px);
-}
 body.dark .home{
     color: var(--text-color);
 }
 /* ======================================== Dashboard Webpage End ======================================== */
-
-/* ======================================== Event Calendar Webpage Start ======================================== */
-
-#calendar {
-    max-height: 80vh;
-    max-width: 85vw;
-  }
-
-  .calendar-wrapper {
-    position: relative;
-    max-height: 80vh;
-    max-width: 85vw;
-    margin: 0 auto;
-    border: 2px solid rgba(255, 255, 255, .5);
-    background-color: var(--form-color);
-    border-radius: 20px;
-    backdrop-filter: blur(3px);
-    box-shadow: 0 0 30px rgba(50, 44, 122, .5);
-  }
-
-  @media (max-width: 576px) {
-    #calendar {
-        max-height: 90vh;
-        max-width: 65vw;
-    }
-
-    .calendar-wrapper {
-        max-height: 90vh;
-        max-width: 65vw;
-    }
-  }
-/* ======================================== Event Calendar Webpage End ======================================== */
-
-/* ======================================== Single Task View Webpage Start ======================================== */
-
-.container-box {
-    display: flex;
-}
-
-.div-box {
-    width: 35vw;
-    align-items: center;
-    justify-content: center;
-}
-
-.log-box {
-    height: 65vh;
-    margin: 20px auto;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: var(--primary-color-light);
-}
-  
-  .log-messages {
-    height: 55vh;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-  }
-  
-  .message {
-    padding: 8px;
-    margin: 5px 0;
-    border-radius: 5px;
-  }
-  
-  .received {
-    background-color: #f1f1f1;
-  }
-  
-  .sent {
-    background-color: #dcf8c6;
-    align-self: flex-end;
-  }
-  
-  .log-input {
-    display: flex;
-    align-items: center;
-  }
-  
-  .container .container-box .div-box .log-box input[type="text"] {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px;
-  }
-  
-.container .container-box .div-box .maintenance-view-btn {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .container .container-box .div-box .maintenance-view-btn:hover {
-    background-color: #0056b3;
-  }
-
-.vl {
-    border-left: 2px solid var(--primary-color);
-    height: 80vh;
-    margin: 0 20px;
-  }
-
-/* ======================================== Single Task View Webpage End ======================================== */

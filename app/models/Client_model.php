@@ -2,7 +2,8 @@
 
 class Client_model {
 
-	private $table = 'client';
+	private $table1 = 'client';
+	private $table2 = 'pic';
 	private $db;
 
 
@@ -12,28 +13,18 @@ class Client_model {
 	}
 
 
-	public function getAllClient() {
+	public function getClientData() {
 
-		$this->db->query('SELECT pic.id AS id, client.name AS client_name, pic.name AS pic_name, pic.email AS pic_email
-		FROM client
-		JOIN pic ON client.id = pic.client_id');
+		$this->db->query('SELECT p.id AS id, cl.name AS client_name, p.name AS pic_name, p.email AS pic_email
+		FROM '. $this->table1 .' cl
+		JOIN '. $this->table2 .' p ON cl.id = p.client_id');
 		return $this->db->resultSet();
 	}
-
-
-	public function getClientById($id) {
-
-		// :id will store the binded data (to prevent SQL injection)
-		$this->db->query('SELECT * FROM client WHERE id=:id');
-		$this->db->bind('id', $id);
-		return $this->db->single();
-	}
-
 
 	public function addClientData($data) {
 
 		$client_name = $data['clientName'];
-		$query1 = "INSERT INTO client (id, name) VALUES ('', :client_name)";
+		$query1 = 'INSERT INTO '. $this->table1 .' (id, name) VALUES ("", :client_name)';
 		$this->db->query($query1);
 		$this->db->bind('client_name', $client_name);
 		$this->db->execute();
@@ -48,7 +39,7 @@ class Client_model {
 
             // Loop through the pic data arrays and insert each set as a separate record
             for ($i = 0; $i < count($picNames); $i++) {
-                $query2 = "INSERT INTO pic (id, client_id, name, email) VALUES ('', :client_id, :pic_name, :pic_email)";
+                $query2 = 'INSERT INTO '. $this->table2 .' (id, client_id, name, email) VALUES ("", :client_id, :pic_name, :pic_email)';
                 $this->db->query($query2);
                 $this->db->bind('client_id', $clientId);
                 $this->db->bind('pic_name', $picNames[$i]);
@@ -60,46 +51,69 @@ class Client_model {
 		return $this->db->rowCount();
 	}
 
+	public function editClientPICData($data) {
 
-	public function delClientData($id) {
+		$query = 'UPDATE '. $this->table2 .' SET
+					client_id = :client_id,
+					name = :name,
+					email = :email
+				WHERE id = :id
+		';
 
-		$query = "DELETE FROM client WHERE id = :id";
+		$this->db->query($query);
+		$this->db->bind(':client_id', $data['client_id']);
+		$this->db->bind(':name', $data['pic_name']);
+		$this->db->bind(':email', $data['pic_email']);
+		$this->db->bind(':id', $data['id']);
+
+		$this->db->execute();
+
+		return $this->db->rowCount();
+	}
+
+	public function delClientPICData($data) {
+
+		$query = 'DELETE FROM '. $this->table2 .' WHERE id = :id';
+		$this->db->query($query);
+		$this->db->bind(':id', $data['id']);
+
+		try {
+			$this->db->execute();
+			// Success: The client record was deleted successfully
+		} catch (PDOException $e) {
+			// Error: The client record could not be deleted due to the foreign key constraint
+			echo "Error: Cannot delete the client record because it has related records in other tables.";
+		}
+
+		return $this->db->rowCount();
+	}
+
+	public function getClientPICById($id) {
+
+		$query = 'SELECT p.id, cl.name AS client_name, p.name AS pic_name, p.email
+		FROM '. $this->table2 .' p
+		INNER JOIN '. $this->table1 .' cl ON p.client_id = cl.id
+		WHERE p.id = :id';
+
 		$this->db->query($query);
 		$this->db->bind('id', $id);
-
-		$this->db->execute();
-
-		return $this->db->rowCount();
+		return $this->db->single();
 	}
 
-
-	public function editDataClient($data) {
-
-		$query = "UPDATE client SET
-					nama = :nama,
-					email = :email,
-					telepon = :telepon,
-					lokasi = :lokasi
-				WHERE id = :id
-		";
-
+	public function getClientIdByName($clientName) {
+		$query = 'SELECT id FROM '. $this->table1 .' WHERE name = :client_name';
 		$this->db->query($query);
-		$this->db->bind('nama', $data['nama']);
-		$this->db->bind('email', $data['email']);
-		$this->db->bind('telepon', $data['telepon']);
-		$this->db->bind('lokasi', $data['lokasi']);
-		$this->db->bind('id', $data['id']);
-
-		$this->db->execute();
-
-		return $this->db->rowCount();
+		$this->db->bind(':client_name', $clientName);
+		$result = $this->db->single();
+		
+		// Return the client_id or null if not found
+		return $result ? $result['id'] : null;
 	}
-
 
 	public function getDataClient() {
 
 		$keyword = $_POST['keyword'];
-		$query = 'SELECT * FROM client WHERE nama LIKE :keyword';
+		$query = 'SELECT * FROM '. $this->table1 .' WHERE nama LIKE :keyword';
 		$this->db->query($query);
 		$this->db->bind('keyword', "%$keyword%");
 		return $this->db->resultSet();
@@ -107,27 +121,9 @@ class Client_model {
 	
 	public function getClientName($keyword)
     {
-        $query = 'SELECT name FROM client WHERE name LIKE :keyword';
+        $query = 'SELECT name FROM '. $this->table1 .' WHERE name LIKE :keyword';
         $this->db->query($query);
         $this->db->bind('keyword', "%$keyword%");
         return $this->db->resultSet();
     }
-
-	function emptyDataFile() {
-		$filePath = 'data1.json'; // Replace with the correct file path
-		
-		// Open the file in write mode
-		$file = fopen($filePath, 'w');
-		
-		if ($file) {
-			// Truncate the file to 0 length, effectively clearing its content
-			ftruncate($file, 0);
-			
-			// Close the file
-			fclose($file);
-		} else {
-			// Handle file opening error
-			echo 'Could not open file:  '.$filePath;
-		}
-	}	
 }

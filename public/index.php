@@ -13,3 +13,19 @@ require_once '../app/init.php';
 
 // Instantiate the 'App' class
 $app = new App;
+
+// Run the migrations
+// $migration1 = new CreateUserTable($db);
+// $migration1->up();
+
+// $migration2 = new CreateClientTable($db);
+// $migration2->up();
+
+// $migration3 = new CreatePicTable($db);
+// $migration3->up();
+
+// $migration4 = new CreateContractTable($db);
+// $migration4->up();
+
+// $migration5 = new CreateMaintenanceTable($db);
+// $migration5->up();
