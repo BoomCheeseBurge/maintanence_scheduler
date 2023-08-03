@@ -12,6 +12,26 @@ class Client extends Controller {
 		$this->view('templates/footer', $data);
 	}
 
+	public function client_admin() {
+
+		$data['title'] = 'Task-Scheduler | Client';
+		$data['identifier'] = 'client_admin';
+
+		$this->view('templates/header', $data);
+		$this->view('client/client_admin');
+		$this->view('templates/footer', $data);
+	}
+
+	public function client_manager() {
+
+		$data['title'] = 'Task-Scheduler | Client';
+		$data['identifier'] = 'client_manager';
+
+		$this->view('templates/header', $data);
+		$this->view('client/client_manager');
+		$this->view('templates/footer', $data);
+	}
+
 	public function getAllClient() {
 		$clientData = $this->model('Client_model')->getClientData();
 		echo json_encode($clientData);

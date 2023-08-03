@@ -13,17 +13,31 @@ class Dashboard extends Controller {
 	public function dashboard_admin() {
 
 		$data['title'] = 'Task-Scheduler | Dashboard';
+		$data['identifier'] = 'dashboard_admin';
+
 		$this->view('templates/header', $data);
 		$this->view('dashboard/dashboard_admin');
-		$this->view('templates/footer');
+		$this->view('templates/footer', $data);
+	}
+
+	public function dashboard_manager() {
+
+		$data['title'] = 'Task-Scheduler | Dashboard';
+		$data['identifier'] = 'dashboard_manager';
+
+		$this->view('templates/header', $data);
+		$this->view('dashboard/dashboard_manager');
+		$this->view('templates/footer', $data);
 	}
 
 	public function dashboard_engineer() {
 
 		$data['title'] = 'Task-Scheduler | Dashboard';
+		$data['identifier'] = 'dashboard_engineer';
+
 		$this->view('templates/header', $data);
 		$this->view('dashboard/dashboard_engineer');
-		$this->view('templates/footer');
+		$this->view('templates/footer', $data);
 	}
 
 	public function setScheduledDate() {

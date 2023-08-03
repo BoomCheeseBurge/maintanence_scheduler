@@ -12,6 +12,26 @@ class Contract extends Controller {
 		$this->view('templates/footer', $data);
 	}
 
+	public function contract_admin() {
+
+		$data['title'] = 'Task-Scheduler | Contract';
+		$data['identifier'] = 'contract_admin';
+
+		$this->view('templates/header', $data);
+		$this->view('contract/contract_admin');
+		$this->view('templates/footer', $data);
+	}
+
+	public function contract_manager() {
+
+		$data['title'] = 'Task-Scheduler | Contract';
+		$data['identifier'] = 'contract_manager';
+
+		$this->view('templates/header', $data);
+		$this->view('contract/contract_manager');
+		$this->view('templates/footer', $data);
+	}
+
 	public function getAllContract() {
 		$contractData = $this->model('Contract_model')->getContractData();
 		echo json_encode($contractData);

@@ -12,6 +12,26 @@ class Maintenance extends Controller {
 		$this->view('templates/footer', $data);
     }
 
+    public function history_admin() {
+
+        $data['title'] = 'Task-Scheduler | MaintenanceSchedule';
+        $data['identifier'] = 'history';
+
+		$this->view('templates/header', $data);
+		$this->view('maintenance/index');
+		$this->view('templates/footer', $data);
+    }
+
+    public function history_manager() {
+
+        $data['title'] = 'Task-Scheduler | MaintenanceSchedule';
+        $data['identifier'] = 'history';
+
+		$this->view('templates/header', $data);
+		$this->view('maintenance/index');
+		$this->view('templates/footer', $data);
+    }
+
     // For Admin Bootstrap Table
     public function getScheduleList() {
         $maintenanceData = $this->model('Maintenance_model')->getMaintenanceList();
