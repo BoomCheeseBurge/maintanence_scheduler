@@ -21,10 +21,22 @@ function setForm() {
 		$('#id').val(contractId);
 	});
 
+	// Event listener for the show.bs.modal event on the scheduledDateModal
+	$('#delContractModal').on('show.bs.modal', function(event) {
+		// Get the button that triggered the modal
+		var button = $(event.relatedTarget);
+		
+		// Extract the data-id attribute value from the button
+		var contractId = button.data('id');
+
+		// Set the value of the input field in the modal form
+		$('#contractId').val(contractId);
+	});
+
 	$('.addContractBtn').on('click', function() {
 
 		$('#contractModalLabel').html('New Contract');
-		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/contract/addContract');
+		$('.modal-body form').attr('action', BASEURL + '/contract/addContract');
 
 		$('#id').val('');
 		$('#clientName').val('');
@@ -41,7 +53,7 @@ function setForm() {
 	$('.editContractBtn').on('click', function() {
 
 		$('#contractModalLabel').html('Edit Contract');
-		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/contract/editContract');
+		$('.modal-body form').attr('action', BASEURL + '/contract/editContract');
 
 		// Retrieve the specific id of the clicked row
 		const id = $(this).data('id');
@@ -50,7 +62,7 @@ function setForm() {
 		$.ajax({
 
 			// Retrieve data from here
-			url: 'http://localhost/taskscheduler/public/contract/getEditContractData',
+			url: BASEURL + '/contract/getEditContractData',
 			// Left 'id' => variabe name, Right 'id' => data
 			// Send the id of a mahasiswa to the url
 			data: {id : id},
@@ -82,7 +94,7 @@ function setForm() {
 		$.ajax({
 
 			// Retrieve data from here
-			url: 'http://localhost/taskscheduler/public/contract/getSingleContractData',
+			url: BASEURL + '/contract/getSingleContractData',
 			// Left 'id' => variabe name, Right 'id' => data
 			// Send the id of a mahasiswa to the url
 			data: {id : id},
@@ -105,12 +117,19 @@ function setForm() {
 
 function contractFormatter(value, row, index) {
     return [
-		'<button type="button" class="btn btn-warning editContractBtn" data-bs-toggle="modal" data-bs-target="#contractModal" data-id="' + row.id + '">',
-		'Edit',
-		'</button>',
 		'<span class="ms-2 createSchedule" data-bs-toggle="modal" data-bs-target="#scheduleModal" data-id="' + row.id + '">',
 		'<button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create maintenance schedule">',
 		'<i class="fa-solid fa-calendar-plus"></i>',
+		'</button>',
+		'</span>',
+		'<span class="ms-2 editContractBtn" data-bs-toggle="modal" data-bs-target="#contractModal" data-id="' + row.id + '">',
+		'<button class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">',
+		'<i class="fa-solid fa-pen-to-square"></i>',
+		'</button>',
+		'</span>',
+		'<span class="ms-2 delContractBtn" data-bs-toggle="modal" data-bs-target="#delContractModal" data-id="' + row.id + '">',
+		'<button class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">',
+		'<i class="fa-solid fa-trash-can"></i>',
 		'</button>',
 		'</span>'
     ].join('')
@@ -125,6 +144,7 @@ function initContractTable() {
 		icons: icons,
 		exportTypes: ['csv', 'excel', 'pdf'],
 		locale: 'en-US',
+		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
 		{
 			title: 'No',
@@ -136,7 +156,8 @@ function initContractTable() {
 			field: 'name',
 			align: 'center',
 			sortable: true,
-			align: 'center'
+			align: 'center',
+			width: '200'
 		},{
 			title: 'SOP',
 			field: 'sop_number',
@@ -152,12 +173,13 @@ function initContractTable() {
 			title: 'PM Frequency',
 			field: 'pm_frequency',
 			align: 'center',
-			align: 'center'
+			align: 'center',
+			width: '20'
 		}, {
 			title: 'Start Date',
 			field: 'start_date',
 			align: 'center',
-			valign: 'middle',
+			valign: 'middle'
 		}, {
 			title: 'End Date',
 			field: 'end_date',
@@ -174,7 +196,7 @@ function initContractTable() {
 			field: 'view',
 			align: 'center',
 			switchable: 'false',
-			width: 150,
+			width: '200',
 		    formatter: contractFormatter
 	  }],
 	  onPostBody: () => {

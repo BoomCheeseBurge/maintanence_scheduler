@@ -2,7 +2,10 @@
 
 class Contract_model {
 
-	private $table = 'contract';
+	private $table1 = 'contract';
+	private $table2 = 'client';
+	private $table3 = 'user';
+
 	private $db;
 
 	public function __construct() {
@@ -11,10 +14,10 @@ class Contract_model {
 	}
 
     public function getContractData() {
-		$query = "SELECT co.id, cl.name, co.sop_number, co.device, co.pm_frequency, co.start_date, co.end_date, u.full_name
-		FROM contract co
-		INNER JOIN client cl ON co.client_id = cl.id
-		INNER JOIN user u ON co.engineer_id = u.id";
+		$query = 'SELECT co.id, cl.name, co.sop_number, co.device, co.pm_frequency, co.start_date, co.end_date, u.full_name
+		FROM '. $this->table1 .' co
+		INNER JOIN '. $this->table2 .' cl ON co.client_id = cl.id
+		INNER JOIN '. $this->table3 .' u ON co.engineer_id = u.id';
 
 		$this->db->query($query);
 		return $this->db->resultSet();
@@ -22,8 +25,8 @@ class Contract_model {
 
     public function addContractData($data) {
 
-		$query = "INSERT INTO contract (id, client_id, engineer_id, sop_number, start_date, end_date, device, pm_frequency)
-		VALUES ('', :client_id, :assignee_id, :sopNumber, :startDate, :endDate, :device, :pmFreq)";
+		$query = 'INSERT INTO '. $this->table1 .' (id, client_id, engineer_id, sop_number, start_date, end_date, device, pm_frequency)
+		VALUES ("", :client_id, :assignee_id, :sopNumber, :startDate, :endDate, :deviceName, :pmFreq)';
 
 		$this->db->query($query);
 		$this->db->bind(':client_id', $data['client_id']);
@@ -31,7 +34,7 @@ class Contract_model {
 		$this->db->bind(':sopNumber', $data['sopNumber']);
 		$this->db->bind(':startDate', $data['startDate']);
 		$this->db->bind(':endDate', $data['endDate']);
-		$this->db->bind(':device', $data['device']);
+		$this->db->bind(':deviceName', $data['deviceName']);
 		$this->db->bind(':pmFreq', $data['pmFreq']);
 
 		$this->db->execute();
@@ -41,7 +44,7 @@ class Contract_model {
 
     public function editContractData($data) {
 
-		$query = "UPDATE contract SET
+		$query = 'UPDATE '. $this->table1 .' SET
 					client_id = :client_id,
 					engineer_id = :assignee_id,
 					sop_number = :sopNumber,
@@ -50,7 +53,7 @@ class Contract_model {
 					device = :deviceName,
 					pm_frequency = :pmFreq
 				WHERE id = :id
-		";
+		';
 
 		$this->db->query($query);
 		$this->db->bind(':client_id', $data['client_id']);
@@ -67,13 +70,24 @@ class Contract_model {
 		return $this->db->rowCount();
 	}
 
+	public function delContractData($data) {
+
+		$query = 'DELETE FROM '. $this->table1 .' WHERE id = :id';
+		$this->db->query($query);
+		$this->db->bind(':id', $data['id']);
+
+		$this->db->execute();
+
+		return $this->db->rowCount();
+	}
+
 	public function getEditContractById($id) {
 
-		$query = "SELECT co.id, cl.name, co.sop_number, co.start_date, co.end_date, co.device, co.pm_frequency, u.full_name
-				FROM contract co
-				INNER JOIN client cl ON co.client_id = cl.id
-				INNER JOIN user u ON co.engineer_id = u.id
-				WHERE co.id = :id";
+		$query = 'SELECT co.id, cl.name, co.sop_number, co.start_date, co.end_date, co.device, co.pm_frequency, u.full_name
+				FROM '. $this->table1 .' co
+				INNER JOIN '. $this->table2 .' cl ON co.client_id = cl.id
+				INNER JOIN '. $this->table3 .' u ON co.engineer_id = u.id
+				WHERE co.id = :id';
 		// :id will store the binded data (to prevent SQL injection)
 		$this->db->query($query);
 		$this->db->bind(':id', $id);
@@ -82,11 +96,11 @@ class Contract_model {
 
 	public function getContractById($id) {
 
-		$query = "SELECT cl.name, co.sop_number, co.device, co.pm_frequency, co.start_date, co.end_date, u.full_name
-				FROM contract co
-				INNER JOIN client cl ON co.client_id = cl.id
-				INNER JOIN user u ON co.engineer_id = u.id
-				WHERE co.id = :id";
+		$query = 'SELECT cl.name, co.sop_number, co.device, co.pm_frequency, co.start_date, co.end_date, u.full_name
+				FROM '. $this->table1 .' co
+				INNER JOIN '. $this->table2 .' cl ON co.client_id = cl.id
+				INNER JOIN '. $this->table3 .' u ON co.engineer_id = u.id
+				WHERE co.id = :id';
 		// :id will store the binded data (to prevent SQL injection)
 		$this->db->query($query);
 		$this->db->bind(':id', $id);
@@ -94,7 +108,7 @@ class Contract_model {
 	}
 
 	public function getContractIdBySOP($sop_number) {
-		$query = "SELECT id FROM contract WHERE sop_number = :sop_number";
+		$query = 'SELECT id FROM '. $this->table1 .' WHERE sop_number = :sop_number';
 		$this->db->query($query);
 		$this->db->bind(':sop_number', $sop_number);
 		$result = $this->db->single();

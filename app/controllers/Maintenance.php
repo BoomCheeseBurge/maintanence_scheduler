@@ -12,6 +12,13 @@ class Maintenance extends Controller {
 		$this->view('templates/footer', $data);
     }
 
+    // For Admin Bootstrap Table
+    public function getScheduleList() {
+        $maintenanceData = $this->model('Maintenance_model')->getMaintenanceList();
+
+		echo json_encode($maintenanceData);
+    }
+
     // For Engineer Bootstrap Table
     public function getMaintenanceSchedule() {
         $maintenanceData = $this->model('Maintenance_model')->getMaintenanceData();

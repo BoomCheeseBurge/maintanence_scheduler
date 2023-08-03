@@ -25,14 +25,14 @@ class Client extends Controller {
 		if( $this->model('Client_model')->addClientData($_POST) > 0 ) {
 
 			// Set the parameter values for the flash message
-			Flasher::setFlash('Client', 'successfully', ' added', 'success');
+			Flasher::setFlash('Client', ' successfully', ' added', 'success');
 
 			// Redirect to the main page of the mahasiswa
 			header('Location: ' . BASEURL . '/client');
 			exit;
 		}else {
 
-			Flasher::setFlash('Client', 'failed', ' to be added', 'danger');
+			Flasher::setFlash('Client', ' failed', ' to be added', 'danger');
 
 			header('Location: ' . BASEURL . '/client');
 			exit;
@@ -50,14 +50,31 @@ class Client extends Controller {
 
 			if( $this->model('Client_model')->editClientPICData($_POST) > 0 ) {
 
-				Flasher::setFlash('Client', 'successfully', ' edited', 'success');
+				Flasher::setFlash('Client PIC', ' successfully', ' edited', 'success');
 
 				header('Location: ' . BASEURL . '/client');
 				exit;
 			}
 		}else {
 
-			Flasher::setFlash('Client', 'failed', ' to edit', 'danger');
+			Flasher::setFlash('Client PIC', ' failed', ' to edit', 'danger');
+
+			header('Location: ' . BASEURL . '/client');
+			exit;
+		}
+	}
+
+	public function delClientPIC() {
+
+		if( $this->model('Client_model')->delClientPICData($_POST) > 0 ) {
+
+			Flasher::setFlash('Client PIC', ' successfully', ' deleted', 'success');
+
+			header('Location: ' . BASEURL . '/client');
+			exit;
+		}else {
+
+			Flasher::setFlash('Client PIC', ' failed', ' to be deleted', 'danger');
 
 			header('Location: ' . BASEURL . '/client');
 			exit;

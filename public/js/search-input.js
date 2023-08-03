@@ -10,7 +10,7 @@ document.getElementById('assignee').addEventListener('input', function () {
   
 	// Make an AJAX request to fetch the assignees based on the search query
 	$.ajax({
-	  url: 'http://localhost/taskscheduler/public/user/searchAssignee',
+	  url: BASEURL + '/user/searchAssignee',
 	  type: 'GET',
 	  dataType: 'json',
 	  data: { keyword: searchQuery }, // Pass the search query as data
@@ -31,7 +31,7 @@ document.getElementById('assignee').addEventListener('input', function () {
 	  response.forEach(function (assignee) {
 		const option = document.createElement('div');
 		option.textContent = assignee.full_name; // Replace 'name' with the correct property from the response
-		option.className = 'assigneeOption';
+		option.className = 'assigneeOption ms-1';
 		option.addEventListener('click', function () {
 		  document.getElementById('assignee').value = assignee.full_name; // Replace 'name' with the correct property from the response
 		  assigneeList.innerHTML = '';
@@ -42,14 +42,14 @@ document.getElementById('assignee').addEventListener('input', function () {
 	  // Show a message when no results are found
 	  const noResultsMessage = document.createElement('div');
 	  noResultsMessage.textContent = 'No results found.';
-	  noResultsMessage.className = 'assigneeOption';
+	  noResultsMessage.className = 'assigneeOption ms-1';
 	  assigneeList.appendChild(noResultsMessage);
 	}
   }
 
 // ---------------------------------------------------------------
 
-// Search Input for Engineer
+// Search Input for Client
 document.getElementById('clientName').addEventListener('input', function () {
 	const searchQuery = this.value.trim();
   
@@ -61,7 +61,7 @@ document.getElementById('clientName').addEventListener('input', function () {
   
 	// Make an AJAX request to fetch the client names based on the search query
 	$.ajax({
-	  url: 'http://localhost/taskscheduler/public/client/searchClientName',
+	  url: BASEURL + '/client/searchClientName',
 	  type: 'GET',
 	  dataType: 'json',
 	  data: { keyword: searchQuery }, // Pass the search query as data
@@ -82,7 +82,7 @@ document.getElementById('clientName').addEventListener('input', function () {
 	  response.forEach(function (client) {
 		const option = document.createElement('div');
 		option.textContent = client.name; // Replace 'name' with the correct property from the response
-		option.className = 'clientNameOption';
+		option.className = 'clientNameOption ms-1';
 		option.addEventListener('click', function () {
 		  document.getElementById('clientName').value = client.name; // Replace 'name' with the correct property from the response
 		  clientNameList.innerHTML = '';
@@ -93,7 +93,7 @@ document.getElementById('clientName').addEventListener('input', function () {
 	  // Show a message when no results are found
 	  const noResultsMessage = document.createElement('div');
 	  noResultsMessage.textContent = 'No results found.';
-	  noResultsMessage.className = 'clientNameOption';
+	  noResultsMessage.className = 'clientNameOption ms-1';
 	  clientNameList.appendChild(noResultsMessage);
 	}
   }

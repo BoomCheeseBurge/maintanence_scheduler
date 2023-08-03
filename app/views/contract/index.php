@@ -6,7 +6,7 @@
 			</div>
 		</div>
 
-        <h3>Contract</h3>
+        <h3 class="header-title">Contract</h3>
 		
         <table
         id="contract-table"
@@ -42,7 +42,7 @@
 					<form action="" method="post">
 						<input type="hidden" name="id" id="id">
 						<div class="form-floating mb-3">
-							<input type="search" class="form-control" name="clientName" id="clientName" required placeholder="clientName">
+							<input type="search" class="form-control" name="clientName" id="clientName" required placeholder="clientName" autocomplete="off">
 							<div id="clientNameList"></div>
 							<label for="clientName">Client</label>
 						</div>
@@ -67,7 +67,7 @@
 							<input type="number" class="form-control" id="pmFreq" name="pmFreq" min="1" required>
 						</div>
 						<div class="form-floating mb-3">
-							<input type="search" class="form-control" name="assignee" id="assignee" required placeholder="assignee">
+							<input type="search" class="form-control" name="assignee" id="assignee" required placeholder="assignee" autocomplete="off">
 							<div id="assigneeList"></div>
 							<label for="assignee">Engineer</label>
 						</div>
@@ -126,7 +126,7 @@
 						</div>
 						<div class="mb-3">
 							<label for="month" class="form-label">Maintenance Month</label>
-							<select class="form-select" id="month" name="month" aria-label="Default select example">
+							<select class="form-select" id="month" name="month" aria-label="Default select example" required>
 								<option selected>Choose month</option>
 								<option value="January">January</option>
 								<option value="February">February</option>
@@ -152,3 +152,25 @@
 			</div>
 		</div>
 	</div>
+
+	  <!-- ========================================== Delete Contract Modal ========================================== -->
+	  <div class="modal fade" id="delContractModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delContractModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title fs-5" id="delContractModalLabel">Delete Contract</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="<?= BASEURL; ?>/contract/delContract" method="post">
+            <h6>Are you sure?</h6>
+			      <input type="hidden" name="id" id="contractId">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Confirm</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -20,14 +20,14 @@ function setForm() {
 	$('.newUserBtn').on('click', function() {
 
 		$('#userModalLabel').html('New User');
-		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/user/addUser');
+		$('.modal-body form').attr('action', BASEURL + '/user/addUser');
 		$('.modal-footer button[type=submit]').html('Add');
 	});
 
 	$('.editUserBtn').on('click', function() {
 
 		$('#userModalLabel').html('Edit User');
-		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/user/editUser');
+		$('.modal-body form').attr('action', BASEURL + '/user/editUser');
 		$('.modal-footer button[type=submit]').html('Save');
 	});
 }

@@ -1,5 +1,26 @@
 // Bootstrap Table Extended
 var $clientTable = $('#client-table')
+var $remove = $('#remove')
+var selections = []
+
+function getIdSelections() {
+    return $.map($table.bootstrapTable('getSelections'), function (row) {
+      return row.id
+    })
+  }
+
+  function responseHandler(res) {
+    $.each(res.rows, function (i, row) {
+      row.state = $.inArray(row.id, selections) !== -1
+    })
+    return res
+  }
+
+// Function to initialize Bootstrap 5.3 tooltips
+function initializeTooltips() {
+	const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+	tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+}
 
 function setForm() {
 
@@ -9,11 +30,24 @@ function setForm() {
 		var button = $(event.relatedTarget);
 		
 		// Extract the data-id attribute value from the button
-		var contractId = button.data('id');
+		var picId = button.data('id');
 
 		// Set the value of the input field in the modal form
-		$('#id').val(contractId);
+		$('#id').val(picId);
 	});
+
+	// Event listener for the show.bs.modal event on the scheduledDateModal
+	$('#delClientPICModal').on('show.bs.modal', function(event) {
+		// Get the button that triggered the modal
+		var button = $(event.relatedTarget);
+		
+		// Extract the data-id attribute value from the button
+		var picId = button.data('id');
+
+		// Set the value of the input field in the modal form
+		$('#picId').val(picId);
+	});
+
 
 	$('.editClientBtn').on('click', function() {
 
@@ -24,7 +58,7 @@ function setForm() {
 		$.ajax({
 
 			// Retrieve data from here
-			url: 'http://localhost/taskscheduler/public/client/getClientPICData',
+			url: BASEURL + '/client/getClientPICData',
 			// Left 'id' => variabe name, Right 'id' => data
 			// Send the id of a mahasiswa to the url
 			data: {id : id},
@@ -42,11 +76,18 @@ function setForm() {
 	});
 }
 
-function editClientFormatter(value, row, index) {
+function clientFormatter(value, row, index) {
     return [
-		'<button type="button" class="btn btn-warning editClientBtn" data-bs-toggle="modal" data-bs-target="#editClientPICModal" data-id="' + row.id + '">',
-		'Edit',
-		'</button>'
+		'<span class="ms-2 editClientBtn" data-bs-toggle="modal" data-bs-target="#editClientPICModal" data-id="' + row.id + '">',
+		'<button class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">',
+		'<i class="fa-solid fa-pen-to-square"></i>',
+		'</button>',
+		'</span>',
+		'<span class="ms-2 delClientBtn" data-bs-toggle="modal" data-bs-target="#delClientPICModal" data-id="' + row.id + '">',
+		'<button class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">',
+		'<i class="fa-solid fa-trash-can"></i>',
+		'</button>',
+		'</span>',
     ].join('')
   }
 
@@ -59,8 +100,14 @@ function initClientTable() {
 		icons: icons,
 		exportTypes: ['csv', 'excel', 'pdf'],
 		locale: 'en-US',
+		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
 		{
+			field: 'state',
+			checkbox: true,
+			align: 'center',
+			valign: 'middle'
+		},{
 			title: 'No',
 			field: 'id',
 			align: 'center',
@@ -86,10 +133,44 @@ function initClientTable() {
 			field: 'view',
 			align: 'center',
 			switchable: 'false',
-		    formatter: editClientFormatter
-	  }],
-	  onPostBody: setForm
+		    formatter: clientFormatter
+		}],
+		onPostBody: () => {
+			initializeTooltips();
+			setForm();
+		}
 	})
+
+	$clientTable.on('check.bs.table uncheck.bs.table ' +
+		'check-all.bs.table uncheck-all.bs.table',
+	function () {
+		$remove.prop('disabled', !$clientTable.bootstrapTable('getSelections').length)
+
+		// save your data, here just save the current page
+		selections = getIdSelections()
+		// push or splice the selections if you want to save all data selections
+	})
+
+	$remove.click(function () {
+		var ids = getIdSelections();
+	
+		// Send an AJAX request to the server to delete the selected rows
+		$.ajax({
+		url: BASEURL + '/maintenance/delMaintenance',
+		type: 'POST',
+		data: { ids: ids },
+		success: function (response) {
+			// Handle the success response if needed
+			// For example, you can reload the table data after successful deletion
+			$clientTable.bootstrapTable('refresh');
+			$remove.prop('disabled', true);
+		},
+		error: function (xhr, status, error) {
+			// Handle the error if any
+			console.error(error);
+		}
+		});
+	});
 }
 
 $(function() {
@@ -98,79 +179,6 @@ $(function() {
 	$('#client-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
 	})
-
-	// Create a Client Add Button 
-	const emptyDiv = document.querySelector('.bs-bars');
-
-	const buttonElement = document.createElement('button');
-	buttonElement.textContent = 'Add';
-	buttonElement.className = 'btn btn-primary addClientBtn';
-	buttonElement.setAttribute('data-bs-target', '#addClientModal');
-	buttonElement.setAttribute('data-bs-toggle', 'modal');
-
-	emptyDiv.appendChild(buttonElement);
-
-	$("#spinner").addClass("d-none");
-
-	// Initialize the counter variable
-	let picCounter = 2;
-
-	// Container for the delete button
-	const deleteButton = $(`<button type="button" class="btn btn-danger delete-pic mb-4">-</button>`);
-
-	// Click event for the plus button
-	$('#addPicFieldsBtn').click(function() {
-		// Create a unique ID for the new set of input fields
-		const uniqueId = `picClient${picCounter}`;
-		
-		// Create a new PIC fields div
-		const picFieldsDiv = $(`<div class="pic-fields" id="${uniqueId}">`);
-		// Add the input fields to the div
-		picFieldsDiv.append(`<h6>PIC Client ${picCounter}</h6>`);
-		picFieldsDiv.append('<div class="form-floating mb-1">' +
-			'<input type="text" class="form-control" name="picName[]" required placeholder="picName">' +
-			`<label ${uniqueId}-name>PIC Name</label>` +
-			'</div>');
-		picFieldsDiv.append('<div class="form-floating mb-4">' +
-			'<input type="email" class="form-control" name="picEmail[]" required placeholder="picEmail">' +
-			`<label for="${uniqueId}-email">PIC Email</label>` +
-			'</div>');
-		
-		// Append the delete button to the newly added PIC fields div
-		picFieldsDiv.append(deleteButton);
-
-		// Append the new PIC fields div to the container
-		$('#picFieldsContainer').append(picFieldsDiv);
-
-		// Increment the counter
-		picCounter++;
-	});
-	
-	// Event delegation to handle the click event of delete buttons
-	$('#picFieldsContainer').on('click', '.delete-pic', function() {
-		// Get the parent div of the delete button (i.e., the PIC fields div)
-		const picFieldsDiv = $(this).closest('.pic-fields');
-		const picFieldsId = picFieldsDiv.attr('id');
-
-		// Remove the current set of input fields
-		picFieldsDiv.remove();
-
-		// Decrement the counter
-		picCounter--;
-
-		// Get the previous set of PIC fields and add the delete button to it
-		if (picCounter > 2) {
-			const prevPicFieldsId = `picClient${picCounter - 1}`;
-			const prevPicFieldsDiv = $(`#${prevPicFieldsId}`);
-			const deleteButton = $('<button type="button" class="btn btn-danger delete-pic mb-4">Delete</button>');
-			prevPicFieldsDiv.append(deleteButton);
-		}
-	});
-
-	$('.modal-footer button[type=submit]').on('click', function() {
-		// Show the spinner during form submission
-		$('#spinner').removeClass('d-none');
-	});
 });
 
 // ---------------------------------------------------------------

@@ -6,9 +6,9 @@
 				</div>
 			</div>
 
-			<h3>Dashboard</h3>
+			<h3 class="header-title">Dashboard</h3>
 
-			<!-- <table
+			<table
 			id="admin-dashboard-table"
 			data-toolbar="#toolbar"
 			data-search="true"
@@ -21,17 +21,17 @@
 			data-show-export="true"
 			data-minimum-count-columns="2"
 			data-pagination="true"
-			data-id-field="id"
+			data-id-field="m_id"
 			data-page-list="[10, 25, 50, 100, all]"
             data-mobile-responsive="true"
             data-check-on-init="true"
-			data-url='/client/getClients'
+			data-url='<?= BASEURL; ?>/maintenance/getScheduleList'
             data-resizable="true">
-			</table> -->
+			</table>
 
             <!-- <br> -->
 
-            <table
+            <!-- <table
 			id="engineer-dashboard-table"
 			data-toolbar="#toolbar"
 			data-search="true"
@@ -50,40 +50,11 @@
 			data-page-list="[10, 25, 50, 100, all]"
             data-mobile-responsive="true"
             data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/maintenance/getMaintenanceSchedule'
+			data-url='/maintenance/getMaintenanceSchedule'
             data-resizable="true">
-			</table>
+			</table> -->
 		</div>
 	</section>
-
-	<!-- ========================================== Edit Row Modal ========================================== -->
-	<div class="modal fade modal-lg" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="editModalLabel">Edit Client</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form>
-					<div class="mb-3">
-						<label for="recipient-name" class="col-form-label">Recipient:</label>
-						<input type="text" class="form-control" id="recipient-name">
-					</div>
-					<div class="mb-3">
-						<label for="message-text" class="col-form-label">Message:</label>
-						<textarea class="form-control" id="message-text"></textarea>
-					</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<a class="btn btn-warning" href="<?= BASEURL; ?>/maintenance/detail" role="button">Detail</a>
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Save Changes</button>
-				</div>
-            </div>
-        </div>
-    </div>
 
 	<!-- ========================================== Scheduled Date and Actual Date Modal ========================================== -->
 	<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
@@ -97,7 +68,7 @@
 					<form action="" method="post">
 						<input type="hidden" name="id" id="id">
 						<div class="mb-3">
-							<input type="date" id="setdate" name="setdate" class="form-control dateInput">
+							<input type="date" id="setdate" name="setdate" class="form-control dateInput" required>
 						</div>
 				</div>
 				<div class="modal-footer">
@@ -108,3 +79,25 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- ========================================== Delete Contract Modal ========================================== -->
+	<div class="modal fade" id="delMaintenanceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delMaintenanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title fs-5" id="delMaintenanceModalLabel">Delete Contract</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="<?= BASEURL; ?>/contract/delMaintenance" method="post">
+            <h6>Are you sure?</h6>
+			      <input type="hidden" name="id" id="maintenanceId">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Confirm</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

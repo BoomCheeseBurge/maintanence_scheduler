@@ -7,7 +7,7 @@
 <!-- ========================================= Store.js Script ========================================= -->
 	<script src="/taskscheduler/store.js-master/storages/localStorage.js"></script>
 
-<!-- ========================================= Resizable Column Script 1 ========================================= -->
+<!-- ========================================= Resizable Column Script ========================================= -->
 	<script src="/taskscheduler/jquery-resizable-columns-gh-pages/dist/jquery.resizableColumns.min.js"></script>
 
 <!-- ========================================= Bootstrap Table Script ========================================= -->
@@ -26,18 +26,18 @@
 <!-- ========================================= Custom Script ========================================= -->
 	<script src="/taskscheduler/public/js/script.js"></script>
 
-	<?php if ($data['identifier'] === 'maintenance' || $data['identifier'] === 'contract') : ?>
-		<script src="/taskscheduler/public/js/search-input.js"></script>
-	<?php endif; ?>
+	<script>
+        const BASEURL = '<?= BASEURL; ?>';
+    </script>
 
 	<?php if ($data['identifier'] === 'history') : ?>
 		<script src="/taskscheduler/public/js/history-table.js"></script>
 	<?php elseif ($data['identifier'] === 'client') : ?>
 		<script src="/taskscheduler/public/js/client-table.js"></script>
-	<?php elseif ($data['identifier'] === 'newClient') : ?>
 		<script src="/taskscheduler/public/js/client-form.js"></script>
 	<?php elseif ($data['identifier'] === 'contract') : ?>
 		<script src="/taskscheduler/public/js/contract-table.js"></script>
+		<script src="/taskscheduler/public/js/search-input.js"></script>
 	<?php elseif ($data['identifier'] === 'user') : ?>
 		<script src="/taskscheduler/public/js/user-table.js"></script>
 	<?php else : ?>

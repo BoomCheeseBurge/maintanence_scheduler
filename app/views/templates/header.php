@@ -22,17 +22,9 @@
 	<!-- ==================================== Side Navbar ==================================== -->
     <nav class="sidebar close">
         <header>
-            <div class="image-text">
-                <div class="image">
-                <img src="/taskscheduler/public/img/itpro-removebg-logo-without-text.png" alt="ITPro Logo">
-                </div>
-
-                <div class="text logo-text">
-                    <div class="name">ITPro</div>
-                    <div class="profession">Security Professionals</div>
-                </div>
+            <div class="image">
+                <img src="/taskscheduler/public/img/itpro-removebg-logo-with-text.png" alt="ITPro Logo">
             </div>
-
         </header>
 
         <div class="menu-bar">
@@ -74,7 +66,6 @@
             </ul>
 
             <div class="bottom-content">
-
                 <li class="mode">
                     <div class="sun-moon">
                         <i class="fa-solid fa-moon icon moon"></i>

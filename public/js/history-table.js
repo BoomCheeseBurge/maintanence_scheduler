@@ -10,6 +10,7 @@ function initHistoryDashboardTable() {
 		icons: icons,
         exportTypes: ['csv', 'excel', 'pdf'],
 		locale: 'en-US',
+		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
 		{
 			title: 'No',

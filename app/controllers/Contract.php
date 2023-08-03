@@ -75,6 +75,23 @@ class Contract extends Controller {
 		}
 	}
 
+	public function delContract() {
+
+		if( $this->model('Contract_model')->delContractData($_POST) > 0 ) {
+
+			Flasher::setFlash('Contract', ' successfully', ' deleted', 'success');
+
+			header('Location: ' . BASEURL . '/contract');
+			exit;
+		}else {
+
+			Flasher::setFlash('Contract', ' failed', ' to be deleted', 'danger');
+
+			header('Location: ' . BASEURL . '/contract');
+			exit;
+		}
+	}
+
 	public function getEditContractData() {
 		echo json_encode($this->model('Contract_model')->getEditContractById($_POST['id']));
 	}

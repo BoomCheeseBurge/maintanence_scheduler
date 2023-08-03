@@ -6,7 +6,7 @@
 				</div>
 			</div>
 			
-            <h3>User</h3>
+            <h3 class="header-title">User</h3>
 			
 			<table
 			id="user-table"
