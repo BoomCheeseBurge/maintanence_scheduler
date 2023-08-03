@@ -2,21 +2,40 @@
 
 class App {
 	// Property to define the default controller and method to call
-	protected $controller = 'Dashboard';
+	protected $controller = 'Login';
 	protected $method = 'index';
 	protected $params = [];
+	// List of permitted controllers when signed out. If not satisfied default to Login page.
+	protected $controllersSignedOut = array("Login", "Signup", "ForgottenPassword");
+	// List of permitted controllers when signed in.  If not satisfied default to Login page.
+	protected $controllersSignedIn = array("Client", "Contract", "Dashboard", "Logout", "Maintenance", "User");
 
 	public function __construct() {
 
 		$url = $this->parseURL();
-		
-		// Check if there is a file within 'controllers' folder that corresponds with the controller value in URL
-		if( isset($url[0]) ) {
-			if( file_exists('../app/controllers/' . $url[0] . '.php')) {
-				// If the controller exist, then overwrite the default controller with the one passed in the URL
-				$this->controller = $url[0];
-				// Remove the controller element from the array
-				unset($url[0]);
+
+		// If a user has not logged in, set the controller to login
+		if ( !isset($_SESSION['role']) ) {
+			// Check if there is a file within 'controllers' folder that corresponds with the controller value in URL
+			if (isset($url[0])) {
+				if (file_exists('../app/controllers/' . $url[0] . '.php')) {
+					// Check if the controller exists in the $controllersSignedOut array
+					if (in_array(strtolower($url[0]), array_map('strtolower', $this->controllersSignedOut))) {
+						$this->controller = $url[0];
+						unset($url[0]);
+					}
+				}
+			}
+		} else { // else a user has logged in, set the controller to login
+			// Check if there is a file within 'controllers' folder that corresponds with the controller value in URL
+			if (isset($url[0])) {
+				if (file_exists('../app/controllers/' . $url[0] . '.php')) {
+					// Check if the controller exists in the $controllersSignedOut array
+					if (in_array(strtolower($url[0]), array_map('strtolower', $this->controllersSignedIn))) {
+						$this->controller = $url[0];
+						unset($url[0]);
+					}
+				}
 			}
 		}
 
@@ -45,7 +64,6 @@ class App {
 			$this->params = array_values($url);
 
 		}
-
 
 		// Run the controller and method, and send the parameter if exist
 		call_user_func_array([$this->controller, $this->method], $this->params);

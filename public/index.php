@@ -1,6 +1,9 @@
 <?php
 // No closing tag since the content is pure PHP
 
+// Set time zone to Jakarta Indonesia
+date_default_timezone_set('Asia/Jakarta');
+
 // Start session if no session id is detected
 if( !session_id() ) session_start();
 

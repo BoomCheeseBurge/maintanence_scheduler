@@ -15,12 +15,15 @@
     <!-- ================================== Date Range Picker CSS ================================== -->
 	<link rel="stylesheet" type="text/css" href="/taskscheduler/daterangepicker/daterangepicker.css">
     <!-- ================================== Custom Bootstrap ================================== -->
+	<link rel="stylesheet" href="/taskscheduler/public/css/my.css">
+	<link rel="stylesheet" href="/taskscheduler/public/css/sign-in.css">
 	<link rel="stylesheet" href="/taskscheduler/public/css/style.css">
 
 	<title><?= $data['title'] ?></title>
 </head>
 <body>
-	<!-- ==================================== Side Navbar ==================================== -->
+  <!-- ==================================== Side Navbar ==================================== -->
+  <?php if ( $_SESSION['role'] != 'engineer' ): ?>
     <nav class="sidebar close">
         <header>
             <div class="image-text">
@@ -91,22 +94,113 @@
             </div>
         </div>
     </nav>
+  <?php endif; ?>
 
 	<!-- ==================================== Top Navbar ==================================== -->
+  <?php if ( $_SESSION['role'] == 'engineer' ): ?>
+    <section class="home" style="position: unset; width:unset">
+  <?php else: ?>
     <section class="home">
+  <?php endif; ?>  
         <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-tall mb-2 navbar-color">
             <div class="container-fluid">
                 <a class="navbar-brand ms-4" href="<?= BASEURL; ?>">Task-Scheduler</a>
                 <div class="d-flex justify-content-end">
+                    <img id="userPhoto" src="<?= BASEURL ?>/img/users/<?= $_SESSION['photo'] ?>" alt="User Photo" class="user-photo ms-auto">
+                    <div class="username-container ms-2">
+                    <h6 id="username"><?= $_SESSION['name'] ?></h6>
+                    </div>
                     <div class="btn-group dropstart me-3">
                         <button type="button" class="btn userColor dropdown-toggle userBtn" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-user fa-xl"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-lg-end userColor">
-                            <li><a class="dropdown-item" href="#">Profile<i class="fa-regular fa-id-badge ms-1"></i></a></li>
-                            <li><a class="dropdown-item" href="#">Logout<i class="fa-solid fa-right-from-bracket ms-1"></i></a></li>
+
+                            <li><a class="dropdown-item editUserProfileModal" href="#" data-bs-toggle="modal" data-bs-target="#editUserProfileModal" data-id="<?=$_SESSION['id']?>" >Profile<i class="fa-regular fa-id-badge ms-1"></i></a></li>
+                            
+                            <li><a class="dropdown-item" href="<?= BASEURL ?>/Logout">Logout<i class="fa-solid fa-right-from-bracket ms-1"></i></a></li>
+
                         </ul>
                     </div>
                 </div>
             </div>
         </nav>
+
+
+
+<!-- Edit User Profile Modal -->
+<div class="modal fade" id="editUserProfileModal" tabindex="-1" aria-labelledby="editUserProfileModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editUserProfileModalLabel">Edit User Profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Profile Form -->
+		<form id="editProfileForm" enctype="multipart/form-data">
+		  <input type="hidden" id="userid" name="userid" value="<?=$_SESSION['id']?>">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" value="<?=$_SESSION['name']?>" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?=$_SESSION['email']?>" required>
+          </div>
+          <div class="mb-3">
+            <label for="photo" class="form-label">Photo</label>
+            <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+            <div id="photoPreview" class="photo-preview mt-1"><img src="<?= BASEURL ?>/img/users/<?=$_SESSION['photo']?>" alt="User Photo" style="max-width: 100px; max-height: 100px;"></div>
+          </div>
+          <!-- Change Password Button -->
+		  <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+            Change Password
+          </button> 
+		  <button type="button" class="btn btn-primary" id="btnSaveChangesUserProfile" data-bs-dismiss="modal">Save Changes</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Change Password Form -->
+        <form>
+			      <input type="hidden" id="userid" name="userid" value="<?=$_SESSION['id']?>">
+          <div class="mb-3">
+            <label for="currentPassword" class="form-label">Current Password</label>
+            <input type="password" class="form-control" id="currentPassword" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPassword" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="newPassword" placeholder="Enter your new password" required>
+          </div>
+          <div class="mb-3">
+            <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+            <input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm your new password" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" id="saveChangePasswordForm" class="btn btn-primary">Save Password</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

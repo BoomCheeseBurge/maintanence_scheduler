@@ -4,16 +4,35 @@ class Client extends Controller {
 
 	public function index() {
 
+		if ( $_SESSION['role'] == 'admin' ) {
+			$this->client_admin();
+		} elseif ( $_SESSION['role'] == 'manager' ) {
+			$this->client_manager();
+		}
+	}
+
+	public function client_admin() {
+
 		$data['title'] = 'Task-Scheduler | Client';
-		$data['identifier'] = 'client';
+		$data['identifier'] = 'client_admin';
 
 		$this->view('templates/header', $data);
-		$this->view('client/index');
+		$this->view('client/client_admin');
 		$this->view('templates/footer', $data);
 	}
 
-	public function getClients() {
-		$clientData = $this->model('Client_model')->getAllClient();
+	public function client_manager() {
+
+		$data['title'] = 'Task-Scheduler | Client';
+		$data['identifier'] = 'client_manager';
+
+		$this->view('templates/header', $data);
+		$this->view('client/client_manager');
+		$this->view('templates/footer', $data);
+	}
+
+	public function getAllClient() {
+		$clientData = $this->model('Client_model')->getClientData();
 		echo json_encode($clientData);
 	}
 
@@ -25,61 +44,58 @@ class Client extends Controller {
 		if( $this->model('Client_model')->addClientData($_POST) > 0 ) {
 
 			// Set the parameter values for the flash message
-			Flasher::setFlash('Client', 'successfully', ' added', 'success');
+			Flasher::setFlash('Client', ' successfully', ' added', 'success');
 
 			// Redirect to the main page of the mahasiswa
 			header('Location: ' . BASEURL . '/client');
 			exit;
 		}else {
 
-			Flasher::setFlash('Client', 'failed', ' to be added', 'danger');
+			Flasher::setFlash('Client', ' failed', ' to be added', 'danger');
 
 			header('Location: ' . BASEURL . '/client');
 			exit;
 		}
 	}
 
+	public function editClientPIC() {
 
-	public function delClient($id) {
+		// Retrieve the client_id using the client name
+		$clientId = $this->model('Client_model')->getClientIdByName($_POST['name']);
 
-		if( $this->model('Client_model')->delClientData($id) > 0 ) {
+		// If the client_id and assigneeId is found, add the data
+		if ($clientId !== null) {
+			$_POST['client_id'] = $clientId;
 
-			Flasher::setFlash('Client', 'successfully', ' deleted', 'success');
+			if( $this->model('Client_model')->editClientPICData($_POST) > 0 ) {
 
-			header('Location: ' . BASEURL . '/client');
-			exit;
+				Flasher::setFlash('Client PIC', ' successfully', ' edited', 'success');
+
+				header('Location: ' . BASEURL . '/client');
+				exit;
+			}
 		}else {
 
-			Flasher::setFlash('Client', 'failed', ' to be deleted', 'danger');
+			Flasher::setFlash('Client PIC', ' failed', ' to edit', 'danger');
 
 			header('Location: ' . BASEURL . '/client');
 			exit;
 		}
 	}
 
+	public function delClientPIC() {
 
-	public function getEdit() {
+		if( $this->model('Client_model')->delClientPICData($_POST) > 0 ) {
 
-		// Previously, the data was in the form of an associative array
-		// By adding the echo statement, the JSON-encoded data will be sent back as the response to the AJAX request,
-		// allowing the success function in the AJAX request to handle the data and populate the form fields accordingly.
-		echo json_encode($this->model('Client_model')->getClientById($_POST['id']));
-	}
+			Flasher::setFlash('Client PIC', ' successfully', ' deleted', 'success');
 
-
-	public function edit() {
-
-		if( $this->model('Client_model')->editDataClient($_POST) > 0 ) {
-
-			Flasher::setFlash('Client', 'successfully', ' edited', 'success');
-
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}else {
 
-			Flasher::setFlash('Client', 'failed', ' to edit', 'danger');
+			Flasher::setFlash('Client PIC', ' failed', ' to be deleted', 'danger');
 
-			header('Location: ' . BASEURL . '/dashboard');
+			header('Location: ' . BASEURL . '/client');
 			exit;
 		}
 	}
@@ -97,6 +113,27 @@ class Client extends Controller {
 			header('Content-Type: application/json');
 			echo json_encode($results);
 			exit; // Make sure to exit after sending the JSON response
+		}
+	}
+
+	public function getClientPICData() {
+		echo json_encode($this->model('Client_model')->getClientPICById($_POST['id']));
+	}
+
+	public function delClient($id) {
+
+		if( $this->model('Client_model')->delClientData($id) > 0 ) {
+
+			Flasher::setFlash('Client', 'successfully', ' deleted', 'success');
+
+			header('Location: ' . BASEURL . '/client');
+			exit;
+		}else {
+
+			Flasher::setFlash('Client', 'failed', ' to be deleted', 'danger');
+
+			header('Location: ' . BASEURL . '/client');
+			exit;
 		}
 	}
 }

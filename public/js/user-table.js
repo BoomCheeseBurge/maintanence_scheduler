@@ -1,4 +1,6 @@
 // Bootstrap Table Extended
+const BASEURL = "http://localhost/taskscheduler/public"
+
 var $userTable = $('#user-table')
 
 function setForm() {
@@ -9,36 +11,58 @@ function setForm() {
 		var button = $(event.relatedTarget);
 		
 		// Extract the data-id attribute value from the button
-		var maintenanceId = button.data('id');
+		var userId = button.data('id');
 
 		// Set the value of the input field in the modal form
-		$('#id').val(maintenanceId);
-
-		console.log(maintenanceId);
+		$('#id').val(userId);
 	});
 
 	$('.newUserBtn').on('click', function() {
 
 		$('#userModalLabel').html('New User');
-		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/user/addUser');
+		$('.modal-body form').attr('action', BASEURL + '/user/addUser');
 		$('.modal-footer button[type=submit]').html('Add');
 	});
 
+
 	$('.editUserBtn').on('click', function() {
 
-		$('#userModalLabel').html('Edit User');
-		$('.modal-body form').attr('action', 'http://localhost/taskscheduler/public/user/editUser');
+		// $('#userModalLabel').html('Edit User');
+		// $('.modal-body form').attr('action', BASEURL + '/user/getUserById');
+		// $('.modal-body form').attr('id', 'editUser');
 		$('.modal-footer button[type=submit]').html('Save');
+
+		// get user id
+		id = $(this).data('id');
+
+		$.ajax({
+			url:  BASEURL + '/user/getUserById',
+			// Left 'id' => variabe name, Right 'id' => data
+			// Send the id of a mahasiswa to the url
+			data: {id : id},
+			method: 'POST',
+			// Return data in json file
+			dataType: 'json',
+			// data here refers to a temporary parameter variable that stores any data returned by the url above
+			success: function(data) {
+				$('#editUser #id').val(data.id);
+				$('#editUser #name').val(data.full_name);
+				$('#editUser #email').val(data.email);
+				$('#editUser #roleInput').val(data.role);
+			}
+			
+		});
 	});
 }
 
+
 function editUserFormatter(value, row, index) {
     return [
-		'<button type="button" class="btn btn-warning editUserBtn" data-bs-toggle="modal" data-bs-target="#userModal">',
+		'<button type="button" class="btn btn-warning editUserBtn" data-bs-toggle="modal" data-bs-target="#editUserModal" data-id=' + row.id + '>',
 		'Edit',
 		'</button>'
     ].join('')
-  }
+}
 
 function initUserTable() {
 	var icons = {
@@ -50,11 +74,6 @@ function initUserTable() {
 		locale: 'en-US',
 		columns: [
 		{
-			title: 'ID',
-			field: 'id',
-			align: 'center',
-			valign: 'middle'
-		},{
 			title: 'Full Name',
 			field: 'full_name',
 			align: 'center',

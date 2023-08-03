@@ -1,20 +1,13 @@
-        <div class="container mt-3">
-            <div class="row">
-                <div class="col-lg-6">
-                    <?php Flasher::flash(); ?>
-                </div>
-            </div>
+		<div class="container">
 
-            <h3 class="header-title">Maintenance Schedule History</h3>
+			<h3 class="header-title">Dashboard</h3>
 
-            <table
-			id="history-dashboard-table"
+			<table
+			id="manager-dashboard-table"
 			data-toolbar="#toolbar"
 			data-search="true"
 			data-advanced-search="true"
 			data-show-refresh="true"
-			data-auto-refresh="true"
-			data-auto-refresh-silent="true"
 			data-show-auto-refresh="false"
 			data-show-fullscreen="true"
 			data-show-columns="true"
@@ -22,12 +15,12 @@
 			data-show-export="true"
 			data-minimum-count-columns="2"
 			data-pagination="true"
-			data-id-field="id"
+			data-id-field="m_id"
 			data-page-list="[10, 25, 50, 100, all]"
             data-mobile-responsive="true"
             data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/maintenance/getMaintenanceHistory'
+			data-url='<?= BASEURL; ?>/maintenance/getScheduleList'
             data-resizable="true">
 			</table>
-        </div>
-    </section>
+		</div>
+	</section>

@@ -30,17 +30,18 @@
 
 <!-- ========================================= Custom Script ========================================= -->
 	<script src="/taskscheduler/public/js/script.js"></script>
+	<script src="/taskscheduler/public/js/auth_script.js"></script>
 
-	<?php if ($data['identifier'] === 'maintenance' || $data['identifier'] === 'contract') : ?>
+	<?php if ( (isset($data['identifier']) && $data['identifier'] === 'maintenance' ) || (isset($data['identifier']) && $data['identifier'] === 'contract') ) : ?>
 		<script src="/taskscheduler/public/js/search-input.js"></script>
 	<?php endif; ?>
-	<?php if ($data['identifier'] === 'client') : ?>
+	<?php if (isset($data['identifier']) && $data['identifier'] === 'client') : ?>
 		<script src="/taskscheduler/public/js/client-table.js"></script>
-	<?php elseif ($data['identifier'] === 'newClient') : ?>
+	<?php elseif (isset($data['identifier']) && $data['identifier'] === 'newClient') : ?>
 		<script src="/taskscheduler/public/js/client-form.js"></script>
-	<?php elseif ($data['identifier'] === 'contract') : ?>
+	<?php elseif (isset($data['identifier']) && $data['identifier'] === 'contract') : ?>
 		<script src="/taskscheduler/public/js/contract-table.js"></script>
-	<?php elseif ($data['identifier'] === 'user') : ?>
+	<?php elseif (isset($data['identifier']) && $data['identifier'] === 'user') : ?>
 		<script src="/taskscheduler/public/js/user-table.js"></script>
 	<?php else : ?>
 		<script src="/taskscheduler/public/js/dashboard-table.js"></script>

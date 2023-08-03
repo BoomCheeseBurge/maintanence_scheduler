@@ -24,13 +24,13 @@
 			data-page-list="[10, 25, 50, 100, all]"
 			data-mobile-responsive="true"
 			data-check-on-init="true"
-			data-url='data1.json'
+			data-url='<?= BASEURL ?>/user/getAllUser'
 			data-resizable="true">
 			</table>
 		</div>
     </section>
 
-	<!-- ========================================== Add and Edit User Modal ========================================== -->
+	<!-- ==================================== Add and Edit User Modal ======================================== -->
 	<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -39,31 +39,70 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="" method="post">
+					<form id="addUser" action="<?= BASEURL ?>/user/adduser" method="post">
 						<input type="hidden" name="id" id="id">
 						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="floatingText" placeholder="fullname">
-							<label for="floatingText">Full-name</label>
+							<input type="text" class="form-control" id="name" name="name" placeholder="fullname" required>
+							<label for="name">Full-name</label>
 						</div>
 						<div class="form-floating mb-3">
-							<input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
-							<label for="floatingEmail">Email</label>
+							<input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+							<label for="email">Email</label>
 						</div>
 						<div class="input-group mb-3">
 							<label class="input-group-text" for="roleInput">Role</label>
-							<select class="form-select" id="roleInput">
+							<select class="form-select" id="roleInput" name="roleInput" required>
 								<option selected disabled>Choose role</option>
 								<option value="admin">Admin</option>
 								<option value="manager">Manager</option>
-								<option value="user">Engineer</option>
+								<option value="engineer">Engineer</option>
 							</select>
 						</div>
-					</div>
+				</div>
 				<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary"></button>
-					</form>
+						<button type="submit" class="btn btn-primary addUserSubmitBtn"></button>
 				</div>
+					</form>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- ==================================== DA Edit User Modal ======================================== -->
+	<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="editUserModalLabel">Edit User</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="editUser" action="<?= BASEURL ?>/user/getuserbyid" method="post">
+						<input type="hidden" name="id" id="id">
+						<div class="form-floating mb-3">
+							<input type="text" class="form-control" id="name" name="name" placeholder="fullname" required>
+							<label for="name">Full-name</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+							<label for="email">Email</label>
+						</div>
+						<div class="input-group mb-3">
+							<label class="input-group-text" for="roleInput">Role</label>
+							<select class="form-select" id="roleInput" name="roleInput" required>
+								<option selected disabled>Choose role</option>
+								<option value="admin">Admin</option>
+								<option value="manager">Manager</option>
+								<option value="engineer">Engineer</option>
+							</select>
+						</div>
+				</div>
+				<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary editUserSubmitBtn">Save</button>
+				</div>
+					</form>
 			</div>
 		</div>
 	</div>
