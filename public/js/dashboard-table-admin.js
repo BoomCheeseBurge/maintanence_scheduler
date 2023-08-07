@@ -1,5 +1,5 @@
 // Admin Bootstrap Table Extended
-var $adminDashboardTable = $('#admin-dashboard-table')
+var $dashboardTable = $('#dashboard-table')
 
 // Function to initialize Bootstrap 5.3 tooltips
 function initializeTooltips() {
@@ -21,7 +21,7 @@ function setForm() {
 	});
 }
 
-function adminDashboardFormatter(value, row, index) {
+function dashboardFormatter(value, row, index) {
 	return [
 		'<span class="ms-2 delMaintenanceBtn" data-bs-toggle="modal" data-bs-target="#delMaintenanceModal" data-id="' + row.id + '">',
 		'<button class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">',
@@ -30,77 +30,74 @@ function adminDashboardFormatter(value, row, index) {
 	].join('')
   }
 
-function initAdminDashboardTable() {
+function initDashboardTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
 		fullscreen: 'bi-arrows-fullscreen'
 	}
-	$adminDashboardTable.bootstrapTable('destroy').bootstrapTable({
+	$dashboardTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
+		exportTypes: ['csv', 'excel', 'pdf'],
 		locale: 'en-US',
 		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
 		{
-			title: 'No',
-			field: 'm_id',
-			align: 'center',
-			valign: 'middle',
-			switchable: false
-		},{
 			title: 'Engineer',
 			field: 'engineer_name',
 			align: 'center',
 			sortable: true,
-			align: 'center'
-		  },{
+			valign: 'middle'
+		},{
 			title: 'Client',
 			field: 'client_name',
 			align: 'center',
 			sortable: true,
-			align: 'center'
-		  },{
+			valign: 'middle'
+		},{
 			title: 'SOP No',
 			field: 'sopNumber',
 			align: 'center',
-			sortable: true,
-			align: 'center'
-		  },{
+			valign: 'middle'
+		},{
 			title: 'Device',
 			field: 'deviceName',
 			align: 'center',
 			sortable: true,
-			align: 'center'
-		  },{
+			valign: 'middle'
+		},{
 			title: 'PM ke-',
 			field: 'pmCount',
 			align: 'center',
-			align: 'center',
-		  }, {
+			valign: 'middle'
+		}, {
 			title: 'Scheduled Date',
 			field: 'scheduledDate',
 			align: 'center',
 			valign: 'middle',
-		  }, {
+		}, {
 			title: 'Actual Date',
 			field: 'actualDate',
 			align: 'center',
 			valign: 'middle'
-		  }, {
+		}, {
 			title: 'Maintenance Status',
 			field: 'maintenanceStatus',
 			align: 'center',
-			valign: 'middle'
-		  }, {
+			valign: 'middle',
+			sortable: true
+		}, {
 			title: 'Report Status',
 			field: 'reportStatus',
 			align: 'center',
-			valign: 'middle'
-		  }, {
+			valign: 'middle',
+			sortable: true
+		}, {
 			title: 'Action',
 			field: 'action',
 			align: 'center',
+			valign: 'middle',
 			switchable: false,
-		    formatter: adminDashboardFormatter
+		    formatter: dashboardFormatter
 	  }],
 	  onPostBody: () => {
 		initializeTooltips();
@@ -110,9 +107,9 @@ function initAdminDashboardTable() {
 }
 
 $(function() {
-	initAdminDashboardTable()
+	initDashboardTable()
 
-	$('#admin-dashboard-table').bootstrapTable('refreshOptions', {
+	$('#dashboard-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
 	})
 })

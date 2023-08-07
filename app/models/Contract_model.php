@@ -25,6 +25,8 @@ class Contract_model {
 
     public function addContractData($data) {
 
+		
+
 		$query = 'INSERT INTO '. $this->table1 .' (id, client_id, engineer_id, sop_number, start_date, end_date, device, pm_frequency)
 		VALUES ("", :client_id, :assignee_id, :sopNumber, :startDate, :endDate, :deviceName, :pmFreq)';
 
@@ -41,6 +43,32 @@ class Contract_model {
 
 		return $this->db->rowCount();
 	}
+
+	public function isDuplicateContract($data) {
+        // Prepare the SQL query
+        $query = 'SELECT COUNT(*) AS count
+		FROM '. $this->table1 .'
+		WHERE client_id = :client_id 
+		AND engineer_id = :assignee_id 
+		AND sop_number = :sopNumber 
+		AND start_date = :startDate 
+		AND end_date = :endDate 
+		AND device = :deviceName 
+		AND pm_frequency = :pmFreq';
+
+        $this->db->query($query);
+		$this->db->bind(':client_id', $data['client_id']);
+		$this->db->bind(':assignee_id', $data['assignee_id']);
+		$this->db->bind(':sopNumber', $data['sopNumber']);
+		$this->db->bind(':startDate', $data['startDate']);
+		$this->db->bind(':endDate', $data['endDate']);
+        $this->db->bind(':deviceName', $data['deviceName']);
+        $this->db->bind(':pmFreq', $data['pmFreq']);
+
+        $row = $this->db->single();
+
+        return $row['count'] > 0;
+    }
 
     public function editContractData($data) {
 

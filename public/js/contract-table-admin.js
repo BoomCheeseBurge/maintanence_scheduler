@@ -103,7 +103,8 @@ function setForm() {
 			dataType: 'json',
 			// data here refers to a temporary parameter variable that stores any data returned by the url above
 			success: function(data) {
-				$('#name').val(data.name);
+
+				$('#client_name').val(data.name);
 				$('#sop_number').val(data.sop_number);
 				$('#device').val(data.device);
 				$('#pm_frequency').val(data.pm_frequency);
@@ -147,62 +148,57 @@ function initContractTable() {
 		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
 		{
-			title: 'No',
-			field: 'id',
-			align: 'center',
-			valign: 'middle'
-		},{
 			title: 'Client',
 			field: 'name',
 			align: 'center',
 			sortable: true,
-			align: 'center',
-			width: '200'
+			valign: 'middle'
 		},{
 			title: 'SOP',
 			field: 'sop_number',
 			align: 'center',
-			align: 'center'
+			valign: 'middle'
 		},{
 			title: 'Device',
 			field: 'device',
 			align: 'center',
 			sortable: true,
-			align: 'center'
+			valign: 'middle'
 		},{
 			title: 'PM Frequency',
 			field: 'pm_frequency',
 			align: 'center',
-			align: 'center',
+			valign: 'middle',
 			width: '20'
 		}, {
 			title: 'Start Date',
 			field: 'start_date',
 			align: 'center',
-			valign: 'middle'
+			valign: 'middle',
+			width: '30'
 		}, {
 			title: 'End Date',
 			field: 'end_date',
 			align: 'center',
-			valign: 'middle'
+			valign: 'middle',
+			width: '30'
 		},{
 			title: 'Engineer',
 			field: 'full_name',
 			align: 'center',
 			sortable: true,
-			align: 'center'
+			valign: 'middle'
 		}, {
 			title: 'Action',
 			field: 'action',
 			align: 'center',
-			switchable: 'false',
-			width: '200',
-		    formatter: contractFormatter
-	  }],
-	  onPostBody: () => {
-		initializeTooltips();
-		setForm();
-	  }
+			switchable: false,
+			formatter: contractFormatter
+	  	}],
+		onPostBody: () => {
+			initializeTooltips();
+			setForm();
+		}
 	})
 }
 

@@ -1,4 +1,4 @@
-      <div class="container">
+      <div class="container-fluid">
 
 	  	<div class="row">
 			<div class="col-lg-6">
@@ -43,7 +43,7 @@
 						<input type="hidden" name="id" id="id">
 						<div class="form-floating mb-3">
 							<input type="search" class="form-control" name="clientName" id="clientName" required placeholder="clientName" autocomplete="off">
-							<div id="clientNameList"></div>
+							<div id="clientNameList" class="clientNameList"></div>
 							<label for="clientName">Client</label>
 						</div>
 						<div class="form-floating mb-3">
@@ -94,7 +94,7 @@
 						<input type="hidden" name="id" id="id">
 						<div class="mb-3">
 							<label for="name" class="form-label">Client Name</label>
-							<input class="form-control" type="text" id="name" name="name" readonly>
+							<input class="form-control" type="text" id="client_name" name="name" readonly>
 						</div>
 						<div class="mb-3">
 							<label for="sop_number" class="form-label">SOP</label>
@@ -153,7 +153,7 @@
 		</div>
 	</div>
 
-	  <!-- ========================================== Delete Contract Modal ========================================== -->
+	<!-- ========================================== Delete Contract Modal ========================================== -->
 	  <div class="modal fade" id="delContractModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delContractModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content">

@@ -1,4 +1,4 @@
-      <div class="container">
+      <div class="container-fluid">
 
         <h3 class="header-title">Contract</h3>
 		

@@ -25,7 +25,18 @@
     --tran-05: all 0.5s ease;
 }
 
+/* ============ For Responsive echarts Start ============ */
+#myChart,
+html,
 body {
+  width: 100%;
+}
+#myChart {
+  height: 400px;
+}
+/* ============ For Responsive echarts End ============ */
+
+section {
     overflow-y: scroll !important;
 }
 
@@ -40,7 +51,37 @@ body {
 .custom-font-size {
     font-size: 14px; /* Set the desired font size here */
   }
-  
+
+/* ============ Profile Picture CSS Start ============ */
+
+/* Vertically align the user photo with the username container */
+.userBtn {
+    display: flex;
+    align-items: center;
+}
+
+.username-container {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#userPhoto {
+    height: 45px;
+    width: 45px;
+}
+
+/* ============ Profile Picture CSS End ============ */
+
+
+/* ============ Toolbar CSS Start ============ */
+
+.dropdownCustom {
+    display: inline-block;
+  }  
+
+/* ============ Toolbar CSS End ============ */
 
   .btn-custom {
     background-color: #695CFE !important;
@@ -67,16 +108,11 @@ body {
     font-size: 18px;
   }
 
-  /* User Icon and Dropdown CSS */
-  .userColor {
-    color: var(--primary-color-light);
-  }
-
   .userBtn {
     color: #000;
   }
 
-  .dropdown-item {
+  .userOption {
     width: fit-content; /* Set the width to "fit-content" to fit the content */
   }
 
@@ -198,7 +234,7 @@ body {
 }
 
 /* CSS for client name search input */
-#clientNameList {
+.clientNameList {
     background-color: var(--primary-color-light);
     border: 1px solid black;
     border-radius: 5px;
@@ -209,33 +245,11 @@ body {
     z-index: 100; /* Set z-index to 1 to ensure it appears above the input */
 }
 
-#clientNameList .clientNameOption {
+.clientNameList .clientNameOption {
     transition: 0.5s ease;
 }
 
-#clientNameList .clientNameOption:hover {
-    background-color: var(--primary-color);
-    color: var(--primary-color-light);
-    cursor: pointer;
-}
-
-/* CSS for device tag search input */
-.input-box #deviceTagList {
-    background-color: var(--primary-color-light);
-    border: 1px solid black;
-    border-radius: 5px;
-    position: absolute;
-    top: 100%; /* Position the div below the input field */
-    left: 0;
-    right: 0;
-    z-index: 1; /* Set z-index to 1 to ensure it appears above the input */
-}
-
-.input-box #deviceTagList .deviceTagOption {
-    transition: 0.5s ease;
-}
-
-.input-box #deviceTagList .deviceTagOption:hover {
+.clientNameList .clientNameOption:hover {
     background-color: var(--primary-color);
     color: var(--primary-color-light);
     cursor: pointer;
@@ -473,11 +487,11 @@ body.dark .wrapper .input-box i{
 
 /* ======================================== Side Header End ======================================== */
 
-/* .sidebar .menu{
-    margin-top: 50px;
-} */
-
 /* ======================================== Side Menu Start ======================================== */
+
+.sidebar .menu-bar{
+    margin-top: 40px;
+}
 
 .sidebar .menu-links {
     margin-top: 0.25rem;
@@ -561,7 +575,7 @@ body.dark .mode .sun-moon i.moon{
 }
 
 .menu-bar .bottom-content {
-    padding-bottom: 2.5rem;
+    margin-bottom: 3.75rem;
 }
 
 .menu-bar .bottom-content .toggle-switch{

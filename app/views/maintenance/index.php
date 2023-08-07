@@ -1,11 +1,11 @@
-        <div class="container mt-3">
+        <div class="container-fluid mt-3">
             <div class="row">
                 <div class="col-lg-6">
                     <?php Flasher::flash(); ?>
                 </div>
             </div>
 
-            <h3 class="header-title">Maintenance Schedule History</h3>
+            <h3 class="header-title">Maintenance History</h3>
 
             <table
 			id="history-dashboard-table"

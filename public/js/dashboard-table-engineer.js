@@ -47,18 +47,14 @@ function setButton() {
 			  id: maintenanceId
 			},
 			success: function(response) {
-			  // Update the table data accordingly
-			  // For example, you can update the table row to display the "Completed" status
-			  // or you can reload the entire table to fetch the updated data from the server
+				// Refresh the table data
+				$('#engineer-dashboard-table').bootstrapTable('refresh');
 			},
 			error: function(xhr, status, error) {
 			  // Handle the error, if any
 			  console.error(error);
 			}
 		});
-
-		// Refresh the table data
-		$('#engineer-dashboard-table').bootstrapTable('refresh');
 	});
 }
 
@@ -97,7 +93,7 @@ function engineerDashboardFormatter(value, row, index) {
 	// Once the maintenance is completed, the record is stored and no longer displayed on the table
 	} else {
 		return [
-			'<button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="This maintenance is completed" disabled>',
+			'<button type="button" class="btn btn-success" disabled>',
 			'Completed',
 			'</button>'
 		].join('')
@@ -111,62 +107,57 @@ function initEngineerDashboardTable() {
 	}
 	$engineerDashboardTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
-		exportTypes: ['csv', 'excel', 'pdf'],
 		locale: 'en-US',
 		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
-		{
-		title: 'No',
-		field: 'id',
-		align: 'center',
-		valign: 'middle',
-		switchable: false
-		}, {
+	{
 		title: 'Client',
 		field: 'name',
 		align: 'center',
 		sortable: true,
 		align: 'center',
 		width: '400'
-		}, {
+	}, {
 		title: 'Device',
 		field: 'device',
 		align: 'center',
 		sortable: true,
 		align: 'center'
-		}, {
+	}, {
 		title: 'PM ke-',
 		field: 'pm_count',
 		align: 'center',
 		align: 'center'
-		}, {
+	}, {
 		title: 'Scheduled Date',
 		field: 'scheduled_date',
 		align: 'center',
 		valign: 'middle'
-		}, {
+	}, {
 		title: 'Actual Date',
 		field: 'actual_date',
 		align: 'center',
 		valign: 'middle'
-		}, {
+	}, {
 		title: 'Maintenance Status',
 		field: 'maintenance_status',
 		align: 'center',
-		valign: 'middle'
-		}, {
+		valign: 'middle',
+		sortable: true
+	}, {
 		title: 'Report Status',
 		field: 'report_status',
 		align: 'center',
-		valign: 'middle'
-		}, {
+		valign: 'middle',
+		sortable: true
+	}, {
 		title: 'Action',
 		field: 'action',
 		align: 'center',
+		valign: 'middle',
 		switchable: false,
-		width: '150',
 		formatter: engineerDashboardFormatter
-	  }],
+	}],
 	  // Bootstrap Table specific property that is an option which allows to specify a function to be executed after the table body is rendered and data is loaded into the table.
 	  onPostBody: () => {
 		initializeTooltips();

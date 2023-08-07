@@ -69,12 +69,26 @@ class Maintenance extends Controller {
 			$_POST['assignee_id'] = $assigneeId;
 			$_POST['contract_id'] = $contractId;
 
-            if( $this->model('Maintenance_model')->addMaintenanceData($_POST) > 0 ) {
+            if(!$this->model('Maintenance_model')->isDuplicateMaintenance($_POST)) {
 
-                Flasher::setFlash('Maintenance schedule', ' successfully', ' added', 'success');
+                if( $this->model('Maintenance_model')->addMaintenanceData($_POST) > 0 ) {
 
-                header('Location: ' . BASEURL . '/dashboard');
-                exit;
+                    Flasher::setFlash('Maintenance schedule', ' successfully', ' added', 'success');
+
+                    header('Location: ' . BASEURL . '/dashboard');
+                    exit;
+                }else {
+
+                    Flasher::setFlash('Maintenance schedule', ' failed', ' to be added', 'danger');
+        
+                    header('Location: ' . BASEURL . '/dashboard');
+                    exit;
+                }
+            } else {
+                Flasher::setFlash('Maintenance', ' already', ' exist', 'warning');
+	
+				header('Location: ' . BASEURL . '/contract');
+				exit;
             }
         }else {
 
@@ -132,4 +146,10 @@ class Maintenance extends Controller {
             exit;
         }
     }
+
+    public function getDataForEngineerPerformance() {
+        $lateReportData = $this->model('Maintenance_model')->getDataForEngineerPerformances();
+
+        echo json_encode($lateReportData);
+	}
 }

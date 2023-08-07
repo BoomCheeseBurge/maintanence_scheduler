@@ -9,38 +9,8 @@ class Dashboard extends Controller {
 		} elseif ( $_SESSION['role'] == 'manager' ) {
 			$this->dashboard_manager();
 		} elseif ( $_SESSION['role'] == 'engineer' ) {
-			$this->dashboard_manager();
+			$this->dashboard_engineer();
 		} 
-	}
-
-	public function dashboard_admin() {
-
-		$data['title'] = 'Task-Scheduler | Dashboard';
-		$data['identifier'] = 'dashboard_admin';
-
-		$this->view('templates/header', $data);
-		$this->view('dashboard/dashboard_admin');
-		$this->view('templates/footer', $data);
-	}
-
-	public function dashboard_manager() {
-
-		$data['title'] = 'Task-Scheduler | Dashboard';
-		$data['identifier'] = 'dashboard_manager';
-
-		$this->view('templates/header', $data);
-		$this->view('dashboard/dashboard_manager');
-		$this->view('templates/footer', $data);
-	}
-
-	public function dashboard_engineer() {
-
-		$data['title'] = 'Task-Scheduler | Dashboard';
-		$data['identifier'] = 'dashboard_engineer';
-
-		$this->view('templates/header', $data);
-		$this->view('dashboard/dashboard_engineer');
-		$this->view('templates/footer', $data);
 	}
 
 	public function dashboard_admin() {

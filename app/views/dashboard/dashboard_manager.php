@@ -1,9 +1,9 @@
-		<div class="container">
+		<div class="container-fluid">
 
 			<h3 class="header-title">Dashboard</h3>
 
 			<table
-			id="manager-dashboard-table"
+			id="dashboard-table"
 			data-toolbar="#toolbar"
 			data-search="true"
 			data-advanced-search="true"
@@ -22,5 +22,11 @@
 			data-url='<?= BASEURL; ?>/maintenance/getScheduleList'
             data-resizable="true">
 			</table>
+
+			<br>
+			<hr>
+			<br>
+
+			<div id="myChart"></div>
 		</div>
 	</section>
