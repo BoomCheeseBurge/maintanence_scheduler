@@ -43,7 +43,7 @@
 						<input type="hidden" name="id" id="id">
 						<div class="form-floating mb-3">
 							<input type="search" class="form-control" name="clientName" id="clientName" required placeholder="clientName" autocomplete="off">
-							<div id="clientNameList"></div>
+							<div id="clientNameList" class="clientNameList"></div>
 							<label for="clientName">Client</label>
 						</div>
 						<div class="form-floating mb-3">
@@ -153,7 +153,7 @@
 		</div>
 	</div>
 
-	  <!-- ========================================== Delete Contract Modal ========================================== -->
+	<!-- ========================================== Delete Contract Modal ========================================== -->
 	  <div class="modal fade" id="delContractModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delContractModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content">

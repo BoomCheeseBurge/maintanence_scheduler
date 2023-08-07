@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- ================================== Bootstrap 5 ================================== -->
-	<link rel="stylesheet" href="/taskscheduler/bootstrap-5.3.0/css/bootstrap.css">
+  <link href="<?= BASEURL; ?>/css/bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!-- ================================== Resizable Column CSS ================================== -->
-	<link rel="stylesheet" href="/taskscheduler/jquery-resizable-columns-gh-pages/dist/jquery.resizableColumns.css">
+	<link rel="stylesheet" href="<?= BASEURL; ?>/libs/jquery-resizable-columns-gh-pages/dist/jquery.resizableColumns.css">
 
     <!-- ================================== Bootstrap Table Extension ================================== -->
-	<link rel="stylesheet" href="/taskscheduler/bootstrap-table/dist/bootstrap-table.min.css">
+	<link rel="stylesheet" href="<?= BASEURL; ?>/libs/bootstrap-table/dist/bootstrap-table.min.css">
 
     <!-- ================================== Custom Bootstrap ================================== -->
 	<link rel="stylesheet" href="/taskscheduler/public/css/my.css">
@@ -23,7 +23,7 @@
 <body>
   <!-- ==================================== Side Navbar ==================================== -->
   <?php if ( $_SESSION['role'] != 'engineer' ): ?>
-    <nav class="sidebar close">
+    <nav class="sidebar">
         <header>
             <div class="image">
                 <img src="/taskscheduler/public/img/itpro-removebg-logo-with-text.png" alt="ITPro Logo">
@@ -95,19 +95,18 @@
             <div class="container-fluid">
                 <a class="navbar-brand ms-4" href="<?= BASEURL; ?>">Task-Scheduler</a>
                 <div class="d-flex justify-content-end">
-                    <img id="userPhoto" src="<?= BASEURL ?>/img/users/<?= $_SESSION['photo'] ?>" alt="User Photo" class="user-photo ms-auto">
-                    <div class="username-container ms-2">
-                    <h6 id="username"><?= $_SESSION['name'] ?></h6>
-                    </div>
-                    <div class="btn-group dropstart me-3">
+                    <div class="btn-group dropstart">
                         <button type="button" class="btn userColor dropdown-toggle userBtn" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-user fa-xl"></i>
+                          <img id="userPhoto" src="<?= BASEURL ?>/img/users/<?= $_SESSION['photo'] ?>" alt="User Photo" class="user-photo ms-auto">
+                          <div class="username-container user-name ms-1 mt-2">
+                            <h6 id="username"><?= $_SESSION['name'] ?></h6>
+                          </div>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-lg-end userColor">
 
-                            <li><a class="dropdown-item editUserProfileModal ms-4" href="#" data-bs-toggle="modal" data-bs-target="#editUserProfileModal" data-id="<?=$_SESSION['id']?>" >Profile<i class="fa-regular fa-id-badge ms-1"></i></a></li>
+                            <li><a class="dropdown-item editUserProfileModal ms-4 userOption" href="#" data-bs-toggle="modal" data-bs-target="#editUserProfileModal" data-id="<?=$_SESSION['id']?>" >Profile<i class="fa-regular fa-id-badge ms-1"></i></a></li>
                             
-                            <li><a class="dropdown-item ms-4" href="<?= BASEURL ?>/Logout">Logout<i class="fa-solid fa-right-from-bracket ms-1"></i></a></li>
+                            <li><a class="dropdown-item ms-4 userOption" href="<?= BASEURL ?>/Logout">Logout<i class="fa-solid fa-right-from-bracket ms-1"></i></a></li>
 
                         </ul>
                     </div>

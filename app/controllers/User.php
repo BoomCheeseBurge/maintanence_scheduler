@@ -4,15 +4,38 @@ require_once '../app/libraries/EmailHelper.php';
 
 class User extends Controller{
 
-    public function index() {
+	public function index() {
+
+		if ( $_SESSION['role'] == 'admin' ) {
+			$this->user_admin();
+		} elseif ( $_SESSION['role'] == 'manager' ) {
+			$this->user_manager();
+		}
+	}
+
+	public function user_admin() {
 
         $data['title'] = 'Task-Scheduler | User';
-        $data['identifier'] = 'user';
+        $data['identifier'] = 'user_admin';
 
 		$this->view('templates/header', $data);
-		$this->view('user/index');
+		$this->view('user/user_admin');
 		$this->view('templates/footer', $data);
     }
+
+	public function user_manager() {
+
+        $data['title'] = 'Task-Scheduler | User';
+        $data['identifier'] = 'user_manager';
+
+		$this->view('templates/header', $data);
+		$this->view('user/user_manager');
+		$this->view('templates/footer', $data);
+    }
+
+	public function getAllUser(){
+		$this->model('User_model')->getAllUser();
+	}
 
     public function addUser() {
 		
@@ -93,6 +116,18 @@ class User extends Controller{
 		}
 	}
 
+	public function delete() {
+
+		if( $this->model('User_model')->deleteUser($_POST['id']) > 0 ) {
+			
+			echo json_encode(['result' => '1']);
+		}else {
+
+			echo json_encode(['result' => '2']);
+		}
+	}
+
+
 	public function saveUser() {
 
 		if( $this->model('User_model')->saveUserData($_POST) > 0 ) {
@@ -149,9 +184,5 @@ class User extends Controller{
 			http_response_code(405); // Method Not Allowed
 			echo json_encode(['result' => '4']);
 		}
-	}
-
-	public function getAllUser(){
-		$this->model('User_model')->getAllUser();
 	}
 }

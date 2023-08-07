@@ -3,7 +3,7 @@
 			<h3 class="header-title">Dashboard</h3>
 
 			<table
-			id="manager-dashboard-table"
+			id="dashboard-table"
 			data-toolbar="#toolbar"
 			data-search="true"
 			data-advanced-search="true"

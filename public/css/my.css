@@ -110,3 +110,14 @@
   /* Optionally, you can also use justify-content to horizontally center the content if needed */
 }
 
+@media (max-width: 862px) {
+  .editUserBtn {
+      margin-bottom: 0.25rem !important;
+  }
+}
+
+@media (min-width: 863px) {
+  .deleteUserBtn {
+      margin-left: 0.25rem !important;
+  }
+}

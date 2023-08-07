@@ -25,18 +25,6 @@ function initializeTooltips() {
 function setForm() {
 
 	// Event listener for the show.bs.modal event on the scheduledDateModal
-	$('#editClientPICModal').on('show.bs.modal', function(event) {
-		// Get the button that triggered the modal
-		var button = $(event.relatedTarget);
-		
-		// Extract the data-id attribute value from the button
-		var picId = button.data('id');
-
-		// Set the value of the input field in the modal form
-		$('#id').val(picId);
-	});
-
-	// Event listener for the show.bs.modal event on the scheduledDateModal
 	$('#delClientPICModal').on('show.bs.modal', function(event) {
 		// Get the button that triggered the modal
 		var button = $(event.relatedTarget);
@@ -49,7 +37,7 @@ function setForm() {
 	});
 
 
-	$('.editClientBtn').on('click', function() {
+	$('.editClientPICBtn').on('click', function() {
 
 		// Retrieve the specific id of the clicked row
 		const id = $(this).data('id');
@@ -68,7 +56,7 @@ function setForm() {
 			// data here refers to a temporary parameter variable that stores any data returned by the url above
 			success: function(data) {
 				$('#id').val(data.id);
-				$('#name').val(data.client_name);
+				$('#client_name').val(data.client_name);
 				$('#pic_name').val(data.pic_name);
 				$('#pic_email').val(data.email);
 			}
@@ -78,7 +66,7 @@ function setForm() {
 
 function clientFormatter(value, row, index) {
     return [
-		'<span class="ms-2 editClientBtn" data-bs-toggle="modal" data-bs-target="#editClientPICModal" data-id="' + row.id + '">',
+		'<span class="ms-2 editClientPICBtn" data-bs-toggle="modal" data-bs-target="#editClientPICModal" data-id="' + row.id + '">',
 		'<button class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">',
 		'<i class="fa-solid fa-pen-to-square"></i>',
 		'</button>',

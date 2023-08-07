@@ -23,10 +23,9 @@ class Client_model {
 
 	public function addClientData($data) {
 
-		$client_name = $data['clientName'];
 		$query1 = 'INSERT INTO '. $this->table1 .' (id, name) VALUES ("", :client_name)';
 		$this->db->query($query1);
-		$this->db->bind('client_name', $client_name);
+		$this->db->bind('client_name', $data['clientName']);
 		$this->db->execute();
 
 		// After executing the INSERT query for the 'client' table
@@ -47,6 +46,33 @@ class Client_model {
                 $this->db->execute();
             }
         }
+
+		return $this->db->rowCount();
+	}
+
+	public function editClientData($data) {
+
+		$query = 'UPDATE '. $this->table1 .' SET
+					name = :name
+				WHERE name = :client_name
+		';
+
+		$this->db->query($query);
+		$this->db->bind(':client_name', $data['clientName']);
+		$this->db->bind(':name', $data['name']);
+
+		$this->db->execute();
+
+		return $this->db->rowCount();
+	}
+
+	public function delClientData($data) {
+
+		$query = 'DELETE FROM '. $this->table1 .' WHERE name = :client_name';
+		$this->db->query($query);
+		$this->db->bind(':client_name', $data['clientName']);
+
+		$this->db->execute();
 
 		return $this->db->rowCount();
 	}

@@ -47,18 +47,14 @@ function setButton() {
 			  id: maintenanceId
 			},
 			success: function(response) {
-			  // Update the table data accordingly
-			  // For example, you can update the table row to display the "Completed" status
-			  // or you can reload the entire table to fetch the updated data from the server
+				// Refresh the table data
+				$('#engineer-dashboard-table').bootstrapTable('refresh');
 			},
 			error: function(xhr, status, error) {
 			  // Handle the error, if any
 			  console.error(error);
 			}
 		});
-
-		// Refresh the table data
-		$('#engineer-dashboard-table').bootstrapTable('refresh');
 	});
 }
 
@@ -111,7 +107,6 @@ function initEngineerDashboardTable() {
 	}
 	$engineerDashboardTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
-		exportTypes: ['csv', 'excel', 'pdf'],
 		locale: 'en-US',
 		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [

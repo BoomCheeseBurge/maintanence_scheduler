@@ -1,13 +1,14 @@
 // Admin Bootstrap Table Extended
-var $managerDashboardTable = $('#manager-dashboard-table')
+var $dashboardTable = $('#dashboard-table')
 
-function initManagerDashboardTable() {
+function initDashboardTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
 		fullscreen: 'bi-arrows-fullscreen'
 	}
-	$managerDashboardTable.bootstrapTable('destroy').bootstrapTable({
+	$dashboardTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
+		exportTypes: ['csv', 'excel', 'pdf'],
 		locale: 'en-US',
 		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
@@ -71,9 +72,9 @@ function initManagerDashboardTable() {
 }
 
 $(function() {
-	initManagerDashboardTable()
+	initDashboardTable()
 
-	$('#manager-dashboard-table').bootstrapTable('refreshOptions', {
+	$('#dashboard-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
 	})
 })

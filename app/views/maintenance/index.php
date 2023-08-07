@@ -5,7 +5,7 @@
                 </div>
             </div>
 
-            <h3 class="header-title">Maintenance Schedule History</h3>
+            <h3 class="header-title">Maintenance History</h3>
 
             <table
 			id="history-dashboard-table"

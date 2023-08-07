@@ -58,6 +58,40 @@ class Client extends Controller {
 		}
 	}
 
+	public function editClient() {
+
+		if( $this->model('Client_model')->editClientData($_POST) > 0 ) {
+
+			Flasher::setFlash('Client', 'successfully', ' edited', 'success');
+
+			header('Location: ' . BASEURL . '/client');
+			exit;
+		}else {
+
+			Flasher::setFlash('Client', 'failed', ' to edit', 'danger');
+
+			header('Location: ' . BASEURL . '/client');
+			exit;
+		}
+	}
+
+	public function delClient() {
+
+		if( $this->model('Client_model')->delClientData($_POST) > 0 ) {
+
+			Flasher::setFlash('Client', 'successfully', ' deleted', 'success');
+
+			header('Location: ' . BASEURL . '/client');
+			exit;
+		}else {
+
+			Flasher::setFlash('Client', 'failed', ' to be deleted', 'danger');
+
+			header('Location: ' . BASEURL . '/client');
+			exit;
+		}
+	}
+
 	public function editClientPIC() {
 
 		// Retrieve the client_id using the client name
@@ -118,22 +152,5 @@ class Client extends Controller {
 
 	public function getClientPICData() {
 		echo json_encode($this->model('Client_model')->getClientPICById($_POST['id']));
-	}
-
-	public function delClient($id) {
-
-		if( $this->model('Client_model')->delClientData($id) > 0 ) {
-
-			Flasher::setFlash('Client', 'successfully', ' deleted', 'success');
-
-			header('Location: ' . BASEURL . '/client');
-			exit;
-		}else {
-
-			Flasher::setFlash('Client', 'failed', ' to be deleted', 'danger');
-
-			header('Location: ' . BASEURL . '/client');
-			exit;
-		}
 	}
 }
