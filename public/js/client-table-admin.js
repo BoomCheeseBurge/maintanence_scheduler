@@ -95,39 +95,35 @@ function initClientTable() {
 			checkbox: true,
 			align: 'center',
 			valign: 'middle'
-		},{
-			title: 'No',
-			field: 'id',
-			align: 'center',
-			valign: 'middle'
-		},{
+		}, {
 			title: 'Name',
 			field: 'client_name',
 			align: 'center',
 			sortable: true,
-			align: 'center'
-		  }, {
+			valign: 'middle'
+		}, {
 			title: 'PIC Client',
 			field: 'pic_name',
 			align: 'center',
 			valign: 'middle'
-		  }, {
+		}, {
 			title: 'PIC E-mail',
 			field: 'pic_email',
 			align: 'center',
 			valign: 'middle',
-		  }, {
+		}, {
 			title: 'Action',
 			field: 'action',
 			align: 'center',
-			switchable: 'false',
+			valign: 'middle',
+			switchable: false,
 		    formatter: clientFormatter
 		}],
 		onPostBody: () => {
 			initializeTooltips();
 			setForm();
 		}
-	})
+	});
 
 	$clientTable.on('check.bs.table uncheck.bs.table ' +
 		'check-all.bs.table uncheck-all.bs.table',
@@ -137,7 +133,7 @@ function initClientTable() {
 		// save your data, here just save the current page
 		selections = getIdSelections()
 		// push or splice the selections if you want to save all data selections
-	})
+	});
 
 	$remove.click(function () {
 		var ids = getIdSelections();

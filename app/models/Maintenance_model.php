@@ -16,12 +16,13 @@ class Maintenance_model {
 
 	// For Admin Bootstrap Table
 	public function getMaintenanceList() {
-		$query = 'SELECT m.id AS m_id, u.full_name AS engineer_name, cl.name AS client_name, co.sop_number AS sopNumber, co.device AS deviceName, m.pm_count AS pmCount, m.scheduled_date AS scheduledDate, m.actual_date AS actualDate, m.maintenance_status AS maintenanceStatus, m.report_status AS reportStatus
+		$query = 'SELECT m.id AS id, u.full_name AS engineer_name, cl.name AS client_name, co.sop_number AS sopNumber, co.device AS deviceName, m.pm_count AS pmCount, m.scheduled_date AS scheduledDate, m.actual_date AS actualDate, m.maintenance_status AS maintenanceStatus, m.report_status AS reportStatus
 		FROM '. $this->table1 .' m
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 		INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
-		WHERE m.report_status = "in-progress" OR ((m.actual_date IS NULL OR m.report_status = "delivered") AND
+		WHERE m.actual_date IS NULL OR m.report_status = "in-progress" OR
+		( m.report_status = "delivered" AND
 		(
 			CASE 
 				WHEN m.month = "January" THEN 1
@@ -59,11 +60,13 @@ class Maintenance_model {
 
 	// For Engineer Bootstrap Table
 	public function getMaintenanceData() {
+		
 		$query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status
-		FROM '. $this->table1 .' m
-		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
-		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
-		WHERE (m.actual_date IS NULL OR m.report_status = "in-progress" OR m.report_status = "delivered") AND
+		FROM '. $this->table1 . ' m
+		INNER JOIN '. $this->table2 . ' co ON m.contract_id = co.id
+		INNER JOIN '. $this->table3 . ' cl ON m.client_id = cl.id
+		WHERE m.actual_date IS NULL OR m.report_status = "in-progress" OR
+		( m.report_status = "delivered" AND
 		(
 			CASE 
 				WHEN m.month = "January" THEN 1
@@ -93,15 +96,16 @@ class Maintenance_model {
 				WHEN m.month = "November" THEN 11
 				WHEN m.month = "December" THEN 12
 			END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-        )';
-
+        )) AND
+		m.engineer_id = ' .$_SESSION["id"];
+		
 		$this->db->query($query);
 		return $this->db->resultSet();
 	}
 
 	// For History Bootstrap Table
 	public function getHistoryData() {
-		$query = 'SELECT m.id, u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
+		$query = 'SELECT u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
 		FROM '. $this->table1 .' m
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
@@ -127,6 +131,28 @@ class Maintenance_model {
 
 		return $this->db->rowCount();
 	}
+
+	public function isDuplicateMaintenance($data) {
+        // Prepare the SQL query
+        $query = 'SELECT COUNT(*) AS count
+		FROM '. $this->table1 .'
+		WHERE client_id = :client_id 
+		AND engineer_id = :assignee_id 
+		AND contract_id = :contract_id 
+		AND pm_count = :pmCount 
+		AND month = :month';
+
+        $this->db->query($query);
+		$this->db->bind(':client_id', $data['client_id']);
+		$this->db->bind(':assignee_id', $data['assignee_id']);
+		$this->db->bind(':contract_id', $data['contract_id']);
+		$this->db->bind(':pmCount', $data['pmCount']);
+		$this->db->bind(':month', $data['month']);
+
+        $row = $this->db->single();
+
+        return $row['count'] > 0;
+    }
 
 	public function setScheduledDate($data) {
 
@@ -182,5 +208,19 @@ class Maintenance_model {
 			error_log("Database error: " . $e->getMessage());
 			// echo json_encode(['success' => false, 'error' => 'Database error']);
 		}
+	}
+
+	public function getDataForEngineerPerformances() {
+
+		$query = 'SELECT u.full_name, COUNT(*) AS late_count 
+				FROM maintenance m JOIN user u ON m.engineer_id = u.id 
+				WHERE u.role = "engineer" 
+				AND m.report_date > DATE_ADD(m.actual_date, INTERVAL 8 DAY) 
+				AND YEAR(m.report_date) = YEAR(CURDATE()) GROUP BY u.full_name';
+
+		$this->db->query($query);
+		$this->db->execute();
+
+		return $this->db->resultSet();
 	}
 }

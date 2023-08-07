@@ -13,72 +13,67 @@ function initHistoryDashboardTable() {
 		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
 		{
-			title: 'No',
-			field: 'id',
-			align: 'center',
-			valign: 'middle',
-			switchable: false
-		}, {
 			title: 'Engineer',
 			field: 'full_name',
 			align: 'center',
 			sortable: true,
-			align: 'center'
-		  }, {
+			valign: 'middle'
+		}, {
 			title: 'Client',
 			field: 'name',
 			align: 'center',
 			sortable: true,
-			align: 'center'
-		  }, {
+			valign: 'middle'
+		}, {
 			title: 'SOP No',
 			field: 'sop_number',
 			align: 'center',
-			sortable: true,
-			align: 'center'
-		  }, {
+			valign: 'middle'
+		}, {
 			title: 'Device',
 			field: 'device',
 			align: 'center',
 			sortable: true,
-			align: 'center'
-		  }, {
+			valign: 'middle'
+		}, {
 			title: 'PM Frequency',
 			field: 'pm_frequency',
 			align: 'center',
-			align: 'center',
-		  }, {
+			valign: 'middle'
+		}, {
 			title: 'PM ke-',
 			field: 'pm_count',
 			align: 'center',
-			align: 'center',
-		  }, {
+			valign: 'middle'
+		}, {
 			title: 'Scheduled Date',
 			field: 'scheduled_date',
 			align: 'center',
 			valign: 'middle',
-		  }, {
+		}, {
 			title: 'Actual Date',
 			field: 'actual_date',
 			align: 'center',
 			valign: 'middle'
-		  }, {
+		}, {
 			title: 'Maintenance Status',
 			field: 'maintenance_status',
 			align: 'center',
-			valign: 'middle'
-		  }, {
+			valign: 'middle',
+			sortable: true
+		}, {
 			title: 'Report Status',
 			field: 'report_status',
 			align: 'center',
-			valign: 'middle'
-		  }, {
+			valign: 'middle',
+			sortable: true,
+		}, {
 			title: 'Report Date',
 			field: 'report_date',
 			align: 'center',
 			valign: 'middle'
-		  }]
-	})
+		}]
+	});
 }
 
 $(function() {

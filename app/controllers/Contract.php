@@ -49,10 +49,26 @@ class Contract extends Controller {
 			$_POST['client_id'] = $clientId;
 			$_POST['assignee_id'] = $assigneeId;
 
-			if( $this->model('Contract_model')->addContractData($_POST) > 0 ) {
+			// Check if there is a duplicate contract
+			if (!$this->model('Contract_model')->isDuplicateContract($_POST)) {
 
-				Flasher::setFlash('Contract', ' successfully', ' added', 'success');
+				// Entry the new contract
+				if( $this->model('Contract_model')->addContractData($_POST) > 0 ) {
 
+					Flasher::setFlash('Contract', ' successfully', ' added', 'success');
+
+					header('Location: ' . BASEURL . '/contract');
+					exit;
+				}else {
+
+					Flasher::setFlash('Contract', ' failed', ' to be added', 'danger');
+		
+					header('Location: ' . BASEURL . '/contract');
+					exit;
+				}
+			}else {
+				Flasher::setFlash('Contract', ' already', ' exist', 'warning');
+	
 				header('Location: ' . BASEURL . '/contract');
 				exit;
 			}
@@ -78,13 +94,28 @@ class Contract extends Controller {
 			$_POST['client_id'] = $clientId;
 			$_POST['assignee_id'] = $assigneeId;
 
-		if( $this->model('Contract_model')->editContractData($_POST) > 0 ) {
+			// Check if there is a duplicate contract
+			if (!$this->model('Contract_model')->isDuplicateContract($_POST)) {
 
-			Flasher::setFlash('Contract', ' successfully', ' saved', 'success');
+				if( $this->model('Contract_model')->editContractData($_POST) > 0 ) {
 
-			header('Location: ' . BASEURL . '/contract');
-			exit;
-		}
+					Flasher::setFlash('Contract', ' successfully', ' saved', 'success');
+
+					header('Location: ' . BASEURL . '/contract');
+					exit;
+				}else {
+
+					Flasher::setFlash('Contract', ' failed', ' to be saved', 'danger');
+		
+					header('Location: ' . BASEURL . '/contract');
+					exit;
+				}
+			}else {
+				Flasher::setFlash('Contract', ' already', ' exist', 'warning');
+	
+				header('Location: ' . BASEURL . '/contract');
+				exit;
+			}
 		}else {
 
 			Flasher::setFlash('Contract', ' failed', ' to be saved', 'danger');

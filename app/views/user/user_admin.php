@@ -1,4 +1,8 @@
+<<<<<<< HEAD
         <div class="container">
+=======
+        <div class="container-fluid">
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 
             <div class="row">
                 <div class="col-lg-6">
@@ -60,7 +64,11 @@
                         </div>
                 </div>
                 <div class="modal-footer">
+<<<<<<< HEAD
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+=======
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
                         <button type="submit" class="btn btn-primary addUserSubmitBtn"></button>
                 </div>
                     </form>
@@ -99,13 +107,18 @@
                         </div>
                 </div>
                 <div class="modal-footer">
+<<<<<<< HEAD
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+=======
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
                         <button type="submit" class="btn btn-primary editUserSubmitBtn">Save</button>
                 </div>
                     </form>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 
 
     <!-- ==================================== DA Delete User Modal ======================================== -->
@@ -129,3 +142,5 @@
             </div>
         </div>
     </div>
+=======
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be

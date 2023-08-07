@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 		<div class="container">
+=======
+		<div class="container-fluid">
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 
 			<div class="row">
 				<div class="col-lg-6">
@@ -17,7 +21,11 @@
 						More actions
 					</button>
 					<ul class="dropdown-menu">
+<<<<<<< HEAD
 						<li><a class="dropdown-item addClientBtn" href="#" data-bs-toggle="modal" data-bs-target="#addClientModal">Add</a></li>
+=======
+						<li><a class="dropdown-item addClientBtn" href="#" data-bs-toggle="modal" data-bs-target="#addClientModal">Add Client</a></li>
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 						<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editClientModal">Edit Client</a></li>
 						<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delClientModal">Delete Client</a></li>
 					</ul>

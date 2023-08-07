@@ -1,4 +1,4 @@
-      <div class="container">
+      <div class="container-fluid">
 
 	  	<div class="row">
 			<div class="col-lg-6">
@@ -94,7 +94,7 @@
 						<input type="hidden" name="id" id="id">
 						<div class="mb-3">
 							<label for="name" class="form-label">Client Name</label>
-							<input class="form-control" type="text" id="name" name="name" readonly>
+							<input class="form-control" type="text" id="client_name" name="name" readonly>
 						</div>
 						<div class="mb-3">
 							<label for="sop_number" class="form-label">SOP</label>

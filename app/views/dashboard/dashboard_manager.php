@@ -1,4 +1,4 @@
-		<div class="container">
+		<div class="container-fluid">
 
 			<h3 class="header-title">Dashboard</h3>
 
@@ -22,5 +22,11 @@
 			data-url='<?= BASEURL; ?>/maintenance/getScheduleList'
             data-resizable="true">
 			</table>
+
+			<br>
+			<hr>
+			<br>
+
+			<div id="myChart"></div>
 		</div>
 	</section>

@@ -97,26 +97,27 @@ function initUserTable() {
 			field: 'full_name',
 			align: 'center',
 			sortable: true,
-			align: 'center'
-		  }, {
+			valign: 'middle'
+		}, {
 			title: 'E-mail',
 			field: 'email',
 			align: 'center',
-			valign: 'middle',
-		  }, {
+			valign: 'middle'
+		}, {
 			title: 'Role',
 			field: 'role',
 			align: 'center',
 			valign: 'middle'
-		  }, {
+		}, {
 			title: 'View',
 			field: 'view',
 			align: 'center',
-			switchable: 'false',
+			valign: 'middle',
+			switchable: false,
 		    formatter: editUserFormatter
-	  }],
-	  onPostBody: setForm
-	})
+	  	}],
+	  	onPostBody: setForm
+	});
 }
 
 $(function() {

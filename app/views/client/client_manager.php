@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 		<div class="container">
+=======
+		<div class="container-fluid">
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 
 			<h3 class="header-title">Client</h3>
 

@@ -15,7 +15,7 @@ class Client_model {
 
 	public function getClientData() {
 
-		$this->db->query('SELECT p.id AS id, cl.name AS client_name, p.name AS pic_name, p.email AS pic_email
+		$this->db->query('SELECT cl.id, cl.name AS client_name, p.name AS pic_name, p.email AS pic_email
 		FROM '. $this->table1 .' cl
 		JOIN '. $this->table2 .' p ON cl.id = p.client_id');
 		return $this->db->resultSet();

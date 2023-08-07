@@ -1,3 +1,7 @@
+<script>
+        const BASEURL = '<?= BASEURL; ?>';
+</script>
+
 <!-- ========================================= CSS Script ========================================= -->
 	<script src="<?= BASEURL; ?>/js/bootstrap.bundle.min.js"></script>
 
@@ -23,14 +27,20 @@
 	<script src="<?= BASEURL; ?>/libs/tableExport.jquery.plugin/libs/FileSaver/FileSaver.min.js"></script>
 	<script src="<?= BASEURL; ?>/libs/tableExport.jquery.plugin/libs/jsPDF/jspdf.umd.min.js"></script>
 
-<!-- ========================================= Custom Script ========================================= -->
+<!-- ========================================= Chart JS Script ========================================= -->
+	<script src="/taskscheduler/public/libs/echarts/dist/echarts.js"></script>
+
+	<!-- ========================================= Custom Script ========================================= -->
 	<script src="/taskscheduler/public/js/script.js"></script>
 	<script src="/taskscheduler/public/js/auth_script.js"></script>
 
+<<<<<<< HEAD
 	<script>
         const BASEURL = '<?= BASEURL; ?>';
     </script>
 
+=======
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 	<?php if ( isset($data['identifier']) && $data['identifier'] === 'user_admin' ): ?>
 		<script src="/taskscheduler/public/js/user-table-admin.js"></script>
 	<?php elseif ( isset($data['identifier']) && $data['identifier'] === 'user_manager' ): ?>
@@ -50,6 +60,10 @@
 		<script src="/taskscheduler/public/js/dashboard-table-admin.js"></script>
 	<?php elseif ( isset($data['identifier']) && $data['identifier'] === 'dashboard_manager' ): ?>
 		<script src="/taskscheduler/public/js/dashboard-table-manager.js"></script>
+<<<<<<< HEAD
+=======
+		<script src="/taskscheduler/public/js/dashboard-chart.js"></script>
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 	<?php elseif ( isset($data['identifier']) && $data['identifier'] === 'dashboard_engineer' ): ?>
 		<script src="/taskscheduler/public/js/dashboard-table-engineer.js"></script>
 	<?php else: ?>
