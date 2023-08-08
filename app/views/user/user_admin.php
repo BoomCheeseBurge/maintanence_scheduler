@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+        <div class="container">
+=======
         <div class="container-fluid">
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 
             <div class="row">
                 <div class="col-lg-6">
@@ -60,7 +64,11 @@
                         </div>
                 </div>
                 <div class="modal-footer">
+<<<<<<< HEAD
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+=======
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
                         <button type="submit" class="btn btn-primary addUserSubmitBtn"></button>
                 </div>
                     </form>
@@ -99,10 +107,40 @@
                         </div>
                 </div>
                 <div class="modal-footer">
+<<<<<<< HEAD
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+=======
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
                         <button type="submit" class="btn btn-primary editUserSubmitBtn">Save</button>
                 </div>
                     </form>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+
+
+    <!-- ==================================== DA Delete User Modal ======================================== -->
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteUserModalLabel">Delete User</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="deleteUser" action="<?= BASEURL ?>/user/delete" method="post">
+                        <input type="hidden" name="id" id="id">
+                        <h5 class="text-center">Delete <span id="userNameDelete"></span>?</h5>
+                </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary deleteUserSubmitBtn">Delete</button>
+                </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+=======
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be

@@ -49,6 +49,17 @@ class User_model {
 		return $this->db->rowCount();
 	}
 
+	public function deleteUser($id) {
+		$query = "DELETE FROM " . $this->table . " WHERE id = :id";
+
+		$this->db->query($query);
+		$this->db->bind('id', $id);
+
+		$this->db->execute();
+
+		return $this->db->rowCount();
+	}
+
 	public function saveUserData($data) {
 
 		$query = "UPDATE " . $this->table . " SET
