@@ -27,6 +27,16 @@
 			<hr>
 			<br>
 
+			<!-- Buttons or dropdown to switch between time periods -->
+			<button class="btn btn-primary" id="yearlyViewBtn">Year View</button>
+			<button class="btn btn-primary" id="monthlyViewBtn">Month View</button>
+			
+			<br><br><br>
+			
+			<div id="lateReportChart" style="height: 800px;width: 400px;"></div>
+
+			<br><br><br>
+
 			<div id="myChart"></div>
 		</div>
 	</section>

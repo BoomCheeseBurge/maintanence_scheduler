@@ -134,6 +134,13 @@ class Client extends Controller {
 		}
 	}
 
+	public function delBulkClientPIC() {
+
+		$rowCount = $this->model('Client_model')->delBulkClientPICData($_POST['ids']);
+		$response = ['rowCount' => $rowCount];
+		echo json_encode($response);
+	}
+
 	public function searchClientName()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {

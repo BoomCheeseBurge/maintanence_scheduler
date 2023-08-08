@@ -142,6 +142,13 @@ class Contract extends Controller {
 		}
 	}
 
+	public function delBulkContract() {
+
+		$rowCount = $this->model('Contract_model')->delBulkContractData($_POST['ids']);
+		$response = ['rowCount' => $rowCount];
+		echo json_encode($response);
+	}
+
 	public function getEditContractData() {
 		echo json_encode($this->model('Contract_model')->getEditContractById($_POST['id']));
 	}

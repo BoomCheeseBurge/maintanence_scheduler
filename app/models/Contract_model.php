@@ -115,6 +115,27 @@ class Contract_model {
 		return $this->db->rowCount();
 	}
 
+	public function delBulkContractData($ids) {
+
+		$query = 'DELETE FROM '. $this->table1 .' WHERE id IN (' . implode(",", $ids) . ')';
+		$this->db->query($query);
+		
+		// Bind the IDs
+		foreach ($ids as $index => $id) {
+			$this->db->bind($index + 1, $id);
+		}
+
+		try {
+			$this->db->execute();
+			// Success: The client record was deleted successfully
+		} catch (PDOException $e) {
+			// Error: The client record could not be deleted due to the foreign key constraint
+			echo "Error: Cannot delete the contract record because it has related records in other tables.";
+		}
+
+		return $this->db->rowCount();
+	}
+
 	public function getEditContractById($id) {
 
 		$query = 'SELECT co.id, cl.name, co.sop_number, co.start_date, co.end_date, co.device, co.pm_frequency, u.full_name

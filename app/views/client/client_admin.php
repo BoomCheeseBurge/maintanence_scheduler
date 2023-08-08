@@ -193,3 +193,25 @@
       </div>
     </div>
   </div>
+
+  <!-- ========================================== Bulk Delete Client PIC Modal ========================================== -->
+	<div class="modal fade" id="delBulkClientPICModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delBulkClientPICModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title fs-5" id="delBulkClientPICModalLabel">Bulk Delete Client PIC</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post">
+            <h6>Are you sure?</h6>
+			      <input type="hidden" name="id" id="picId">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger bulkDeleteBtn">Confirm</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

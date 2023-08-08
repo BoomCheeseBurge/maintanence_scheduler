@@ -1,5 +1,13 @@
 // Bootstrap Table Extended
 var $contractTable = $('#contract-table');
+var $remove = $('#remove')
+var selections = []
+
+function getIdSelections() {
+	return $.map($contractTable.bootstrapTable('getSelections'), function (row) {
+		return row.id
+	})
+}
 
 // Function to initialize Bootstrap 5.3 tooltips
 function initializeTooltips() {
@@ -50,10 +58,25 @@ function setForm() {
 		$('.modal-footer .contractSubmitBtn').html('Add');
 	});
 
-	$('.editContractBtn').on('click', function() {
+	// $('.contractSubmitBtn').on('click', function() {
+	// 	$.ajax({
+	// 		url: BASEURL + '/contract/addContract',
+	// 		method: 'POST',
+	// 		success: function () {
+	// 			alert('Contract added successfully');
+	// 		},
+	// 		error: function (xhr, status, error) {
+	// 			console.error('Failed to add contract.');
+	// 		}
+	// 	});
+	// });
+
+	$('.editContractBtn').on('click', function(event) {
 
 		$('#contractModalLabel').html('Edit Contract');
-		$('.modal-body form').attr('action', BASEURL + '/contract/editContract');
+		// $('.modal-body form').attr('action', BASEURL + '/contract/editContract');
+
+		event.preventDefault();
 
 		// Retrieve the specific id of the clicked row
 		const id = $(this).data('id');
@@ -64,7 +87,6 @@ function setForm() {
 			// Retrieve data from here
 			url: BASEURL + '/contract/getEditContractData',
 			// Left 'id' => variabe name, Right 'id' => data
-			// Send the id of a mahasiswa to the url
 			data: {id : id},
 			method: 'POST',
 			// Return data in json file
@@ -81,8 +103,36 @@ function setForm() {
 				$('#assignee').val(data.full_name);
 			}
 		});
+		// Fetch the submit button based on its button type
+		const submitBtn = document.querySelector('button[type="submit"]');
+
+		// Directly add a class to the submit button
+		submitBtn.classList.add('editContract');
 
 		$('.modal-footer .contractSubmitBtn').html('Save');
+	});
+
+	$('.editContract').on('click', function() {
+		$.ajax({
+			url: BASEURL + '/contract/addContract',
+			method: 'POST',
+			success: function () {
+
+				const submitBtn = $('#submitBtn');
+				// Directly remove a class from the submit button
+				submitBtn.removeClass('btn-primary');
+				// After the AJAX request is done, close the modal
+				$('#contractModal').modal('hide');
+			},
+			error: function (xhr, status, error) {
+				console.error('Failed to add contract.');
+			}
+		});
+		// Fetch the submit button based on its button type
+		const submitBtn = document.querySelector('button[type="submit"]');
+
+		// Directly remove a class from the submit button
+		submitBtn.classList.remove('addContract');
 	});
 
 	$('.createSchedule').on('click', function() {
@@ -148,6 +198,11 @@ function initContractTable() {
 		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
 		{
+			field: 'state',
+			checkbox: true,
+			align: 'center',
+			valign: 'middle'
+		},{
 			title: 'Client',
 			field: 'name',
 			align: 'center',
@@ -199,7 +254,51 @@ function initContractTable() {
 			initializeTooltips();
 			setForm();
 		}
-	})
+	});
+
+	$contractTable.on('check.bs.table uncheck.bs.table ' +
+		'check-all.bs.table uncheck-all.bs.table',
+	function () {
+		$remove.prop('disabled', !$contractTable.bootstrapTable('getSelections').length)
+
+		// save your data, here just save the current page
+		selections = getIdSelections()
+		// push or splice the selections if you want to save all data selections
+	});
+
+	$remove.click(function () {
+		var ids = getIdSelections();
+
+		console.log(ids);
+	  
+		// Show the confirmation modal
+		$('#delBulkContractModal').modal('show');
+	  
+		// Make sure to remove any previously bound click event on #bulkDeleteBtn
+		$('.bulkDeleteBtn').on('click', function (event) {
+			event.preventDefault();
+		
+			// Send an AJAX request to the server to delete the selected rows
+			$.ajax({
+				url: BASEURL + '/contract/delBulkContract',
+				type: 'POST',
+				data: { ids: ids },
+				success: function (response) {
+					console.log(response);
+					// Hide the confirmation modal
+					$('#delBulkContractModal').modal('hide');
+					// Handle the success response if needed
+					// For example, you can reload the table data after successful deletion
+					$contractTable.bootstrapTable('refresh');
+					$remove.prop('disabled', true);
+				},
+				error: function (xhr, status, error) {
+					// Handle the error if any
+					console.error(error);
+				}
+			});
+		});
+	});
 }
 
 $(function() {
@@ -208,15 +307,4 @@ $(function() {
 	$('#contract-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
 	})
-
-	// Create a Client Add Button 
-	const emptyDiv = document.querySelector('.bs-bars');
-
-	const buttonElement = document.createElement('button');
-	buttonElement.textContent = 'Add';
-	buttonElement.className = 'btn btn-primary addContractBtn';
-	buttonElement.setAttribute('data-bs-target', '#contractModal');
-	buttonElement.setAttribute('data-bs-toggle', 'modal');
-
-	emptyDiv.appendChild(buttonElement);
 })

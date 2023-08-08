@@ -4,17 +4,10 @@ var $remove = $('#remove')
 var selections = []
 
 function getIdSelections() {
-    return $.map($table.bootstrapTable('getSelections'), function (row) {
-      return row.id
-    })
-  }
-
-  function responseHandler(res) {
-    $.each(res.rows, function (i, row) {
-      row.state = $.inArray(row.id, selections) !== -1
-    })
-    return res
-  }
+	return $.map($clientTable.bootstrapTable('getSelections'), function (row) {
+		return row.id
+	})
+}
 
 // Function to initialize Bootstrap 5.3 tooltips
 function initializeTooltips() {
@@ -137,22 +130,35 @@ function initClientTable() {
 
 	$remove.click(function () {
 		var ids = getIdSelections();
-	
-		// Send an AJAX request to the server to delete the selected rows
-		$.ajax({
-		url: BASEURL + '/maintenance/delMaintenance',
-		type: 'POST',
-		data: { ids: ids },
-		success: function (response) {
-			// Handle the success response if needed
-			// For example, you can reload the table data after successful deletion
-			$clientTable.bootstrapTable('refresh');
-			$remove.prop('disabled', true);
-		},
-		error: function (xhr, status, error) {
-			// Handle the error if any
-			console.error(error);
-		}
+
+		// console.log(ids);
+		
+		// Show the confirmation modal
+		$('#delBulkClientPICModal').modal('show');
+		
+		// Make sure to remove any previously bound click event on #bulkDeleteBtn
+		$('.bulkDeleteBtn').on('click', function (event) {
+			event.preventDefault();
+		
+			// Send an AJAX request to the server to delete the selected rows
+			$.ajax({
+			url: BASEURL + '/client/delBulkClientPIC',
+			type: 'POST',
+			data: { ids: ids },
+			success: function (response) {
+				console.log(response);
+				// Hide the confirmation modal
+				$('#delBulkClientPICModal').modal('hide');
+				// Handle the success response if needed
+				// For example, you can reload the table data after successful deletion
+				$clientTable.bootstrapTable('refresh');
+				$remove.prop('disabled', true);
+			},
+			error: function (xhr, status, error) {
+				// Handle the error if any
+				console.error(error);
+			}
+			});
 		});
 	});
 }
