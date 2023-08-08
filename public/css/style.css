@@ -25,6 +25,8 @@
     --tran-05: all 0.5s ease;
 }
 
+<<<<<<< HEAD
+=======
 /* ============ For Responsive echarts Start ============ */
 #myChart,
 html,
@@ -36,6 +38,7 @@ body {
 }
 /* ============ For Responsive echarts End ============ */
 
+>>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 section {
     overflow-y: scroll !important;
 }

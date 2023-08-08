@@ -19,25 +19,19 @@ function setForm() {
 	$('.newUserBtn').on('click', function() {
 
 		$('#userModalLabel').html('New User');
-		$('.modal-body form').attr('action', BASEURL + '/user/addUser');
-		$('.modal-footer button[type=submit]').html('Add');
+		$('#addUser').attr('action', BASEURL + '/user/addUser');
+		$('.addUserSubmitBtn').html('Add');
 	});
 
 
 	$('.editUserBtn').on('click', function() {
 
-		// $('#userModalLabel').html('Edit User');
-		// $('.modal-body form').attr('action', BASEURL + '/user/getUserById');
-		// $('.modal-body form').attr('id', 'editUser');
-		$('.modal-footer button[type=submit]').html('Save');
-
+		// $('.editUserSubmitBtn').html('Save');
 		// get user id
 		id = $(this).data('id');
 
 		$.ajax({
 			url:  BASEURL + '/user/getUserById',
-			// Left 'id' => variabe name, Right 'id' => data
-			// Send the id of a mahasiswa to the url
 			data: {id : id},
 			method: 'POST',
 			// Return data in json file
@@ -52,6 +46,27 @@ function setForm() {
 			
 		});
 	});
+
+
+	$('.deleteUserBtn').on('click', function() {
+
+		// get user id
+		id = $(this).data('id');
+
+		$.ajax({
+			url:  BASEURL + '/user/getUserById',
+			data: {id : id},
+			method: 'POST',
+			// Return data in json file
+			dataType: 'json',
+			// data here refers to a temporary parameter variable that stores any data returned by the url above
+			success: function(data) {
+				$('#deleteUser #id').val(data.id);
+				$('#deleteUser #userNameDelete').text(data.full_name);
+			}
+			
+		});
+	});
 }
 
 
@@ -59,9 +74,13 @@ function editUserFormatter(value, row, index) {
     return [
 		'<button type="button" class="btn btn-warning editUserBtn" data-bs-toggle="modal" data-bs-target="#editUserModal" data-id=' + row.id + '>',
 		'Edit',
+		'</button>',
+		'<button type="button" class="btn btn-danger deleteUserBtn" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-id=' + row.id + '>',
+		'Delete',
 		'</button>'
     ].join('')
 }
+
 
 function initUserTable() {
 	var icons = {

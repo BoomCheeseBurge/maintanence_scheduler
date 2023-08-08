@@ -116,6 +116,18 @@ class User extends Controller{
 		}
 	}
 
+	public function delete() {
+
+		if( $this->model('User_model')->deleteUser($_POST['id']) > 0 ) {
+			
+			echo json_encode(['result' => '1']);
+		}else {
+
+			echo json_encode(['result' => '2']);
+		}
+	}
+
+
 	public function saveUser() {
 
 		if( $this->model('User_model')->saveUserData($_POST) > 0 ) {

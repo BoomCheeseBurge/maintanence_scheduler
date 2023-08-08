@@ -294,20 +294,25 @@ $(function() {
           dataType: 'json',
           success: function(response) {
             // Handle the response from the server here (e.g., display success message)
-            if (response['result'] == '1') {
-                $('.modal-footer button[type=submit]').html('Add');
+            if (response['result'] == '1') {                
+                $('.addUserSubmitBtn').html('Add');
                 alert("Email already exists!");
-            } else if (response['result'] == "2") {
-                $('[data-bs-dismiss="modal"]').trigger('click');
-                alert("User added!");
-            } else if (response['result'] == "3") {
-                $('.modal-footer button[type=submit]').html('Add');
+            } else if (response['result'] == "2") {                
+                $('#userModal [data-bs-dismiss="modal"]').trigger('click');                
+                $('.addUserSubmitBtn').html('Add');
+                setTimeout(function() {
+                    alert("User added!");
+                }, 0);
+                // Refresh the table data
+				$('#user-table').bootstrapTable('refresh');
+            } else if (response['result'] == "3") {                
+                $('.addUserSubmitBtn').html('Add');
                 alert("Email failed to be sent!");
-            } else if (response['result'] == "4") {
-                $('.modal-footer button[type=submit]').html('Add');
+            } else if (response['result'] == "4") {                
+                $('.addUserSubmitBtn').html('Add');
                 alert("User failed to be added!");
-            } else {
-                $('.modal-footer button[type=submit]').html('Add');
+            } else {                
+                $('.addUserSubmitBtn').html('Add');
                 alert("User cannot be changed. Contact your administrator");
             }
           },
@@ -339,13 +344,19 @@ $(function() {
             // Handle the response from the server here (e.g., display success message)
 
             if (response['result'] == '1') {
-                $('[data-bs-dismiss="modal"]').trigger('click');
-                alert("Successfully Updated!");
+                $('#editUserModal [data-bs-dismiss="modal"]').trigger('click');
+                $('#editUserModal .editUserSubmitBtn').html('Save');
+                $('.addUserSubmitBtn').html('Add');
+                setTimeout(function() {
+                    alert("Successfully Updated!");
+                }, 0);
+                // Refresh the table data
+				$('#user-table').bootstrapTable('refresh');
             } else if (response['result'] == "2") {
-                $('.editUserSubmitBtn').html('Save');
+                $('#editUserModal .editUserSubmitBtn').html('Save');
                 alert("Save Failed!");
             } else {
-                $('.editUserSubmitBtn').html('Save');
+                $('#editUserModal .editUserSubmitBtn').html('Save');
                 alert("Save Failed. Contact your administrator.");
             }
           },
@@ -355,6 +366,51 @@ $(function() {
           }
         });
 	});
+
+
+    // Script to handle jQuery AJAX Delete User form submission
+	$('#deleteUser').submit(function(event) {
+		event.preventDefault();
+		
+		// Get the form data
+		const formData = new FormData(document.getElementById('deleteUser'));
+
+		$('.deleteUserSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Deleting user...</span>');
+        
+        // Send the AJAX request
+        $.ajax({
+          url: BASEURL + '/user/delete',
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          dataType: 'json',
+          success: function(response) {
+            // Handle the response from the server here (e.g., display success message)
+            if (response['result'] == '1') {
+                $('#deleteUserModal [data-bs-dismiss="modal"]').trigger('click');
+                $('.deleteUserSubmitBtn').html('Delete');
+                setTimeout(function() {
+                    alert("Successfully Deleted!");
+                }, 0);
+                // Refresh the table data
+				$('#user-table').bootstrapTable('refresh');
+            } else if (response['result'] == "2") {
+                $('.deleteUserSubmitBtn').html('Delete');
+                alert("Delete Failed!");
+            } else {
+                $('.deleteUserSubmitBtn').html('Delete');
+                alert("Delete Failed. Contact your administrator.");
+            }
+          },
+          error: function(response) {
+            // Request failed, handle error here
+            console.log(response);
+            alert("Error deleting changes. Contact your administrator.");
+          }
+        });
+	});
+
 });
 
 // Custom Alert
