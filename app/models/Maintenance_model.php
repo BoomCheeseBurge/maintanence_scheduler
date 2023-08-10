@@ -120,16 +120,13 @@ class Maintenance_model {
 
 		$month = intval($selectedMonth);
 		$year = intval($selectedYear);
-		
-		var_dump($month);
-		var_dump($year);
 
 		// Construct start and end dates for the selected month and year
 		$startDate = "{$year}-{$month}-01";
 		$endDate = date('Y-m-t', strtotime($startDate)); // Get the last day of the selected month
 
 		// Construct start and end dates for the selected month and year
-		if ($month !== "null") {
+		if ($month !== 0) {
 			// Month is provided, construct a range for the given month
 			$startDate = "{$year}-{$month}-01";
 			$endDate = date('Y-m-t', strtotime($startDate)); // Get the last day of the selected month
@@ -150,6 +147,7 @@ class Maintenance_model {
 		$this->db->query($query);
 		$this->db->bind('start_date', $startDate);
 		$this->db->bind('end_date', $endDate);
+
 		return $this->db->resultSet();
 	}
 

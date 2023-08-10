@@ -1,4 +1,83 @@
+// Admin Bootstrap Table Extended
+var $historyTable = $('#history-table')
+
+function initHistoryTable() {
+	var icons = {
+		columns: 'bi-layout-sidebar-inset-reverse',
+		fullscreen: 'bi-arrows-fullscreen',
+		clearSearch: 'bi bi-x-lg'
+	}
+	$historyTable.bootstrapTable('destroy').bootstrapTable({
+		icons: icons,
+        exportTypes: ['csv', 'excel', 'pdf'],
+		locale: 'en-US',
+		classes: 'table table-bordered table-condensed custom-font-size',
+		columns: [
+		{
+			title: 'Engineer',
+			field: 'full_name',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}, {
+			title: 'Client',
+			field: 'name',
+			align: 'center',
+			valign: 'middle',
+			sortable: true,
+			filterControl: 'input'
+		}, {
+			title: 'SOP No',
+			field: 'sop_number',
+			align: 'center',
+			valign: 'middle'
+		}, {
+			title: 'Device',
+			field: 'device',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}, {
+			title: 'PM Frequency',
+			field: 'pm_frequency',
+			align: 'center',
+			valign: 'middle'
+		}, {
+			title: 'PM ke-',
+			field: 'pm_count',
+			align: 'center',
+			valign: 'middle'
+		}, {
+			title: 'Scheduled Date',
+			field: 'scheduled_date',
+			align: 'center',
+			valign: 'middle',
+			sortable: true,
+			filterControl: 'datepicker'
+		}, {
+			title: 'Actual Date',
+			field: 'actual_date',
+			align: 'center',
+			valign: 'middle',
+			sortable: true,
+			filterControl: 'datepicker'
+		}, {
+			title: 'Report Date',
+			field: 'report_date',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}]
+	});
+}
+
 $(document).ready(function () {
+
+	initHistoryTable()
+
+	$('#history-table').bootstrapTable('refreshOptions', {
+		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
+	})
 
 	// ================================================================= Filter Table Start =================================================================
 
@@ -80,59 +159,94 @@ $(document).ready(function () {
 		
 		event.preventDefault();
 
-		// Close the modal using the modal method
-		$("#filterTableModal").modal("hide");
-
-		// Disable the filter button
-		$('#filter').prop("disabled", true);
-
 		// Retrieve values from the dropdowns
 		let selectedMonth = $('#monthSelect').val();
 		let selectedYear = $('.filter-year').val();
 
 		if(selectedYear !== "" || (selectedMonth !== null && selectedYear !== "")) {
-			// Construct the new data URL with selected values
-			var newDataUrl = BASEURL + '/maintenance/filterTable?month=' + selectedMonth + '&year=' + selectedYear;
 
-			// Update the data-url attribute of the table
-			$('#history-dashboard-table').attr('data-url', newDataUrl);
+			// Close the modal using the modal method
+			$("#filterTableModal").modal("hide");
 
-			// Refresh the table data
-			$('#history-dashboard-table').bootstrapTable('refresh');
+			// Disable the filter button
+			$('#filter').prop("disabled", true);
+
+			$.ajax({
+				url: BASEURL + '/maintenance/filterTable',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					month: selectedMonth,
+					year: selectedYear,
+				},
+				success: function (data) {
+			
+					// Prepare the data for the Bootstrap Table
+					var tableData = [];
+					for (var i = 0; i < data.length; i++) {
+						var rowData = {
+							full_name: data[i].full_name,
+							name: data[i].name,
+							sop_number: data[i].sop_number,
+							device: data[i].device,
+							pm_frequency: data[i].pm_frequency,
+							pm_count: data[i].pm_count,
+							scheduled_date: data[i].scheduled_date,
+							actual_date: data[i].actual_date,
+							report_date: data[i].report_date
+						};
+						tableData.push(rowData);
+					}
+			
+					// Update the data and refresh the table
+					$('#history-table').bootstrapTable('load', tableData);
+			
+					console.log(data)
+				},
+				error: function (xhr, status, error) {
+					console.error('AJAX Error:' + error);
+				},
+			});
 
 			let month;
 
 			switch (selectedMonth) {
 				case '1':
-				  month = "January";
-				  break;
+					month = "January";
+					break;
 				case '2':
-				  month = "February";
-				  break;
+					month = "February";
+					break;
 				case '3':
-				   month = "March";
-				  break;
+					month = "March";
+					break;
 				case '4':
-				  month = "April";
-				  break;
+					month = "April";
+					break;
 				case '5':
-				  month = "May";
-				  break;
+					month = "May";
+					break;
 				case '6':
-				  month = "June";
-				  break;
+					month = "June";
+					break;
 				case '7':
-				  month = "July";
+					month = "July";
+					break;
 				case '8':
-				month = "August";
+					month = "August";
+					break;
 				case '9':
 					month = "September";
+					break;
 				case '10':
 					month = "October";
+					break;
 				case '11':
 					month = "November";
+					break;
 				case '12':
 					month = "December";
+					break;
 				default:
 					month = "";
 			  }
@@ -153,9 +267,38 @@ $(document).ready(function () {
 				// Enable the filter button
 				$('#filter').prop("disabled", false);
 
-				// Revert the data-url to before
-				var oldDataUrl = BASEURL + '/maintenance/getMaintenanceHistory';
-				$('#history-dashboard-table').attr('data-url', oldDataUrl);
+				$.ajax({
+					url: BASEURL + '/maintenance/getMaintenanceHistory',
+					type: 'POST',
+					dataType: 'json',
+					success: function (data) {
+				
+						// Prepare the data for the Bootstrap Table
+						var tableData = [];
+						for (var i = 0; i < data.length; i++) {
+							var rowData = {
+								full_name: data[i].full_name,
+								name: data[i].name,
+								sop_number: data[i].sop_number,
+								device: data[i].device,
+								pm_frequency: data[i].pm_frequency,
+								pm_count: data[i].pm_count,
+								scheduled_date: data[i].scheduled_date,
+								actual_date: data[i].actual_date,
+								report_date: data[i].report_date
+							};
+							tableData.push(rowData);
+						}
+				
+						// Update the data and refresh the table
+						$('#history-table').bootstrapTable('load', tableData);
+				
+						console.log(data)
+					},
+					error: function (xhr, status, error) {
+						console.error('AJAX Error:' + error);
+					},
+				});
 
 			});
 		
@@ -178,84 +321,3 @@ $(document).ready(function () {
 
 	// ================================================================= Filter Query End =================================================================
 });
-
-// Admin Bootstrap Table Extended
-var $historyDashboardTable = $('#history-dashboard-table')
-
-function initHistoryDashboardTable() {
-	var icons = {
-		columns: 'bi-layout-sidebar-inset-reverse',
-		fullscreen: 'bi-arrows-fullscreen',
-		clearSearch: 'bi bi-x-lg'
-	}
-	$historyDashboardTable.bootstrapTable('destroy').bootstrapTable({
-		icons: icons,
-        exportTypes: ['csv', 'excel', 'pdf'],
-		locale: 'en-US',
-		classes: 'table table-bordered table-condensed custom-font-size',
-		columns: [
-		{
-			title: 'Engineer',
-			field: 'full_name',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		}, {
-			title: 'Client',
-			field: 'name',
-			align: 'center',
-			valign: 'middle',
-			sortable: true,
-			filterControl: 'input'
-		}, {
-			title: 'SOP No',
-			field: 'sop_number',
-			align: 'center',
-			valign: 'middle'
-		}, {
-			title: 'Device',
-			field: 'device',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		}, {
-			title: 'PM Frequency',
-			field: 'pm_frequency',
-			align: 'center',
-			valign: 'middle'
-		}, {
-			title: 'PM ke-',
-			field: 'pm_count',
-			align: 'center',
-			valign: 'middle'
-		}, {
-			title: 'Scheduled Date',
-			field: 'scheduled_date',
-			align: 'center',
-			valign: 'middle',
-			sortable: true,
-			filterControl: 'datepicker'
-		}, {
-			title: 'Actual Date',
-			field: 'actual_date',
-			align: 'center',
-			valign: 'middle',
-			sortable: true,
-			filterControl: 'datepicker'
-		}, {
-			title: 'Report Date',
-			field: 'report_date',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		}]
-	});
-}
-
-$(function() {
-	initHistoryDashboardTable()
-
-	$('#history-dashboard-table').bootstrapTable('refreshOptions', {
-		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
-	})
-})

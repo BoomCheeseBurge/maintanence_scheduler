@@ -14,7 +14,7 @@
 			</span>
 
             <table
-			id="history-dashboard-table"
+			id="history-table"
 			data-toolbar="#toolbar"
 			data-search="true"
 			data-advanced-search="true"

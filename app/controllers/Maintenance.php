@@ -174,8 +174,8 @@ class Maintenance extends Controller {
     }
 
     public function filterTable() {
-        $selectedMonth = $_GET['month'];
-        $selectedYear = $_GET['year'];
+        $selectedMonth = $_POST['month'];
+        $selectedYear = $_POST['year'];
     
         $filteredTableData = $this->model('Maintenance_model')->filterTableData($selectedMonth, $selectedYear);
     
