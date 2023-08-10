@@ -18,6 +18,7 @@
 			data-id-field="m_id"
 			data-page-list="[10, 25, 50, 100, all]"
             data-mobile-responsive="true"
+			data-show-search-clear-button="true"
             data-check-on-init="true"
 			data-url='<?= BASEURL; ?>/maintenance/getScheduleList'
             data-resizable="true">
@@ -31,12 +32,11 @@
 			<button class="btn btn-primary" id="yearlyViewBtn">Year View</button>
 			<button class="btn btn-primary" id="monthlyViewBtn">Month View</button>
 			
-			<br><br><br>
+			<br><br>
+
+			<div id="chart-container">
+				<div id="lateReportChart"></div>
+			</div>
 			
-			<div id="lateReportChart" style="height: 800px;width: 400px;"></div>
-
-			<br><br><br>
-
-			<div id="myChart"></div>
 		</div>
 	</section>

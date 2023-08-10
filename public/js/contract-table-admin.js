@@ -189,7 +189,8 @@ function contractFormatter(value, row, index) {
 function initContractTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
-		fullscreen: 'bi-arrows-fullscreen'
+		fullscreen: 'bi-arrows-fullscreen',
+		clearSearch: 'bi bi-x-lg'
 	}
 	$contractTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
@@ -206,8 +207,8 @@ function initContractTable() {
 			title: 'Client',
 			field: 'name',
 			align: 'center',
-			sortable: true,
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		},{
 			title: 'SOP',
 			field: 'sop_number',
@@ -217,8 +218,8 @@ function initContractTable() {
 			title: 'Device',
 			field: 'device',
 			align: 'center',
-			sortable: true,
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		},{
 			title: 'PM Frequency',
 			field: 'pm_frequency',
@@ -230,19 +231,21 @@ function initContractTable() {
 			field: 'start_date',
 			align: 'center',
 			valign: 'middle',
+			sortable: true,
 			width: '30'
 		}, {
 			title: 'End Date',
 			field: 'end_date',
 			align: 'center',
 			valign: 'middle',
+			sortable: true,
 			width: '30'
 		},{
 			title: 'Engineer',
 			field: 'full_name',
 			align: 'center',
-			sortable: true,
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		}, {
 			title: 'Action',
 			field: 'action',

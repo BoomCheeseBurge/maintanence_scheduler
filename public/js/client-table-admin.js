@@ -75,7 +75,8 @@ function clientFormatter(value, row, index) {
 function initClientTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
-		fullscreen: 'bi-arrows-fullscreen'
+		fullscreen: 'bi-arrows-fullscreen',
+		clearSearch: 'bi bi-x-lg'
 	}
 	$clientTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
@@ -92,13 +93,14 @@ function initClientTable() {
 			title: 'Name',
 			field: 'client_name',
 			align: 'center',
-			sortable: true,
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		}, {
 			title: 'PIC Client',
 			field: 'pic_name',
 			align: 'center',
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		}, {
 			title: 'PIC E-mail',
 			field: 'pic_email',

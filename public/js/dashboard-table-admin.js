@@ -33,7 +33,8 @@ function dashboardFormatter(value, row, index) {
 function initDashboardTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
-		fullscreen: 'bi-arrows-fullscreen'
+		fullscreen: 'bi-arrows-fullscreen',
+		clearSearch: 'bi bi-x-lg'
 	}
 	$dashboardTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
@@ -45,14 +46,14 @@ function initDashboardTable() {
 			title: 'Engineer',
 			field: 'engineer_name',
 			align: 'center',
-			sortable: true,
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		},{
 			title: 'Client',
 			field: 'client_name',
 			align: 'center',
-			sortable: true,
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		},{
 			title: 'SOP No',
 			field: 'sopNumber',
@@ -62,8 +63,8 @@ function initDashboardTable() {
 			title: 'Device',
 			field: 'deviceName',
 			align: 'center',
-			sortable: true,
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		},{
 			title: 'PM ke-',
 			field: 'pmCount',
@@ -74,11 +75,13 @@ function initDashboardTable() {
 			field: 'scheduledDate',
 			align: 'center',
 			valign: 'middle',
+			sortable: true
 		}, {
 			title: 'Actual Date',
 			field: 'actualDate',
 			align: 'center',
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		}, {
 			title: 'Maintenance Status',
 			field: 'maintenanceStatus',

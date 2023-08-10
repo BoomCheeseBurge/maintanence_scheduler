@@ -24,6 +24,7 @@
 			data-id-field="m_id"
 			data-page-list="[10, 25, 50, 100, all]"
             data-mobile-responsive="true"
+			data-show-search-clear-button="true"
             data-check-on-init="true"
 			data-url='<?= BASEURL; ?>/maintenance/getScheduleList'
             data-resizable="true">
@@ -47,7 +48,7 @@
 						</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-primary">Set</button>
 					</form>
 				</div>
@@ -69,7 +70,7 @@
 						<input type="hidden" name="id" id="maintenanceId">
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-danger">Confirm</button>
 				</form>
 				</div>

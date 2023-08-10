@@ -1,10 +1,192 @@
+$(document).ready(function () {
+
+	// ================================================================= Filter Table Start =================================================================
+
+	// Script for adding Month and Year for echarts
+	var dropdown = $('.filter-dropdown');
+	var input = dropdown.find('.filter-year');
+	var yearListWrapper = dropdown.find('.filter-year-list-wrapper');
+
+	// Function to dynamically generate year options
+	function generateYearOptions() {
+		var currentYear = new Date().getFullYear();
+		var minYear = currentYear - 100;
+		var maxYear = currentYear + 100;
+
+		var yearList = dropdown.find('.filter-year-list');
+		yearList.empty();
+
+		for (var year = minYear; year <= maxYear; year++) {
+			var yearOption = $('<li></li>');
+			yearOption.text(year);
+			yearOption.attr('data-value', year);
+			yearList.append(yearOption);
+		}
+	}
+
+	// Function to scroll the year list to the current year option
+	function scrollYearListToCurrentYear() {
+		var yearList = dropdown.find('.filter-year-list');
+		var currentYear = new Date().getFullYear();
+		// Current year is subtracted by 2 since the scrollbar will not be positioned exactly at the current year option without doing so
+		var currentYearMinusTwo = currentYear - 2;
+		var currentYearOption = yearList.find('li[data-value="' + currentYearMinusTwo + '"]'); // Find the option for the adjusted currentYear
+	
+		if (currentYearOption.length > 0) {
+		currentYearOption[0].scrollIntoView({
+			behavior: 'smooth',
+			block: 'center',
+			inline: 'center'
+		});
+		}
+	}
+
+	// Function to show the year dropdown list when the input is clicked
+	input.click(function () {
+
+		yearListWrapper.slideToggle(200);
+
+		// Scroll to the current year option
+		scrollYearListToCurrentYear();
+	});
+
+	// Click event on year list to select year
+	yearListWrapper.on('click', 'li', function () {
+		var selectedYear = $(this).data('value');
+		input.val(selectedYear);
+
+		// Slide up the year dropdown after selection
+		yearListWrapper.slideUp(200);
+	});
+
+	// Hide the dropdown lists when the user clicks outside the dropdown
+	$(document).click(function (event) {
+	  if (!dropdown.is(event.target) && dropdown.has(event.target).length === 0) {
+		yearListWrapper.hide();
+	  }
+	});
+
+	// Generate the year options on page load
+	generateYearOptions();
+
+	// ================================================================= Filter Table End =================================================================
+
+	// ================================================================= Filter Query Start ===============================================================
+
+	// Keep track of whether the alert has been shown
+	let alertShown = false;
+
+	$('.filterSubmitBtn').click(function(event) {
+		
+		event.preventDefault();
+
+		// Close the modal using the modal method
+		$("#filterTableModal").modal("hide");
+
+		// Disable the filter button
+		$('#filter').prop("disabled", true);
+
+		// Retrieve values from the dropdowns
+		let selectedMonth = $('#monthSelect').val();
+		let selectedYear = $('.filter-year').val();
+
+		if(selectedYear !== "" || (selectedMonth !== null && selectedYear !== "")) {
+			// Construct the new data URL with selected values
+			var newDataUrl = BASEURL + '/maintenance/filterTable?month=' + selectedMonth + '&year=' + selectedYear;
+
+			// Update the data-url attribute of the table
+			$('#history-dashboard-table').attr('data-url', newDataUrl);
+
+			// Refresh the table data
+			$('#history-dashboard-table').bootstrapTable('refresh');
+
+			let month;
+
+			switch (selectedMonth) {
+				case '1':
+				  month = "January";
+				  break;
+				case '2':
+				  month = "February";
+				  break;
+				case '3':
+				   month = "March";
+				  break;
+				case '4':
+				  month = "April";
+				  break;
+				case '5':
+				  month = "May";
+				  break;
+				case '6':
+				  month = "June";
+				  break;
+				case '7':
+				  month = "July";
+				case '8':
+				month = "August";
+				case '9':
+					month = "September";
+				case '10':
+					month = "October";
+				case '11':
+					month = "November";
+				case '12':
+					month = "December";
+				default:
+					month = "";
+			  }
+
+			let tagContainer = $('<div class="tag-container"></div>');
+			let tag = $('<div class="tag"></div>');
+			let tagText = $('<span class="tag-text me-1">' + month + ' ' + selectedYear + '</span>');
+			let tagClose = $('<button type="button" class="btn-close tag-close" aria-label="Close"></button>');
+		
+			tagContainer.append(tag);
+			tag.append(tagText);
+			tag.append(tagClose);
+		
+			tagClose.click(function () {
+				// Remove the keyword tag 
+			  	tagContainer.remove();
+
+				// Enable the filter button
+				$('#filter').prop("disabled", false);
+
+				// Revert the data-url to before
+				var oldDataUrl = BASEURL + '/maintenance/getMaintenanceHistory';
+				$('#history-dashboard-table').attr('data-url', oldDataUrl);
+
+			});
+		
+			$('#toolbar').append(tagContainer);
+		} else {
+
+			if (!alertShown) {
+				// Show an alert when no input is given or the year input is empty
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fa-solid fa-triangle-exclamation me-2"></i>Don\'t leave empty input!<button type="button" id="closeFormAlert" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+				$('#filterForm').prepend(alert);
+				alertShown = true;
+			}
+		}
+	});
+
+	// Attach click event handler to the parent element and use event delegation
+	$('#filterForm').on('click', '#closeFormAlert', function() {
+		alertShown = false;
+	});
+
+	// ================================================================= Filter Query End =================================================================
+});
+
 // Admin Bootstrap Table Extended
 var $historyDashboardTable = $('#history-dashboard-table')
 
 function initHistoryDashboardTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
-		fullscreen: 'bi-arrows-fullscreen'
+		fullscreen: 'bi-arrows-fullscreen',
+		clearSearch: 'bi bi-x-lg'
 	}
 	$historyDashboardTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
@@ -16,14 +198,15 @@ function initHistoryDashboardTable() {
 			title: 'Engineer',
 			field: 'full_name',
 			align: 'center',
-			sortable: true,
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		}, {
 			title: 'Client',
 			field: 'name',
 			align: 'center',
+			valign: 'middle',
 			sortable: true,
-			valign: 'middle'
+			filterControl: 'input'
 		}, {
 			title: 'SOP No',
 			field: 'sop_number',
@@ -33,8 +216,8 @@ function initHistoryDashboardTable() {
 			title: 'Device',
 			field: 'device',
 			align: 'center',
-			sortable: true,
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		}, {
 			title: 'PM Frequency',
 			field: 'pm_frequency',
@@ -50,28 +233,21 @@ function initHistoryDashboardTable() {
 			field: 'scheduled_date',
 			align: 'center',
 			valign: 'middle',
+			sortable: true,
+			filterControl: 'datepicker'
 		}, {
 			title: 'Actual Date',
 			field: 'actual_date',
 			align: 'center',
-			valign: 'middle'
-		}, {
-			title: 'Maintenance Status',
-			field: 'maintenance_status',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		}, {
-			title: 'Report Status',
-			field: 'report_status',
-			align: 'center',
 			valign: 'middle',
 			sortable: true,
+			filterControl: 'datepicker'
 		}, {
 			title: 'Report Date',
 			field: 'report_date',
 			align: 'center',
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		}]
 	});
 }

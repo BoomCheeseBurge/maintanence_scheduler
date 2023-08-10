@@ -5,7 +5,8 @@ var $userTable = $('#user-table')
 function initUserTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
-		fullscreen: 'bi-arrows-fullscreen'
+		fullscreen: 'bi-arrows-fullscreen',
+		clearSearch: 'bi bi-x-lg'
 	}
 	$userTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
@@ -16,34 +17,21 @@ function initUserTable() {
 			title: 'Full Name',
 			field: 'full_name',
 			align: 'center',
-			sortable: true,
-<<<<<<< HEAD
-			align: 'center'
-		  }, {
-=======
-			valign: 'middle'
+			valign: 'middle',
+			sortable: true
 		}, {
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 			title: 'E-mail',
 			field: 'email',
 			align: 'center',
 			valign: 'middle',
-<<<<<<< HEAD
-		  }, {
-=======
 		}, {
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 			title: 'Role',
 			field: 'role',
 			align: 'center',
-			valign: 'middle'
-<<<<<<< HEAD
-		  }]
-	})
-=======
+			valign: 'middle',
+			sortable: true
 		}]
 	});
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 }
 
 $(function() {

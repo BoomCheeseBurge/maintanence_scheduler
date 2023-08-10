@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-		<div class="container">
-=======
 		<div class="container-fluid">
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 
 			<div class="row">
 				<div class="col-lg-6">
@@ -21,11 +17,7 @@
 						More actions
 					</button>
 					<ul class="dropdown-menu">
-<<<<<<< HEAD
-						<li><a class="dropdown-item addClientBtn" href="#" data-bs-toggle="modal" data-bs-target="#addClientModal">Add</a></li>
-=======
 						<li><a class="dropdown-item addClientBtn" href="#" data-bs-toggle="modal" data-bs-target="#addClientModal">Add Client</a></li>
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 						<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editClientModal">Edit Client</a></li>
 						<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delClientModal">Delete Client</a></li>
 					</ul>
@@ -48,6 +40,7 @@
 			data-id-field="id"
 			data-page-list="[10, 25, 50, 100, all]"
 			data-mobile-responsive="true"
+			data-show-search-clear-button="true"
 			data-check-on-init="true"
 			data-url='<?= BASEURL; ?>/client/getAllClient'
 			data-resizable="true">
@@ -84,7 +77,7 @@
 					<button type="button" class="btn btn-primary" id="addPicFieldsBtn">+</button>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-primary">Add</button>
 				</form>
 				</div>
@@ -113,7 +106,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-primary">Save</button>
 				</form>
 				</div>
@@ -172,7 +165,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary">Save</button>
           </form>
         </div>
@@ -194,7 +187,7 @@
 			      <input type="hidden" name="id" id="picId">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-danger">Confirm</button>
           </form>
         </div>
@@ -216,7 +209,7 @@
 			      <input type="hidden" name="id" id="picId">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-danger bulkDeleteBtn">Confirm</button>
           </form>
         </div>

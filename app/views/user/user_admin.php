@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-        <div class="container">
-=======
         <div class="container-fluid">
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 
             <div class="row">
                 <div class="col-lg-6">
@@ -27,6 +23,7 @@
             data-id-field="id"
             data-page-list="[10, 25, 50, 100, all]"
             data-mobile-responsive="true"
+            data-show-search-clear-button="true"
             data-check-on-init="true"
             data-url='<?= BASEURL ?>/user/getAllUser'
             data-resizable="true">
@@ -64,11 +61,7 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-<<<<<<< HEAD
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-=======
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary addUserSubmitBtn"></button>
                 </div>
                     </form>
@@ -107,18 +100,13 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-<<<<<<< HEAD
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-=======
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary editUserSubmitBtn">Save</button>
                 </div>
                     </form>
             </div>
         </div>
     </div>
-<<<<<<< HEAD
 
 
     <!-- ==================================== DA Delete User Modal ======================================== -->
@@ -135,12 +123,10 @@
                         <h5 class="text-center">Delete <span id="userNameDelete"></span>?</h5>
                 </div>
                 <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary deleteUserSubmitBtn">Delete</button>
                 </div>
                     </form>
             </div>
         </div>
     </div>
-=======
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be

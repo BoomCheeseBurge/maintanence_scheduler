@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-        <div class="container">
-=======
         <div class="container-fluid">
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 
             <h3 class="header-title">User</h3>
 
@@ -21,6 +17,7 @@
             data-id-field="id"
             data-page-list="[10, 25, 50, 100, all]"
             data-mobile-responsive="true"
+            data-show-search-clear-button="true"
             data-check-on-init="true"
             data-url='<?= BASEURL ?>/user/getAllUser'
             data-resizable="true">

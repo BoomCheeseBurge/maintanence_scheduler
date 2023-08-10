@@ -105,13 +105,51 @@ class Maintenance_model {
 
 	// For History Bootstrap Table
 	public function getHistoryData() {
-		$query = 'SELECT u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
+		$query = 'SELECT u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.scheduled_date, m.actual_date, m.report_date
 		FROM '. $this->table1 .' m
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 		INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id';
 
 		$this->db->query($query);
+		return $this->db->resultSet();
+	}
+
+	// For Filtered History Bootstrap Table by Month
+	public function filterTableData($selectedMonth, $selectedYear) {
+
+		$month = intval($selectedMonth);
+		$year = intval($selectedYear);
+		
+		var_dump($month);
+		var_dump($year);
+
+		// Construct start and end dates for the selected month and year
+		$startDate = "{$year}-{$month}-01";
+		$endDate = date('Y-m-t', strtotime($startDate)); // Get the last day of the selected month
+
+		// Construct start and end dates for the selected month and year
+		if ($month !== "null") {
+			// Month is provided, construct a range for the given month
+			$startDate = "{$year}-{$month}-01";
+			$endDate = date('Y-m-t', strtotime($startDate)); // Get the last day of the selected month
+		} else {
+			// Month is not provided, construct a range for the entire year
+			$startDate = "{$year}-01-01";
+			$endDate = "{$year}-12-31";
+		}
+
+		$query = 'SELECT u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.scheduled_date, m.actual_date, m.report_date
+		FROM '. $this->table1 .' m
+		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
+		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
+		INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
+		WHERE (scheduled_date BETWEEN :start_date AND :end_date) OR
+		(actual_date BETWEEN :start_date AND :end_date)';
+
+		$this->db->query($query);
+		$this->db->bind('start_date', $startDate);
+		$this->db->bind('end_date', $endDate);
 		return $this->db->resultSet();
 	}
 
@@ -221,6 +259,44 @@ class Maintenance_model {
 		$this->db->query($query);
 		$this->db->execute();
 
+		return $this->db->resultSet();
+	}
+
+	public function getYearlyEngineerPerformanceData($selectedYear) {
+
+		$query = 'SELECT u.full_name, COUNT(*) AS late_count 
+				FROM maintenance m JOIN user u ON m.engineer_id = u.id 
+				WHERE u.role = "engineer" 
+				AND m.report_date > DATE_ADD(m.actual_date, INTERVAL 8 DAY) 
+				AND YEAR(m.report_date) = :selectedYear GROUP BY u.full_name';
+
+		$this->db->query($query);
+		$this->db->bind(':selectedYear', $selectedYear);
+		$this->db->execute();
+
+		return $this->db->resultSet();
+	}
+	
+	public function getMonthlyEngineerPerformanceData($selectedMonth, $selectedYear) {
+		// Use the $selectedMonth and $selectedYear parameters in your query
+		// Make sure to sanitize the input to prevent SQL injection (e.g., using prepared statements)
+	
+		$query = 'SELECT u.full_name, COUNT(*) AS late_count 
+				  FROM maintenance m 
+				  INNER JOIN user u ON m.engineer_id = u.id 
+				  WHERE u.role = "engineer" 
+				  AND m.report_date > DATE_ADD(m.actual_date, INTERVAL 8 DAY) 
+				  AND YEAR(m.report_date) = :selectedYear 
+				  AND MONTH(m.report_date) = :selectedMonth 
+				  GROUP BY u.full_name';
+	
+		// Bind the parameters to the query
+		$this->db->query($query);
+		$this->db->bind(':selectedYear', $selectedYear);
+		$this->db->bind(':selectedMonth', $selectedMonth);
+	
+		$this->db->execute();
+	
 		return $this->db->resultSet();
 	}
 }

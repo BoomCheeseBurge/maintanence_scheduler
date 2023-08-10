@@ -152,4 +152,33 @@ class Maintenance extends Controller {
 
         echo json_encode($lateReportData);
 	}
+
+    public function getYearlyEngineerPerformance() {
+
+        $year = $_GET['year'];   // Make sure to sanitize and validate the input
+        
+        $lateReportData = $this->model('Maintenance_model')->getYearlyEngineerPerformanceData($year);
+
+        echo json_encode($lateReportData);
+	}
+
+    public function getMonthlyEngineerPerformance() {
+        // Assuming you receive the month and year from the AJAX request
+        $month = $_GET['month']; // Make sure to sanitize and validate the input
+        $year = $_GET['year'];   // Make sure to sanitize and validate the input
+    
+        // Call the model function with the $month and $year parameters
+        $lateReportData = $this->model('Maintenance_model')->getMonthlyEngineerPerformanceData($month, $year);
+    
+        echo json_encode($lateReportData);
+    }
+
+    public function filterTable() {
+        $selectedMonth = $_GET['month'];
+        $selectedYear = $_GET['year'];
+    
+        $filteredTableData = $this->model('Maintenance_model')->filterTableData($selectedMonth, $selectedYear);
+    
+        echo json_encode($filteredTableData);
+    }
 }

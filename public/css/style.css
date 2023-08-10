@@ -25,20 +25,226 @@
     --tran-05: all 0.5s ease;
 }
 
-<<<<<<< HEAD
-=======
 /* ============ For Responsive echarts Start ============ */
 #myChart,
+#lateReportChart,
 html,
 body {
   width: 100%;
 }
-#myChart {
+#myChart,
+#lateReportChart {
   height: 400px;
 }
 /* ============ For Responsive echarts End ============ */
 
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
+/* ========================================== Echarts Dropdown CSS Start ========================================== */
+
+/* Add this CSS for centering the dropdown container */
+#chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}
+
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+/* ============ Yearly View echarts CSS Start ============ */
+
+/* Updated styles for the input box */
+.selected-year {
+  padding: 5px 10px; /* Add padding to the input box */
+  width: 120px; /* Set a fixed width for the input box */
+  max-width: 100%; /* Make the input box responsive */
+  box-sizing: border-box; /* Include padding and border in the total width */
+}
+
+.only-year-list {
+  list-style: none;
+  padding: 0;
+  width: 8em; /* Set a fixed width */
+}
+
+.only-year-list li {
+  text-align: center;
+  padding: 5px 10px 5px 5px;
+  cursor: pointer;
+}
+
+.only-year-list li:hover {
+  background-color: #f1f1f1;
+}
+
+/* ============ Yearly View echarts CSS End ============ */
+
+/* ============ Monthly View echarts CSS Start ============ */
+
+/* Updated styles for the input box */
+.selected-value {
+  padding: 5px 10px; /* Add padding to the input box */
+  width: 160px; /* Set a fixed width for the input box */
+  max-width: 100%; /* Make the input box responsive */
+  box-sizing: border-box; /* Include padding and border in the total width */
+}
+  
+  .year-list-wrapper {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 100;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 170px;
+    white-space: nowrap; /* Prevent year options from wrapping */
+  }
+  
+  .year-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 10.5em; /* Set a fixed width */
+  }
+  
+  .year-list li {
+    text-align: center;
+    padding: 5px 10px 5px 5px;
+    cursor: pointer;
+  }
+  
+  .year-list li:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .month-wrapper {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1;
+  }
+  
+  .month-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 5px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .month-list li {
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .month-list li:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Added styles to position the month wrapper below the selected year */
+  .custom-dropdown .year-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+
+/* ============ Monthly View echarts CSS End ============ */
+
+/* ========================================== Echarts Dropdown CSS End ========================================== */
+
+/* ========================================== Table Filter CSS Start ========================================== */
+
+.filter-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Updated styles for the input box */
+.filter-value {
+  padding: 5px 10px; /* Add padding to the input box */
+  width: 160px; /* Set a fixed width for the input box */
+  max-width: 100%; /* Make the input box responsive */
+  box-sizing: border-box; /* Include padding and border in the total width */
+}
+  
+/* Updated styles for the input box */
+.filter-year {
+  padding: 5px 10px; /* Add padding to the input box */
+  width: 120px; /* Set a fixed width for the input box */
+  max-width: 100%; /* Make the input box responsive */
+  box-sizing: border-box; /* Include padding and border in the total width */
+}
+
+.filter-year-list-wrapper {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 100;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 170px;
+  white-space: nowrap; /* Prevent year options from wrapping */
+}
+
+.filter-year-list {
+  list-style: none;
+  padding: 0;
+  width: 7.5em; /* Set a fixed width */
+}
+
+.filter-year-list li {
+  text-align: center;
+  padding: 5px 10px 5px 5px;
+  cursor: pointer;
+}
+
+.filter-year-list li:hover {
+  background-color: #f1f1f1;
+}
+
+/* ========================================== Table Filter CSS End ========================================== */
+
+/* ========================================== Keyword Tag CSS Start ========================================== */
+
+.tag-container {
+  display: inline-block;
+  background-color: #a9e5fd;
+  border-radius: 20px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tag-close {
+  color: #888;
+  cursor: pointer;
+}
+/* ========================================== Keyword Tag CSS End ========================================== */
+
 section {
     overflow-y: scroll !important;
 }

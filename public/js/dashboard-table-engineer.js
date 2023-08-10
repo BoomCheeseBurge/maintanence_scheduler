@@ -103,7 +103,8 @@ function engineerDashboardFormatter(value, row, index) {
 function initEngineerDashboardTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
-		fullscreen: 'bi-arrows-fullscreen'
+		fullscreen: 'bi-arrows-fullscreen',
+		clearSearch: 'bi bi-x-lg'
 	}
 	$engineerDashboardTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
@@ -114,30 +115,32 @@ function initEngineerDashboardTable() {
 		title: 'Client',
 		field: 'name',
 		align: 'center',
+		valign: 'middle',
 		sortable: true,
-		align: 'center',
 		width: '400'
 	}, {
 		title: 'Device',
 		field: 'device',
 		align: 'center',
-		sortable: true,
-		align: 'center'
+		valign: 'middle',
+		sortable: true
 	}, {
 		title: 'PM ke-',
 		field: 'pm_count',
 		align: 'center',
-		align: 'center'
+		valign: 'middle'
 	}, {
 		title: 'Scheduled Date',
 		field: 'scheduled_date',
 		align: 'center',
-		valign: 'middle'
+		valign: 'middle',
+		sortable: true
 	}, {
 		title: 'Actual Date',
 		field: 'actual_date',
 		align: 'center',
-		valign: 'middle'
+		valign: 'middle',
+		sortable: true
 	}, {
 		title: 'Maintenance Status',
 		field: 'maintenance_status',
