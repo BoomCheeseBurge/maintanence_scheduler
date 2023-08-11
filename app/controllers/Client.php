@@ -119,7 +119,7 @@ class Client extends Controller {
 
 	public function delClientPIC() {
 
-		if( $this->model('Client_model')->delClientPICData($_POST) > 0 ) {
+		if( $this->model('Client_model')->delClientPICData($_POST['id']) > 0 ) {
 
 			Flasher::setFlash('Client PIC', ' successfully', ' deleted', 'success');
 

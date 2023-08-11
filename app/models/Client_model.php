@@ -15,7 +15,7 @@ class Client_model {
 
 	public function getClientData() {
 
-		$this->db->query('SELECT cl.id, cl.name AS client_name, p.name AS pic_name, p.email AS pic_email
+		$this->db->query('SELECT p.id, cl.name AS client_name, p.name AS pic_name, p.email AS pic_email
 		FROM '. $this->table1 .' cl
 		JOIN '. $this->table2 .' p ON cl.id = p.client_id');
 		return $this->db->resultSet();
@@ -108,18 +108,18 @@ class Client_model {
 		return $this->db->rowCount();
 	}
 
-	public function delClientPICData($data) {
+	public function delClientPICData($id) {
 
 		$query = 'DELETE FROM '. $this->table2 .' WHERE id = :id';
 		$this->db->query($query);
-		$this->db->bind(':id', $data['id']);
+		$this->db->bind(':id', $id);
 
 		try {
 			$this->db->execute();
 			// Success: The client record was deleted successfully
 		} catch (PDOException $e) {
 			// Error: The client record could not be deleted due to the foreign key constraint
-			echo "Error: Cannot delete the client record because it has related records in other tables.";
+			echo "Error: Failed to delete client PIC";
 		}
 
 		return $this->db->rowCount();

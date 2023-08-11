@@ -13,6 +13,9 @@
 			Delete
 			</button>
 	  		<button class="btn btn-primary addContractBtn" data-bs-toggle="modal" data-bs-target="#contractModal">Add</button>
+			<button type="button" id="filter" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#filterTableModal">
+				<i class="fa-solid fa-filter me-1"></i>Filter
+			</button>
 		</span>
 		
         <table
@@ -48,7 +51,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="" method="post">
+					<form action="" method="post" id="contractForm">
 						<input type="hidden" name="id" id="id">
 						<div class="form-floating mb-3">
 							<input type="search" class="form-control" name="clientName" id="clientName" required placeholder="clientName" autocomplete="off">

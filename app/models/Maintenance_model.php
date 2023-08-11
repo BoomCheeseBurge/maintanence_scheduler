@@ -141,8 +141,8 @@ class Maintenance_model {
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 		INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
-		WHERE (scheduled_date BETWEEN :start_date AND :end_date) OR
-		(actual_date BETWEEN :start_date AND :end_date)';
+		WHERE (m.scheduled_date BETWEEN :start_date AND :end_date) OR
+		(m.actual_date BETWEEN :start_date AND :end_date)';
 
 		$this->db->query($query);
 		$this->db->bind('start_date', $startDate);

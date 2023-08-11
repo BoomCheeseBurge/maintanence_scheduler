@@ -15,6 +15,34 @@ modeSwitch.addEventListener("click" , () =>{
     }
 });
 
+// Hidden Sidebar
+hiddenModeSwitch = body.querySelector(".hidden-toggle-switch"),
+hiddenModeText = body.querySelector(".hidden-mode-text");
+
+hiddenModeSwitch.addEventListener("click" , () =>{
+    body.classList.toggle("dark");
+    
+    if(body.classList.contains("dark")){
+        hiddenModeText.innerText = "Light mode";
+    }else{
+        hiddenModeText.innerText = "Dark mode";
+    }
+});
+
+// Hidden Sidebar
+const openOffcanvasButton = document.getElementById('openOffcanvas');
+const myOffcanvas = new bootstrap.Offcanvas(document.getElementById('myOffcanvas'));
+
+openOffcanvasButton.addEventListener('click', () => {
+  myOffcanvas.show();
+});
+
+myOffcanvas._element.addEventListener('hidden.bs.offcanvas', () => {
+  myOffcanvas._element.classList.remove('show');
+  myOffcanvas._element.classList.add('showing');
+});
+
+
 // ---------------------------------------------------------------
 
 // Adjust Profile Picture

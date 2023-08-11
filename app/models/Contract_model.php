@@ -23,9 +23,44 @@ class Contract_model {
 		return $this->db->resultSet();
     }
 
-    public function addContractData($data) {
+	// For Filtered History Bootstrap Table by Month
+	public function filterTableData($startMonth, $startYear, $endMonth, $endYear) {
 
-		
+		$start_month = intval($startMonth);
+		$start_year = intval($startYear);
+		$end_month = intval($endMonth);
+		$end_year = intval($endYear);
+
+		// Construct start and end dates for the selected month and year
+		$startDate = "{$start_year}-{$start_month}-01";
+		$endDate = date('Y-m-t', strtotime("$end_year-$end_month-01")); // Get the last day of the selected month
+
+		// Construct start and end dates for the selected month and year
+		if ($start_month !== 0) {
+			// Month is provided, construct a range for the given month
+			$startDate = "{$start_year}-{$start_month}-01";
+			$endDate = date('Y-m-t', strtotime($startDate)); // Get the last day of the selected month
+		} else {
+			// Month is not provided, construct a range for the entire year
+			$startDate = "{$start_year}-01-01";
+			$endDate = "{$start_year}-12-31";
+		}
+
+		$query = 'SELECT co.id, cl.name, co.sop_number, co.device, co.pm_frequency, co.start_date, co.end_date, u.full_name
+		FROM '. $this->table1 .' co
+		INNER JOIN '. $this->table2 .' cl ON co.client_id = cl.id
+		INNER JOIN '. $this->table3 .' u ON co.engineer_id = u.id
+		WHERE (co.start_date BETWEEN :start_date AND :end_date) OR
+		(co.end_date BETWEEN :start_date AND :end_date)';
+
+		$this->db->query($query);
+		$this->db->bind('start_date', $startDate);
+		$this->db->bind('end_date', $endDate);
+
+		return $this->db->resultSet();
+	}
+
+    public function addContractData($data) {
 
 		$query = 'INSERT INTO '. $this->table1 .' (id, client_id, engineer_id, sop_number, start_date, end_date, device, pm_frequency)
 		VALUES ("", :client_id, :assignee_id, :sopNumber, :startDate, :endDate, :deviceName, :pmFreq)';
@@ -98,11 +133,11 @@ class Contract_model {
 		return $this->db->rowCount();
 	}
 
-	public function delContractData($data) {
+	public function delContractData($id) {
 
 		$query = 'DELETE FROM '. $this->table1 .' WHERE id = :id';
 		$this->db->query($query);
-		$this->db->bind(':id', $data['id']);
+		$this->db->bind(':id', $id);
 
 		try {
 			$this->db->execute();

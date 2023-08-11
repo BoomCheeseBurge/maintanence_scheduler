@@ -163,6 +163,9 @@ $(document).ready(function () {
 		let selectedMonth = $('#monthSelect').val();
 		let selectedYear = $('.filter-year').val();
 
+		console.log(selectedMonth);
+		console.log(selectedYear);
+
 		if(selectedYear !== "" || (selectedMonth !== null && selectedYear !== "")) {
 
 			// Close the modal using the modal method
@@ -200,8 +203,6 @@ $(document).ready(function () {
 			
 					// Update the data and refresh the table
 					$('#history-table').bootstrapTable('load', tableData);
-			
-					console.log(data)
 				},
 				error: function (xhr, status, error) {
 					console.error('AJAX Error:' + error);
@@ -292,8 +293,6 @@ $(document).ready(function () {
 				
 						// Update the data and refresh the table
 						$('#history-table').bootstrapTable('load', tableData);
-				
-						console.log(data)
 					},
 					error: function (xhr, status, error) {
 						console.error('AJAX Error:' + error);

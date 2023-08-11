@@ -166,7 +166,7 @@ body {
 
 /* ========================================== Echarts Dropdown CSS End ========================================== */
 
-/* ========================================== Table Filter CSS Start ========================================== */
+/* ========================================== History Table Filter CSS Start ========================================== */
 
 .filter-dropdown {
   position: relative;
@@ -221,7 +221,128 @@ body {
   background-color: #f1f1f1;
 }
 
-/* ========================================== Table Filter CSS End ========================================== */
+/* ========================================== History Table Filter CSS End ========================================== */
+
+/* ========================================== Contract Table Filter CSS Start ========================================== */
+.contract-filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========================================== Contract Dropdown Filter CSS Start ========================================== */
+
+/*  Start Year Dropdown ========================================================== */
+.start-year-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Updated styles for the input box */
+.start-year-value {
+  padding: 5px 10px; /* Add padding to the input box */
+  width: 160px; /* Set a fixed width for the input box */
+  max-width: 100%; /* Make the input box responsive */
+  box-sizing: border-box; /* Include padding and border in the total width */
+}
+  
+/* Updated styles for the input box */
+.start-year {
+  padding: 5px 10px; /* Add padding to the input box */
+  width: 120px; /* Set a fixed width for the input box */
+  max-width: 100%; /* Make the input box responsive */
+  box-sizing: border-box; /* Include padding and border in the total width */
+}
+
+.start-year-list-wrapper {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 100;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 170px;
+  white-space: nowrap; /* Prevent year options from wrapping */
+}
+
+.start-year-list {
+  list-style: none;
+  padding: 0;
+  width: 7.5em; /* Set a fixed width */
+}
+
+.start-year-list li {
+  text-align: center;
+  padding: 5px 10px 5px 5px;
+  cursor: pointer;
+}
+
+.start-year-list li:hover {
+  background-color: #f1f1f1;
+}
+
+/* End Year Dropdown ========================================================== */
+.end-year-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Updated styles for the input box */
+.end-year-value {
+  padding: 5px 10px; /* Add padding to the input box */
+  width: 160px; /* Set a fixed width for the input box */
+  max-width: 100%; /* Make the input box responsive */
+  box-sizing: border-box; /* Include padding and border in the total width */
+}
+  
+/* Updated styles for the input box */
+.end-year {
+  padding: 5px 10px; /* Add padding to the input box */
+  width: 120px; /* Set a fixed width for the input box */
+  max-width: 100%; /* Make the input box responsive */
+  box-sizing: border-box; /* Include padding and border in the total width */
+}
+
+.end-year-list-wrapper {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 100;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 170px;
+  white-space: nowrap; /* Prevent year options from wrapping */
+}
+
+.end-year-list {
+  list-style: none;
+  padding: 0;
+  width: 7.5em; /* Set a fixed width */
+}
+
+.end-year-list li {
+  text-align: center;
+  padding: 5px 10px 5px 5px;
+  cursor: pointer;
+}
+
+.end-year-list li:hover {
+  background-color: #f1f1f1;
+}
+
+/* ========================================== Contract Dropdown Filter CSS End ========================================== */
+
+/* ========================================== Contract Table Filter CSS End ========================================== */
 
 /* ========================================== Keyword Tag CSS Start ========================================== */
 
@@ -246,19 +367,16 @@ body {
 /* ========================================== Keyword Tag CSS End ========================================== */
 
 section {
-    overflow-y: scroll !important;
+    overflow-y: scroll;
 }
 
-.navbar-tall {
-    height: 4.375rem;
-  }
-
+  /* For each webpage's title */
 .header-title {
     font-size: 28px;
 }
 
 .custom-font-size {
-    font-size: 14px; /* Set the desired font size here */
+    font-size: 14px;
   }
 
 /* ============ Profile Picture CSS Start ============ */
@@ -271,9 +389,7 @@ section {
 
 .username-container {
     display: inline-block;
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 #userPhoto {
@@ -341,107 +457,6 @@ section {
 }
   /* ============ Date Range Input CSS End ============ */
 
-
-/* ============ Create Task Button Icon ============ */
-
-  .plus-btn {
-    color: white !important;
-  }
-
- /* ============== Task Form ===================== */
- .wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    max-width: 75vw;
-    max-height: 70vh;
-    overflow: hidden;
-    overflow-y: scroll;
-    border: 2px solid rgba(255, 255, 255, .5);
-    background-color: var(--form-color);
-    border-radius: 20px;
-    backdrop-filter: blur(3px);
-    box-shadow: 0 0 30px rgba(50, 44, 122, .5);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  }
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.wrapper::-webkit-scrollbar {
-    display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.wrapper {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
-.wrapper .form-box {
-    width: 100%;
-    height: 100%;
-    padding: 40px;
-}
-
-.wrapper .form-box form .divider-container {
-    display: flex;
-    align-items: stretch;
-}
-
-.wrapper .form-box form .divider {
-    flex: 1 1 100%;
-    padding: 20px;
-    text-align: center;
-}
-
-.wrapper .form-box form .divider-bar {
-    width: 2px;
-    background-color: #000;
-    margin: 0 10px;
-}
-
-.input-box {
-  position: relative;
-  width: 100%;
-  height: 50px;
-    /* border-bottom: 2px solid #162938; */
-  border: 1px solid #162938;
-  border-radius: 1%;
-  margin: 30px 0;
-}
-
-.input-box  label {
-  position: absolute;
-  background-color: #E4E9F7;
-  top: 50%;
-  left: 5px;
-  transform: translateY(-50%);
-  font-size: 1em;
-  color: #162938;
-  font-weight: 500;
-  pointer-events: none;
-  transition: .5s;
-}
-
-.input-box input:focus~label,
-.input-box input:valid~label {
-  top: -0.313rem;
-}
-
-.input-box input {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: 1em;
-  color: #162938;
-  font-weight: 600;
-  padding: 0 20px 0 5px;
-}
-
 /* CSS for client name search input */
 .clientNameList {
     background-color: var(--primary-color-light);
@@ -486,76 +501,84 @@ section {
     cursor: pointer;
 }
 
-.input-box .icon {
-  position: absolute;
-  right: 8px;
-  font-size: 1.2em;
-  color: #162938;
-  line-height: 57px;
-}
-
-.wrapper .form-box form button {
-    width: 100%;
-    max-width: 200px; /* Adjust the maximum width as needed */
-  }
-
-.wrapper .form-box form .submit-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-  @media (max-width: 576px) {
-    .wrapper {
-        max-width: 90vw;
-        max-height: 80vh;
-      }
-
-    .form-box form .divider-container {
-        flex-wrap: wrap;
-        overflow-y: scroll;
-    }
-
-    .form-box form .divider {
-      flex: 0 0 50%;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .wrapper {
-      max-width: 90vw;
-      max-height: 80vh;
-    }
-
-    .form-box form .divider-container {
-        flex-wrap: wrap;
-    }
-
-    .form-box form .divider {
-        flex: 0 0 33.33%;
-      }
-  }
-  
-  @media (max-width: 992px) {
-    .wrapper {
-        max-width: 90vw;
-        max-height: 80vh;
-      }
-
-    .form-box form .divider-container {
-        flex-wrap: wrap;
-    }
-
-    .form-box form .divider-container {
-        flex-wrap: wrap;
-    }
-
-    .form-box form .divider {
-      flex: 0 0 25%;
-    }
-  }
-
 /* ==================================================================================== */
+
+/* ============== Top Navbar ============== */
+
+.custom-navbar {
+  display: flex;
+  height: 4.375rem;
+}
+
+.top-nav-head {
+  display: flex;
+}
+
+.hiddenSidebarBtn {
+  display: none;
+}
+
+.offcanvas {
+  min-height: 100vh;
+  max-width: 190px; /* Set the width of the offcanvas */
+
+}
+.offcanvas.show {
+  transform: translateX(0);
+  transition: var(--tran-02);
+}
+.offcanvas.showing {
+  transform: translateX(-100%);
+  transition: var(--tran-02);
+}
+
+@media (max-width: 480px) {
+
+  #sidebar {
+    display: none;
+  }
+
+  .hiddenSidebarBtn {
+    display: block;
+  }
+
+  .navbar-brand {
+    font-size: 15px;
+  }
+
+  #userPhoto {
+      height: 35px;
+      width: 35px;
+  }
+
+  .username-container {
+      display: inline;
+      white-space: normal;
+  }
+
+  #username {
+	font-size: 10px;
+  }
+}
+
+
+@media (max-width: 992px) {
+
+  #sidebar {
+    display: none;
+  }
+
+  .hiddenSidebarBtn {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) {
+
+  #myOffcanvas {
+    display: none;
+  }
+}
 
  /* ============== Sidebar Navbar ============== */
 body{
@@ -595,6 +618,11 @@ body.dark{
     z-index: 100;
 }
 
+#myOffcanvas{
+    background: var(--sidebar-color);
+    transition: var(--tran-05);
+}
+
 /* ===== Reusable code - Here ===== */
 .sidebar li{
     height: 40px;
@@ -604,13 +632,26 @@ body.dark{
     margin-top: 15px;
 }
 
-.sidebar .icon{
-    min-width: 50px;
-    border-radius: 6px;
+#myOffcanvas li{
+    height: 40px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
 }
 
 .sidebar .icon{
     min-width: 60px;
+    border-radius: 6px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+}
+
+#myOffcanvas .icon{
+    min-width: 50px;
     border-radius: 6px;
     height: 100%;
     display: flex;
@@ -625,7 +666,20 @@ body.dark{
     transition: var(--tran-03);
 }
 
+#myOffcanvas .text,
+#myOffcanvas .icon{
+    color: var(--text-color);
+    transition: var(--tran-03);
+}
+
 .sidebar .text{
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 1;
+}
+
+#myOffcanvas .text{
     font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
@@ -639,7 +693,19 @@ body.dark{
     margin-bottom: 0.938rem;
 }
 
+#myOffcanvas header{
+    position: relative;
+    margin-top: 0.938rem;
+    margin-bottom: 0.938rem;
+}
+
 .sidebar header .image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#myOffcanvas header .image{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -647,10 +713,17 @@ body.dark{
 
 .sidebar header .image img{
     width: 160px;
-    /* border-radius: 6px; */
+}
+
+#myOffcanvas header .image img{
+    width: 130px;
 }
 
 body.dark .sidebar {
+    border-right: 2px solid #728190;
+}
+
+body.dark #myOffcanvas {
     border-right: 2px solid #728190;
 }
 
@@ -702,7 +775,16 @@ body.dark .wrapper .input-box i{
     margin-top: 40px;
 }
 
+#myOffcanvas .menu-bar{
+    margin-top: 40px;
+}
+
 .sidebar .menu-links {
+    margin-top: 0.25rem;
+    padding: 0px 0px;
+}
+
+#myOffcanvas .menu-links {
     margin-top: 0.25rem;
     padding: 0px 0px;
 }
@@ -721,15 +803,44 @@ body.dark .wrapper .input-box i{
     transition: var(--tran-03);
 }
 
+#myOffcanvas li a{
+    height: 100%;
+    width: 100%;
+    list-style: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: var(--tran-03);
+}
+
 .sidebar li a:hover{
     background-color: var(--primary-color);
 }
+
+#myOffcanvas li a:hover{
+    background-color: var(--primary-color);
+}
+
 .sidebar li a:hover .icon,
 .sidebar li a:hover .text{
     color: var(--sidebar-color);
 }
+
+#myOffcanvas li a:hover .icon,
+#myOffcanvas li a:hover .text{
+    color: var(--sidebar-color);
+}
+
 body.dark .sidebar li a:hover .icon,
 body.dark .sidebar li a:hover .text{
+    color: var(--text-color);
+}
+
+body.dark #myOffcanvas li a:hover .icon,
+body.dark #myOffcanvas li a:hover .text{
     color: var(--text-color);
 }
 
@@ -740,6 +851,15 @@ body.dark .sidebar li a:hover .text{
     justify-content: space-between;
     overflow-y: scroll;
 }
+
+#myOffcanvas .menu-bar{
+    height: calc(100% - 55px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: scroll;
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .menu-bar::-webkit-scrollbar {
   display: none;
@@ -761,7 +881,19 @@ scrollbar-width: none;  /* Firefox */
     transition: var(--tran-05);
 }
 
+#myOffcanvas .menu-bar .hidden-mode{
+    border-radius: 6px;
+    background-color: var(--primary-color-light);
+    position: relative;
+    transition: var(--tran-05);
+}
+
 .menu-bar .mode .sun-moon{
+    height: 40px;
+    width: 40px;
+}
+
+.menu-bar .hidden-mode .hidden-sun-moon{
     height: 40px;
     width: 40px;
 }
@@ -770,21 +902,47 @@ scrollbar-width: none;  /* Firefox */
     font-size: 12px;
 }
 
+.menu-bar .hidden-mode .hidden-mode-text {
+    font-size: 12px;
+}
+
 .mode .sun-moon i{
     position: absolute;
 }
+
+.hidden-mode .hidden-sun-moon i{
+    position: absolute;
+}
+
 .mode .sun-moon i.sun{
+    opacity: 0;
+}
+
+.hidden-mode .hidden-sun-moon i.hidden-sun{
     opacity: 0;
 }
 body.dark .mode .sun-moon i.sun{
     opacity: 1;
 }
+
+body.dark .hidden-mode .hidden-sun-moon i.hidden-sun{
+    opacity: 1;
+}
+
 body.dark .mode .sun-moon i.moon{
     opacity: 0;
 }
 
-.menu-bar .bottom-content {
+body.dark .hidden-mode .hidden-sun-moon i.hidden-moon{
+    opacity: 0;
+}
+
+.sidebar .menu-bar .bottom-content {
     margin-bottom: 3.75rem;
+}
+
+#myOffcanvas .menu-bar .bottom-content {
+    margin-top: 5rem;
 }
 
 .menu-bar .bottom-content .toggle-switch{
@@ -798,7 +956,29 @@ body.dark .mode .sun-moon i.moon{
     border-radius: 6px;
     cursor: pointer;
 }
+
+.menu-bar .bottom-content .hidden-toggle-switch{
+    position: absolute;
+    right: 0;
+    height: 100%;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
 .toggle-switch .switch{
+    position: relative;
+    height: 22px;
+    width: 40px;
+    border-radius: 25px;
+    background-color: var(--toggle-color);
+    transition: var(--tran-05);
+}
+
+.hidden-toggle-switch .hidden-switch{
     position: relative;
     height: 22px;
     width: 40px;
@@ -820,7 +1000,24 @@ body.dark .mode .sun-moon i.moon{
     transition: var(--tran-04);
 }
 
+.hidden-switch::before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    background-color: var(--sidebar-color);
+    transition: var(--tran-04);
+}
+
 body.dark .switch::before{
+    left: 20px;
+}
+
+body.dark .hidden-switch::before{
     left: 20px;
 }
 
@@ -846,7 +1043,7 @@ body.dark .switch::before{
 
 /* ======================================== Dashboard Webpage Start ======================================== */
 
-.home{
+.home-engineer{
     position: absolute;
     top: 0;
     left: 190px;
@@ -854,6 +1051,32 @@ body.dark .switch::before{
     width: calc(100% - 190px);
     background-color: var(--body-color);
     transition: var(--tran-05);
+}
+
+@media (min-width: 992px) {
+
+  .home{
+    position: absolute;
+    top: 0;
+    left: 190px;
+    height: 100vh;
+    width: calc(100% - 190px);
+    background-color: var(--body-color);
+    transition: var(--tran-05);
+  }
+}
+
+@media (max-width: 992px) {
+
+  .home-engineer{
+    position: unset;
+    width:unset;
+    top: 0;
+    left: 190px;
+    height: 100vh;
+    background-color: var(--body-color);
+    transition: var(--tran-05);
+  }
 }
 
 body.dark .home{

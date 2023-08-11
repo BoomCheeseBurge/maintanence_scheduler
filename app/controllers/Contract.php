@@ -101,6 +101,8 @@ class Contract extends Controller {
 
 					Flasher::setFlash('Contract', ' successfully', ' saved', 'success');
 
+					// echo json_encode(['result' => '1']);
+
 					header('Location: ' . BASEURL . '/contract');
 					exit;
 				}else {
@@ -127,7 +129,7 @@ class Contract extends Controller {
 
 	public function delContract() {
 
-		if( $this->model('Contract_model')->delContractData($_POST) > 0 ) {
+		if( $this->model('Contract_model')->delContractData($_POST['id']) > 0 ) {
 
 			Flasher::setFlash('Contract', ' successfully', ' deleted', 'success');
 
@@ -156,4 +158,13 @@ class Contract extends Controller {
 	public function getSingleContractData() {
 		echo json_encode($this->model('Contract_model')->getContractById($_POST['id']));
 	}
+
+	public function filterTable() {
+        $selectedMonth = $_POST['month'];
+        $selectedYear = $_POST['year'];
+    
+        $filteredTableData = $this->model('Maintenance_model')->filterTableData($selectedMonth, $selectedYear);
+    
+        echo json_encode($filteredTableData);
+    }
 }

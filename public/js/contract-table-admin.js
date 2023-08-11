@@ -58,25 +58,9 @@ function setForm() {
 		$('.modal-footer .contractSubmitBtn').html('Add');
 	});
 
-	// $('.contractSubmitBtn').on('click', function() {
-	// 	$.ajax({
-	// 		url: BASEURL + '/contract/addContract',
-	// 		method: 'POST',
-	// 		success: function () {
-	// 			alert('Contract added successfully');
-	// 		},
-	// 		error: function (xhr, status, error) {
-	// 			console.error('Failed to add contract.');
-	// 		}
-	// 	});
-	// });
-
-	$('.editContractBtn').on('click', function(event) {
+	$('.editContractBtn').on('click', function() {
 
 		$('#contractModalLabel').html('Edit Contract');
-		// $('.modal-body form').attr('action', BASEURL + '/contract/editContract');
-
-		event.preventDefault();
 
 		// Retrieve the specific id of the clicked row
 		const id = $(this).data('id');
@@ -103,37 +87,82 @@ function setForm() {
 				$('#assignee').val(data.full_name);
 			}
 		});
-		// Fetch the submit button based on its button type
-		const submitBtn = document.querySelector('button[type="submit"]');
 
-		// Directly add a class to the submit button
-		submitBtn.classList.add('editContract');
+		// $('#contractForm').attr('id', 'editContractForm');
+
+		$('.modal-footer .contractSubmitBtn').html('Save');
+	});
+	
+	$('.editContractBtn').on('click', function() {
+
+		$('#contractModalLabel').html('Edit Contract');
+		$('.modal-body form').attr('action', BASEURL + '/contract/editContract');
+
+		// Retrieve the specific id of the clicked row
+		const id = $(this).data('id');
+
+		// Request data without reloading the whole webpage
+		$.ajax({
+
+			// Retrieve data from here
+			url: BASEURL + '/contract/getEditContractData',
+			// Left 'id' => variabe name, Right 'id' => data
+			// Send the id of a mahasiswa to the url
+			data: {id : id},
+			method: 'POST',
+			// Return data in json file
+			dataType: 'json',
+			// data here refers to a temporary parameter variable that stores any data returned by the url above
+			success: function(data) {
+				$('#id').val(data.id);
+				$('#clientName').val(data.name);
+				$('#sopNumber').val(data.sop_number);
+				$('#startDate').val(data.start_date);
+				$('#endDate').val(data.end_date);
+				$('#deviceName').val(data.device);
+				$('#pmFreq').val(data.pm_frequency);
+				$('#assignee').val(data.full_name);
+			}
+		});
 
 		$('.modal-footer .contractSubmitBtn').html('Save');
 	});
 
-	$('.editContract').on('click', function() {
-		$.ajax({
-			url: BASEURL + '/contract/addContract',
-			method: 'POST',
-			success: function () {
 
-				const submitBtn = $('#submitBtn');
-				// Directly remove a class from the submit button
-				submitBtn.removeClass('btn-primary');
-				// After the AJAX request is done, close the modal
-				$('#contractModal').modal('hide');
-			},
-			error: function (xhr, status, error) {
-				console.error('Failed to add contract.');
-			}
-		});
-		// Fetch the submit button based on its button type
-		const submitBtn = document.querySelector('button[type="submit"]');
+	// $('#editContractForm').submit(function(event) {
+		
+	// 	event.preventDefault();
 
-		// Directly remove a class from the submit button
-		submitBtn.classList.remove('addContract');
-	});
+	// 	const formData = new FormData(document.getElementById('editContractForm'));
+
+	// 	$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Deleting contract...</span>');
+
+	// 	$.ajax({
+	// 		url: BASEURL + '/contract/editContract',
+	// 		type: 'POST',
+	// 		data: formData,
+	// 		contentType: false,
+	// 		processData: false,
+	// 		dataType: 'json',
+	// 		success: function (response) {
+
+	// 			if (response['result'] == '1') {
+
+	// 				// Change back the id of the form
+	// 				$('#editContractForm').attr('id', 'contractForm');
+
+	// 				// Change back the submit button text
+	// 				$('.contractSubmitBtn').html('Delete');
+
+	// 				// After the AJAX request is done, close the modal
+	// 				$('#contractModal').modal('hide');
+	// 			}
+	// 		},
+	// 		error: function (xhr, status, error) {
+	// 			console.error('Failed to add contract.');
+	// 		}
+	// 	});
+	// });
 
 	$('.createSchedule').on('click', function() {
 
