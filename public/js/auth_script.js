@@ -292,6 +292,7 @@ $(function() {
           dataType: 'json',
           success: function(response) {
             // Handle the response from the server here (e.g., display success message)
+            
             if (response['result'] == '1') {                
                 $('.addUserSubmitBtn').html('Add');
                 alert("Email already exists!");
@@ -344,7 +345,7 @@ $(function() {
             if (response['result'] == '1') {
                 $('#editUserModal [data-bs-dismiss="modal"]').trigger('click');
                 $('#editUserModal .editUserSubmitBtn').html('Save');
-                $('.addUserSubmitBtn').html('Add');
+                // $('.addUserSubmitBtn').html('Add');
                 setTimeout(function() {
                     alert("Successfully Updated!");
                 }, 0);
@@ -393,12 +394,15 @@ $(function() {
                 }, 0);
                 // Refresh the table data
 				$('#user-table').bootstrapTable('refresh');
-            } else if (response['result'] == "2") {
+            } else if (response['result'] == "0") {
                 $('.deleteUserSubmitBtn').html('Delete');
                 alert("Delete Failed!");
+            } else if (response['result'] == "2") {
+                $('.deleteUserSubmitBtn').html('Delete');
+                alert("You cannot delete the user. Please make sure that the user you're trying to delete with is not being used elsewhere.");
             } else {
                 $('.deleteUserSubmitBtn').html('Delete');
-                alert("Delete Failed. Contact your administrator.");
+                alert("Delete Failed. Error Code: " + response['result'] + ". Contact your administrator.");
             }
           },
           error: function(response) {

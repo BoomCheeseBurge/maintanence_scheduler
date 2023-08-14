@@ -61,7 +61,9 @@
                         </div>
                 </div>
                 <div class="modal-footer">
+                  
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+
                         <button type="submit" class="btn btn-primary addUserSubmitBtn"></button>
                 </div>
                     </form>
@@ -100,7 +102,9 @@
                         </div>
                 </div>
                 <div class="modal-footer">
+
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+
                         <button type="submit" class="btn btn-primary editUserSubmitBtn">Save</button>
                 </div>
                     </form>

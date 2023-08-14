@@ -29,6 +29,7 @@ function setFlasher(column, message, action, type) {
 }
 
 function setForm() {
+	console.log("hi");
 	// Event listener for the show.bs.modal event on the scheduledDateModal
 	$('#delMaintenanceModal').on('show.bs.modal', function(event) {
 		// Get the button that triggered the modal
