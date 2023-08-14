@@ -17,6 +17,7 @@ class User extends Controller{
 
         $data['title'] = 'Task-Scheduler | User';
         $data['identifier'] = 'user_admin';
+		$data['activePage'] = 'user';
 
 		$this->view('templates/header', $data);
 		$this->view('user/user_admin');
@@ -27,6 +28,7 @@ class User extends Controller{
 
         $data['title'] = 'Task-Scheduler | User';
         $data['identifier'] = 'user_manager';
+		$data['activePage'] = 'user';
 
 		$this->view('templates/header', $data);
 		$this->view('user/user_manager');

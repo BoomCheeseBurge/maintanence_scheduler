@@ -127,14 +127,17 @@ class Client_model {
 
 	public function delBulkClientPICData($ids) {
 
-		$query = 'DELETE FROM '. $this->table2 .' WHERE id IN (' . implode(",", $ids) . ')';
+		// Create placeholders for the IDs
+		$placeholders = implode(',', array_fill(0, count($ids), '?'));
+	
+		$query = 'DELETE FROM ' . $this->table2 . ' WHERE id IN (' . $placeholders . ')';
 		$this->db->query($query);
-		
+	
 		// Bind the IDs
 		foreach ($ids as $index => $id) {
-			$this->db->bind($index + 1, $id);
+			$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
 		}
-
+	
 		try {
 			$this->db->execute();
 			// Success: The client record was deleted successfully
@@ -145,6 +148,7 @@ class Client_model {
 
 		return $this->db->rowCount();
 	}
+	
 
 	public function getClientPICById($id) {
 

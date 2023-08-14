@@ -8,7 +8,7 @@
         <h3 class="header-title">Contract</h3>
 
 		<span id="toolbar">
-			<button id="remove" class="btn btn-danger" disabled>
+			<button class="btn btn-danger" id="remove" data-bs-toggle="modal" data-bs-target="#delBulkContractModal" disabled>
 			Delete
 			</button>
 	  		<button class="btn btn-primary addContractBtn" data-bs-toggle="modal" data-bs-target="#contractModal">Add</button>
@@ -186,23 +186,22 @@
 		</div>
 	</div>
 
-    <!-- ========================================== Bulk Delete Client PIC Modal ========================================== -->
+	<!-- ========================================== Bulk Delete Contract Modal ========================================== -->
 	<div class="modal fade" id="delBulkContractModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delBulkContractModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h6 class="modal-title fs-5" id="delBulkContractModalLabel">Bulk Delete Contract</h6>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close cancelDelBulkContract" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="" method="post">
-						<h6>Are you sure?</h6>
-						<input type="hidden" name="id" id="picId">
+				<form action="" method="post" id="bulkDeleteContractForm">
+					<h6>Are you sure?</h6>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-danger bulkDeleteBtn">Confirm</button>
-					</form>
+					<button type="button" class="btn btn-secondary cancelDelBulkContract" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-danger bulkDeleteSubmitBtn">Confirm</button>
+				</form>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 flash-container">
                     <?php Flasher::flash(); ?>
                 </div>
             </div>

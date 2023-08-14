@@ -15,6 +15,7 @@ class Client extends Controller {
 
 		$data['title'] = 'Task-Scheduler | Client';
 		$data['identifier'] = 'client_admin';
+		$data['activePage'] = 'client';
 
 		$this->view('templates/header', $data);
 		$this->view('client/client_admin');
@@ -25,6 +26,7 @@ class Client extends Controller {
 
 		$data['title'] = 'Task-Scheduler | Client';
 		$data['identifier'] = 'client_manager';
+		$data['activePage'] = 'client';
 
 		$this->view('templates/header', $data);
 		$this->view('client/client_manager');
@@ -118,9 +120,15 @@ class Client extends Controller {
 
 	public function delBulkClientPIC() {
 
-		$rowCount = $this->model('Client_model')->delBulkClientPICData($_POST['ids']);
-		$response = ['rowCount' => $rowCount];
-		echo json_encode($response);
+		if( $this->model('Client_model')->delBulkClientPICData($_POST['ids']) > 0 ) {
+
+			echo json_encode(['result' => '1']);
+			exit;
+		}else {
+
+			echo json_encode(['result' => '2']);
+			exit;
+		}
 	}
 
 	public function searchClientName()

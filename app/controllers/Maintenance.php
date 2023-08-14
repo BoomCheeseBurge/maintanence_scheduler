@@ -2,20 +2,20 @@
 
 class Maintenance extends Controller {
 
-    public function index() {
+	public function index() {
 
-        $data['title'] = 'Task-Scheduler | MaintenanceSchedule';
-        $data['identifier'] = 'history';
-
-		$this->view('templates/header', $data);
-		$this->view('maintenance/index');
-		$this->view('templates/footer', $data);
-    }
+		if ( $_SESSION['role'] == 'admin' ) {
+			$this->history_admin();
+		} elseif ( $_SESSION['role'] == 'manager' ) {
+			$this->history_manager();
+		}
+	}
 
     public function history_admin() {
 
         $data['title'] = 'Task-Scheduler | MaintenanceSchedule';
         $data['identifier'] = 'history';
+        $data['activePage'] = 'history';
 
 		$this->view('templates/header', $data);
 		$this->view('maintenance/index');
@@ -26,6 +26,7 @@ class Maintenance extends Controller {
 
         $data['title'] = 'Task-Scheduler | MaintenanceSchedule';
         $data['identifier'] = 'history';
+        $data['activePage'] = 'history';
 
 		$this->view('templates/header', $data);
 		$this->view('maintenance/index');
@@ -110,54 +111,6 @@ class Maintenance extends Controller {
 			echo json_encode(['result' => '2']);
 			exit;
 		}
-    }
-
-    public function setScheduledDate() {
-        if( $this->model('Maintenance_model')->setScheduledDate($_POST) > 0 ) {
-
-            Flasher::setFlash('Scheduled date', ' successfully', ' set', 'success');
-
-            header('Location: ' . BASEURL . '/dashboard');
-            exit;
-        }else {
-
-            Flasher::setFlash('Scheduled date', ' failed', ' to be set', 'danger');
-
-            header('Location: ' . BASEURL . '/dashboard');
-            exit;
-        }
-    }
-
-    public function setActualDate() {
-        if( $this->model('Maintenance_model')->setActualDate($_POST) > 0 ) {
-
-            Flasher::setFlash('Actual date', ' successfully', ' set', 'success');
-
-            header('Location: ' . BASEURL . '/dashboard');
-            exit;
-        }else {
-
-            Flasher::setFlash('Actual date', ' failed', ' to be set', 'danger');
-
-            header('Location: ' . BASEURL . '/dashboard');
-            exit;
-        }
-    }
-
-    public function setReportStatus() {
-        if( $this->model('Maintenance_model')->setReportValue($_POST['id']) > 0 ) {
-
-            Flasher::setFlash('Report', ' successfully', ' delivered', 'success');
-
-            header('Location: ' . BASEURL . '/dashboard');
-            exit;
-        }else {
-
-            Flasher::setFlash('Report', ' failed', ' to be marked', 'danger');
-
-            header('Location: ' . BASEURL . '/dashboard');
-            exit;
-        }
     }
 
     public function getDataForEngineerPerformance() {

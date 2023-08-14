@@ -1,11 +1,11 @@
 // Bootstrap Table Extended
-var $clientTable = $('#client-table')
-var $remove = $('#remove')
-var selections = []
+var $clientTable = $('#client-table');
+var $remove = $('#remove'); 
+var selections = [];
 
 function getIdSelections() {
 	return $.map($clientTable.bootstrapTable('getSelections'), function (row) {
-		return row.id
+		return row.id;
 	})
 }
 
@@ -56,7 +56,7 @@ function setForm() {
 		// Get the form data
 		const formData = new FormData(document.getElementById('addClientForm'));
 
-		$('.addClientSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Adding client...</span>');
+		$('.addClientSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Adding client...</span>');
 
 		$.ajax({
 			url: BASEURL + '/client/addClient',
@@ -71,7 +71,7 @@ function setForm() {
 					$('#addClientModal [data-bs-dismiss="modal"]').trigger('click');
 					setFlasher('Client', ' successfully', ' added', 'success');
 					$('#client-table').bootstrapTable('refresh');
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == '2') {
 					setFlasher('Client', ' failed', ' to be added', 'danger');
 				} else {
 					alert("Entry Failed. Contact your administrator.");
@@ -97,7 +97,7 @@ function setForm() {
 		
 		const formData = new FormData(document.getElementById('editClientForm'));
 
-		$('.editClientSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Saving client...</span>');
+		$('.editClientSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Saving client...</span>');
 
 		$.ajax({
 			url: BASEURL + '/client/editClient',
@@ -112,7 +112,7 @@ function setForm() {
 					$('#editClientModal [data-bs-dismiss="modal"]').trigger('click');
 					setFlasher('Client', ' successfully', ' saved', 'success');
 					$('#client-table').bootstrapTable('refresh');
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == '2') {
 					setFlasher('Client', ' failed', ' to be saved', 'danger');
 				} else {
 					alert("Save changes failed. Contact your administrator.");
@@ -138,7 +138,7 @@ function setForm() {
 		
 		const formData = new FormData(document.getElementById('delClientForm'));
 
-		$('.delClientSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Deleting client...</span>');
+		$('.delClientSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting client...</span>');
 
 		$.ajax({
 			url: BASEURL + '/client/delClient',
@@ -153,7 +153,7 @@ function setForm() {
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
 					setFlasher('Client', ' successfully', ' deleted', 'success');
 					$('#client-table').bootstrapTable('refresh');
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == '2') {
 					setFlasher('Client', ' failed', ' to be deleted', 'danger');
 				} else {
 					alert("Deletion Failed. Contact your administrator.");
@@ -200,7 +200,7 @@ function setForm() {
 		
 		const formData = new FormData(document.getElementById('editClientPICForm'));
 
-		$('.editClientPICSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Saving PIC...</span>');
+		$('.editClientPICSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Saving PIC...</span>');
 
 		$.ajax({
 			url: BASEURL + '/client/editClientPIC',
@@ -215,9 +215,9 @@ function setForm() {
 					$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 					setFlasher('Client PIC', ' successfully', ' saved', 'success');
 					$('#client-table').bootstrapTable('refresh');
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == '2') {
 					setFlasher('Client PIC', ' failed', ' to be saved', 'danger');
-				} else if (response['result'] == "3") {
+				} else if (response['result'] == '3') {
 					setFlasher('Client PIC', ' failed', ' to be found', 'danger');
 				} else {
 					alert("Save changes failed. Contact your administrator.");
@@ -243,7 +243,7 @@ function setForm() {
 		
 		const formData = new FormData(document.getElementById('delClientPICForm'));
 
-		$('.delClientPICSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Deleting PIC...</span>');
+		$('.delClientPICSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting PIC...</span>');
 
 		$.ajax({
 			url: BASEURL + '/client/delClientPIC',
@@ -258,7 +258,7 @@ function setForm() {
 					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 					setFlasher('Client PIC', ' successfully', ' deleted', 'success');
 					$('#client-table').bootstrapTable('refresh');
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == '2') {
 					setFlasher('Client PIC', ' failed', ' to be deleted', 'danger');
 				} else {
 					alert("Deletion Failed. Contact your administrator.");
@@ -345,37 +345,43 @@ function initClientTable() {
 		// push or splice the selections if you want to save all data selections
 	});
 
-	$remove.click(function () {
+	$(document).on('click', '.cancelDelBulkPIC', function() {
+
+		$('.bulkDeleteSubmitBtn').html('Confirm');
+	});
+
+	$(document).on('submit', '#bulkDeletePICForm', function(event) {
+		event.preventDefault();
+
 		var ids = getIdSelections();
 
-		// console.log(ids);
-		
-		// Show the confirmation modal
-		$('#delBulkClientPICModal').modal('show');
-		
-		// Make sure to remove any previously bound click event on #bulkDeleteBtn
-		$('.bulkDeleteBtn').on('click', function (event) {
-			event.preventDefault();
-		
-			// Send an AJAX request to the server to delete the selected rows
-			$.ajax({
+		$('.bulkDeleteSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting PIC...</span>');
+	
+		// Send an AJAX request to the server to delete the selected rows
+		$.ajax({
 			url: BASEURL + '/client/delBulkClientPIC',
 			type: 'POST',
 			data: { ids: ids },
+			dataType: 'json',
 			success: function (response) {
-				console.log(response);
-				// Hide the confirmation modal
-				$('#delBulkClientPICModal').modal('hide');
-				// Handle the success response if needed
-				// For example, you can reload the table data after successful deletion
-				$clientTable.bootstrapTable('refresh');
-				$remove.prop('disabled', true);
+
+				if (response['result'] == '1') {
+					$('#delBulkClientPICModal [data-bs-dismiss="modal"]').trigger('click');
+					setFlasher('Client PIC', ' successfully', ' deleted', 'success');
+					$('#client-table').bootstrapTable('refresh');
+					$remove.prop('disabled', true);
+				} else if (response['result'] == '2') {
+					setFlasher('Client PIC', ' failed', ' to be deleted', 'danger');
+					$remove.prop('disabled', true);
+				} else {
+					alert("Deletion Failed. Contact your administrator.");
+					$remove.prop('disabled', true);
+				}
 			},
 			error: function (xhr, status, error) {
 				// Handle the error if any
 				console.error(error);
 			}
-			});
 		});
 	});
 }

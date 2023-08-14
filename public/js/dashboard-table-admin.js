@@ -1,5 +1,14 @@
 // Admin Bootstrap Table Extended
-var $dashboardTable = $('#dashboard-table')
+var $dashboardTable = $('#dashboard-table');
+var $remove = $('#remove');
+var selections = [];
+
+// Function to retrieve the selected rows from the table
+function getIdSelections() {
+	return $.map($dashboardTable.bootstrapTable('getSelections'), function (row) {
+		return row.id
+	})
+}
 
 // Function to initialize Bootstrap 5.3 tooltips
 function initializeTooltips() {
@@ -94,6 +103,11 @@ function initDashboardTable() {
 		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
 		{
+			field: 'state',
+			checkbox: true,
+			align: 'center',
+			valign: 'middle'
+		},{
 			title: 'Engineer',
 			field: 'engineer_name',
 			align: 'center',
@@ -156,7 +170,57 @@ function initDashboardTable() {
 	  onPostBody: () => {
 		initializeTooltips();
 	  }
-	})
+	});
+
+	$dashboardTable.on('check.bs.table uncheck.bs.table ' +
+		'check-all.bs.table uncheck-all.bs.table',
+	function () {
+		$remove.prop('disabled', !$dashboardTable.bootstrapTable('getSelections').length)
+
+		// save your data, here just save the current page
+		selections = getIdSelections()
+		// push or splice the selections if you want to save all data selections
+	});
+
+	$(document).on('click', '.cancelDelBulkMaintenance', function() {
+
+		$('.bulkDeleteSubmitBtn').html('Confirm');
+	});
+
+	$(document).on('submit', '#bulkDeleteMaintenanceForm', function(event) {
+		event.preventDefault();
+
+		var ids = getIdSelections();
+
+		$('.bulkDeleteSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting Maintenance...</span>');
+
+		// Send an AJAX request to the server to delete the selected rows
+		$.ajax({
+			url: BASEURL + '/dashboard/delBulkMaintenance',
+			type: 'POST',
+			data: { ids: ids },
+			dataType: 'json',
+			success: function (response) {
+
+				if (response['result'] == '1') {
+					$('#delBulkMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
+					setFlasher('Maintenance', ' successfully', ' deleted', 'success');
+					$('#dashboard-table').bootstrapTable('refresh');
+					$remove.prop('disabled', true);
+				} else if (response['result'] == '2') {
+					setFlasher('Maintenance', ' failed', ' to be deleted', 'danger');
+					$remove.prop('disabled', true);
+				} else {
+					alert("Deletion Failed. Contact your administrator.");
+					$remove.prop('disabled', true);
+				}
+			},
+			error: function (xhr, status, error) {
+				// Handle the error if any
+				console.error(error);
+			}
+		});
+	});
 }
 
 $(function() {

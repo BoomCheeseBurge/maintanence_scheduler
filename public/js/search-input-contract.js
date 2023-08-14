@@ -52,8 +52,6 @@ document.getElementById('assignee').addEventListener('input', function () {
 // Search Input for Client
 document.getElementById('clientName').addEventListener('input', function () {
 	const searchQuery = this.value.trim();
-
-	console.log('Searching for client ' + searchQuery);
   
 	// If the search query is empty, hide the client list and return
 	if (searchQuery === '') {

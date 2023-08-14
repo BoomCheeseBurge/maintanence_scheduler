@@ -65,7 +65,7 @@ class Maintenance_model {
 		FROM '. $this->table1 . ' m
 		INNER JOIN '. $this->table2 . ' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 . ' cl ON m.client_id = cl.id
-		WHERE m.actual_date IS NULL OR m.report_status = "in-progress" OR
+		WHERE (m.actual_date IS NULL OR m.report_status = "in-progress" OR
 		( m.report_status = "delivered" AND
 		(
 			CASE 
@@ -96,8 +96,8 @@ class Maintenance_model {
 				WHEN m.month = "November" THEN 11
 				WHEN m.month = "December" THEN 12
 			END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-        )) AND
-		m.engineer_id = ' .$_SESSION["id"];
+        ))) AND
+		m.engineer_id = ' . $_SESSION["id"];
 		
 		$this->db->query($query);
 		return $this->db->resultSet();
@@ -197,6 +197,30 @@ class Maintenance_model {
 		} catch (PDOException $e) {
 			// Error: The client record could not be deleted due to the foreign key constraint
 			echo "Error: Cannot delete the contract record because it has related records in other tables.";
+		}
+
+		return $this->db->rowCount();
+	}
+
+	public function delBulkMaintenanceData($ids) {
+
+		// Create placeholders for the IDs
+		$placeholders = implode(',', array_fill(0, count($ids), '?'));
+	
+		$query = 'DELETE FROM ' . $this->table1 . ' WHERE id IN (' . $placeholders . ')';
+		$this->db->query($query);
+	
+		// Bind the IDs
+		foreach ($ids as $index => $id) {
+			$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
+		}
+	
+		try {
+			$this->db->execute();
+			// Success: The client record was deleted successfully
+		} catch (PDOException $e) {
+			// Error: The client record could not be deleted due to the foreign key constraint
+			echo "Error: Cannot delete the maintenance record because it has related records in other tables.";
 		}
 
 		return $this->db->rowCount();

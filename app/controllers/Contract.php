@@ -15,6 +15,7 @@ class Contract extends Controller {
 
 		$data['title'] = 'Task-Scheduler | Contract';
 		$data['identifier'] = 'contract_admin';
+		$data['activePage'] = 'contract';
 
 		$this->view('templates/header', $data);
 		$this->view('contract/contract_admin');
@@ -25,6 +26,7 @@ class Contract extends Controller {
 
 		$data['title'] = 'Task-Scheduler | Contract';
 		$data['identifier'] = 'contract_manager';
+		$data['activePage'] = 'contract';
 
 		$this->view('templates/header', $data);
 		$this->view('contract/contract_manager');
@@ -125,9 +127,15 @@ class Contract extends Controller {
 
 	public function delBulkContract() {
 
-		$rowCount = $this->model('Contract_model')->delBulkContractData($_POST['ids']);
-		$response = ['rowCount' => $rowCount];
-		echo json_encode($response);
+		if( $this->model('Contract_model')->delBulkContractData($_POST['ids']) > 0 ) {
+
+			echo json_encode(['result' => '1']);
+			exit;
+		}else {
+
+			echo json_encode(['result' => '2']);
+			exit;
+		}
 	}
 
 	public function getEditContractData() {

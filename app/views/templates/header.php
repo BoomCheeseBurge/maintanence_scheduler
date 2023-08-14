@@ -32,39 +32,74 @@
 
 		<div class="menu-bar">
 			<ul class="menu-links">
-				<li class="nav-link">
-					<a href="<?= BASEURL; ?>">
-						<i class="fa-solid fa-house icon"></i>
-						<span class="text nav-text">Dashboard</span>
-					</a>
+				<li class="nav-link" aria-current="true">
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'dashboard' ): ?>
+						<a href="<?= BASEURL; ?>" style="background-color: #695CFE;">
+							<i class="fa-solid fa-house icon" style="color: #E4E9F7;"></i>
+							<span class="text nav-text" style="color: #E4E9F7;">Dashboard</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= BASEURL; ?>">
+							<i class="fa-solid fa-house icon"></i>
+							<span class="text nav-text">Dashboard</span>
+						</a>
+					<?php endif; ?>
 				</li>
 
 				<li class="nav-link">
-					<a href="<?= BASEURL; ?>/maintenance">
-						<i class="fa-solid fa-list icon"></i>
-						<span class="text nav-text">Maintenance</span>
-					</a>
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'history' ): ?>
+						<a href="<?= BASEURL; ?>/maintenance" style="background-color: #695CFE;">
+							<i class="fa-solid fa-list icon" style="color: #E4E9F7;"></i>
+							<span class="text nav-text" style="color: #E4E9F7;">Maintenance</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= BASEURL; ?>/maintenance">
+							<i class="fa-solid fa-list icon"></i>
+							<span class="text nav-text">Maintenance</span>
+						</a>
+					<?php endif; ?>
 				</li>
 
 				<li class="nav-link">
-					<a href="<?= BASEURL; ?>/contract">
-						<i class="fa-solid fa-file-signature icon"></i>
-						<span class="text nav-text">Contract</span>
-					</a>
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'contract' ): ?>
+						<a href="<?= BASEURL; ?>/contract" style="background-color: #695CFE;">
+							<i class="fa-solid fa-file-signature icon" style="color: #E4E9F7;"></i>
+							<span class="text nav-text" style="color: #E4E9F7;">Contract</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= BASEURL; ?>/contract">
+							<i class="fa-solid fa-file-signature icon"></i>
+							<span class="text nav-text">Contract</span>
+						</a>
+					<?php endif; ?>
 				</li>
 
 				<li class="nav-link">
-					<a href="<?= BASEURL; ?>/client">
-						<i class="fa-solid fa-user-tie icon"></i>
-						<span class="text nav-text">Client</span>
-					</a>
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'client' ): ?>
+						<a href="<?= BASEURL; ?>/client" style="background-color: #695CFE;">
+							<i class="fa-solid fa-user-tie icon" style="color: #E4E9F7;"></i>
+							<span class="text nav-text" style="color: #E4E9F7;">Client</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= BASEURL; ?>/client">
+							<i class="fa-solid fa-user-tie icon"></i>
+							<span class="text nav-text">Client</span>
+						</a>
+					<?php endif; ?>
 				</li>
 
 				<li class="nav-link">
-					<a href="<?= BASEURL; ?>/user">
-						<i class="fa-solid fa-users icon"></i>
-						<span class="text nav-text">User</span>
-					</a>
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'user' ): ?>
+						<a href="<?= BASEURL; ?>/user" style="background-color: #695CFE;">
+							<i class="fa-solid fa-users icon" style="color: #E4E9F7;"></i>
+							<span class="text nav-text" style="color: #E4E9F7;">User</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= BASEURL; ?>/user">
+							<i class="fa-solid fa-users icon"></i>
+							<span class="text nav-text">User</span>
+						</a>
+					<?php endif; ?>
 				</li>
 			</ul>
 

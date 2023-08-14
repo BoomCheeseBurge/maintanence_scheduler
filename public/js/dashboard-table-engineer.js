@@ -58,25 +58,25 @@ function setForm() {
 		$('.setDateSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Setting date...</span>');
 		
 		$.ajax({
-			url: BASEURL + '/maintenance/setScheduledDate',
+			url: BASEURL + '/dashboard/setScheduledDate',
 			type: 'POST',
 			data: formData,
 			contentType: false,
 			processData: false,
 			dataType: 'json',
 			success: function(response) {
-
 				if (response['result'] == '1') {
 					$('#formModal [data-bs-dismiss="modal"]').trigger('click');
 					setFlasher('Scheduled date', ' successfully', ' set', 'success');
 					$('#engineer-dashboard-table').bootstrapTable('refresh');
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == '2') {
 					setFlasher('Scheduled date', ' failed', ' to be set', 'danger');
 				} else {
 					alert("Entry Failed. Contact your administrator.");
 				}
 			},
-			error: function() {
+			error: function(e) {
+				console.log(e);
 			// Request failed, handle error here
 			alert("Error setting scheduled date.");
 			}
@@ -101,7 +101,7 @@ function setForm() {
 		$('.setDateSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Setting date...</span>');
 
 		$.ajax({
-			url: BASEURL + '/maintenance/setActualDate',
+			url: BASEURL + '/dashboard/setActualDate',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -113,7 +113,7 @@ function setForm() {
 					$('#formModal [data-bs-dismiss="modal"]').trigger('click');
 					setFlasher('Actual date', ' successfully', ' set', 'success');
 					$('#engineer-dashboard-table').bootstrapTable('refresh');
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == '2') {
 					setFlasher('Actual date', ' failed', ' to be set', 'danger');
 				} else {
 					alert("Entry failed. Contact your administrator.");
@@ -134,14 +134,20 @@ function setButton() {
 		var maintenanceId = $(this).data('id');
 
 		$.ajax({
-			url: BASEURL + '/maintenance/setReportStatus',
+			url: BASEURL + '/dashboard/setReportStatus',
 			method: 'POST',
 			data: {
 			  id: maintenanceId
 			},
 			success: function(response) {
-				// Refresh the table data
-				$('#engineer-dashboard-table').bootstrapTable('refresh');
+				if (response['result'] == '1') {
+					setFlasher('Report', ' successfully', ' completed', 'success');
+					$('#engineer-dashboard-table').bootstrapTable('refresh');
+				} else if (response['result'] == '2') {
+					setFlasher('Report', ' failed', ' to be completed', 'danger');
+				} else {
+					alert("Entry failed. Contact your administrator.");
+				}
 			},
 			error: function(xhr, status, error) {
 			  // Handle the error, if any

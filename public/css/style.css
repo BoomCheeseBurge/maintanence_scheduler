@@ -25,10 +25,6 @@
     --tran-05: all 0.5s ease;
 }
 
-section {
-  overflow-y: scroll;
-}
-
 /* For each webpage's title */
 .header-title {
   font-size: 28px;
@@ -408,31 +404,6 @@ body {
 
 /* ============ Toolbar CSS End ============ */
 
-  .btn-custom {
-    background-color: #695CFE !important;
-    color: white !important;
-    align-items: center;
-    appearance: none;
-    border-width: 0;
-    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -2px 0 inset;
-    box-sizing: border-box;
-    display: inline-flex;
-    font-family: "JetBrains Mono",monospace;
-    justify-content: center;
-    list-style: none;
-    overflow: hidden;
-    position: relative;
-    text-align: left;
-    text-decoration: none;
-    transition: box-shadow .15s,transform .15s;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    white-space: nowrap;
-    will-change: box-shadow,transform;
-    font-size: 18px;
-  }
-
   .userBtn {
     color: #000;
   }
@@ -558,6 +529,10 @@ body {
   }
 }
 
+.ppIcon {
+  color: var(--text-color) !important;
+}
+
 
 @media (max-width: 992px) {
 
@@ -599,6 +574,10 @@ body.dark{
     --text-color: #BDBEBF;
     --form-color: #37404a;
     
+}
+
+body.dark #username {
+  color: var(--toggle-color);
 }
 
 /* ===== Sidebar ===== */

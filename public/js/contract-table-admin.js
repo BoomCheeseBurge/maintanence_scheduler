@@ -1,7 +1,7 @@
 // Bootstrap Table Extended
 var $contractTable = $('#contract-table');
-var $remove = $('#remove')
-var selections = []
+var $remove = $('#remove');
+var selections = [];
 
 // Function to retrieve the selected rows from the table
 function getIdSelections() {
@@ -614,7 +614,7 @@ function setForm() {
 		// Get the form data
 		const formData = new FormData(document.getElementById('addContractForm'));
 
-		$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Adding contract...</span>');
+		$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Adding contract...</span>');
 		
 		$.ajax({
 			url: BASEURL + '/contract/addContract',
@@ -629,11 +629,11 @@ function setForm() {
 					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
 					setFlasher('Contract', ' successfully', ' added', 'success');
 					$('#contract-table').bootstrapTable('refresh');
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == '2') {
 					setFlasher('Contract', ' failed', ' to be added', 'danger');
-				} else if (response['result'] == "3") {
+				} else if (response['result'] == '3') {
 					setFlasher('Contract', ' already', ' exist', 'warning');
-				} else if (response['result'] == "4") {
+				} else if (response['result'] == '4') {
 					setFlasher('Client or engineer', ' failed', ' to be found', 'danger');
 				} else {
 					alert("Entry Failed. Contact your administrator.");
@@ -684,7 +684,7 @@ function setForm() {
 		
 		const formData = new FormData(document.getElementById('editContractForm'));
 
-		$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Saving contract...</span>');
+		$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Saving contract...</span>');
 
 		$.ajax({
 			url: BASEURL + '/contract/editContract',
@@ -699,11 +699,11 @@ function setForm() {
 					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
 					setFlasher('Contract', ' successfully', ' saved', 'success');
 					$('#contract-table').bootstrapTable('refresh');
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == '2') {
 					setFlasher('Contract', ' failed', ' to be saved', 'danger');
-				} else if (response['result'] == "3") {
+				} else if (response['result'] == '3') {
 					setFlasher('Contract', ' already', ' exist', 'warning');
-				} else if (response['result'] == "4") {
+				} else if (response['result'] == '4') {
 					setFlasher('Client or engineer', ' failed', ' to be found', 'danger');
 				} else {
 					alert("Save changes failed. Contact your administrator.");
@@ -729,7 +729,7 @@ function setForm() {
 		
 		const formData = new FormData(document.getElementById('delContractForm'));
 
-		$('.delContractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Deleting contract...</span>');
+		$('.delContractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting contract...</span>');
 
 		$.ajax({
 			url: BASEURL + '/contract/delContract',
@@ -744,7 +744,7 @@ function setForm() {
 					$('#delContractModal [data-bs-dismiss="modal"]').trigger('click');
 					setFlasher('Contract', ' successfully', ' deleted', 'success');
 					$('#contract-table').bootstrapTable('refresh');
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == '2') {
 					setFlasher('Contract', ' failed', ' to be deleted', 'danger');
 				} else {
 					alert("Deletion Failed. Contact your administrator.");
@@ -886,37 +886,43 @@ function initContractTable() {
 		// push or splice the selections if you want to save all data selections
 	});
 
-	$remove.click(function () {
+	$(document).on('click', '.cancelDelBulkContract', function() {
+
+		$('.bulkDeleteSubmitBtn').html('Confirm');
+	});
+
+	$(document).on('submit', '#bulkDeleteContractForm', function(event) {
+		event.preventDefault();
+
 		var ids = getIdSelections();
 
-		console.log(ids);
-	  
-		// Show the confirmation modal
-		$('#delBulkContractModal').modal('show');
-	  
-		// Make sure to remove any previously bound click event on #bulkDeleteBtn
-		$('.bulkDeleteBtn').on('click', function (event) {
-			event.preventDefault();
-		
-			// Send an AJAX request to the server to delete the selected rows
-			$.ajax({
-				url: BASEURL + '/contract/delBulkContract',
-				type: 'POST',
-				data: { ids: ids },
-				success: function (response) {
-					console.log(response);
-					// Hide the confirmation modal
-					$('#delBulkContractModal').modal('hide');
-					// Handle the success response if needed
-					// For example, you can reload the table data after successful deletion
-					$contractTable.bootstrapTable('refresh');
+		$('.bulkDeleteSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting Contract...</span>');
+	
+		// Send an AJAX request to the server to delete the selected rows
+		$.ajax({
+			url: BASEURL + '/contract/delBulkContract',
+			type: 'POST',
+			data: { ids: ids },
+			dataType: 'json',
+			success: function (response) {
+
+				if (response['result'] == '1') {
+					$('#delBulkContractModal [data-bs-dismiss="modal"]').trigger('click');
+					setFlasher('Contract', ' successfully', ' deleted', 'success');
+					$('#contract-table').bootstrapTable('refresh');
 					$remove.prop('disabled', true);
-				},
-				error: function (xhr, status, error) {
-					// Handle the error if any
-					console.error(error);
+				} else if (response['result'] == '2') {
+					setFlasher('Contract', ' failed', ' to be deleted', 'danger');
+					$remove.prop('disabled', true);
+				} else {
+					alert("Deletion Failed. Contact your administrator.");
+					$remove.prop('disabled', true);
 				}
-			});
+			},
+			error: function (xhr, status, error) {
+				// Handle the error if any
+				console.error(error);
+			}
 		});
 	});
 }
