@@ -19,15 +19,14 @@ class User_model {
 
 		$hash = password_hash($password.PEPPER, PASSWORD_DEFAULT);
 
-		$query = "INSERT INTO " . $this->table . " (id, full_name, password, role, email) VALUES
-					('', :name, :password, :role, :email)";
+		$query = "INSERT INTO " . $this->table . " (full_name, password, role, email) VALUES
+					(:name, :password, :role, :email)";
 
 		$this->db->query($query);
 		$this->db->bind('name', $data['name']);
 		$this->db->bind('password', $hash);
 		$this->db->bind('role', $data['roleInput']);
 		$this->db->bind('email', $data['email']);
-
 		$this->db->execute();
 
 		return $this->db->rowCount();
@@ -50,14 +49,25 @@ class User_model {
 	}
 
 	public function deleteUser($id) {
-		$query = "DELETE FROM " . $this->table . " WHERE id = :id";
 
-		$this->db->query($query);
-		$this->db->bind('id', $id);
-
-		$this->db->execute();
-
-		return $this->db->rowCount();
+		try {
+			$query = "DELETE FROM " . $this->table . " WHERE id = :id";
+		
+			$this->db->query($query);
+			$this->db->bind('id', $id);
+		
+			$this->db->execute();
+		
+			return $this->db->rowCount();
+		} catch (PDOException $e) {
+			$errorCode = $e->getCode();
+			if ($errorCode === '23000' || $errorCode === '1451') {
+				return 2;
+			} else {
+				// Handle other errors
+				return $errorCode;
+			}
+		}
 	}
 
 	public function saveUserData($data) {

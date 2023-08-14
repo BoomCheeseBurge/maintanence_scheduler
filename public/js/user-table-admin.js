@@ -72,10 +72,10 @@ function setForm() {
 
 function editUserFormatter(value, row, index) {
     return [
-		'<button type="button" class="btn btn-warning editUserBtn" data-bs-toggle="modal" data-bs-target="#editUserModal" data-id=' + row.id + '>',
+		'<button type="button" class="btn btn-warning btn-sm editUserBtn" data-bs-toggle="modal" data-bs-target="#editUserModal" data-id=' + row.id + '>',
 		'Edit',
 		'</button>',
-		'<button type="button" class="btn btn-danger deleteUserBtn" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-id=' + row.id + '>',
+		'<button type="button" class="btn btn-danger btn-sm deleteUserBtn" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-id=' + row.id + '>',
 		'Delete',
 		'</button>'
     ].join('')

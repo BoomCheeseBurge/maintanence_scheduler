@@ -38,13 +38,13 @@ class User extends Controller{
 	}
 
     public function addUser() {
-		
+
 		if ( $this->model('Signup_model')->isEmailTaken($_POST['email']) > 0 )  {
 			
 			echo json_encode(['result' => '1']);
-		}
-		elseif ( $this->model('User_model')->addNewUser($_POST) > 0 ) {
 
+		} elseif ( $this->model('User_model')->addNewUser($_POST) > 0 ) {
+			
 			$to = $_POST['email'];
 			$subject = "Welcome to ITPro Task Scheduler - Your Account Details";
 		
@@ -118,23 +118,15 @@ class User extends Controller{
 
 	public function delete() {
 
-		if( $this->model('User_model')->deleteUser($_POST['id']) > 0 ) {
-			
-			echo json_encode(['result' => '1']);
-		}else {
-
-			echo json_encode(['result' => '2']);
-		}
+		$result = $this->model('User_model')->deleteUser($_POST['id']);
+		
+		echo json_encode(['result' => $result]);
 	}
 
 
 	public function saveUser() {
 
 		if( $this->model('User_model')->saveUserData($_POST) > 0 ) {
-			
-            $_SESSION['name'] = $_POST['name'];
-            $_SESSION['email'] = $_POST['email'];
-            $_SESSION['role'] = $_POST['roleInput'];
 
 			echo json_encode(['result' => '1']);
 		}else {

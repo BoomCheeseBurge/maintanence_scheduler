@@ -17,33 +17,19 @@ function initUserTable() {
 			field: 'full_name',
 			align: 'center',
 			sortable: true,
-<<<<<<< HEAD
-			align: 'center'
-		  }, {
-=======
 			valign: 'middle'
 		}, {
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 			title: 'E-mail',
 			field: 'email',
 			align: 'center',
 			valign: 'middle',
-<<<<<<< HEAD
-		  }, {
-=======
 		}, {
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 			title: 'Role',
 			field: 'role',
 			align: 'center',
 			valign: 'middle'
-<<<<<<< HEAD
-		  }]
-	})
-=======
 		}]
 	});
->>>>>>> 7f4d668992cd18ab05ccbe3ceeb83614ff1d68be
 }
 
 $(function() {

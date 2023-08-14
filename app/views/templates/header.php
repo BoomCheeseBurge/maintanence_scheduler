@@ -4,6 +4,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- ================================== Font Awesome ================================== -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- ================================== Bootstrap 5 ================================== -->
   <link href="<?= BASEURL; ?>/css/bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -95,6 +98,10 @@
             <div class="container-fluid">
                 <a class="navbar-brand ms-4" href="<?= BASEURL; ?>">Task-Scheduler</a>
                 <div class="d-flex justify-content-end">
+                    <!-- Bell Icon for Notifications -->
+                    <a class="nav-link text-light ms-2" href="#">
+                      <i class="fa-regular fa-bell"></i>
+                    </a>
                     <div class="btn-group dropstart">
                         <button type="button" class="btn userColor dropdown-toggle userBtn" data-bs-toggle="dropdown" aria-expanded="false">
                           <img id="userPhoto" src="<?= BASEURL ?>/img/users/<?= $_SESSION['photo'] ?>" alt="User Photo" class="user-photo ms-auto">
