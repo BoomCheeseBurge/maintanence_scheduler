@@ -3,6 +3,11 @@ var $contractTable = $('#contract-table');
 var $remove = $('#remove')
 var selections = []
 
+function setFlasher(column, message, action, type) {
+	
+	const flashContainer = $('');
+}
+
 function getIdSelections() {
 	return $.map($contractTable.bootstrapTable('getSelections'), function (row) {
 		return row.id
@@ -41,10 +46,9 @@ function setForm() {
 		$('#contractId').val(contractId);
 	});
 
-	$('.addContractBtn').on('click', function() {
+	$(document).on('click', '.addContractBtn', function() {
 
 		$('#contractModalLabel').html('New Contract');
-		$('.modal-body form').attr('action', BASEURL + '/contract/addContract');
 
 		$('#id').val('');
 		$('#clientName').val('');
@@ -55,10 +59,13 @@ function setForm() {
 		$('#pmFreq').val('');
 		$('#assignee').val('');
 
+		$('#contractForm').attr('id', 'addContractForm');
+
 		$('.modal-footer .contractSubmitBtn').html('Add');
 	});
 
-	$('.editContractBtn').on('click', function() {
+	// ============================================== Experimental feature ==============================================
+	$(document).on('click', '.editContractBtn', function() {
 
 		$('#contractModalLabel').html('Edit Contract');
 
@@ -88,81 +95,103 @@ function setForm() {
 			}
 		});
 
-		// $('#contractForm').attr('id', 'editContractForm');
-
-		$('.modal-footer .contractSubmitBtn').html('Save');
-	});
-	
-	$('.editContractBtn').on('click', function() {
-
-		$('#contractModalLabel').html('Edit Contract');
-		$('.modal-body form').attr('action', BASEURL + '/contract/editContract');
-
-		// Retrieve the specific id of the clicked row
-		const id = $(this).data('id');
-
-		// Request data without reloading the whole webpage
-		$.ajax({
-
-			// Retrieve data from here
-			url: BASEURL + '/contract/getEditContractData',
-			// Left 'id' => variabe name, Right 'id' => data
-			// Send the id of a mahasiswa to the url
-			data: {id : id},
-			method: 'POST',
-			// Return data in json file
-			dataType: 'json',
-			// data here refers to a temporary parameter variable that stores any data returned by the url above
-			success: function(data) {
-				$('#id').val(data.id);
-				$('#clientName').val(data.name);
-				$('#sopNumber').val(data.sop_number);
-				$('#startDate').val(data.start_date);
-				$('#endDate').val(data.end_date);
-				$('#deviceName').val(data.device);
-				$('#pmFreq').val(data.pm_frequency);
-				$('#assignee').val(data.full_name);
-			}
-		});
+		$('#contractForm').attr('id', 'editContractForm');
 
 		$('.modal-footer .contractSubmitBtn').html('Save');
 	});
 
-
-	// $('#editContractForm').submit(function(event) {
+	// Delegate the form submission handler to the document
+	$(document).on('submit', '#editContractForm', function(event) {
+		event.preventDefault();
 		
-	// 	event.preventDefault();
+		// Get the form data
+		const formData = new FormData(document.getElementById('editContractForm'));
 
-	// 	const formData = new FormData(document.getElementById('editContractForm'));
+		$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Saving contract...</span>');
 
-	// 	$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Deleting contract...</span>');
+		// Send the AJAX request
+		$.ajax({
+			url: BASEURL + '/contract/editContract',
+			type: 'POST',
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			success: function(response) {
+			// Handle the response from the server here (e.g., display success message)
 
-	// 	$.ajax({
-	// 		url: BASEURL + '/contract/editContract',
-	// 		type: 'POST',
-	// 		data: formData,
-	// 		contentType: false,
-	// 		processData: false,
-	// 		dataType: 'json',
-	// 		success: function (response) {
+			console.log(response);
 
-	// 			if (response['result'] == '1') {
+			if (response['result'] == '1') {
+				$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
+				setTimeout(function() {
+					alert("Successfully Updated!");
+				}, 0);
+				// Refresh the table data
+				$('#contract-table').bootstrapTable('refresh');
+			} else if (response['result'] == "2") {
+				alert("Something went wrong with query...");
+			} else if (response['result'] == "3") {
+				alert("This contract already exists");
+			} else if (response['result'] == "4") {
+				alert("Save Failed!");
+			} else {
+				alert("Save Failed. Contact your administrator.");
+			}
+			},
+			error: function() {
+			// Request failed, handle error here
+			alert("Error saving changes.");
+			}
+		});
+	});
 
-	// 				// Change back the id of the form
-	// 				$('#editContractForm').attr('id', 'contractForm');
+	$(document).on('submit', '#addContractForm', function(event) {
+		event.preventDefault();
+		
+		// Get the form data
+		const formData = new FormData(document.getElementById('addContractForm'));
 
-	// 				// Change back the submit button text
-	// 				$('.contractSubmitBtn').html('Delete');
+		$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Adding contract...</span>');
 
-	// 				// After the AJAX request is done, close the modal
-	// 				$('#contractModal').modal('hide');
-	// 			}
-	// 		},
-	// 		error: function (xhr, status, error) {
-	// 			console.error('Failed to add contract.');
-	// 		}
-	// 	});
-	// });
+		// Send the AJAX request
+		$.ajax({
+			url: BASEURL + '/contract/addContract',
+			type: 'POST',
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			success: function(response) {
+			// Handle the response from the server here (e.g., display success message)
+
+			console.log(response);
+
+			if (response['result'] == '1') {
+				$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
+				setTimeout(function() {
+					alert("Successfully Updated!");
+				}, 0);
+				// Refresh the table data
+				$('#contract-table').bootstrapTable('refresh');
+			} else if (response['result'] == "2") {
+				alert("Something went wrong with query...");
+			} else if (response['result'] == "3") {
+				alert("This contract already exists");
+			} else if (response['result'] == "4") {
+				alert("Save Failed!");
+			} else {
+				alert("Save Failed. Contact your administrator.");
+			}
+			},
+			error: function() {
+			// Request failed, handle error here
+			alert("Error saving changes.");
+			}
+		});
+	});
+
+	// ============================================== Experimental feature ==============================================
 
 	$('.createSchedule').on('click', function() {
 
@@ -284,7 +313,6 @@ function initContractTable() {
 	  	}],
 		onPostBody: () => {
 			initializeTooltips();
-			setForm();
 		}
 	});
 
@@ -339,4 +367,6 @@ $(function() {
 	$('#contract-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
 	})
+
+	setForm();
 })

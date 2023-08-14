@@ -163,9 +163,6 @@ $(document).ready(function () {
 		let selectedMonth = $('#monthSelect').val();
 		let selectedYear = $('.filter-year').val();
 
-		console.log(selectedMonth);
-		console.log(selectedYear);
-
 		if(selectedYear !== "" || (selectedMonth !== null && selectedYear !== "")) {
 
 			// Close the modal using the modal method

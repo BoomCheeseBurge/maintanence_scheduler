@@ -95,34 +95,36 @@ class Contract extends Controller {
 			$_POST['assignee_id'] = $assigneeId;
 
 			// Check if there is a duplicate contract
-			if (!$this->model('Contract_model')->isDuplicateContract($_POST)) {
+			if ( $this->model('Contract_model')->isDuplicateContract($_POST) == 0 ) {
 
 				if( $this->model('Contract_model')->editContractData($_POST) > 0 ) {
 
 					Flasher::setFlash('Contract', ' successfully', ' saved', 'success');
 
-					// echo json_encode(['result' => '1']);
+					echo json_encode(['result' => '1']);
 
-					header('Location: ' . BASEURL . '/contract');
 					exit;
 				}else {
 
 					Flasher::setFlash('Contract', ' failed', ' to be saved', 'danger');
-		
-					header('Location: ' . BASEURL . '/contract');
+
+					echo json_encode(['result' => '2']);
+
 					exit;
 				}
 			}else {
 				Flasher::setFlash('Contract', ' already', ' exist', 'warning');
-	
-				header('Location: ' . BASEURL . '/contract');
+
+				echo json_encode(['result' => '3']);
+
 				exit;
 			}
 		}else {
 
 			Flasher::setFlash('Contract', ' failed', ' to be saved', 'danger');
 
-			header('Location: ' . BASEURL . '/contract');
+			echo json_encode(['result' => '4']);
+
 			exit;
 		}
 	}
@@ -160,10 +162,8 @@ class Contract extends Controller {
 	}
 
 	public function filterTable() {
-        $selectedMonth = $_POST['month'];
-        $selectedYear = $_POST['year'];
     
-        $filteredTableData = $this->model('Maintenance_model')->filterTableData($selectedMonth, $selectedYear);
+        $filteredTableData = $this->model('Contract_model')->filterTableData($_POST['clientName'], $_POST['endMonth'], $_POST['endYear']);
     
         echo json_encode($filteredTableData);
     }

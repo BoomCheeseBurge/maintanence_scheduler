@@ -122,10 +122,6 @@ class Maintenance_model {
 		$year = intval($selectedYear);
 
 		// Construct start and end dates for the selected month and year
-		$startDate = "{$year}-{$month}-01";
-		$endDate = date('Y-m-t', strtotime($startDate)); // Get the last day of the selected month
-
-		// Construct start and end dates for the selected month and year
 		if ($month !== 0) {
 			// Month is provided, construct a range for the given month
 			$startDate = "{$year}-{$month}-01";
@@ -141,8 +137,7 @@ class Maintenance_model {
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 		INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
-		WHERE (m.scheduled_date BETWEEN :start_date AND :end_date) OR
-		(m.actual_date BETWEEN :start_date AND :end_date)';
+		WHERE m.scheduled_date BETWEEN :start_date AND :end_date';
 
 		$this->db->query($query);
 		$this->db->bind('start_date', $startDate);

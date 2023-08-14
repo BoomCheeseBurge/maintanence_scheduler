@@ -25,6 +25,19 @@
     --tran-05: all 0.5s ease;
 }
 
+section {
+  overflow-y: scroll;
+}
+
+/* For each webpage's title */
+.header-title {
+  font-size: 28px;
+}
+
+.custom-font-size {
+  font-size: 14px;
+}
+
 /* ============ For Responsive echarts Start ============ */
 #myChart,
 #lateReportChart,
@@ -101,7 +114,7 @@ body {
     padding: 0;
     background-color: #fff;
     border: 1px solid #ccc;
-    z-index: 100;
+    z-index: 3;
     overflow-x: hidden;
     overflow-y: auto;
     max-height: 170px;
@@ -230,9 +243,9 @@ body {
   justify-content: center;
 }
 
-/* ========================================== Contract Dropdown Filter CSS Start ========================================== */
+/* =============== Contract Dropdown Filter CSS Start ============== */
 
-/*  Start Year Dropdown ========================================================== */
+/*  Start Year Dropdown ============================================ */
 .start-year-dropdown {
   position: relative;
   display: inline-block;
@@ -286,7 +299,7 @@ body {
   background-color: #f1f1f1;
 }
 
-/* End Year Dropdown ========================================================== */
+/* End Year Dropdown ================================ */
 .end-year-dropdown {
   position: relative;
   display: inline-block;
@@ -340,7 +353,7 @@ body {
   background-color: #f1f1f1;
 }
 
-/* ========================================== Contract Dropdown Filter CSS End ========================================== */
+/* ============================= Contract Dropdown Filter CSS End ======================== */
 
 /* ========================================== Contract Table Filter CSS End ========================================== */
 
@@ -365,19 +378,6 @@ body {
   cursor: pointer;
 }
 /* ========================================== Keyword Tag CSS End ========================================== */
-
-section {
-    overflow-y: scroll;
-}
-
-  /* For each webpage's title */
-.header-title {
-    font-size: 28px;
-}
-
-.custom-font-size {
-    font-size: 14px;
-  }
 
 /* ============ Profile Picture CSS Start ============ */
 
@@ -466,7 +466,7 @@ section {
     top: 100%; /* Position the div below the input field */
     left: 0;
     right: 0;
-    z-index: 100; /* Set z-index to 1 to ensure it appears above the input */
+    z-index: 2; /* Set z-index to 1 to ensure it appears above the input */
 }
 
 .clientNameList .clientNameOption {
@@ -523,10 +523,7 @@ section {
   max-width: 190px; /* Set the width of the offcanvas */
 
 }
-.offcanvas.show {
-  transform: translateX(0);
-  transition: var(--tran-02);
-}
+
 .offcanvas.showing {
   transform: translateX(-100%);
   transition: var(--tran-02);
@@ -585,7 +582,6 @@ body{
     min-height: 100vh;
     background-color: var(--body-color);
     transition: var(--tran-05);
-    overflow: hidden; /* Hide scrollbars */
 }
 
 ::selection{

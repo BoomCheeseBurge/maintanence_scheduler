@@ -33,82 +33,47 @@
 
   <!-- ========================================== Filter Table Modal ========================================== -->
 	<div class="modal fade" id="filterTableModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="filterTableModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h6 class="modal-title fs-5" id="filterTableModalLabel">Filter Table</h6>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close cancelContractFilter" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
-				<form id="filterForm" action="" method="post">
+				<div class="modal-body" id="filterModalBody">
+					<form id="filterForm" action="" method="post">
 
-					<div class="contract-filter-container">
-						<div class="row">
-							<div class="col">
-								<select class="form-select" id="startMonth">
-									<option selected disabled>Month</option>
-									<option value="0">None</option>
-									<option value="1">January</option>
-									<option value="2">February</option>
-									<option value="3">March</option>
-									<option value="4">April</option>
-									<option value="5">May</option>
-									<option value="6">June</option>
-									<option value="7">July</option>
-									<option value="8">August</option>
-									<option value="9">September</option>
-									<option value="10">October</option>
-									<option value="11">November</option>
-									<option value="12">December</option>
+						<div class="row g-0 text-center">
+							<div class="col-md-4">
+								<select class="form-select" id="filterOptionSelect">
+									<option selected disabled>Choose filter</option>
+									<option value="clientFilter">Client</option>
+									<option value="endDateFilter">End Date</option>
 								</select>
 							</div>
-							<div class="col">
-								<div class="start-year-dropdown mb-3">
-									<input type="text" class="start-year" placeholder="Year" readonly>
-									<div class="start-year-list-wrapper">
-										<ul class="start-year-list">
-										<!-- Year options will be dynamically generated here -->
-										</ul>
-									</div>
-								</div>
-							</div>
-
-							<span class="bridge-text">to</span>
-
-							<div class="col">
-								<select class="form-select" id="endMonth">
-									<option selected disabled>Month</option>
-									<option value="0">None</option>
-									<option value="1">January</option>
-									<option value="2">February</option>
-									<option value="3">March</option>
-									<option value="4">April</option>
-									<option value="5">May</option>
-									<option value="6">June</option>
-									<option value="7">July</option>
-									<option value="8">August</option>
-									<option value="9">September</option>
-									<option value="10">October</option>
-									<option value="11">November</option>
-									<option value="12">December</option>
-								</select>
-							</div>
-							<div class="col">
-								<div class="end-year-dropdown mb-3">
-									<input type="text" class="end-year" placeholder="Year" readonly>
-									<div class="end-year-list-wrapper">
-										<ul class="end-year-list">
-										<!-- Year options will be dynamically generated here -->
-										</ul>
-									</div>
-								</div>
+							<div class="ms-4 col-md-7" id="optionContainer">
 							</div>
 						</div>
-					</div>
 
+						<hr>
+
+						<div class="row g-0 text-center">
+							<div class="col-md-4 mt-2 mb-2" id="addFilterField">
+								<select class="form-select" id="filterOptionSelect2">
+									<option selected disabled>Choose filter</option>
+									<option value="clientFilter">Client</option>
+									<option value="endDateFilter">End Date</option>
+								</select>
+							</div>
+							<div class="ms-4 col-md-7" id="optionContainer2">
+							</div>
+						</div>
+
+						<button type="button" class="btn btn-primary mt-2" id="addFilterBtn">
+							<i class="fa-solid fa-plus"></i>
+						</button>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger cancelContractFilter" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-primary filterSubmitBtn">Filter</button>
 				</form>
 				</div>

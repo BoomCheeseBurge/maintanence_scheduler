@@ -66,73 +66,83 @@ $(document).ready(function () {
 
 	// ================================================================= Filter Table Start =================================================================
 
-	// Start Year Filter =================================================================
+	// Get references to the select element and the container
+	const selectElement = $('#filterOptionSelect');
+	const optionContainer = $('#optionContainer');
+
+	let currentOption = null;
+	let optionSelected;
+
+	function updateElement(optionValue) {
+		// Clear the previous element if exists
+		if (currentOption) {
+			currentOption.remove(); // Use jQuery's remove() method
+		}
 	
-	var dropdownSY = $('.start-year-dropdown');
-	var inputSY = dropdownSY.find('.start-year');
-	var startYearListWrapper = dropdownSY.find('.start-year-list-wrapper');
+		if (optionValue === 'clientFilter') {
+	
+			const selectWrapper = $('<div class="form-floating mb-3" id="clientFilter"></div>');
+			const clientInput = $('<input type="search" class="form-control" name="filterClient" id="filterClientName" required placeholder="clientName" autocomplete="off">');
+			const clientList = $('<div id="filterClientList" class="clientNameList"></div>');
+			const clientLabel = $('<label for="filterClientName">Client</label>');
+			
+			selectWrapper.append(clientInput);
+			selectWrapper.append(clientList);
+			selectWrapper.append(clientLabel);
+			
+			// Append the selectWrapper jQuery object to the optionContainer
+			optionContainer.append(selectWrapper);
+	
+			// Update the current element reference
+			currentOption = selectWrapper;
+			optionSelected = 'client';
 
-	// Function to dynamically generate year options
-	function generateStartYearOptions() {
-		var currentYear = new Date().getFullYear();
-		var minYear = currentYear - 100;
-		var maxYear = currentYear + 100;
+			addButton.show();
+	
+		} else if (optionValue === 'endDateFilter') {
 
-		var yearList = dropdownSY.find('.start-year-list');
-		yearList.empty();
+			// Create the select element for months
+			const monthSelect = $('<select class="form-select" id="endMonth"></select>');
+			const months = ["None", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		
+			// Add the disabled and selected option for "Month"
+			monthSelect.append($('<option disabled selected>Month</option>'));
+		
+			for (let i = 0; i <= 12; i++) {
+				const option = $('<option></option>').attr('value', i).text(months[i]);
+				monthSelect.append(option);
+			}
+		
+			// Create the input and dropdown for years
+			const yearInput = $('<input type="text" class="end-year" placeholder="Year" readonly>');
+			const yearList = $('<ul class="end-year-list"></ul>');
+			const yearListWrapper = $('<div class="end-year-list-wrapper"></div>').append(yearList);
+			const yearDropdown = $('<div class="end-year-dropdown mb-3"></div>').append(yearInput, yearListWrapper);
+		
+			// Append the created elements to the respective containers
+			const yearContainer = $('<div class="row" id="endDateFilter"></div>');
+			const monthCol = $('<div class="col"></div>').append(monthSelect);
+			const yearCol = $('<div class="col"></div>').append(yearDropdown);
+			
+			yearContainer.append(monthCol, yearCol);
+			optionContainer.append(yearContainer);
 
-		for (var year = minYear; year <= maxYear; year++) {
-			var yearOption = $('<li></li>');
-			yearOption.text(year);
-			yearOption.attr('data-value', year);
-			yearList.append(yearOption);
+			// Update the current element reference
+			currentOption = yearContainer;
+			optionSelected = 'endDate';
+
+			// Generate the year options on click
+			generateEndYearOptions();
+
+			addButton.show();
 		}
 	}
 
-	// Function to scroll the year list to the current year option
-	function scrollStartYearListToCurrentYear() {
-		var yearList = dropdownSY.find('.start-year-list');
-		var currentYear = new Date().getFullYear();
-		// Current year is subtracted by 2 since the scrollbar will not be positioned exactly at the current year option without doing so
-		var currentYearMinusTwo = currentYear - 2;
-		var currentYearOption = yearList.find('li[data-value="' + currentYearMinusTwo + '"]'); // Find the option for the adjusted currentYear
-	
-		if (currentYearOption.length > 0) {
-		currentYearOption[0].scrollIntoView({
-			behavior: 'smooth',
-			block: 'center',
-			inline: 'center'
-		});
-		}
-	}
-
-	// Function to show the year dropdown list when the input is clicked
-	inputSY.click(function () {
-
-		startYearListWrapper.slideToggle(200);
-
-		// Scroll to the current year option
-		scrollStartYearListToCurrentYear();
+	// Listen for changes in the select element
+	selectElement.on('change', function() {
+		const selectedOptionValue = selectElement.val();
+		updateElement(selectedOptionValue);
 	});
-
-	// Click event on year list to select year
-	startYearListWrapper.on('click', 'li', function () {
-		var selectedYear = $(this).data('value');
-		inputSY.val(selectedYear);
-
-		// Slide up the year dropdown after selection
-		startYearListWrapper.slideUp(200);
-	});
-
-	// Hide the dropdown lists when the user clicks outside the dropdown
-	$(document).click(function (event) {
-	  if (!dropdownSY.is(event.target) && dropdownSY.has(event.target).length === 0) {
-		startYearListWrapper.hide();
-	  }
-	});
-
-	// Generate the year options on page load
-	generateStartYearOptions();
 
 	// End Year Filter =================================================================
 
@@ -146,7 +156,7 @@ $(document).ready(function () {
 		var minYear = currentYear - 100;
 		var maxYear = currentYear + 100;
 
-		var yearList = dropdownEY.find('.end-year-list');
+		var yearList = $('.end-year-list');
 		yearList.empty();
 
 		for (var year = minYear; year <= maxYear; year++) {
@@ -159,7 +169,8 @@ $(document).ready(function () {
 
 	// Function to scroll the year list to the current year option
 	function scrollEndYearListToCurrentYear() {
-		var yearList = dropdownEY.find('.end-year-list');
+
+		var yearList = $('.end-year-list');
 		var currentYear = new Date().getFullYear();
 		// Current year is subtracted by 2 since the scrollbar will not be positioned exactly at the current year option without doing so
 		var currentYearMinusTwo = currentYear - 2;
@@ -175,32 +186,188 @@ $(document).ready(function () {
 	}
 
 	// Function to show the year dropdown list when the input is clicked
-	inputEY.click(function () {
+	$(document).on('click', '.end-year', function () {
 
-		endYearListWrapper.slideToggle(200);
+		$('.end-year-list-wrapper').slideToggle(200);
 
-		// Scroll to the current year option
 		scrollEndYearListToCurrentYear();
 	});
 
-	// Click event on year list to select year
-	endYearListWrapper.on('click', 'li', function () {
-		var selectedYear = $(this).data('value');
-		inputEY.val(selectedYear);
+	// Click event to select year (using event delegation)
+	$('body').on('click', '.end-year-list-wrapper li', function () {
+		var selectedYear = $(this).attr('data-value'); // Use .attr() instead of .data()
+		$('.end-year').val(selectedYear);
 
 		// Slide up the year dropdown after selection
-		endYearListWrapper.slideUp(200);
+		$('.end-year-list-wrapper').slideUp(200);
 	});
 
 	// Hide the dropdown lists when the user clicks outside the dropdown
-	$(document).click(function (event) {
-	  if (!dropdownEY.is(event.target) && dropdownEY.has(event.target).length === 0) {
-		endYearListWrapper.hide();
-	  }
+	$('body').on('click', function (event) {
+		if (!dropdownEY.is(event.target) && dropdownEY.has(event.target).length === 0) {
+			$('.end-year-list-wrapper').hide();
+		}
 	});
 
-	// Generate the year options on page load
-	generateEndYearOptions();
+
+	// Second Filter Option Field =================================================================
+
+	// Get references to the select element and the container
+	const selectElement2 = $('#filterOptionSelect2');
+	const optionContainer2 = $('#optionContainer2');
+
+	let currentOption2 = null;
+
+	function updateElement2(optionValue) {
+		// Clear the previous element if exists
+		if (currentOption2) {
+			currentOption2.remove(); // Use jQuery's remove() method
+		}
+	
+		if (optionValue === 'clientFilter') {
+	
+			const selectWrapper = $('<div class="form-floating mb-3" id="clientFilter"></div>');
+			const clientInput = $('<input type="search" class="form-control" name="filterClient" id="filterClientName" required placeholder="clientName" autocomplete="off">');
+			const clientList = $('<div id="filterClientList" class="clientNameList"></div>');
+			const clientLabel = $('<label for="filterClientName">Client</label>');
+			
+			selectWrapper.append(clientInput);
+			selectWrapper.append(clientList);
+			selectWrapper.append(clientLabel);
+			
+			// Append the selectWrapper jQuery object to the optionContainer2
+			optionContainer2.append(selectWrapper);
+	
+			// Update the current element reference
+			currentOption2 = selectWrapper;
+	
+		} else if (optionValue === 'endDateFilter') {
+
+			// Create the select element for months
+			const monthSelect = $('<select class="form-select" id="endMonth"></select>');
+			const months = ["None", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		
+			// Add the disabled and selected option for "Month"
+			monthSelect.append($('<option disabled selected>Month</option>'));
+		
+			for (let i = 0; i <= 12; i++) {
+				const option = $('<option></option>').attr('value', i).text(months[i]);
+				monthSelect.append(option);
+			}
+		
+			// Create the input and dropdown for years
+			const yearInput = $('<input type="text" class="end-year" placeholder="Year" readonly>');
+			const yearList = $('<ul class="end-year-list"></ul>');
+			const yearListWrapper = $('<div class="end-year-list-wrapper"></div>').append(yearList);
+			const yearDropdown = $('<div class="end-year-dropdown mb-3"></div>').append(yearInput, yearListWrapper);
+		
+			// Append the created elements to the respective containers
+			const yearContainer = $('<div class="row" id="endDateFilter"></div>');
+			const monthCol = $('<div class="col"></div>').append(monthSelect);
+			const yearCol = $('<div class="col"></div>').append(yearDropdown);
+			
+			yearContainer.append(monthCol, yearCol);
+			optionContainer2.append(yearContainer);
+
+			// Update the current element reference
+			currentOption2 = yearContainer;
+
+			// Generate the year options on click
+			generateEndYearOptions();
+		}
+	}
+
+	// Listen for changes in the select element
+	selectElement2.on('change', function() {
+		const selectedOptionValue = selectElement2.val();
+		updateElement2(selectedOptionValue);
+	});
+
+	// Add Filter Field =================================================================
+	const filterFieldContainer = $('#addFilterField');
+	const modalContainer = $('#filterModalBody');
+
+	const addButton = $('#addFilterBtn');
+	const deleteButton = $('<button type="button" class="btn btn-danger delete-button mt-2"><i class="fa-solid fa-minus"></i></button>');
+
+	function resetFilterModal() {
+		filterFieldContainer.hide();
+
+		if(optionSelected === 'client') {
+
+			$('#filterOptionSelect option[value="endDateFilter"]').prop('disabled', false);
+			$('#filterOptionSelect2 option[value="clientFilter"]').prop('disabled', false);
+
+			$('#clientFilter').remove();
+			$('#endDateFilter').remove();
+			
+			$('#filterOptionSelect2').val('Choose filter');
+
+		} else if(optionSelected === 'endDate') {
+
+			$('#filterOptionSelect option[value="clientFilter"]').prop('disabled', false);
+			$('#filterOptionSelect2 option[value="endDateFilter"]').prop('disabled', false);
+
+			$('#clientFilter').remove();
+			$('#endDateFilter').remove();
+
+			$('#filterOptionSelect2').val('Choose filter');
+		}
+		deleteButton.remove();
+		addButton.show();
+		$('#filterOptionSelect').val('Choose filter'); // Clear the selection
+	}
+	
+	modalContainer.on('click', '.delete-button', function() {
+		filterFieldContainer.hide();
+
+		if(optionSelected === 'client') {
+
+			$('#filterOptionSelect option[value="endDateFilter"]').prop('disabled', false);
+			$('#filterOptionSelect2 option[value="clientFilter"]').prop('disabled', false);
+			$('#endDateFilter').remove();
+			$('#filterOptionSelect2').val('Choose filter');
+
+		} else if(optionSelected === 'endDate') {
+
+			$('#filterOptionSelect option[value="clientFilter"]').prop('disabled', false);
+			$('#filterOptionSelect2 option[value="endDateFilter"]').prop('disabled', false);
+			$('#clientFilter').remove();
+			$('#filterOptionSelect2').val('Choose filter');
+		}
+
+		deleteButton.remove();
+		addButton.show();
+	});
+
+	modalContainer.on('click', '#addFilterBtn', function() {
+		filterFieldContainer.show();
+
+		if(optionSelected === 'client') {
+			$('#filterOptionSelect option[value="endDateFilter"]').prop('disabled', true);
+			$('#filterOptionSelect2 option[value="clientFilter"]').prop('disabled', true);
+
+		} else if (optionSelected === 'endDate') {
+			$('#filterOptionSelect option[value="clientFilter"]').prop('disabled', true);
+			$('#filterOptionSelect2 option[value="endDateFilter"]').prop('disabled', true);
+		}
+
+		modalContainer.append(deleteButton);
+		addButton.hide();
+	});
+
+	$('#filter').on('click', function() {
+
+		$('#addFilterField').hide();
+		addButton.hide();
+
+	});
+
+	$('.cancelContractFilter').on('click', function() {
+
+		resetFilterModal();
+
+	});
 
 	// ================================================================= Filter Table End =================================================================
 
@@ -214,17 +381,16 @@ $(document).ready(function () {
 		event.preventDefault();
 
 		// Retrieve values from the dropdowns
-		let startMonth = $('#startMonth').val();
-		let startYear = $('.start-year').val();
+		let clientName = $('#filterClientName').val();
 		let endMonth = $('#endMonth').val();
 		let endYear = $('.end-year').val();
 
-		console.log(startMonth);
-		console.log(startYear);
+		console.log(clientName);
 		console.log(endMonth);
 		console.log(endYear);
 
-		if ((startMonth !== null || endMonth !== null) && startYear !== "" && endYear !== "" && ((parseInt(startMonth) <= parseInt(endMonth)) && (parseInt(startYear) <= parseInt(endYear)))) {
+		if ((clientName && endMonth && endYear) || (clientName || (!clientName && endYear) || (endMonth && endYear))) {
+
 
 			// Close the modal using the modal method
 			$("#filterTableModal").modal("hide");
@@ -232,48 +398,9 @@ $(document).ready(function () {
 			// Disable the filter button
 			$('#filter').prop("disabled", true);
 
-			$.ajax({
-				url: BASEURL + '/contract/filterTable',
-				type: 'POST',
-				dataType: 'json',
-				data: {
-					startMonth: startMonth,
-					startYear: startYear,
-					endMonth: endMonth,
-					endYear: endYear,
-				},
-				success: function (data) {
-			
-					// Prepare the data for the Bootstrap Table
-					var tableData = [];
-					for (var i = 0; i < data.length; i++) {
-						var rowData = {
-							full_name: data[i].full_name,
-							name: data[i].name,
-							sop_number: data[i].sop_number,
-							device: data[i].device,
-							pm_frequency: data[i].pm_frequency,
-							pm_count: data[i].pm_count,
-							scheduled_date: data[i].scheduled_date,
-							actual_date: data[i].actual_date,
-							report_date: data[i].report_date
-						};
-						tableData.push(rowData);
-					}
-			
-					// Update the data and refresh the table
-					$('#history-table').bootstrapTable('load', tableData);
-			
-					console.log(data)
-				},
-				error: function (xhr, status, error) {
-					console.error('AJAX Error:' + error);
-				},
-			});
-
 			let month;
 
-			switch (selectedMonth) {
+			switch (endMonth) {
 				case '1':
 					month = "January";
 					break;
@@ -314,58 +441,149 @@ $(document).ready(function () {
 					month = "";
 			  }
 
-			let tagContainer = $('<div class="tag-container"></div>');
-			let tag = $('<div class="tag"></div>');
-			let tagText = $('<span class="tag-text me-1">' + month + ' ' + selectedYear + '</span>');
-			let tagClose = $('<button type="button" class="btn-close tag-close" aria-label="Close"></button>');
-		
-			tagContainer.append(tag);
-			tag.append(tagText);
-			tag.append(tagClose);
-		
-			tagClose.click(function () {
-				// Remove the keyword tag 
-			  	tagContainer.remove();
+			const tagContainer1 = $('<div class="tag-container ms-2"></div>');
+			const tagContainer2 = $('<div class="tag-container ms-2"></div>');
+			const tag1 = $('<div class="tag"></div>');
+			const tag2 = $('<div class="tag"></div>');
+			const tagText1 = $('<span class="tag-text me-1">' + month + ' ' + endYear + '</span>');
+			const tagText2 = $('<span class="tag-text me-1">' + clientName + '</span>');
+			const tagClose1 = $('<button type="button" class="btn-close tag-close" aria-label="Close"></button>');
+			const tagClose2 = $('<button type="button" class="btn-close tag-close" aria-label="Close"></button>')
+			
+			let activeFilters = []; // Initialize an array to track active filters
 
-				// Enable the filter button
-				$('#filter').prop("disabled", false);
+			if(clientName && endMonth && endYear) {
 
+				activeFilters.push('client');
+				activeFilters.push('monthYear');
+
+				tagContainer1.append(tag1);
+				tag1.append(tagText1);
+				tag1.append(tagClose1);
+
+				tagContainer2.append(tag2);
+				tag2.append(tagText2);
+				tag2.append(tagClose2);
+
+				$('#toolbar').append(tagContainer1);
+				$('#toolbar').append(tagContainer2);
+
+			} else if(!clientName && endYear) {
+
+				activeFilters.push('monthYear');
+
+				clientName = null;
+
+				if(!endMonth) {
+					endMonth = null;
+				}
+
+				tagContainer1.append(tag1);
+				tag1.append(tagText1);
+				tag1.append(tagClose1);
+				$('#toolbar').append(tagContainer1);
+				
+			} else if(clientName) {
+
+				activeFilters.push('client');
+
+				endMonth = null;
+				endYear = null;
+
+				tagContainer2.append(tag2);
+				tag2.append(tagText2);
+				tag2.append(tagClose2);
+				$('#toolbar').append(tagContainer2);
+			}
+
+			function updateTable() {
 				$.ajax({
-					url: BASEURL + '/maintenance/getMaintenanceHistory',
+					url: BASEURL + '/contract/filterTable',
 					type: 'POST',
 					dataType: 'json',
+					data: {
+						clientName: clientName,
+						endMonth: endMonth,
+						endYear: endYear,
+					},
 					success: function (data) {
+	
+						console.log(data);
 				
 						// Prepare the data for the Bootstrap Table
 						var tableData = [];
 						for (var i = 0; i < data.length; i++) {
 							var rowData = {
-								full_name: data[i].full_name,
 								name: data[i].name,
 								sop_number: data[i].sop_number,
 								device: data[i].device,
 								pm_frequency: data[i].pm_frequency,
-								pm_count: data[i].pm_count,
-								scheduled_date: data[i].scheduled_date,
-								actual_date: data[i].actual_date,
-								report_date: data[i].report_date
+								start_date: data[i].start_date,
+								end_date: data[i].end_date,
+								full_name: data[i].full_name
 							};
 							tableData.push(rowData);
 						}
 				
 						// Update the data and refresh the table
-						$('#history-table').bootstrapTable('load', tableData);
-				
-						console.log(data)
+						$('#contract-table').bootstrapTable('load', tableData);
 					},
 					error: function (xhr, status, error) {
 						console.error('AJAX Error:' + error);
 					},
 				});
+			}
 
-			});
+			updateTable();
 		
-			$('#toolbar').append(tagContainer);
+			tagClose1.click(function () {
+				// Remove the keyword tag 
+			  	tagContainer1.remove();
+
+				// Remove the 'monthYear' from active filters
+				const index = activeFilters.indexOf('monthYear');
+				if (index > -1) {
+					activeFilters.splice(index, 1);
+				}
+
+				endMonth = null;
+				endYear = null;
+
+				// If there are still active filters, update the table
+				if (activeFilters.length > 0) {
+					updateTable();
+				} else {
+					// If no active filters left, update the table to show all data
+					$('#contract-table').bootstrapTable('refresh');
+					$('#filter').prop("disabled", false);
+
+					resetFilterModal();
+				}
+			});
+
+			tagClose2.click(function () {
+				// Remove the keyword tag 
+			  	tagContainer2.remove();
+
+				// Remove the 'monthYear' from active filters
+				const index = activeFilters.indexOf('client');
+				if (index > -1) {
+					activeFilters.splice(index, 1);
+				}
+
+				clientName = null;
+
+				// If there are still active filters, update the table
+				if (activeFilters.length > 0) {
+					updateTable();
+				} else {
+					// If no active filters left, update the table to show all data
+					$('#contract-table').bootstrapTable('refresh');
+					$('#filter').prop("disabled", false);
+
+					resetFilterModal();
+				}				
+			});
 		} else {
 
 			if (!alertShown) {
