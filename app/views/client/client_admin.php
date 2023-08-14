@@ -1,8 +1,7 @@
 		<div class="container-fluid">
 
 			<div class="row">
-				<div class="col-lg-6">
-				<?php Flasher::flash(); ?>
+				<div class="col-lg-6 flash-container">
 				</div>
 			</div>
 
@@ -54,10 +53,10 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h6 class="modal-title fs-5" id="addClientModalLabel">New Client</h6>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close cancelAddClient" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="<?= BASEURL; ?>/client/addClient" method="post">
+					<form action="" method="post" id="addClientForm">
 					<div class="form-floating mb-3">
 						<input type="text" class="form-control" name="clientName" required placeholder="clientName">
 						<label for="clientName">Client</label>
@@ -77,8 +76,8 @@
 					<button type="button" class="btn btn-primary" id="addPicFieldsBtn">+</button>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-primary">Add</button>
+					<button type="button" class="btn btn-danger cancelAddClient" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-primary addClientSubmitBtn">Add</button>
 				</form>
 				</div>
 			</div>
@@ -91,10 +90,10 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h6 class="modal-title fs-5" id="editClientModalLabel">Edit Client</h6>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close cancelEditClient" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-				<form action="<?= BASEURL; ?>/client/editClient" method="post">
+				<form action="" method="post" id="editClientForm">
 					<div class="form-floating mb-3">
 						<input type="search" class="form-control" name="clientName" id="searchClientName" required placeholder="clientName" autocomplete="off">
 						<div id="clientNameList" class="clientNameList"></div>
@@ -106,8 +105,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-primary">Save</button>
+					<button type="button" class="btn btn-danger cancelEditClient" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-primary editClientSubmitBtn">Save</button>
 				</form>
 				</div>
 			</div>
@@ -120,10 +119,10 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h6 class="modal-title fs-5" id="delClientModalLabel">Delete Client</h6>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close cancelDelClient" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-				<form action="<?= BASEURL; ?>/client/delClient" method="post">
+				<form action="" method="post" id="delClientForm">
 					<div class="form-floating mb-3">
 						<input type="search" class="form-control" name="clientName" id="delClientName" required placeholder="clientName" autocomplete="off">
 						<div id="delClientNameList" class="clientNameList"></div>
@@ -131,8 +130,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-danger">Delete</button>
+					<button type="button" class="btn btn-secondary cancelDelClient" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-danger delClientSubmitBtn">Delete</button>
 				</form>
 				</div>
 			</div>
@@ -145,10 +144,10 @@
       <div class="modal-content">
         <div class="modal-header">
           <h6 class="modal-title fs-5" id="editClientPICModalLabel">Edit Client PIC</h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close cancelEditClientPIC" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="<?= BASEURL; ?>/client/editClientPIC" method="post">
+          <form action="" method="post" id="editClientPICForm">
             <div class="form-floating mb-3">
               <input type="search" class="form-control" name="name" id="client_name" required placeholder="name">
               <label for="name">Client</label>
@@ -165,8 +164,8 @@
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-danger cancelEditClientPIC" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary editClientPICSubmitBtn">Save</button>
           </form>
         </div>
       </div>
@@ -179,16 +178,16 @@
       <div class="modal-content">
         <div class="modal-header">
           <h6 class="modal-title fs-5" id="delClientPICModalLabel">Delete Client PIC</h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close cancelDelClientPIC" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="<?= BASEURL; ?>/client/delClientPIC" method="post">
+          <form action="" method="post" id="delClientPICForm">
             <h6>Are you sure?</h6>
 			      <input type="hidden" name="id" id="picId">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-danger">Confirm</button>
+          <button type="button" class="btn btn-secondary cancelDelClientPIC" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger delClientPICSubmitBtn">Confirm</button>
           </form>
         </div>
       </div>

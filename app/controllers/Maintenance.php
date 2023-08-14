@@ -99,6 +99,19 @@ class Maintenance extends Controller {
         }
 	}
 
+    public function delMaintenance() {
+
+        if( $this->model('Maintenance_model')->delMaintenanceData($_POST['id']) > 0 ) {
+
+			echo json_encode(['result' => '1']);
+			exit;
+		}else {
+
+			echo json_encode(['result' => '2']);
+			exit;
+		}
+    }
+
     public function setScheduledDate() {
         if( $this->model('Maintenance_model')->setScheduledDate($_POST) > 0 ) {
 

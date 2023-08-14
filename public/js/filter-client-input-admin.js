@@ -1,5 +1,5 @@
 // Search Input to Filter Contract
-document.getElementById('filterClientName').addEventListener('input', function () {
+$(document).on('input', '#filterClientName', function () {
 	const searchQuery = this.value.trim();
   
 	// If the search query is empty, hide the client list and return

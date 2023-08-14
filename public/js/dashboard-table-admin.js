@@ -7,6 +7,18 @@ function initializeTooltips() {
 	tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 
+// Function to display the flasher message after an action is triggered
+function setFlasher(column, message, action, type) {
+	
+	const flashContainer = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
+	const flashMessage =  $('<p>' + column + ' <strong>' + message + '</strong>' + action + '</p>');
+	const dismissBtn = $('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
+
+	flashContainer.append(flashMessage);
+	flashContainer.append(dismissBtn);
+	$('.flash-container').append(flashContainer);
+}
+
 function setForm() {
 	// Event listener for the show.bs.modal event on the scheduledDateModal
 	$('#delMaintenanceModal').on('show.bs.modal', function(event) {
@@ -18,6 +30,45 @@ function setForm() {
 		
 		// Set the value of the input field in the modal form
 		$('#maintenanceId').val(maintenanceId);
+	});
+
+	$(document).on('click', '.cancelDelMaintenance', function() {
+
+		$('.delMaintenanceSubmitBtn').html('Confirm');
+	});
+
+	// Delete maintenance event handler
+	$(document).on('submit', '#delMaintenanceForm', function(event) {
+		event.preventDefault();
+		
+		const formData = new FormData(document.getElementById('delMaintenanceForm'));
+
+		$('.delMaintenanceSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Deleting maintenance...</span>');
+
+		$.ajax({
+			url: BASEURL + '/maintenance/delMaintenance',
+			type: 'POST',
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			success: function(response) {
+
+				if (response['result'] == '1') {
+					$('#delMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
+					setFlasher('Maintenance', ' successfully', ' deleted', 'success');
+					$('#dashboard-table').bootstrapTable('refresh');
+				} else if (response['result'] == "2") {
+					setFlasher('Maintenance', ' failed', ' to be deleted', 'danger');
+				} else {
+					alert("Deletion failed. Contact your administrator.");
+				}
+			},
+			error: function() {
+			// Request failed, handle error here
+			alert("Error saving changes.");
+			}
+		});
 	});
 }
 
@@ -104,15 +155,16 @@ function initDashboardTable() {
 	  }],
 	  onPostBody: () => {
 		initializeTooltips();
-		setForm();
 	  }
 	})
 }
 
 $(function() {
-	initDashboardTable()
+	initDashboardTable();
 
 	$('#dashboard-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
-	})
+	});
+
+	setForm();
 })

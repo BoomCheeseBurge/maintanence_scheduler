@@ -50,33 +50,25 @@ class Contract extends Controller {
 			$_POST['assignee_id'] = $assigneeId;
 
 			// Check if there is a duplicate contract
-			if (!$this->model('Contract_model')->isDuplicateContract($_POST)) {
+			if ( $this->model('Contract_model')->isDuplicateContract($_POST) == 0 ) {
 
-				// Entry the new contract
 				if( $this->model('Contract_model')->addContractData($_POST) > 0 ) {
 
-					Flasher::setFlash('Contract', ' successfully', ' added', 'success');
-
-					header('Location: ' . BASEURL . '/contract');
+					echo json_encode(['result' => '1']);
 					exit;
 				}else {
 
-					Flasher::setFlash('Contract', ' failed', ' to be added', 'danger');
-		
-					header('Location: ' . BASEURL . '/contract');
+					echo json_encode(['result' => '2']);
 					exit;
 				}
 			}else {
-				Flasher::setFlash('Contract', ' already', ' exist', 'warning');
-	
-				header('Location: ' . BASEURL . '/contract');
+
+				echo json_encode(['result' => '3']);
 				exit;
 			}
 		}else {
 
-			Flasher::setFlash('Contract', ' failed', ' to be added', 'danger');
-
-			header('Location: ' . BASEURL . '/contract');
+			echo json_encode(['result' => '4']);
 			exit;
 		}
 	}
@@ -99,32 +91,21 @@ class Contract extends Controller {
 
 				if( $this->model('Contract_model')->editContractData($_POST) > 0 ) {
 
-					Flasher::setFlash('Contract', ' successfully', ' saved', 'success');
-
 					echo json_encode(['result' => '1']);
-
 					exit;
 				}else {
 
-					Flasher::setFlash('Contract', ' failed', ' to be saved', 'danger');
-
 					echo json_encode(['result' => '2']);
-
 					exit;
 				}
 			}else {
-				Flasher::setFlash('Contract', ' already', ' exist', 'warning');
 
 				echo json_encode(['result' => '3']);
-
 				exit;
 			}
 		}else {
 
-			Flasher::setFlash('Contract', ' failed', ' to be saved', 'danger');
-
 			echo json_encode(['result' => '4']);
-
 			exit;
 		}
 	}
@@ -133,15 +114,11 @@ class Contract extends Controller {
 
 		if( $this->model('Contract_model')->delContractData($_POST['id']) > 0 ) {
 
-			Flasher::setFlash('Contract', ' successfully', ' deleted', 'success');
-
-			header('Location: ' . BASEURL . '/contract');
+			echo json_encode(['result' => '1']);
 			exit;
 		}else {
 
-			Flasher::setFlash('Contract', ' failed', ' to be deleted', 'danger');
-
-			header('Location: ' . BASEURL . '/contract');
+			echo json_encode(['result' => '2']);
 			exit;
 		}
 	}

@@ -1,68 +1,7 @@
 // Bootstrap Table Extended
 var $contractTable = $('#contract-table');
 
-function initContractTable() {
-	var icons = {
-		columns: 'bi-layout-sidebar-inset-reverse',
-		fullscreen: 'bi-arrows-fullscreen',
-		clearSearch: 'bi bi-x-lg'
-	}
-	$contractTable.bootstrapTable('destroy').bootstrapTable({
-		icons: icons,
-		exportTypes: ['csv', 'excel', 'pdf'],
-		locale: 'en-US',
-		classes: 'table table-bordered table-condensed custom-font-size',
-		columns: [
-		{
-			title: 'Client',
-			field: 'name',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		},{
-			title: 'SOP',
-			field: 'sop_number',
-			align: 'center',
-			valign: 'middle'
-		},{
-			title: 'Device',
-			field: 'device',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		},{
-			title: 'PM Frequency',
-			field: 'pm_frequency',
-			align: 'center',
-			valign: 'middle'
-		}, {
-			title: 'Start Date',
-			field: 'start_date',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		}, {
-			title: 'End Date',
-			field: 'end_date',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		},{
-			title: 'Engineer',
-			field: 'full_name',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		}]
-	});
-}
-
-$(document).ready(function () {
-	initContractTable()
-
-	$('#contract-table').bootstrapTable('refreshOptions', {
-		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
-	})
+function filterTable() {
 
 	// ================================================================= Filter Table Start =================================================================
 
@@ -147,8 +86,6 @@ $(document).ready(function () {
 	// End Year Filter =================================================================
 
 	var dropdownEY = $('.end-year-dropdown');
-	var inputEY = dropdownEY.find('.end-year');
-	var endYearListWrapper = dropdownEY.find('.end-year-list-wrapper');
 
 	// Function to dynamically generate year options
 	function generateEndYearOptions() {
@@ -385,10 +322,6 @@ $(document).ready(function () {
 		let endMonth = $('#endMonth').val();
 		let endYear = $('.end-year').val();
 
-		console.log(clientName);
-		console.log(endMonth);
-		console.log(endYear);
-
 		if ((clientName && endMonth && endYear) || (clientName || (!clientName && endYear) || (endMonth && endYear))) {
 
 
@@ -507,8 +440,6 @@ $(document).ready(function () {
 						endYear: endYear,
 					},
 					success: function (data) {
-	
-						console.log(data);
 				
 						// Prepare the data for the Bootstrap Table
 						var tableData = [];
@@ -601,4 +532,70 @@ $(document).ready(function () {
 	});
 
 	// ================================================================= Filter Query End =================================================================
-})
+}
+
+function initContractTable() {
+	var icons = {
+		columns: 'bi-layout-sidebar-inset-reverse',
+		fullscreen: 'bi-arrows-fullscreen',
+		clearSearch: 'bi bi-x-lg'
+	}
+	$contractTable.bootstrapTable('destroy').bootstrapTable({
+		icons: icons,
+		exportTypes: ['csv', 'excel', 'pdf'],
+		locale: 'en-US',
+		classes: 'table table-bordered table-condensed custom-font-size',
+		columns: [
+		{
+			title: 'Client',
+			field: 'name',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		},{
+			title: 'SOP',
+			field: 'sop_number',
+			align: 'center',
+			valign: 'middle'
+		},{
+			title: 'Device',
+			field: 'device',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		},{
+			title: 'PM Frequency',
+			field: 'pm_frequency',
+			align: 'center',
+			valign: 'middle'
+		}, {
+			title: 'Start Date',
+			field: 'start_date',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}, {
+			title: 'End Date',
+			field: 'end_date',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		},{
+			title: 'Engineer',
+			field: 'full_name',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}]
+	});
+}
+
+$(document).ready(function () {
+	initContractTable()
+
+	$('#contract-table').bootstrapTable('refreshOptions', {
+		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
+	});
+
+	filterTable();
+});

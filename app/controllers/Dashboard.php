@@ -47,15 +47,11 @@ class Dashboard extends Controller {
 
 		if( $this->model('Maintenance_model')->setScheduledDate($_POST) > 0 ) {
 
-			Flasher::setFlash('Scheduled date', ' successfully', ' added', 'success');
-
-			header('Location: ' . BASEURL);
+			echo json_encode(['result' => '1']);
 			exit;
 		}else {
 
-			Flasher::setFlash('Scheduled date', ' failed', ' to be added', 'danger');
-
-			header('Location: ' . BASEURL);
+			echo json_encode(['result' => '2']);
 			exit;
 		}
 	}
@@ -64,15 +60,11 @@ class Dashboard extends Controller {
 
 		if( $this->model('Maintenance_model')->setActualDate($_POST) > 0 ) {
 
-			Flasher::setFlash('Actual date', ' successfully', ' added', 'success');
-
-			header('Location: ' . BASEURL);
+			echo json_encode(['result' => '1']);
 			exit;
 		}else {
 
-			Flasher::setFlash('Actual date', ' failed', ' to be added', 'danger');
-
-			header('Location: ' . BASEURL);
+			echo json_encode(['result' => '2']);
 			exit;
 		}
 	}

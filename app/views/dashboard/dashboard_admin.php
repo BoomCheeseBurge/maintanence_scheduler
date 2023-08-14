@@ -1,7 +1,7 @@
 		<div class="container-fluid">
 
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-lg-6 flash-container">
 					<?php Flasher::flash(); ?>
 				</div>
 			</div>
@@ -32,30 +32,6 @@
 		</div>
 	</section>
 
-	<!-- ========================================== Scheduled Date and Actual Date Modal ========================================== -->
-	<div class="modal fade" id="formModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="formModalLabel"></h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form action="" method="post">
-						<input type="hidden" name="id" id="id">
-						<div class="mb-3">
-							<input type="date" id="setdate" name="setdate" class="form-control dateInput" required>
-						</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-primary">Set</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<!-- ========================================== Delete Contract Modal ========================================== -->
 	<div class="modal fade" id="delMaintenanceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delMaintenanceModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-sm">
@@ -65,13 +41,13 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-				<form action="<?= BASEURL; ?>/contract/delMaintenance" method="post">
+				<form action="" method="post" id="delMaintenanceForm">
 					<h6>Are you sure?</h6>
 						<input type="hidden" name="id" id="maintenanceId">
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-danger">Confirm</button>
+					<button type="button" class="btn btn-secondary cancelDelMaintenance" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-danger delMaintenanceSubmitBtn">Confirm</button>
 				</form>
 				</div>
 			</div>
