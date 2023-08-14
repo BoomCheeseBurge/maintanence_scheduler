@@ -7,6 +7,18 @@ function initializeTooltips() {
 	tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 
+// Function to display the flasher message after an action is triggered
+function setFlasher(column, message, action, type) {
+	
+	const flashContainer = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
+	const flashMessage =  $('<p>' + column + ' <strong>' + message + '</strong>' + action + '</p>');
+	const dismissBtn = $('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
+
+	flashContainer.append(flashMessage);
+	flashContainer.append(dismissBtn);
+	$('.flash-container').append(flashContainer);
+}
+
 function setForm() {
 
 	// Event listener for the show.bs.modal event on the scheduledDateModal
@@ -20,35 +32,122 @@ function setForm() {
 		// Set the value of the input field in the modal form
 		$('#id').val(maintenanceId);
 	});
+	
+	// ==========================================================================================================
+	// Set Schedule Date Event Handler starts here
 
-	$('.scheduledDateBtn').on('click', function() {
+	$(document).on('click', '.cancelSetDateBtn', function() {
 
-		$('#formModalLabel').html('Scheduled Maintenance Date');
-		$('.modal-body form').attr('action', BASEURL + '/maintenance/setScheduledDate');
+		$('.setDateSubmitBtn').html('Set');
 	});
 
-	$('.actualDateBtn').on('click', function() {
+	$(document).on('click', '.scheduledDateBtn', function() {
+
+		$('#formModalLabel').html('Scheduled Maintenance Date');
+
+		$('#modalForm').attr('id', 'setScheduleDateForm');
+	});
+
+	// Delegate the form submission handler to the document
+	$(document).on('submit', '#setScheduleDateForm', function(event) {
+		event.preventDefault();
+		
+		// Get the form data
+		const formData = new FormData(document.getElementById('setScheduleDateForm'));
+
+		$('.setDateSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Setting date...</span>');
+		
+		$.ajax({
+			url: BASEURL + '/dashboard/setScheduledDate',
+			type: 'POST',
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			success: function(response) {
+				if (response['result'] == '1') {
+					$('#formModal [data-bs-dismiss="modal"]').trigger('click');
+					setFlasher('Scheduled date', ' successfully', ' set', 'success');
+					$('#engineer-dashboard-table').bootstrapTable('refresh');
+				} else if (response['result'] == '2') {
+					setFlasher('Scheduled date', ' failed', ' to be set', 'danger');
+				} else {
+					alert("Entry Failed. Contact your administrator.");
+				}
+			},
+			error: function(e) {
+				console.log(e);
+			// Request failed, handle error here
+			alert("Error setting scheduled date.");
+			}
+		});
+	});
+
+	// ==========================================================================================================
+	// Set Actual Date Event Handler starts here
+
+	$(document).on('click', '.actualDateBtn', function() {
 
 		$('#formModalLabel').html('Actual Maintenance Date');
-		$('.modal-body form').attr('action', BASEURL + '/maintenance/setActualDate');
+
+		$('#modalForm').attr('id', 'setActualDateForm');
+	});
+
+	$(document).on('submit', '#setActualDateForm', function(event) {
+		event.preventDefault();
+		
+		const formData = new FormData(document.getElementById('setActualDateForm'));
+
+		$('.setDateSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Setting date...</span>');
+
+		$.ajax({
+			url: BASEURL + '/dashboard/setActualDate',
+			type: 'POST',
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			success: function(response) {
+
+				if (response['result'] == '1') {
+					$('#formModal [data-bs-dismiss="modal"]').trigger('click');
+					setFlasher('Actual date', ' successfully', ' set', 'success');
+					$('#engineer-dashboard-table').bootstrapTable('refresh');
+				} else if (response['result'] == '2') {
+					setFlasher('Actual date', ' failed', ' to be set', 'danger');
+				} else {
+					alert("Entry failed. Contact your administrator.");
+				}
+			},
+			error: function() {
+			// Request failed, handle error here
+			alert("Error setting actual date.");
+			}
+		});
 	});
 }
 
 function setButton() {
 
-	$('.deliveredReport').on('click', function() {
+	$(document).on('click', '.deliveredReport', function() {
 
 		var maintenanceId = $(this).data('id');
 
 		$.ajax({
-			url: BASEURL + '/maintenance/setReportStatus',
+			url: BASEURL + '/dashboard/setReportStatus',
 			method: 'POST',
 			data: {
 			  id: maintenanceId
 			},
 			success: function(response) {
-				// Refresh the table data
-				$('#engineer-dashboard-table').bootstrapTable('refresh');
+				if (response['result'] == '1') {
+					setFlasher('Report', ' successfully', ' completed', 'success');
+					$('#engineer-dashboard-table').bootstrapTable('refresh');
+				} else if (response['result'] == '2') {
+					setFlasher('Report', ' failed', ' to be completed', 'danger');
+				} else {
+					alert("Entry failed. Contact your administrator.");
+				}
 			},
 			error: function(xhr, status, error) {
 			  // Handle the error, if any
@@ -103,75 +202,78 @@ function engineerDashboardFormatter(value, row, index) {
 function initEngineerDashboardTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
-		fullscreen: 'bi-arrows-fullscreen'
+		fullscreen: 'bi-arrows-fullscreen',
+		clearSearch: 'bi bi-x-lg'
 	}
 	$engineerDashboardTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
 		locale: 'en-US',
 		classes: 'table table-bordered table-condensed custom-font-size',
 		columns: [
-	{
-		title: 'Client',
-		field: 'name',
-		align: 'center',
-		sortable: true,
-		align: 'center',
-		width: '400'
-	}, {
-		title: 'Device',
-		field: 'device',
-		align: 'center',
-		sortable: true,
-		align: 'center'
-	}, {
-		title: 'PM ke-',
-		field: 'pm_count',
-		align: 'center',
-		align: 'center'
-	}, {
-		title: 'Scheduled Date',
-		field: 'scheduled_date',
-		align: 'center',
-		valign: 'middle'
-	}, {
-		title: 'Actual Date',
-		field: 'actual_date',
-		align: 'center',
-		valign: 'middle'
-	}, {
-		title: 'Maintenance Status',
-		field: 'maintenance_status',
-		align: 'center',
-		valign: 'middle',
-		sortable: true
-	}, {
-		title: 'Report Status',
-		field: 'report_status',
-		align: 'center',
-		valign: 'middle',
-		sortable: true
-	}, {
-		title: 'Action',
-		field: 'action',
-		align: 'center',
-		valign: 'middle',
-		switchable: false,
-		formatter: engineerDashboardFormatter
-	}],
-	  // Bootstrap Table specific property that is an option which allows to specify a function to be executed after the table body is rendered and data is loaded into the table.
-	  onPostBody: () => {
-		initializeTooltips();
-		setForm();
-		setButton();
-	  }
+		{
+			title: 'Client',
+			field: 'name',
+			align: 'center',
+			valign: 'middle',
+			sortable: true,
+			width: '400'
+		}, {
+			title: 'Device',
+			field: 'device',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}, {
+			title: 'PM ke-',
+			field: 'pm_count',
+			align: 'center',
+			valign: 'middle'
+		}, {
+			title: 'Scheduled Date',
+			field: 'scheduled_date',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}, {
+			title: 'Actual Date',
+			field: 'actual_date',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}, {
+			title: 'Maintenance Status',
+			field: 'maintenance_status',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}, {
+			title: 'Report Status',
+			field: 'report_status',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}, {
+			title: 'Action',
+			field: 'action',
+			align: 'center',
+			valign: 'middle',
+			switchable: false,
+			formatter: engineerDashboardFormatter
+		}],
+		onPostBody: () => {
+			initializeTooltips();
+		}
 	});
 }
 
 $(function() {
 
-	initEngineerDashboardTable()
+	initEngineerDashboardTable();
 
 	$('#engineer-dashboard-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
-	})
-})
+	});
+
+	setForm();
+	setButton();
+});

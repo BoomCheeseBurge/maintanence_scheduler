@@ -47,8 +47,10 @@
 	<?php elseif ( isset($data['identifier']) && $data['identifier'] === 'contract_admin' ): ?>
 		<script src="/taskscheduler/public/js/contract-table-admin.js"></script>
 		<script src="/taskscheduler/public/js/search-input-contract.js"></script>
+		<script src="/taskscheduler/public/js/filter-client-input-admin.js"></script>
 	<?php elseif ( isset($data['identifier']) && $data['identifier'] === 'contract_manager' ): ?>
 		<script src="/taskscheduler/public/js/contract-table-manager.js"></script>
+		<script src="/taskscheduler/public/js/filter-client-input-manager.js"></script>
 	<?php elseif ( isset($data['identifier']) && $data['identifier'] === 'dashboard_admin' ): ?>
 		<script src="/taskscheduler/public/js/dashboard-table-admin.js"></script>
 	<?php elseif ( isset($data['identifier']) && $data['identifier'] === 'dashboard_manager' ): ?>

@@ -15,7 +15,7 @@ class Client_model {
 
 	public function getClientData() {
 
-		$this->db->query('SELECT cl.id, cl.name AS client_name, p.name AS pic_name, p.email AS pic_email
+		$this->db->query('SELECT p.id, cl.name AS client_name, p.name AS pic_name, p.email AS pic_email
 		FROM '. $this->table1 .' cl
 		JOIN '. $this->table2 .' p ON cl.id = p.client_id');
 		return $this->db->resultSet();
@@ -23,13 +23,24 @@ class Client_model {
 
 	public function addClientData($data) {
 
-		$query1 = 'INSERT INTO '. $this->table1 .' (id, name) VALUES ("", :client_name)';
-		$this->db->query($query1);
-		$this->db->bind('client_name', $data['clientName']);
-		$this->db->execute();
+		// Check if the client name already exists
+		$queryCheck = 'SELECT id, COUNT(*) AS count FROM '. $this->table1 .' WHERE name = :client_name';
+		$this->db->query($queryCheck);
+		$this->db->bind(':client_name', $data['clientName']);
+		$result = $this->db->single();
 
-		// After executing the INSERT query for the 'client' table
-		$clientId = $this->db->lastInsertId();
+		if ($result['count'] > 0) {
+			$clientId = $result['id'];
+
+		} else {
+			$query1 = 'INSERT INTO '. $this->table1 .' (id, name) VALUES ("", :client_name)';
+			$this->db->query($query1);
+			$this->db->bind('client_name', $data['clientName']);
+			$this->db->execute();
+
+			// After executing the INSERT query for the 'client' table
+			$clientId = $this->db->lastInsertId();
+		}
 
         // Check if picName and picEmail arrays exist in the $data
         if (isset($data['picName']) && isset($data['picEmail'])) {
@@ -97,12 +108,36 @@ class Client_model {
 		return $this->db->rowCount();
 	}
 
-	public function delClientPICData($data) {
+	public function delClientPICData($id) {
 
 		$query = 'DELETE FROM '. $this->table2 .' WHERE id = :id';
 		$this->db->query($query);
-		$this->db->bind(':id', $data['id']);
+		$this->db->bind(':id', $id);
 
+		try {
+			$this->db->execute();
+			// Success: The client record was deleted successfully
+		} catch (PDOException $e) {
+			// Error: The client record could not be deleted due to the foreign key constraint
+			echo "Error: Failed to delete client PIC";
+		}
+
+		return $this->db->rowCount();
+	}
+
+	public function delBulkClientPICData($ids) {
+
+		// Create placeholders for the IDs
+		$placeholders = implode(',', array_fill(0, count($ids), '?'));
+	
+		$query = 'DELETE FROM ' . $this->table2 . ' WHERE id IN (' . $placeholders . ')';
+		$this->db->query($query);
+	
+		// Bind the IDs
+		foreach ($ids as $index => $id) {
+			$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
+		}
+	
 		try {
 			$this->db->execute();
 			// Success: The client record was deleted successfully
@@ -113,6 +148,7 @@ class Client_model {
 
 		return $this->db->rowCount();
 	}
+	
 
 	public function getClientPICById($id) {
 

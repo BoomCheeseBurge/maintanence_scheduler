@@ -23,9 +23,74 @@ class Contract_model {
 		return $this->db->resultSet();
     }
 
-    public function addContractData($data) {
+	// For Filtered History Bootstrap Table by Month
+	public function filterTableData($clientName, $endMonth, $endYear) {
 
-		
+		$end_month = intval($endMonth);
+
+		if(!empty($clientName) && !empty($endMonth) && !empty($endYear)) {
+
+			$startDate = "{$endYear}-{$end_month}-01";
+			$endDate = date('Y-m-t', strtotime($startDate)); // Get the last day of the selected month
+
+			$query = 'SELECT co.id, cl.name, co.sop_number, co.device, co.pm_frequency, co.start_date, co.end_date, u.full_name
+			FROM '. $this->table1 .' co
+			INNER JOIN '. $this->table2 .' cl ON co.client_id = cl.id
+			INNER JOIN '. $this->table3 .' u ON co.engineer_id = u.id
+			WHERE cl.name = :client_name AND
+			(co.end_date BETWEEN :start_date AND :end_date)';
+
+			$this->db->query($query);
+			$this->db->bind('client_name', $clientName);
+			$this->db->bind('start_date', $startDate);
+			$this->db->bind('end_date', $endDate);
+	
+			return $this->db->resultSet();
+
+			// return ["result","WHY AM I HERE?", $end_month];
+
+		} else if(empty($clientName) && !empty($endYear)) {
+
+			// Construct start and end dates for the selected month and year
+			if (!empty($endMonth)) {
+				// Month is provided, construct a range for the given month
+				$startDate = "{$endYear}-{$end_month}-01";
+				$endDate = date('Y-m-t', strtotime($startDate)); // Get the last day of the selected month
+			} else {
+				// Month is not provided, construct a range for the entire year
+				$startDate = "{$endYear}-01-01";
+				$endDate = "{$endYear}-12-31";
+			}
+
+			$query = 'SELECT co.id, cl.name, co.sop_number, co.device, co.pm_frequency, co.start_date, co.end_date, u.full_name
+			FROM '. $this->table1 .' co
+			INNER JOIN '. $this->table2 .' cl ON co.client_id = cl.id
+			INNER JOIN '. $this->table3 .' u ON co.engineer_id = u.id
+			WHERE co.end_date BETWEEN :start_date AND :end_date';
+
+			$this->db->query($query);
+			$this->db->bind('start_date', $startDate);
+			$this->db->bind('end_date', $endDate);
+	
+			return $this->db->resultSet();
+
+			// return ["result","IM INNNN", $end_month];
+
+		} else if(!empty($clientName)) {
+			$query = 'SELECT co.id, cl.name, co.sop_number, co.device, co.pm_frequency, co.start_date, co.end_date, u.full_name
+			FROM '. $this->table1 .' co
+			INNER JOIN '. $this->table2 .' cl ON co.client_id = cl.id
+			INNER JOIN '. $this->table3 .' u ON co.engineer_id = u.id
+			WHERE cl.name = :client_name';
+
+			$this->db->query($query);
+			$this->db->bind('client_name', $clientName);
+	
+			return $this->db->resultSet();
+		}
+	}
+
+    public function addContractData($data) {
 
 		$query = 'INSERT INTO '. $this->table1 .' (id, client_id, engineer_id, sop_number, start_date, end_date, device, pm_frequency)
 		VALUES ("", :client_id, :assignee_id, :sopNumber, :startDate, :endDate, :deviceName, :pmFreq)';
@@ -67,7 +132,7 @@ class Contract_model {
 
         $row = $this->db->single();
 
-        return $row['count'] > 0;
+        return $row['count'];
     }
 
     public function editContractData($data) {
@@ -98,12 +163,36 @@ class Contract_model {
 		return $this->db->rowCount();
 	}
 
-	public function delContractData($data) {
+	public function delContractData($id) {
 
 		$query = 'DELETE FROM '. $this->table1 .' WHERE id = :id';
 		$this->db->query($query);
-		$this->db->bind(':id', $data['id']);
+		$this->db->bind(':id', $id);
 
+		try {
+			$this->db->execute();
+			// Success: The client record was deleted successfully
+		} catch (PDOException $e) {
+			// Error: The client record could not be deleted due to the foreign key constraint
+			echo "Error: Cannot delete the contract record because it has related records in other tables.";
+		}
+
+		return $this->db->rowCount();
+	}
+
+	public function delBulkContractData($ids) {
+
+		// Create placeholders for the IDs
+		$placeholders = implode(',', array_fill(0, count($ids), '?'));
+	
+		$query = 'DELETE FROM ' . $this->table1 . ' WHERE id IN (' . $placeholders . ')';
+		$this->db->query($query);
+	
+		// Bind the IDs
+		foreach ($ids as $index => $id) {
+			$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
+		}
+	
 		try {
 			$this->db->execute();
 			// Success: The client record was deleted successfully

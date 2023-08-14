@@ -15,6 +15,7 @@ class Client extends Controller {
 
 		$data['title'] = 'Task-Scheduler | Client';
 		$data['identifier'] = 'client_admin';
+		$data['activePage'] = 'client';
 
 		$this->view('templates/header', $data);
 		$this->view('client/client_admin');
@@ -25,6 +26,7 @@ class Client extends Controller {
 
 		$data['title'] = 'Task-Scheduler | Client';
 		$data['identifier'] = 'client_manager';
+		$data['activePage'] = 'client';
 
 		$this->view('templates/header', $data);
 		$this->view('client/client_manager');
@@ -43,17 +45,11 @@ class Client extends Controller {
 		// then that means the new data is successfully passed into the webserver
 		if( $this->model('Client_model')->addClientData($_POST) > 0 ) {
 
-			// Set the parameter values for the flash message
-			Flasher::setFlash('Client', ' successfully', ' added', 'success');
-
-			// Redirect to the main page of the mahasiswa
-			header('Location: ' . BASEURL . '/client');
+			echo json_encode(['result' => '1']);
 			exit;
 		}else {
 
-			Flasher::setFlash('Client', ' failed', ' to be added', 'danger');
-
-			header('Location: ' . BASEURL . '/client');
+			echo json_encode(['result' => '2']);
 			exit;
 		}
 	}
@@ -62,15 +58,11 @@ class Client extends Controller {
 
 		if( $this->model('Client_model')->editClientData($_POST) > 0 ) {
 
-			Flasher::setFlash('Client', 'successfully', ' edited', 'success');
-
-			header('Location: ' . BASEURL . '/client');
+			echo json_encode(['result' => '1']);
 			exit;
 		}else {
 
-			Flasher::setFlash('Client', 'failed', ' to edit', 'danger');
-
-			header('Location: ' . BASEURL . '/client');
+			echo json_encode(['result' => '2']);
 			exit;
 		}
 	}
@@ -79,15 +71,11 @@ class Client extends Controller {
 
 		if( $this->model('Client_model')->delClientData($_POST) > 0 ) {
 
-			Flasher::setFlash('Client', 'successfully', ' deleted', 'success');
-
-			header('Location: ' . BASEURL . '/client');
+			echo json_encode(['result' => '1']);
 			exit;
 		}else {
 
-			Flasher::setFlash('Client', 'failed', ' to be deleted', 'danger');
-
-			header('Location: ' . BASEURL . '/client');
+			echo json_encode(['result' => '2']);
 			exit;
 		}
 	}
@@ -103,33 +91,42 @@ class Client extends Controller {
 
 			if( $this->model('Client_model')->editClientPICData($_POST) > 0 ) {
 
-				Flasher::setFlash('Client PIC', ' successfully', ' edited', 'success');
-
-				header('Location: ' . BASEURL . '/client');
+				echo json_encode(['result' => '1']);
+				exit;
+			} else {
+				
+				echo json_encode(['result' => '2']);
 				exit;
 			}
 		}else {
 
-			Flasher::setFlash('Client PIC', ' failed', ' to edit', 'danger');
-
-			header('Location: ' . BASEURL . '/client');
+			echo json_encode(['result' => '3']);
 			exit;
 		}
 	}
 
 	public function delClientPIC() {
 
-		if( $this->model('Client_model')->delClientPICData($_POST) > 0 ) {
+		if( $this->model('Client_model')->delClientPICData($_POST['id']) > 0 ) {
 
-			Flasher::setFlash('Client PIC', ' successfully', ' deleted', 'success');
-
-			header('Location: ' . BASEURL . '/client');
+			echo json_encode(['result' => '1']);
 			exit;
 		}else {
 
-			Flasher::setFlash('Client PIC', ' failed', ' to be deleted', 'danger');
+			echo json_encode(['result' => '2']);
+			exit;
+		}
+	}
 
-			header('Location: ' . BASEURL . '/client');
+	public function delBulkClientPIC() {
+
+		if( $this->model('Client_model')->delBulkClientPICData($_POST['ids']) > 0 ) {
+
+			echo json_encode(['result' => '1']);
+			exit;
+		}else {
+
+			echo json_encode(['result' => '2']);
 			exit;
 		}
 	}

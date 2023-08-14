@@ -24,79 +24,187 @@
 	<title><?= $data['title'] ?></title>
 </head>
 <body>
-  <!-- ==================================== Side Navbar ==================================== -->
-  <?php if ( $_SESSION['role'] != 'engineer' ): ?>
-    <nav class="sidebar">
-        <header>
-            <div class="image">
-                <img src="/taskscheduler/public/img/itpro-removebg-logo-with-text.png" alt="ITPro Logo">
-            </div>
-        </header>
+	<!-- ==================================== Side Navbar ==================================== -->
+	<?php if ( $_SESSION['role'] != 'engineer' ): ?>
+	<nav class="sidebar" id="sidebar">
+		<header>
+			<div class="image">
+				<img src="/taskscheduler/public/img/itpro-removebg-logo-with-text.png" alt="ITPro Logo">
+			</div>
+		</header>
 
-        <div class="menu-bar">
-            <ul class="menu-links">
-                <li class="nav-link">
-                    <a href="<?= BASEURL; ?>">
-                        <i class="fa-solid fa-house icon"></i>
-                        <span class="text nav-text">Dashboard</span>
-                    </a>
-                </li>
+		<div class="menu-bar">
+			<ul class="menu-links">
+				<li class="nav-link" aria-current="true">
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'dashboard' ): ?>
+						<a href="<?= BASEURL; ?>" style="background-color: #695CFE;">
+							<i class="fa-solid fa-house icon" style="color: #E4E9F7;"></i>
+							<span class="text nav-text" style="color: #E4E9F7;">Dashboard</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= BASEURL; ?>">
+							<i class="fa-solid fa-house icon"></i>
+							<span class="text nav-text">Dashboard</span>
+						</a>
+					<?php endif; ?>
+				</li>
 
-                <li class="nav-link">
-                    <a href="<?= BASEURL; ?>/maintenance">
-                        <i class="fa-solid fa-list icon"></i>
-                        <span class="text nav-text">Maintenance</span>
-                    </a>
-                </li>
+				<li class="nav-link">
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'history' ): ?>
+						<a href="<?= BASEURL; ?>/maintenance" style="background-color: #695CFE;">
+							<i class="fa-solid fa-list icon" style="color: #E4E9F7;"></i>
+							<span class="text nav-text" style="color: #E4E9F7;">Maintenance</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= BASEURL; ?>/maintenance">
+							<i class="fa-solid fa-list icon"></i>
+							<span class="text nav-text">Maintenance</span>
+						</a>
+					<?php endif; ?>
+				</li>
 
-                <li class="nav-link">
-                    <a href="<?= BASEURL; ?>/contract">
-                        <i class="fa-solid fa-file-signature icon"></i>
-                        <span class="text nav-text">Contract</span>
-                    </a>
-                </li>
+				<li class="nav-link">
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'contract' ): ?>
+						<a href="<?= BASEURL; ?>/contract" style="background-color: #695CFE;">
+							<i class="fa-solid fa-file-signature icon" style="color: #E4E9F7;"></i>
+							<span class="text nav-text" style="color: #E4E9F7;">Contract</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= BASEURL; ?>/contract">
+							<i class="fa-solid fa-file-signature icon"></i>
+							<span class="text nav-text">Contract</span>
+						</a>
+					<?php endif; ?>
+				</li>
 
-                <li class="nav-link">
-                    <a href="<?= BASEURL; ?>/client">
-                        <i class="fa-solid fa-user-tie icon"></i>
-                        <span class="text nav-text">Client</span>
-                    </a>
-                </li>
+				<li class="nav-link">
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'client' ): ?>
+						<a href="<?= BASEURL; ?>/client" style="background-color: #695CFE;">
+							<i class="fa-solid fa-user-tie icon" style="color: #E4E9F7;"></i>
+							<span class="text nav-text" style="color: #E4E9F7;">Client</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= BASEURL; ?>/client">
+							<i class="fa-solid fa-user-tie icon"></i>
+							<span class="text nav-text">Client</span>
+						</a>
+					<?php endif; ?>
+				</li>
 
-                <li class="nav-link">
-                    <a href="<?= BASEURL; ?>/user">
-                        <i class="fa-solid fa-users icon"></i>
-                        <span class="text nav-text">User</span>
-                    </a>
-                </li>
-            </ul>
+				<li class="nav-link">
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'user' ): ?>
+						<a href="<?= BASEURL; ?>/user" style="background-color: #695CFE;">
+							<i class="fa-solid fa-users icon" style="color: #E4E9F7;"></i>
+							<span class="text nav-text" style="color: #E4E9F7;">User</span>
+						</a>
+					<?php else: ?>
+						<a href="<?= BASEURL; ?>/user">
+							<i class="fa-solid fa-users icon"></i>
+							<span class="text nav-text">User</span>
+						</a>
+					<?php endif; ?>
+				</li>
+			</ul>
 
-            <div class="bottom-content">
-                <li class="mode">
-                    <div class="sun-moon">
-                        <i class="fa-solid fa-moon icon moon"></i>
-                        <i class="fa-solid fa-sun icon sun"></i>
-                    </div>
-                    <span class="mode-text text">Dark mode</span>
+			<div class="bottom-content">
+				<li class="mode">
+					<div class="sun-moon">
+						<i class="fa-solid fa-moon icon moon"></i>
+						<i class="fa-solid fa-sun icon sun"></i>
+					</div>
+					<span class="mode-text text">Dark mode</span>
 
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li>
-            </div>
-        </div>
-    </nav>
-  <?php endif; ?>
+					<div class="toggle-switch">
+						<span class="switch"></span>
+					</div>
+				</li>
+			</div>
+		</div>
+	</nav>
+
+		<!-- =================== Hidden Sidebar =================== -->
+		<div class="offcanvas" id="myOffcanvas" data-bs-backdrop="false">
+		<div class="offcanvas-header">
+			<header class="offcanvas-title">
+				<div class="image">
+					<img src="/taskscheduler/public/img/itpro-removebg-logo-with-text.png" alt="ITPro Logo">
+				</div>
+			</header>
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			<div class="menu-bar">
+				<ul class="menu-links">
+					<li class="nav-link">
+						<a href="<?= BASEURL; ?>">
+							<i class="fa-solid fa-house icon"></i>
+							<span class="text nav-text">Dashboard</span>
+						</a>
+					</li>
+
+					<li class="nav-link">
+						<a href="<?= BASEURL; ?>/maintenance">
+							<i class="fa-solid fa-list icon"></i>
+							<span class="text nav-text">Maintenance</span>
+						</a>
+					</li>
+
+					<li class="nav-link">
+						<a href="<?= BASEURL; ?>/contract">
+							<i class="fa-solid fa-file-signature icon"></i>
+							<span class="text nav-text">Contract</span>
+						</a>
+					</li>
+
+					<li class="nav-link">
+						<a href="<?= BASEURL; ?>/client">
+							<i class="fa-solid fa-user-tie icon"></i>
+							<span class="text nav-text">Client</span>
+						</a>
+					</li>
+
+					<li class="nav-link">
+						<a href="<?= BASEURL; ?>/user">
+							<i class="fa-solid fa-users icon"></i>
+							<span class="text nav-text">User</span>
+						</a>
+					</li>
+				</ul>
+
+				<div class="bottom-content">
+					<li class="hidden-mode">
+						<div class="hidden-sun-moon">
+							<i class="fa-solid fa-moon icon hidden-moon"></i>
+							<i class="fa-solid fa-sun icon hidden-sun"></i>
+						</div>
+						<span class="hidden-mode-text text">Dark mode</span>
+
+						<div class="hidden-toggle-switch">
+							<span class="hidden-switch"></span>
+						</div>
+					</li>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php endif; ?>
 
 	<!-- ==================================== Top Navbar ==================================== -->
   <?php if ( $_SESSION['role'] == 'engineer' ): ?>
-    <section class="home" style="position: unset; width:unset">
+    <section class="home-engineer" style="position: unset; width:unset;">
   <?php else: ?>
-    <section class="home">
-  <?php endif; ?>  
-        <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-tall mb-2 navbar-color">
+    <section class="home" id="hide-sidebar">
+  <?php endif; ?>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary custom-navbar mb-2 navbar-color">
             <div class="container-fluid">
-                <a class="navbar-brand ms-4" href="<?= BASEURL; ?>">Task-Scheduler</a>
+                <div class="top-nav-head">
+					<?php if ( $_SESSION['role'] != 'engineer' ): ?>
+						<button type="button" class="btn btn-primary btn-sm hiddenSidebarBtn ms-2" id="openOffcanvas">
+							<i class="fa-solid fa-bars"></i>
+						</button>
+					<?php endif; ?>
+                  	<a class="navbar-brand ms-2" href="<?= BASEURL; ?>">Task-Scheduler</a>
+                </div>
                 <div class="d-flex justify-content-end">
                     <!-- Bell Icon for Notifications -->
                     <a class="nav-link text-light ms-2" href="#">

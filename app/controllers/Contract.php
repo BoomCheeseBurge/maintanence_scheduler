@@ -15,6 +15,7 @@ class Contract extends Controller {
 
 		$data['title'] = 'Task-Scheduler | Contract';
 		$data['identifier'] = 'contract_admin';
+		$data['activePage'] = 'contract';
 
 		$this->view('templates/header', $data);
 		$this->view('contract/contract_admin');
@@ -25,6 +26,7 @@ class Contract extends Controller {
 
 		$data['title'] = 'Task-Scheduler | Contract';
 		$data['identifier'] = 'contract_manager';
+		$data['activePage'] = 'contract';
 
 		$this->view('templates/header', $data);
 		$this->view('contract/contract_manager');
@@ -50,33 +52,25 @@ class Contract extends Controller {
 			$_POST['assignee_id'] = $assigneeId;
 
 			// Check if there is a duplicate contract
-			if (!$this->model('Contract_model')->isDuplicateContract($_POST)) {
+			if ( $this->model('Contract_model')->isDuplicateContract($_POST) == 0 ) {
 
-				// Entry the new contract
 				if( $this->model('Contract_model')->addContractData($_POST) > 0 ) {
 
-					Flasher::setFlash('Contract', ' successfully', ' added', 'success');
-
-					header('Location: ' . BASEURL . '/contract');
+					echo json_encode(['result' => '1']);
 					exit;
 				}else {
 
-					Flasher::setFlash('Contract', ' failed', ' to be added', 'danger');
-		
-					header('Location: ' . BASEURL . '/contract');
+					echo json_encode(['result' => '2']);
 					exit;
 				}
 			}else {
-				Flasher::setFlash('Contract', ' already', ' exist', 'warning');
-	
-				header('Location: ' . BASEURL . '/contract');
+
+				echo json_encode(['result' => '3']);
 				exit;
 			}
 		}else {
 
-			Flasher::setFlash('Contract', ' failed', ' to be added', 'danger');
-
-			header('Location: ' . BASEURL . '/contract');
+			echo json_encode(['result' => '4']);
 			exit;
 		}
 	}
@@ -95,49 +89,51 @@ class Contract extends Controller {
 			$_POST['assignee_id'] = $assigneeId;
 
 			// Check if there is a duplicate contract
-			if (!$this->model('Contract_model')->isDuplicateContract($_POST)) {
+			if ( $this->model('Contract_model')->isDuplicateContract($_POST) == 0 ) {
 
 				if( $this->model('Contract_model')->editContractData($_POST) > 0 ) {
 
-					Flasher::setFlash('Contract', ' successfully', ' saved', 'success');
-
-					header('Location: ' . BASEURL . '/contract');
+					echo json_encode(['result' => '1']);
 					exit;
 				}else {
 
-					Flasher::setFlash('Contract', ' failed', ' to be saved', 'danger');
-		
-					header('Location: ' . BASEURL . '/contract');
+					echo json_encode(['result' => '2']);
 					exit;
 				}
 			}else {
-				Flasher::setFlash('Contract', ' already', ' exist', 'warning');
-	
-				header('Location: ' . BASEURL . '/contract');
+
+				echo json_encode(['result' => '3']);
 				exit;
 			}
 		}else {
 
-			Flasher::setFlash('Contract', ' failed', ' to be saved', 'danger');
-
-			header('Location: ' . BASEURL . '/contract');
+			echo json_encode(['result' => '4']);
 			exit;
 		}
 	}
 
 	public function delContract() {
 
-		if( $this->model('Contract_model')->delContractData($_POST) > 0 ) {
+		if( $this->model('Contract_model')->delContractData($_POST['id']) > 0 ) {
 
-			Flasher::setFlash('Contract', ' successfully', ' deleted', 'success');
-
-			header('Location: ' . BASEURL . '/contract');
+			echo json_encode(['result' => '1']);
 			exit;
 		}else {
 
-			Flasher::setFlash('Contract', ' failed', ' to be deleted', 'danger');
+			echo json_encode(['result' => '2']);
+			exit;
+		}
+	}
 
-			header('Location: ' . BASEURL . '/contract');
+	public function delBulkContract() {
+
+		if( $this->model('Contract_model')->delBulkContractData($_POST['ids']) > 0 ) {
+
+			echo json_encode(['result' => '1']);
+			exit;
+		}else {
+
+			echo json_encode(['result' => '2']);
 			exit;
 		}
 	}
@@ -149,4 +145,11 @@ class Contract extends Controller {
 	public function getSingleContractData() {
 		echo json_encode($this->model('Contract_model')->getContractById($_POST['id']));
 	}
+
+	public function filterTable() {
+    
+        $filteredTableData = $this->model('Contract_model')->filterTableData($_POST['clientName'], $_POST['endMonth'], $_POST['endYear']);
+    
+        echo json_encode($filteredTableData);
+    }
 }

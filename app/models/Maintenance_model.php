@@ -65,7 +65,7 @@ class Maintenance_model {
 		FROM '. $this->table1 . ' m
 		INNER JOIN '. $this->table2 . ' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 . ' cl ON m.client_id = cl.id
-		WHERE m.actual_date IS NULL OR m.report_status = "in-progress" OR
+		WHERE (m.actual_date IS NULL OR m.report_status = "in-progress" OR
 		( m.report_status = "delivered" AND
 		(
 			CASE 
@@ -96,8 +96,8 @@ class Maintenance_model {
 				WHEN m.month = "November" THEN 11
 				WHEN m.month = "December" THEN 12
 			END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-        )) AND
-		m.engineer_id = ' .$_SESSION["id"];
+        ))) AND
+		m.engineer_id = ' . $_SESSION["id"];
 		
 		$this->db->query($query);
 		return $this->db->resultSet();
@@ -105,13 +105,44 @@ class Maintenance_model {
 
 	// For History Bootstrap Table
 	public function getHistoryData() {
-		$query = 'SELECT u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
+		$query = 'SELECT u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.scheduled_date, m.actual_date, m.report_date
 		FROM '. $this->table1 .' m
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 		INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id';
 
 		$this->db->query($query);
+		return $this->db->resultSet();
+	}
+
+	// For Filtered History Bootstrap Table by Month
+	public function filterTableData($selectedMonth, $selectedYear) {
+
+		$month = intval($selectedMonth);
+		$year = intval($selectedYear);
+
+		// Construct start and end dates for the selected month and year
+		if ($month !== 0) {
+			// Month is provided, construct a range for the given month
+			$startDate = "{$year}-{$month}-01";
+			$endDate = date('Y-m-t', strtotime($startDate)); // Get the last day of the selected month
+		} else {
+			// Month is not provided, construct a range for the entire year
+			$startDate = "{$year}-01-01";
+			$endDate = "{$year}-12-31";
+		}
+
+		$query = 'SELECT u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.scheduled_date, m.actual_date, m.report_date
+		FROM '. $this->table1 .' m
+		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
+		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
+		INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
+		WHERE m.scheduled_date BETWEEN :start_date AND :end_date';
+
+		$this->db->query($query);
+		$this->db->bind('start_date', $startDate);
+		$this->db->bind('end_date', $endDate);
+
 		return $this->db->resultSet();
 	}
 
@@ -153,6 +184,47 @@ class Maintenance_model {
 
         return $row['count'] > 0;
     }
+
+	public function delMaintenanceData($id) {
+
+		$query = 'DELETE FROM '. $this->table1 .' WHERE id = :id';
+		$this->db->query($query);
+		$this->db->bind(':id', $id);
+
+		try {
+			$this->db->execute();
+			// Success: The client record was deleted successfully
+		} catch (PDOException $e) {
+			// Error: The client record could not be deleted due to the foreign key constraint
+			echo "Error: Cannot delete the contract record because it has related records in other tables.";
+		}
+
+		return $this->db->rowCount();
+	}
+
+	public function delBulkMaintenanceData($ids) {
+
+		// Create placeholders for the IDs
+		$placeholders = implode(',', array_fill(0, count($ids), '?'));
+	
+		$query = 'DELETE FROM ' . $this->table1 . ' WHERE id IN (' . $placeholders . ')';
+		$this->db->query($query);
+	
+		// Bind the IDs
+		foreach ($ids as $index => $id) {
+			$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
+		}
+	
+		try {
+			$this->db->execute();
+			// Success: The client record was deleted successfully
+		} catch (PDOException $e) {
+			// Error: The client record could not be deleted due to the foreign key constraint
+			echo "Error: Cannot delete the maintenance record because it has related records in other tables.";
+		}
+
+		return $this->db->rowCount();
+	}
 
 	public function setScheduledDate($data) {
 
@@ -221,6 +293,44 @@ class Maintenance_model {
 		$this->db->query($query);
 		$this->db->execute();
 
+		return $this->db->resultSet();
+	}
+
+	public function getYearlyEngineerPerformanceData($selectedYear) {
+
+		$query = 'SELECT u.full_name, COUNT(*) AS late_count 
+				FROM maintenance m JOIN user u ON m.engineer_id = u.id 
+				WHERE u.role = "engineer" 
+				AND m.report_date > DATE_ADD(m.actual_date, INTERVAL 8 DAY) 
+				AND YEAR(m.report_date) = :selectedYear GROUP BY u.full_name';
+
+		$this->db->query($query);
+		$this->db->bind(':selectedYear', $selectedYear);
+		$this->db->execute();
+
+		return $this->db->resultSet();
+	}
+	
+	public function getMonthlyEngineerPerformanceData($selectedMonth, $selectedYear) {
+		// Use the $selectedMonth and $selectedYear parameters in your query
+		// Make sure to sanitize the input to prevent SQL injection (e.g., using prepared statements)
+	
+		$query = 'SELECT u.full_name, COUNT(*) AS late_count 
+				  FROM maintenance m 
+				  INNER JOIN user u ON m.engineer_id = u.id 
+				  WHERE u.role = "engineer" 
+				  AND m.report_date > DATE_ADD(m.actual_date, INTERVAL 8 DAY) 
+				  AND YEAR(m.report_date) = :selectedYear 
+				  AND MONTH(m.report_date) = :selectedMonth 
+				  GROUP BY u.full_name';
+	
+		// Bind the parameters to the query
+		$this->db->query($query);
+		$this->db->bind(':selectedYear', $selectedYear);
+		$this->db->bind(':selectedMonth', $selectedMonth);
+	
+		$this->db->execute();
+	
 		return $this->db->resultSet();
 	}
 }

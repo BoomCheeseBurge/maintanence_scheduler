@@ -18,6 +18,7 @@
 			data-id-field="id"
 			data-page-list="[10, 25, 50, 100, all]"
 			data-mobile-responsive="true"
+			data-show-search-clear-button="true"
 			data-check-on-init="true"
 			data-url='<?= BASEURL; ?>/client/getAllClient'
 			data-resizable="true">

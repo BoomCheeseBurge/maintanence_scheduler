@@ -49,7 +49,7 @@ document.getElementById('searchClientName').addEventListener('input', function (
 
 // ---------------------------------------------------------------
 
-// Search Input to Edit Client
+// Search Input to Delete Client
 document.getElementById('delClientName').addEventListener('input', function () {
 	const searchQuery = this.value.trim();
   
@@ -97,3 +97,5 @@ document.getElementById('delClientName').addEventListener('input', function () {
 	  clientNameList.appendChild(noResultsMessage);
 	}
   }
+
+  // ---------------------------------------------------------------

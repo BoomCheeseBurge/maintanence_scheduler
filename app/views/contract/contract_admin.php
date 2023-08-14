@@ -1,12 +1,21 @@
       <div class="container-fluid">
 
 	  	<div class="row">
-			<div class="col-lg-6">
-				<?php Flasher::flash(); ?>
+			<div class="col-lg-6 flash-container">
 			</div>
 		</div>
 
         <h3 class="header-title">Contract</h3>
+
+		<span id="toolbar">
+			<button class="btn btn-danger" id="remove" data-bs-toggle="modal" data-bs-target="#delBulkContractModal" disabled>
+			Delete
+			</button>
+	  		<button class="btn btn-primary addContractBtn" data-bs-toggle="modal" data-bs-target="#contractModal">Add</button>
+			<button type="button" id="filter" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#filterTableModal">
+				<i class="fa-solid fa-filter me-1"></i>Filter
+			</button>
+		</span>
 		
         <table
         id="contract-table"
@@ -18,11 +27,13 @@
         data-show-columns="true"
         data-show-columns-toggle-all="true"
         data-show-export="true"
+		data-click-to-select="true"
         data-minimum-count-columns="2"
         data-pagination="true"
         data-id-field="id"
         data-page-list="[10, 25, 50, 100, all]"
         data-mobile-responsive="true"
+		data-show-search-clear-button="true"
         data-check-on-init="true"
         data-url='<?= BASEURL; ?>/contract/getAllContract'
         data-resizable="true">
@@ -39,7 +50,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="" method="post">
+					<form action="" method="post" id="contractForm">
 						<input type="hidden" name="id" id="id">
 						<div class="form-floating mb-3">
 							<input type="search" class="form-control" name="clientName" id="clientName" required placeholder="clientName" autocomplete="off">
@@ -73,7 +84,7 @@
 						</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-primary contractSubmitBtn"></button>
 					</form>
 				</div>
@@ -145,7 +156,7 @@
 						
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-primary">Create</button>
 					</form>
 				</div>
@@ -154,23 +165,94 @@
 	</div>
 
 	<!-- ========================================== Delete Contract Modal ========================================== -->
-	  <div class="modal fade" id="delContractModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delContractModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h6 class="modal-title fs-5" id="delContractModalLabel">Delete Contract</h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="<?= BASEURL; ?>/contract/delContract" method="post">
-            <h6>Are you sure?</h6>
-			      <input type="hidden" name="id" id="contractId">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-danger">Confirm</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="modal fade" id="delContractModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delContractModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h6 class="modal-title fs-5" id="delContractModalLabel">Delete Contract</h6>
+				<button type="button" class="btn-close cancelDelContractBtn" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				<form action="" method="post" id="delContractForm">
+					<h6>Are you sure?</h6>
+						<input type="hidden" name="id" id="contractId">
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary cancelDelContractBtn" data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-danger delContractSubmitBtn">Confirm</button>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ========================================== Bulk Delete Contract Modal ========================================== -->
+	<div class="modal fade" id="delBulkContractModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delBulkContractModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h6 class="modal-title fs-5" id="delBulkContractModalLabel">Bulk Delete Contract</h6>
+					<button type="button" class="btn-close cancelDelBulkContract" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				<form action="" method="post" id="bulkDeleteContractForm">
+					<h6>Are you sure?</h6>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary cancelDelBulkContract" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-danger bulkDeleteSubmitBtn">Confirm</button>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ========================================== Filter Table Modal ========================================== -->
+	<div class="modal fade" id="filterTableModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="filterTableModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h6 class="modal-title fs-5" id="filterTableModalLabel">Filter Table</h6>
+					<button type="button" class="btn-close cancelContractFilter" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="filterModalBody">
+					<form id="filterForm" action="" method="post">
+
+						<div class="row g-0 text-center">
+							<div class="col-md-4">
+								<select class="form-select" id="filterOptionSelect">
+									<option selected disabled>Choose filter</option>
+									<option value="clientFilter">Client</option>
+									<option value="endDateFilter">End Date</option>
+								</select>
+							</div>
+							<div class="ms-4 col-md-7" id="optionContainer">
+							</div>
+						</div>
+
+						<hr>
+
+						<div class="row g-0 text-center">
+							<div class="col-md-4 mt-2 mb-2" id="addFilterField">
+								<select class="form-select" id="filterOptionSelect2">
+									<option selected disabled>Choose filter</option>
+									<option value="clientFilter">Client</option>
+									<option value="endDateFilter">End Date</option>
+								</select>
+							</div>
+							<div class="ms-4 col-md-7" id="optionContainer2">
+							</div>
+						</div>
+
+						<button type="button" class="btn btn-primary mt-2" id="addFilterBtn">
+							<i class="fa-solid fa-plus"></i>
+						</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger cancelContractFilter" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-primary filterSubmitBtn">Filter</button>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>

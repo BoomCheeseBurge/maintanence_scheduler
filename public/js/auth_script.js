@@ -1,7 +1,5 @@
 $(function() {
 
-    const BASEURL = "http://localhost/taskscheduler/public"
-
     // Set the value to empty and the placeholder for password type input element in Dashboard index view
     var currentPasswordInput = $("#currentPassword");
     currentPasswordInput.val('');
