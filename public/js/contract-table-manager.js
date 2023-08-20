@@ -591,7 +591,7 @@ function initContractTable() {
 }
 
 $(document).ready(function () {
-	initContractTable()
+	initContractTable();
 
 	$('#contract-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']

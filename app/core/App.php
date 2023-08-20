@@ -6,7 +6,7 @@ class App {
 	protected $method = 'index';
 	protected $params = [];
 	// List of permitted controllers when signed out. If not satisfied default to Login page.
-	protected $controllersSignedOut = array("Login", "Signup", "ForgottenPassword");
+	protected $controllersSignedOut = array("Login", "Signup", "ForgottenPassword", "Setup");
 	// List of permitted controllers when signed in.  If not satisfied default to Login page.
 	protected $controllersSignedIn = array("Client", "Contract", "Dashboard", "Logout", "Maintenance", "User");
 

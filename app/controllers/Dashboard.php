@@ -85,14 +85,8 @@ class Dashboard extends Controller {
 
 	public function delBulkMaintenance() {
 
-		if( $this->model('Maintenance_model')->delBulkMaintenanceData($_POST['ids']) > 0 ) {
+		$result = $this->model('Maintenance_model')->delBulkMaintenanceData($_POST['ids']);
 
-			echo json_encode(['result' => '1']);
-			exit;
-		}else {
-
-			echo json_encode(['result' => '2']);
-			exit;
-		}
+		echo json_encode(['result' => $result]);
 	}
 }

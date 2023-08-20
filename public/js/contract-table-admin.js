@@ -530,7 +530,7 @@ function filterTable() {
 					$('#filter').prop("disabled", false);
 
 					resetFilterModal();
-				}				
+				}
 			});
 		} else {
 
@@ -549,18 +549,6 @@ function filterTable() {
 	});
 
 	// ================================================================= Filter Query End =================================================================
-}
-
-// Function to display the flasher message after an action is triggered
-function setFlasher(column, message, action, type) {
-	
-	const flashContainer = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
-	const flashMessage =  $('<p>' + column + ' <strong>' + message + '</strong>' + action + '</p>');
-	const dismissBtn = $('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
-
-	flashContainer.append(flashMessage);
-	flashContainer.append(dismissBtn);
-	$('.flash-container').append(flashContainer);
 }
 
 function setForm() {
@@ -627,21 +615,52 @@ function setForm() {
 
 				if (response['result'] == '1') {
 					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Contract', ' successfully', ' added', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Contract successfully added',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#contract-table').bootstrapTable('refresh');
 				} else if (response['result'] == '2') {
-					setFlasher('Contract', ' failed', ' to be added', 'danger');
+					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Contract failed to be added',
+						showConfirmButton: true
+					});
 				} else if (response['result'] == '3') {
-					setFlasher('Contract', ' already', ' exist', 'warning');
+					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Contract already exists',
+						showConfirmButton: true
+					});
 				} else if (response['result'] == '4') {
-					setFlasher('Client or engineer', ' failed', ' to be found', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client or engineer not found. Please try again',
+						showConfirmButton: true
+					});
+					$('.modal-footer .contractSubmitBtn').html('Add');
 				} else {
-					alert("Entry Failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Entry Failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('.modal-footer .contractSubmitBtn').html('Add');
 				}
 			},
 			error: function() {
-			// Request failed, handle error here
-			alert("Error adding new contract.");
+				// Request failed, handle error here
+				alert("Error adding new contract");
+				$('.modal-footer .contractSubmitBtn').html('Add');
 			}
 		});
 	});
@@ -697,21 +716,52 @@ function setForm() {
 
 				if (response['result'] == '1') {
 					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Contract', ' successfully', ' saved', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Contract successfully updated',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#contract-table').bootstrapTable('refresh');
 				} else if (response['result'] == '2') {
-					setFlasher('Contract', ' failed', ' to be saved', 'danger');
+					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Contract failed to be updated',
+						showConfirmButton: true
+					});
 				} else if (response['result'] == '3') {
-					setFlasher('Contract', ' already', ' exist', 'warning');
+					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Contract already exists',
+						showConfirmButton: true
+					});
 				} else if (response['result'] == '4') {
-					setFlasher('Client or engineer', ' failed', ' to be found', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client or engineer not found. Please try again',
+						showConfirmButton: true
+					});
+					$('.modal-footer .contractSubmitBtn').html('Save');
 				} else {
-					alert("Save changes failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Updated changes failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('.modal-footer .contractSubmitBtn').html('Save');
 				}
 			},
 			error: function() {
-			// Request failed, handle error here
-			alert("Error saving changes.");
+				// Request failed, handle error here
+				alert("Error saving changes");
+				$('.modal-footer .contractSubmitBtn').html('Save');
 			}
 		});
 	});
@@ -742,17 +792,43 @@ function setForm() {
 
 				if (response['result'] == '1') {
 					$('#delContractModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Contract', ' successfully', ' deleted', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Contract successfully deleted',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#contract-table').bootstrapTable('refresh');
+				} else if (response['result'] == '0') {
+					$('#delContractModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Contract failed to be deleted',
+						showConfirmButton: true
+					});
 				} else if (response['result'] == '2') {
-					setFlasher('Contract', ' failed', ' to be deleted', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion denied. Please ensure the deleted record is not related elsewhere',
+						showConfirmButton: true
+					});
+					$('#delContractModal [data-bs-dismiss="modal"]').trigger('click');
 				} else {
-					alert("Deletion Failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion Failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('#delContractModal [data-bs-dismiss="modal"]').trigger('click');
 				}
 			},
 			error: function() {
-			// Request failed, handle error here
-			alert("Error deleting existing contract.");
+				// Request failed, handle error here
+				alert("Error deleting existing contract");
 			}
 		});
 	});
@@ -787,17 +863,17 @@ function setForm() {
 function contractFormatter(value, row, index) {
     return [
 		'<span class="ms-2 createSchedule" data-bs-toggle="modal" data-bs-target="#scheduleModal" data-id="' + row.id + '">',
-		'<button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create maintenance schedule">',
+		'<button class="btn btn-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Create maintenance schedule">',
 		'<i class="fa-solid fa-calendar-plus"></i>',
 		'</button>',
 		'</span>',
 		'<span class="ms-2 editContractBtn" data-bs-toggle="modal" data-bs-target="#contractModal" data-id="' + row.id + '">',
-		'<button class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">',
+		'<button class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">',
 		'<i class="fa-solid fa-pen-to-square"></i>',
 		'</button>',
 		'</span>',
 		'<span class="ms-2 delContractBtn" data-bs-toggle="modal" data-bs-target="#delContractModal" data-id="' + row.id + '">',
-		'<button class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">',
+		'<button class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">',
 		'<i class="fa-solid fa-trash-can"></i>',
 		'</button>',
 		'</span>'
@@ -906,33 +982,60 @@ function initContractTable() {
 			dataType: 'json',
 			success: function (response) {
 
-				if (response['result'] == '1') {
+				if (response['result'] == ids.length) {
 					$('#delBulkContractModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Contract', ' successfully', ' deleted', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Contracts successfully deleted',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#contract-table').bootstrapTable('refresh');
 					$remove.prop('disabled', true);
+				} else if (response['result'] == '0') {
+					$('#delBulkContractModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Contract failed to be deleted',
+						showConfirmButton: true
+					});
+					$remove.prop('disabled', true);
 				} else if (response['result'] == '2') {
-					setFlasher('Contract', ' failed', ' to be deleted', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion denied. Please ensure the deleted records are not related elsewhere',
+						showConfirmButton: true
+					});
 					$remove.prop('disabled', true);
+					$('#delBulkContractModal [data-bs-dismiss="modal"]').trigger('click');
 				} else {
-					alert("Deletion Failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion Failed. Contact your administrator',
+						showConfirmButton: true
+					});
 					$remove.prop('disabled', true);
+					$('#delBulkContractModal [data-bs-dismiss="modal"]').trigger('click');
 				}
 			},
-			error: function (xhr, status, error) {
+			error: function () {
 				// Handle the error if any
-				console.error(error);
+				alert("Error deleting existing contracts");
 			}
 		});
 	});
 }
 
 $(function() {
-	initContractTable()
+	initContractTable();
 
 	$('#contract-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
-	})
+	});
 
 	setForm();
 

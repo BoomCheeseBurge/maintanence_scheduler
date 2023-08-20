@@ -13,18 +13,19 @@ class EmailHelper {
     public static function sendEmail($to, $subject, $body) {
         $mail = new PHPMailer(true);
         // Configure PHPMailer (e.g., SMTP settings, sender info)
-        $email_from = "danone.institute.indonesia@danonenutrindo.org"; 
-        $mail->Host = "mail.danonenutrindo.org";
+        $company_name = "PT. ITPro Citra Indonesia";
+        $email_from = "johndoe240600@gmail.com";
+        $mail->Host = "smtp.gmail.com";
         $mail->isSMTP();
         $mail->SMTPAuth = true;
-        $mail->Username = "danone.institute.indonesia@danonenutrindo.org";
-        $mail->Password = "T4TnL1p4Ok";
+        $mail->Username = "johndoe240600@gmail.com";
+        $mail->Password = "xcevzjcrtiitptwe";
         $mail->SMTPSecure = "ssl"; //TLS
         $mail->Port = 465; //587
         try {
             // Send the email
-            $mail->setFrom('danone.institute.indonesia@danonenutrindo.org', 'Danone Institute Indonesia');
-            $mail->addReplyTo('danone.institute.indonesia@danonenutrindo.org', 'Danone Institute Indonesia');
+            $mail->setFrom($email_from, $company_name);
+            $mail->addReplyTo($email_from, $company_name);
             $mail->addAddress($to);
             $mail->Subject = $subject;
             $mail->isHTML(true);

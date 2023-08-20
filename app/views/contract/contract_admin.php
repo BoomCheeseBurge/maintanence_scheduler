@@ -1,44 +1,44 @@
-      <div class="container-fluid">
+		<div class="container-fluid">
 
-	  	<div class="row">
-			<div class="col-lg-6 flash-container">
+			<div class="row">
+				<div class="col-lg-6 flash-container">
+				</div>
 			</div>
+
+			<h3 class="header-title">Contract</h3>
+
+			<span id="toolbar">
+				<button class="btn btn-danger" id="remove" data-bs-toggle="modal" data-bs-target="#delBulkContractModal" disabled>
+				Delete
+				</button>
+				<button class="btn btn-primary addContractBtn" data-bs-toggle="modal" data-bs-target="#contractModal">Add</button>
+				<button type="button" id="filter" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#filterTableModal">
+					<i class="fa-solid fa-filter me-1"></i>Filter
+				</button>
+			</span>
+			
+			<table
+			id="contract-table"
+			data-toolbar="#toolbar"
+			data-search="true"
+			data-advanced-search="true"
+			data-show-refresh="true"
+			data-show-fullscreen="true"
+			data-show-columns="true"
+			data-show-columns-toggle-all="true"
+			data-show-export="true"
+			data-click-to-select="true"
+			data-minimum-count-columns="2"
+			data-pagination="true"
+			data-id-field="id"
+			data-page-list="[10, 25, 50, 100, all]"
+			data-mobile-responsive="true"
+			data-show-search-clear-button="true"
+			data-check-on-init="true"
+			data-url='<?= BASEURL; ?>/contract/getAllContract'
+			data-resizable="true">
+			</table>
 		</div>
-
-        <h3 class="header-title">Contract</h3>
-
-		<span id="toolbar">
-			<button class="btn btn-danger" id="remove" data-bs-toggle="modal" data-bs-target="#delBulkContractModal" disabled>
-			Delete
-			</button>
-	  		<button class="btn btn-primary addContractBtn" data-bs-toggle="modal" data-bs-target="#contractModal">Add</button>
-			<button type="button" id="filter" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#filterTableModal">
-				<i class="fa-solid fa-filter me-1"></i>Filter
-			</button>
-		</span>
-		
-        <table
-        id="contract-table"
-        data-toolbar="#toolbar"
-        data-search="true"
-        data-advanced-search="true"
-        data-show-refresh="true"
-        data-show-fullscreen="true"
-        data-show-columns="true"
-        data-show-columns-toggle-all="true"
-        data-show-export="true"
-		data-click-to-select="true"
-        data-minimum-count-columns="2"
-        data-pagination="true"
-        data-id-field="id"
-        data-page-list="[10, 25, 50, 100, all]"
-        data-mobile-responsive="true"
-		data-show-search-clear-button="true"
-        data-check-on-init="true"
-        data-url='<?= BASEURL; ?>/contract/getAllContract'
-        data-resizable="true">
-        </table>
-      </div>
 	</section>
 
   	<!-- ========================================== Add and Edit Contract Modal ========================================== -->

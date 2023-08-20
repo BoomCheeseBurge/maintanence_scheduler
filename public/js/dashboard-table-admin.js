@@ -16,18 +16,6 @@ function initializeTooltips() {
 	tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 
-// Function to display the flasher message after an action is triggered
-function setFlasher(column, message, action, type) {
-	
-	const flashContainer = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
-	const flashMessage =  $('<p>' + column + ' <strong>' + message + '</strong>' + action + '</p>');
-	const dismissBtn = $('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
-
-	flashContainer.append(flashMessage);
-	flashContainer.append(dismissBtn);
-	$('.flash-container').append(flashContainer);
-}
-
 function setForm() {
 	// Event listener for the show.bs.modal event on the scheduledDateModal
 	$('#delMaintenanceModal').on('show.bs.modal', function(event) {
@@ -65,17 +53,43 @@ function setForm() {
 
 				if (response['result'] == '1') {
 					$('#delMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Maintenance', ' successfully', ' deleted', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Maintenance successfully deleted',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#dashboard-table').bootstrapTable('refresh');
+				} else if (response['result'] == "0") {
+					$('#delMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Maintenance failed to be deleted',
+						showConfirmButton: true
+					});
 				} else if (response['result'] == "2") {
-					setFlasher('Maintenance', ' failed', ' to be deleted', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion denied. Please ensure the deleted records are not related elsewhere',
+						showConfirmButton: true
+					});
+					$('#delMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
 				} else {
-					alert("Deletion failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('#delMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
 				}
 			},
 			error: function() {
 			// Request failed, handle error here
-			alert("Error saving changes.");
+			alert("Error deleting existing maintenance");
 			}
 		});
 	});
@@ -84,7 +98,7 @@ function setForm() {
 function dashboardFormatter(value, row, index) {
 	return [
 		'<span class="ms-2 delMaintenanceBtn" data-bs-toggle="modal" data-bs-target="#delMaintenanceModal" data-id="' + row.id + '">',
-		'<button class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">',
+		'<button class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">',
 		'<i class="fa-solid fa-trash-can"></i>',
 		'</button>',
 	].join('')
@@ -175,7 +189,7 @@ function initDashboardTable() {
 	$dashboardTable.on('check.bs.table uncheck.bs.table ' +
 		'check-all.bs.table uncheck-all.bs.table',
 	function () {
-		$remove.prop('disabled', !$dashboardTable.bootstrapTable('getSelections').length)
+		$remove.prop('disabled', !$dashboardTable.bootstrapTable('getSelections').length);
 
 		// save your data, here just save the current page
 		selections = getIdSelections()
@@ -202,22 +216,52 @@ function initDashboardTable() {
 			dataType: 'json',
 			success: function (response) {
 
-				if (response['result'] == '1') {
+				if (response['result'] == ids.length) {
 					$('#delBulkMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Maintenance', ' successfully', ' deleted', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Maintenance successfully deleted',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#dashboard-table').bootstrapTable('refresh');
 					$remove.prop('disabled', true);
+				} else if (response['result'] == '0') {
+					$('#delBulkMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
+					$('#editClientModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Maintenance failed to be deleted',
+						showConfirmButton: true
+					});
+					$remove.prop('disabled', true);
 				} else if (response['result'] == '2') {
-					setFlasher('Maintenance', ' failed', ' to be deleted', 'danger');
+					$('#editClientModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion denied. Please ensure the deleted records are not related elsewhere',
+						showConfirmButton: true
+					});
 					$remove.prop('disabled', true);
+					$('#delBulkMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
 				} else {
-					alert("Deletion Failed. Contact your administrator.");
+					$('#editClientModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion Failed. Contact your administrator',
+						showConfirmButton: true
+					});
 					$remove.prop('disabled', true);
+					$('#delBulkMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
 				}
 			},
-			error: function (xhr, status, error) {
+			error: function () {
 				// Handle the error if any
-				console.error(error);
+				alert("Error deleting existing maintenance");
 			}
 		});
 	});

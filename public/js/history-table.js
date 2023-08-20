@@ -1,83 +1,7 @@
 // Admin Bootstrap Table Extended
-var $historyTable = $('#history-table')
+var $historyTable = $('#history-table');
 
-function initHistoryTable() {
-	var icons = {
-		columns: 'bi-layout-sidebar-inset-reverse',
-		fullscreen: 'bi-arrows-fullscreen',
-		clearSearch: 'bi bi-x-lg'
-	}
-	$historyTable.bootstrapTable('destroy').bootstrapTable({
-		icons: icons,
-        exportTypes: ['csv', 'excel', 'pdf'],
-		locale: 'en-US',
-		classes: 'table table-bordered table-condensed custom-font-size',
-		columns: [
-		{
-			title: 'Engineer',
-			field: 'full_name',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		}, {
-			title: 'Client',
-			field: 'name',
-			align: 'center',
-			valign: 'middle',
-			sortable: true,
-			filterControl: 'input'
-		}, {
-			title: 'SOP No',
-			field: 'sop_number',
-			align: 'center',
-			valign: 'middle'
-		}, {
-			title: 'Device',
-			field: 'device',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		}, {
-			title: 'PM Frequency',
-			field: 'pm_frequency',
-			align: 'center',
-			valign: 'middle'
-		}, {
-			title: 'PM ke-',
-			field: 'pm_count',
-			align: 'center',
-			valign: 'middle'
-		}, {
-			title: 'Scheduled Date',
-			field: 'scheduled_date',
-			align: 'center',
-			valign: 'middle',
-			sortable: true,
-			filterControl: 'datepicker'
-		}, {
-			title: 'Actual Date',
-			field: 'actual_date',
-			align: 'center',
-			valign: 'middle',
-			sortable: true,
-			filterControl: 'datepicker'
-		}, {
-			title: 'Report Date',
-			field: 'report_date',
-			align: 'center',
-			valign: 'middle',
-			sortable: true
-		}]
-	});
-}
-
-$(document).ready(function () {
-
-	initHistoryTable()
-
-	$('#history-table').bootstrapTable('refreshOptions', {
-		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
-	})
+function filterTable() {
 
 	// ================================================================= Filter Table Start =================================================================
 
@@ -316,4 +240,85 @@ $(document).ready(function () {
 	});
 
 	// ================================================================= Filter Query End =================================================================
+}
+
+function initHistoryTable() {
+	var icons = {
+		columns: 'bi-layout-sidebar-inset-reverse',
+		fullscreen: 'bi-arrows-fullscreen',
+		clearSearch: 'bi bi-x-lg'
+	}
+	$historyTable.bootstrapTable('destroy').bootstrapTable({
+		icons: icons,
+        exportTypes: ['csv', 'excel', 'pdf'],
+		locale: 'en-US',
+		classes: 'table table-bordered table-condensed custom-font-size',
+		columns: [
+		{
+			title: 'Engineer',
+			field: 'full_name',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}, {
+			title: 'Client',
+			field: 'name',
+			align: 'center',
+			valign: 'middle',
+			sortable: true,
+			filterControl: 'input'
+		}, {
+			title: 'SOP No',
+			field: 'sop_number',
+			align: 'center',
+			valign: 'middle'
+		}, {
+			title: 'Device',
+			field: 'device',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}, {
+			title: 'PM Frequency',
+			field: 'pm_frequency',
+			align: 'center',
+			valign: 'middle'
+		}, {
+			title: 'PM ke-',
+			field: 'pm_count',
+			align: 'center',
+			valign: 'middle'
+		}, {
+			title: 'Scheduled Date',
+			field: 'scheduled_date',
+			align: 'center',
+			valign: 'middle',
+			sortable: true,
+			filterControl: 'datepicker'
+		}, {
+			title: 'Actual Date',
+			field: 'actual_date',
+			align: 'center',
+			valign: 'middle',
+			sortable: true,
+			filterControl: 'datepicker'
+		}, {
+			title: 'Report Date',
+			field: 'report_date',
+			align: 'center',
+			valign: 'middle',
+			sortable: true
+		}]
+	});
+}
+
+$(document).ready(function () {
+
+	initHistoryTable();
+
+	$('#history-table').bootstrapTable('refreshOptions', {
+		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
+	});
+
+	filterTable();
 });

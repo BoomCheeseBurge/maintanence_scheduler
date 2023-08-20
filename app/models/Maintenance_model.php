@@ -187,43 +187,51 @@ class Maintenance_model {
 
 	public function delMaintenanceData($id) {
 
-		$query = 'DELETE FROM '. $this->table1 .' WHERE id = :id';
-		$this->db->query($query);
-		$this->db->bind(':id', $id);
-
 		try {
-			$this->db->execute();
-			// Success: The client record was deleted successfully
-		} catch (PDOException $e) {
-			// Error: The client record could not be deleted due to the foreign key constraint
-			echo "Error: Cannot delete the contract record because it has related records in other tables.";
-		}
+			$query = 'DELETE FROM '. $this->table1 .' WHERE id = :id';
+			$this->db->query($query);
+			$this->db->bind(':id', $id);
 
-		return $this->db->rowCount();
+			$this->db->execute();
+
+			return $this->db->rowCount();
+		} catch (PDOException $e) {
+			$errorCode = $e->getCode();
+			if ($errorCode === '23000' || $errorCode === '1451') {
+				return 2;
+			} else {
+				// Handle other errors
+				return $errorCode;
+			}
+		}
 	}
 
 	public function delBulkMaintenanceData($ids) {
 
-		// Create placeholders for the IDs
-		$placeholders = implode(',', array_fill(0, count($ids), '?'));
-	
-		$query = 'DELETE FROM ' . $this->table1 . ' WHERE id IN (' . $placeholders . ')';
-		$this->db->query($query);
-	
-		// Bind the IDs
-		foreach ($ids as $index => $id) {
-			$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
-		}
-	
 		try {
-			$this->db->execute();
-			// Success: The client record was deleted successfully
-		} catch (PDOException $e) {
-			// Error: The client record could not be deleted due to the foreign key constraint
-			echo "Error: Cannot delete the maintenance record because it has related records in other tables.";
-		}
+			// Create placeholders for the IDs
+			$placeholders = implode(',', array_fill(0, count($ids), '?'));
+		
+			$query = 'DELETE FROM ' . $this->table1 . ' WHERE id IN (' . $placeholders . ')';
+			$this->db->query($query);
+		
+			// Bind the IDs
+			foreach ($ids as $index => $id) {
+				$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
+			}
 
-		return $this->db->rowCount();
+			$this->db->execute();
+
+			return $this->db->rowCount();
+		} catch (PDOException $e) {
+			$errorCode = $e->getCode();
+			if ($errorCode === '23000' || $errorCode === '1451') {
+				return 2;
+			} else {
+				// Handle other errors
+				return $errorCode;
+			}
+		}
 	}
 
 	public function setScheduledDate($data) {

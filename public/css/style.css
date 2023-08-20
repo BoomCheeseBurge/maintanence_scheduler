@@ -143,7 +143,7 @@ body {
     padding: 5px;
     background-color: #fff;
     border: 1px solid #ccc;
-    z-index: 1;
+    z-index: 2;
   }
   
   .month-list {
@@ -389,8 +389,8 @@ body {
 }
 
 #userPhoto {
-    height: 45px;
-    width: 45px;
+    height: 40px;
+    width: 40px;
 }
 
 /* ============ Profile Picture CSS End ============ */
@@ -459,7 +459,7 @@ body {
     top: 100%; /* Position the div below the input field */
     left: 0;
     right: 0;
-    z-index: 1; /* Set z-index to 1 to ensure it appears above the input */
+    z-index: 2; /* Set z-index to 2 to ensure it appears above the input */
 }
 
 #assigneeList .assigneeOption {
@@ -476,6 +476,96 @@ body {
 
 /* ============== Top Navbar ============== */
 
+/* Notification Start */
+.notification-btn {
+  background-color: transparent;
+  border-style: none;
+  margin-right: 50px;
+}
+
+.notification-bell {
+  color: #f26604;
+  transform-origin: top center;
+}
+
+.new-notification {
+  animation: swing 2s ease-in-out infinite;
+}
+
+@keyframes swing {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  10%, 30% {
+    transform: rotate(-15deg);
+  }
+  20%, 40% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+}
+
+#notificationBox {
+  z-index: 3;
+}
+
+.notification-box {
+  position: absolute;
+  top: 70px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  max-height: 50vh;
+  width: 400px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: none;
+  overflow-y: scroll;
+}
+
+.notification-header {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#notificationContent {
+  font-size: 16px;
+}
+
+.notification-item {
+	border-width: 2px !important;
+	border-color: #E8DED1 !important;
+}
+
+
+/* Add transitions for smooth animation */
+.notification-box.show {
+  display: block;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Notification End */
+
+.custom-badge {
+  top: 15px;
+  left: 30px;
+}
+
 .custom-navbar {
   display: flex;
   height: 4.375rem;
@@ -490,9 +580,7 @@ body {
 }
 
 .offcanvas {
-  min-height: 100vh;
   max-width: 190px; /* Set the width of the offcanvas */
-
 }
 
 .offcanvas.showing {
@@ -500,7 +588,24 @@ body {
   transition: var(--tran-02);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 310px) {
+
+  .custom-badge {
+    top: 15px;
+    left: 28px;
+  }
+
+  .notification-box {
+	max-width: 265px;
+  }
+
+  .notification-btn {
+    margin-right: 25px;
+  }
+
+  .notification-bell {
+    font-size: 25px !important;
+  }
 
   #sidebar {
     display: none;
@@ -510,7 +615,91 @@ body {
     display: block;
   }
 
-  .navbar-brand {
+  .navbar-title {
+    display: none !important;
+  }
+
+  #userPhoto {
+      height: 28px;
+      width: 28px;
+  }
+
+  .username-container {
+      display: inline;
+      white-space: normal;
+  }
+
+  #username {
+	font-size: 14px;
+  }
+}
+
+@media (max-width: 440px) and (min-width: 310px) {
+
+  .custom-badge {
+    top: 15px;
+    left: 28px;
+  }
+
+  .notification-btn {
+    margin-right: 25px;
+  }
+
+  .notification-bell {
+    font-size: 25px !important;
+  }
+
+  #sidebar {
+    display: none;
+  }
+
+  .hiddenSidebarBtn {
+    display: block;
+  }
+
+  .navbar-title {
+    display: none !important;
+  }
+
+  #userPhoto {
+      height: 28px;
+      width: 28px;
+  }
+
+  .username-container {
+      display: inline;
+      white-space: normal;
+  }
+
+  #username {
+	font-size: 14px;
+  }
+}
+
+@media (max-width: 500px) and (min-width: 440px) {
+
+  .custom-badge {
+    top: 15px;
+    left: 30px;
+  }
+
+  .notification-btn {
+    margin-right: 25px;
+  }
+
+  .notification-bell {
+    font-size: 25px !important;
+  }
+
+  #sidebar {
+    display: none;
+  }
+
+  .hiddenSidebarBtn {
+    display: block;
+  }
+
+  .navbar-title {
     font-size: 15px;
   }
 
@@ -526,6 +715,52 @@ body {
 
   #username {
 	font-size: 10px;
+  }
+}
+
+@media (max-width: 570px) and (min-width: 500px) {
+
+  .custom-badge {
+    top: 15px;
+    left: 30px;
+  }
+
+  .notification-btn {
+    margin-right: 25px;
+  }
+
+  .notification-bell {
+    font-size: 25px !important;
+  }
+
+  #sidebar {
+    display: none;
+  }
+
+  .hiddenSidebarBtn {
+    display: block;
+  }
+
+  .navbar-title {
+    font-size: 15px;
+  }
+
+  /* .navbar-title {
+    display: none !important;
+  } */
+
+  #userPhoto {
+      height: 40px;
+      width: 40px;
+  }
+
+  .username-container {
+      display: inline;
+      white-space: normal;
+  }
+
+  #username {
+	font-size: 15px;
   }
 }
 
@@ -595,7 +830,6 @@ body.dark #username {
 
 #myOffcanvas{
     background: var(--sidebar-color);
-    transition: var(--tran-05);
 }
 
 /* ===== Reusable code - Here ===== */
@@ -710,7 +944,7 @@ body.dark .navbar-color {
 }
 
 body.dark .navbar i,
-body.dark .navbar .navbar-brand {
+body.dark .navbar .navbar-title {
     color: var(--text-color);
 }
 

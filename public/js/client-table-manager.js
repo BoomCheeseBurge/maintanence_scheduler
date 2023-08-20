@@ -1,5 +1,5 @@
 // Bootstrap Table Extended
-var $clientTable = $('#client-table')
+var $clientTable = $('#client-table');
 
 function initClientTable() {
 	var icons = {
@@ -35,11 +35,11 @@ function initClientTable() {
 }
 
 $(function() {
-	initClientTable()
+	initClientTable();
 
 	$('#client-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
-	})
+	});
 });
 
 // ---------------------------------------------------------------

@@ -1,0 +1,340 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #fff;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.step-container {
+    width: 800px;
+}
+
+.step-container header {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+    margin-top: -75px;
+}
+
+.final-text {
+    text-align: center;
+}
+
+#h2Text {
+    font-size: 60px;
+    color:orangered;
+    font-family: 'Raleway',sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px #ccdbfd;
+}
+
+.reminder-text {
+    font-size: 20px;
+    color:#d43f8d;
+    font-family: 'Raleway',sans-serif;
+    font-weight: 500;
+    text-shadow: 2px 2px 4px #ccdbfd;
+}
+
+.step-container .form-outer {
+    background: #E4E9F7;
+    border: 2px solid #d2dcf7;
+    border-radius: 5px;
+    padding: 30px 50px 15px 60px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.form-outer .page-holder {
+    width: 100%;
+    overflow: hidden;
+}
+
+.page-holder .form-container {
+    display: flex;
+    width: 500%;
+}
+
+.page-holder .form-container .page {
+    width: 25%;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.page-holder .form-container .page .title {
+    text-align: left;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.page-holder .form-container .page #emailConfigForm {
+    height: 500px;
+}
+
+.page-holder .form-container .page .col-md-5 {
+    height: 95px;
+    width: 330px;
+}
+
+.horizontal-line {
+    border-top: 1px solid #ccc;
+    width: 50%;
+    margin-bottom: 10px;
+    margin-left: 140px;
+  }
+
+.page-holder .form-container .page .field {
+    height: 45px;
+    width: 675px;
+    margin: 30px 0 45px 5px;
+    position: relative;
+}
+
+.page-holder .form-container .page .field label {
+    position: absolute;
+    top: -30px;
+    font-weight: bold;
+}
+
+.page-holder .form-container .page .field input {
+    height: 100%;
+    width: 45%;
+    border: 1px solid #d2dcf7;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.page-holder .form-container .page .field .center-input {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+/* ============================== Button CSS ============================== */
+
+.page-holder .form-container .page .field button {
+    width: 40%;
+    height: calc(100% + 5px);
+    margin-left: 50px;
+    border: none;
+    background: #d43f8d;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 5px;
+}
+
+.page-holder .form-container .page .field button:hover {
+    background: plum;
+}
+
+.page-holder .form-container .page .btns button {
+    margin-bottom: 20px;
+}
+
+.form-container .page .btns button .prev {
+    font-size: 17px;
+}
+
+.form-container .page .btns button .next {
+    margin-left: 30px;
+}
+
+#firstNextBtn {
+    position: absolute;
+    top: 143px;
+    left: 150px;
+}
+
+.prev-1,
+.next-1 {
+    position: absolute;
+    top: 148px;
+}
+
+.next-1 {
+    left: 320px;
+}
+
+.prev-2,
+.next-2 {
+    position: absolute;
+    top: 145px;
+}
+
+.next-2 {
+    left: 330px;
+}
+
+.prev-2 {
+    left: -35px;
+}
+
+.prev-3,
+.next-3 {
+    position: absolute;
+}
+
+.next-3 {
+    left: 330px;
+}
+
+.prev-3 {
+    left: -35px;
+}
+
+.prev-4,
+.login {
+    position: absolute;
+    top: 285px;
+}
+
+.login {
+    left: 330px;
+}
+
+.prev-4 {
+    left: -35px;
+}
+
+/* =============================== Progress Bar =============================== */
+.step-container .step-progress {
+    display: flex;
+    flex-direction: row;
+    margin: 40px 0;
+}
+
+.step-container .step-progress .step {
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.step-progress .step .step-num {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 8px;
+    transition: 0.2s;
+}
+
+.step-progress .step .step-desc {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+    margin-bottom: 8px;
+    transition: 0.2s;
+}
+
+.step-progress .step .step-num.active,
+.step-progress .step .step-desc.active {
+    color: #d43f8d;
+    font-weight: bold;
+}
+
+.step-progress .step .bullet {
+    position: relative;
+    height: 35px;
+    width: 35px;
+    border: 2px solid #d2dcf7;
+    background-color: #E4E9F7;
+    display: inline-block;
+    border-radius: 50%;
+    transition: 0.2s;
+}
+
+.step-progress .step .bullet.active {
+    border-color: #d43f8d;
+    background-color: #d43f8d;
+}
+
+.step-progress .step:last-child .bullet::before,
+.step-progress .step:last-child .bullet::after {
+    display: none;
+}
+
+.step-progress .step .bullet::before,
+.step-progress .step .bullet::after {
+    position: absolute;
+    content: '';
+    bottom: 12px;
+    left: 30px;
+    height: 8px;
+    width: 130px;
+    z-index: 1;
+    background: #E4E9F7;
+    border-top: 2px solid #d2dcf7;
+    border-bottom: 2px solid #d2dcf7;
+}
+
+.step-progress .step .bullet.active::after {
+    background: #d43f8d;
+    border-top: none;
+    border-bottom: none;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: animate 0.3s linear forwards;
+}
+
+@keyframes animate {
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+.step-progress .step .bullet span {
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 25px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.step-progress .step .bullet.active span {
+    display: none;
+}
+
+.step-progress .step .check-icon {
+    position: absolute;
+    left: 45%;
+    top: 42%;
+    font-size: 20px;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.step-progress .step .check-icon.active {
+    display: block;
+    color: #eff3ff;
+    animation: spin 1s ease-in-out forwards;
+    transform-origin: center;
+}
+
+@keyframes spin {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(720deg); }
+  }
+
+  /* ================ Database Table Loading CSS ================ */
+  .wavy {
+    position: relative;
+  }
+  .wavy span {
+    position: relative;
+    display: inline-block;
+    font-size: 10px;
+    color:royalblue;
+    text-transform: uppercase;
+    animation: flip 3s infinite;
+    animation-delay: calc(.4s * var(--i))
+  }
+  @keyframes flip {
+    0%,80% {
+      transform: rotateY(360deg) 
+    }
+  }

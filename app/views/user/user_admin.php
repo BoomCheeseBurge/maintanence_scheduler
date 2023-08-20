@@ -2,11 +2,17 @@
 
             <div class="row">
                 <div class="col-lg-6 flash-container">
-                    <?php Flasher::flash(); ?>
                 </div>
             </div>
 
             <h3 class="header-title">User</h3>
+
+            <span id="toolbar">
+				<button class="btn btn-danger" id="remove" data-bs-toggle="modal" data-bs-target="#delBulkUserModal" disabled>
+				Delete
+				</button>
+                <button type="button" class="btn btn-primary newUserBtn" data-bs-toggle="modal" data-bs-target="#userModal">Add</button>
+			</span>
 
             <table
             id="user-table"
@@ -18,6 +24,7 @@
             data-show-columns="true"
             data-show-columns-toggle-all="true"
             data-show-export="true"
+            data-click-to-select="true"
             data-minimum-count-columns="2"
             data-pagination="true"
             data-id-field="id"
@@ -130,3 +137,24 @@
             </div>
         </div>
     </div>
+
+    <!-- ========================================== Bulk Delete Maintenance Modal ========================================== -->
+	<div class="modal fade" id="delBulkUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delBulkUserModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h6 class="modal-title fs-5" id="delBulkUserModalLabel">Bulk Delete User</h6>
+					<button type="button" class="btn-close cancelDelBulkUser" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				<form action="" method="post" id="bulkDeleteUserForm">
+					<h6>Are you sure?</h6>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary cancelDelBulkUser" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-danger bulkDeleteSubmitBtn">Confirm</button>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>

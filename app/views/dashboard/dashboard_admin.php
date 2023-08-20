@@ -60,6 +60,7 @@
 			</div>
 		</div>
 	</div>
+	</section>
 
 	<!-- ========================================== Bulk Delete Maintenance Modal ========================================== -->
 	<div class="modal fade" id="delBulkMaintenanceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delBulkMaintenanceModalLabel" aria-hidden="true">

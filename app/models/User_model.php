@@ -5,10 +5,37 @@ class User_model {
 	private $table = 'user';
 	private $db;
 
-
 	public function __construct() {
 
 		$this->db = new Database;
+	}
+
+	public function isAdminUserExists() {
+		$query = 'SELECT COUNT(*) AS count
+		FROM '. $this->table .'
+		WHERE role = "admin"';
+
+		$this->db->query($query);
+		$this->db->execute();
+
+		return $this->db->rowCount();
+	}
+
+	public function addAdmin($uName, $uEmail, $uPass) {
+
+		$hash = password_hash($uPass.PEPPER, PASSWORD_DEFAULT);
+
+		$query = "INSERT INTO " . $this->table . " (id, full_name, password, role, email) VALUES
+					('', :name, :password, 'admin', :email)";
+
+		$this->db->query($query);
+		$this->db->bind('name', $uName);
+		$this->db->bind('password', $hash);
+		$this->db->bind('email', $uEmail);
+
+		$this->db->execute();
+
+		return $this->db->rowCount();
 	}
 
 	public function addNewUser($data) {
@@ -19,46 +46,36 @@ class User_model {
 
 		$hash = password_hash($password.PEPPER, PASSWORD_DEFAULT);
 
-		$query = "INSERT INTO " . $this->table . " (id, full_name, password, role, email) VALUES
-					('', :name, :password, :role, :email)";
+		$query = "INSERT INTO " . $this->table . " (full_name, password, role, email) VALUES
+					(:name, :password, :role, :email)";
 
 		$this->db->query($query);
 		$this->db->bind('name', $data['name']);
 		$this->db->bind('password', $hash);
 		$this->db->bind('role', $data['roleInput']);
 		$this->db->bind('email', $data['email']);
-
 		$this->db->execute();
 
 		return $this->db->rowCount();
 	}
 
-	public function editUserData($data) {
-
-		$query = "UPDATE " . $this->table . " SET
-					event_nama = :setdate
-				WHERE event_id = :id
-		";
+	public function isDuplicateUser($data) {
+        // Prepare the SQL query
+        $query = 'SELECT COUNT(*) AS count
+		FROM '. $this->table .'
+		WHERE full_name = :name 
+		AND role = :role 
+		AND email = :email';
 
 		$this->db->query($query);
-		$this->db->bind('setdate', $data['setdate']);
-		$this->db->bind('id', $data['id']);
+		$this->db->bind('name', $data['name']);
+		$this->db->bind('role', $data['roleInput']);
+		$this->db->bind('email', $data['email']);
 
-		$this->db->execute();
+        $row = $this->db->single();
 
-		return $this->db->rowCount();
-	}
-
-	public function deleteUser($id) {
-		$query = "DELETE FROM " . $this->table . " WHERE id = :id";
-
-		$this->db->query($query);
-		$this->db->bind('id', $id);
-
-		$this->db->execute();
-
-		return $this->db->rowCount();
-	}
+        return $row['count'] > 0;
+    }
 
 	public function saveUserData($data) {
 
@@ -78,6 +95,56 @@ class User_model {
 		$this->db->execute();
 
 		return $this->db->rowCount();
+	}
+
+	public function deleteUser($id) {
+
+		try {
+			$query = "DELETE FROM " . $this->table . " WHERE id = :id";
+		
+			$this->db->query($query);
+			$this->db->bind('id', $id);
+		
+			$this->db->execute();
+		
+			return $this->db->rowCount();
+		} catch (PDOException $e) {
+			$errorCode = $e->getCode();
+			if ($errorCode === '23000' || $errorCode === '1451') {
+				return 2;
+			} else {
+				// Handle other errors
+				return $errorCode;
+			}
+		}
+	}
+	
+	public function delBulkUserData($ids) {
+
+		try {
+			// Create placeholders for the IDs
+			$placeholders = implode(',', array_fill(0, count($ids), '?'));
+		
+			$query = 'DELETE FROM ' . $this->table . ' WHERE id IN (' . $placeholders . ')';
+			$this->db->query($query);
+		
+			// Bind the IDs
+			foreach ($ids as $index => $id) {
+				$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
+			}
+	
+			$this->db->execute();
+			// Success: The client record was deleted successfully
+			return $this->db->rowCount();
+		} catch (PDOException $e) {
+			$errorCode = $e->getCode();
+			if ($errorCode === '23000' || $errorCode === '1451') {
+				return 2;
+			} else {
+				// Handle other errors
+				return $errorCode;
+			}
+		}
 	}
 
     public function getAssignee($keyword)
@@ -180,7 +247,7 @@ class User_model {
 	}
 
 	public function getAllUser() {
-		$this->db->query('SELECT id, full_name, email, role FROM ' . $this->table);
+		$this->db->query('SELECT id, full_name, email, role FROM ' . $this->table . ' WHERE role = "engineer"');
         $data = $this->db->resultSet();
 		// var_dump($data);
 		echo json_encode($data);

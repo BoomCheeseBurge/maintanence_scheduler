@@ -13,7 +13,12 @@ $(function() {
 
         if (!email.match(validRegex)) 
         {
-            alert('Email is not valid!');
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'The email you entered is not valid',
+                showConfirmButton: true
+            });
             return;
         }
         
@@ -54,7 +59,12 @@ $(function() {
         var token = $('#token').val();
 
         if (newPassword !== confirmPassword) {
-            alert("New Password and Confirm Password do not match. Please retype your passwords.");
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'New Password and Confirm Password do not match. Please retype your passwords.',
+                showConfirmButton: true
+            });
             // Clear the password fields for re-typing
             $('#newPassword').val('');
             $('#confirmPassword').val('');
@@ -70,16 +80,33 @@ $(function() {
         success: function(response) {
             if (response.success) {
                 // Password reset successful, show success message
-                alert("Password reset successful!");
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Password reset successful',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
                 window.location.href = BASEURL + '/login';
             } else {
                 // Password reset failed, show error message
-                alert("Password reset failed. Please try again.");
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: 'Password reset failed. Please try again.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             }
         },
         error: function() {
             // AJAX request error, show error message
-            alert("An error occurred. Please try again.");
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'An error occurred. Please try again or contact your adminsitrator.',
+                showConfirmButton: true
+            });
         }
         });
     });
@@ -98,19 +125,29 @@ $(function() {
 
         // Validate file size (optional)
         if (fileSize > allowedFileSize) {
-          alert('File size exceeds the allowed limit (5 MB). Please select a smaller file.');
-          // Clear the file input to allow the user to select a different file
-          photoInput.value = '';
-          return;
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'File size exceeds the allowed limit (5 MB). Please select a smaller file.',
+                showConfirmButton: true
+            });
+            // Clear the file input to allow the user to select a different file
+            photoInput.value = '';
+            return;
         }
 
         // Validate file type (optional, as the 'accept' attribute is already set to "image/*")
         const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
         if (!allowedTypes.includes(file.type)) {
-          alert('Invalid file type. Only JPEG, PNG, and GIF images are allowed.');
-          // Clear the file input to allow the user to select a different file
-          photoInput.value = '';
-          return;
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Invalid file type. Only JPEG, PNG, and GIF images are allowed.',
+                showConfirmButton: true
+            });
+            // Clear the file input to allow the user to select a different file
+            photoInput.value = '';
+            return;
         }
 
         // If all validations pass, you can display the photo preview (as shown in the previous code)
@@ -148,35 +185,84 @@ $(function() {
           },
           error: function() {
             // Request failed, handle error here
-            alert("Error saving changes.");
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Error saving changes. Try again or contact your administrator.',
+                showConfirmButton: true
+            });
           }
         });
     });
-  
+    
+    $('#emailConfigModalBtn').on('click', function(event) {
+        event.preventDefault();
 
-    // Get user data
-    // $('.editUserProfileModal').on('click', function() {
+		$.ajax({
+			url: BASEURL + '/user/getEmailConfig',
+			method: 'POST',
+            contentType: false,
+            processData: false,
+			dataType: 'json',
+			success: function(data) {     
+				$('#supEmail').val(data.supportEmail);
+				$('#supNumber').val(data.supportPhoneNumber);
+			},
+            error: function(xhr, status, error) {
+                // Handle the error if any
+                alert("Error!");
+                console.error(error);
+            }
+		});
+	});
 
-    //     const id = $(this).data('id');
-       
-    //     $.ajax({
-    //         url: BASEURL + '/user/getUserById',
-    //         data: {id : id},
-    //         method: 'post',
-    //         dataType: 'json',
-    //         success: function(data) {
-    //             console.log(data)
-    //         },
-    //         error: function() {
-    //             // AJAX request error, show error message
-    //             alert("An error occurred. Please try again.");
-    //         }
-    //     })
+    $(document).on('submit', '#configEmailForm', function(event) {
+        event.preventDefault();
         
-    // });
+        // Get the form data
+        const formData = new FormData(document.getElementById('configEmailForm'));
+        
+        $.ajax({
+            url: BASEURL + '/user/setEmailConfig',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(response) {
+    
+                console.log(response);
+    
+                if (response['result'] == '1') {
+                    $('#emailConfigModal [data-bs-dismiss="modal"]').trigger('click');
+                    $('[data-bs-dismiss="modal"]').trigger('click');
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Email configuration successfully updated',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                } else if(response['result'] == '2') {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: 'Updated data failed to be written. Please try again',
+                        showConfirmButton: true
+                    });
+                } else {
+                    console.log(response);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle the error if any
+                alert("Error!");
+                console.error(error);
+            }
+        });
+    });
 
-
-    // Save Change Password from Change Password Modal - Dashboard index View
+     // Save Change Password from Change Password Modal - Dashboard index View
     // Handle click event for the "Save Password" button
     $('#saveChangePasswordForm').on('click', function() {
         
@@ -190,23 +276,48 @@ $(function() {
 
         // Perform form validation
         if (!formData.currentPassword) {
-            alert("Current Passwor cannot be empty");
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Current Password cannot be empty',
+                showConfirmButton: true
+            });
             return;
         } else if (!formData.newPassword) {
-            alert("New Password cannot be empty");
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'New Password cannot be empty',
+                showConfirmButton: true
+            });
             return;
         } else if (!formData.confirmNewPassword) {
-            alert("Confirm New Password cannot be empty");
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Confirm New Password cannot be empty',
+                showConfirmButton: true
+            });
             return;
         }
 
         if (!formData.newPassword || !formData.confirmNewPassword) {
-            alert("Current Passwor cannot be empty");
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'New Password or Confirm Password cannot be empty',
+                showConfirmButton: true
+            });
             return;
         }
         
         if ( formData.newPassword !== formData.confirmNewPassword ) {
-            alert("New Password and Confirm Password do not match. Please retype your passwords.");
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'New Password and Confirm Password do not match. Please retype your passwords.',
+                showConfirmButton: true
+            });
             // Clear the password fields for re-typing
             $('#newPassword').val('');
             $('#confirmNewPassword').val('');
@@ -223,191 +334,54 @@ $(function() {
             // Handle the response from the server here (e.g., display success message)
             if (response['result'] == "1") {
                 $('[data-bs-dismiss="modal"]').trigger('click');
-                alert("Password Changed");
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Password has been updated',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             } else if (response['result'] == "3") {
-                alert("Wrong Current Password");
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Wrong Current Password',
+                    showConfirmButton: true
+                });
             } else if (response['result'] == "2") {
-                alert("Update to database failed");
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Update to database failed',
+                    showConfirmButton: true
+                });
             } else if (response['result'] == "4") {
-                alert("Invalid request method");
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Invalid request method',
+                    showConfirmButton: true
+                });
             } else {
-                alert("Password cannot be changed. Contact your administrator");
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Password cannot be changed. Try again or contact your administrator.',
+                    showConfirmButton: true
+                });
             }
         },
         error: function() {
             // Handle any errors that occur during form submission
-            alert("Error saving password.");
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Error saving password. Try again or contact your administrator.',
+                showConfirmButton: true
+            });
         }
         });
     });
-
-    // Script to handle jQuery AJAX Save Add User form submission
-    $('#addUser').submit(function(event) {
-        event.preventDefault();
-        
-        // Get the form data
-        const formData = new FormData(document.getElementById('addUser'));
-
-        // Get form input elements
-        var nameInput = $('#name');
-        var emailInput = $('#email');
-        var roleInput = $('#roleInput');
-
-        // Validate each field manually
-        if (nameInput.val().trim() === '') {
-            alert('Please enter your full name.');
-            nameInput.focus();
-            return false;
-        }
-
-        if (emailInput.val().trim() === '') {
-            alert('Please enter your email address.');
-            emailInput.focus();
-            return false;
-        }
-
-        // Validate email format using a simple regular expression
-        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(emailInput.val())) {
-            alert('Please enter a valid email address.');
-            emailInput.focus();
-            return false;
-        }
-
-        if (roleInput.val() === null) {
-            alert('Please choose a role.');
-            roleInput.focus();
-            return false;
-        }
-
-        $('.addUserSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Adding user...</span>');
-
-        // Send the AJAX request
-        $.ajax({
-          url: BASEURL + '/user/adduser',
-          type: 'POST',
-          data: formData,
-          contentType: false,
-          processData: false,
-          dataType: 'json',
-          success: function(response) {
-            // Handle the response from the server here (e.g., display success message)
-            if (response['result'] == '1') {                
-                $('.addUserSubmitBtn').html('Add');
-                alert("Email already exists!");
-            } else if (response['result'] == "2") {                
-                $('#userModal [data-bs-dismiss="modal"]').trigger('click');                
-                $('.addUserSubmitBtn').html('Add');
-                setTimeout(function() {
-                    alert("User added!");
-                }, 0);
-                // Refresh the table data
-				$('#user-table').bootstrapTable('refresh');
-            } else if (response['result'] == "3") {                
-                $('.addUserSubmitBtn').html('Add');
-                alert("Email failed to be sent!");
-            } else if (response['result'] == "4") {                
-                $('.addUserSubmitBtn').html('Add');
-                alert("User failed to be added!");
-            } else {                
-                $('.addUserSubmitBtn').html('Add');
-                alert("User cannot be changed. Contact your administrator");
-            }
-          },
-          error: function() {
-            // Request failed, handle error here
-            alert("Error saving changes.");
-          }
-        });
-    });
-
-    // Script to handle jQuery AJAX Save Edit User form submission
-	$('#editUser').submit(function(event) {
-		event.preventDefault();
-		
-		// Get the form data
-		const formData = new FormData(document.getElementById('editUser'));
-
-		$('.editUserSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Saving user...</span>');
-
-        // Send the AJAX request
-        $.ajax({
-          url: BASEURL + '/user/saveuser',
-          type: 'POST',
-          data: formData,
-          contentType: false,
-          processData: false,
-          dataType: 'json',
-          success: function(response) {
-            // Handle the response from the server here (e.g., display success message)
-
-            if (response['result'] == '1') {
-                $('#editUserModal [data-bs-dismiss="modal"]').trigger('click');
-                $('#editUserModal .editUserSubmitBtn').html('Save');
-                $('.addUserSubmitBtn').html('Add');
-                setTimeout(function() {
-                    alert("Successfully Updated!");
-                }, 0);
-                // Refresh the table data
-				$('#user-table').bootstrapTable('refresh');
-            } else if (response['result'] == "2") {
-                $('#editUserModal .editUserSubmitBtn').html('Save');
-                alert("Save Failed!");
-            } else {
-                $('#editUserModal .editUserSubmitBtn').html('Save');
-                alert("Save Failed. Contact your administrator.");
-            }
-          },
-          error: function() {
-            // Request failed, handle error here
-            alert("Error saving changes.");
-          }
-        });
-	});
-
-
-    // Script to handle jQuery AJAX Delete User form submission
-	$('#deleteUser').submit(function(event) {
-		event.preventDefault();
-		
-		// Get the form data
-		const formData = new FormData(document.getElementById('deleteUser'));
-
-		$('.deleteUserSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Deleting user...</span>');
-        
-        // Send the AJAX request
-        $.ajax({
-          url: BASEURL + '/user/delete',
-          type: 'POST',
-          data: formData,
-          contentType: false,
-          processData: false,
-          dataType: 'json',
-          success: function(response) {
-            // Handle the response from the server here (e.g., display success message)
-            if (response['result'] == '1') {
-                $('#deleteUserModal [data-bs-dismiss="modal"]').trigger('click');
-                $('.deleteUserSubmitBtn').html('Delete');
-                setTimeout(function() {
-                    alert("Successfully Deleted!");
-                }, 0);
-                // Refresh the table data
-				$('#user-table').bootstrapTable('refresh');
-            } else if (response['result'] == "2") {
-                $('.deleteUserSubmitBtn').html('Delete');
-                alert("Delete Failed!");
-            } else {
-                $('.deleteUserSubmitBtn').html('Delete');
-                alert("Delete Failed. Contact your administrator.");
-            }
-          },
-          error: function(response) {
-            // Request failed, handle error here
-            console.log(response);
-            alert("Error deleting changes. Contact your administrator.");
-          }
-        });
-	});
 
 });
 

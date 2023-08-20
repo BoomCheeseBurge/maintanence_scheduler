@@ -23,6 +23,21 @@ class Contract_model {
 		return $this->db->resultSet();
     }
 
+	public function fetchEndingContract() {
+
+		$query = 'SELECT cl.name, co.sop_number, co.end_date
+		FROM '. $this->table1 .' co
+		INNER JOIN '. $this->table2 .' cl ON co.client_id = cl.id
+		WHERE (DATEDIFF(co.end_date, CURDATE()) >= 0 AND DATEDIFF(co.end_date, CURDATE()) <= 7)
+		OR DATEDIFF(co.end_date, CURDATE()) = 30 
+		OR DATEDIFF(co.end_date, CURDATE()) = 60 
+		OR DATEDIFF(co.end_date, CURDATE()) = 90
+		ORDER BY DATEDIFF(co.end_date, CURDATE());';	
+
+		$this->db->query($query);
+		return $this->db->resultSet();
+	}
+
 	// For Filtered History Bootstrap Table by Month
 	public function filterTableData($clientName, $endMonth, $endYear) {
 
@@ -165,43 +180,51 @@ class Contract_model {
 
 	public function delContractData($id) {
 
-		$query = 'DELETE FROM '. $this->table1 .' WHERE id = :id';
-		$this->db->query($query);
-		$this->db->bind(':id', $id);
-
 		try {
-			$this->db->execute();
-			// Success: The client record was deleted successfully
-		} catch (PDOException $e) {
-			// Error: The client record could not be deleted due to the foreign key constraint
-			echo "Error: Cannot delete the contract record because it has related records in other tables.";
-		}
+			$query = 'DELETE FROM '. $this->table1 .' WHERE id = :id';
+			$this->db->query($query);
+			$this->db->bind(':id', $id);
 
-		return $this->db->rowCount();
+			$this->db->execute();
+
+			return $this->db->rowCount();
+		} catch (PDOException $e) {
+			$errorCode = $e->getCode();
+			if ($errorCode === '23000' || $errorCode === '1451') {
+				return 2;
+			} else {
+				// Handle other errors
+				return $errorCode;
+			}
+		}
 	}
 
 	public function delBulkContractData($ids) {
 
-		// Create placeholders for the IDs
-		$placeholders = implode(',', array_fill(0, count($ids), '?'));
-	
-		$query = 'DELETE FROM ' . $this->table1 . ' WHERE id IN (' . $placeholders . ')';
-		$this->db->query($query);
-	
-		// Bind the IDs
-		foreach ($ids as $index => $id) {
-			$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
-		}
-	
 		try {
+			// Create placeholders for the IDs
+			$placeholders = implode(',', array_fill(0, count($ids), '?'));
+		
+			$query = 'DELETE FROM ' . $this->table1 . ' WHERE id IN (' . $placeholders . ')';
+			$this->db->query($query);
+		
+			// Bind the IDs
+			foreach ($ids as $index => $id) {
+				$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
+			}
+		
 			$this->db->execute();
-			// Success: The client record was deleted successfully
-		} catch (PDOException $e) {
-			// Error: The client record could not be deleted due to the foreign key constraint
-			echo "Error: Cannot delete the contract record because it has related records in other tables.";
-		}
 
-		return $this->db->rowCount();
+			return $this->db->rowCount();
+		} catch (PDOException $e) {
+			$errorCode = $e->getCode();
+			if ($errorCode === '23000' || $errorCode === '1451') {
+				return 2;
+			} else {
+				// Handle other errors
+				return $errorCode;
+			}
+		}
 	}
 
 	public function getEditContractById($id) {

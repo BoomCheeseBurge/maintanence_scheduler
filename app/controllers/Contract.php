@@ -38,6 +38,12 @@ class Contract extends Controller {
 		echo json_encode($contractData);
 	}
 
+	public function getEndingContract() {
+
+		$contractData = $this->model('Contract_model')->fetchEndingContract();
+		echo json_encode($contractData);
+	}
+
 	public function addContract() {
 
 		// Retrieve the client_id using the client name
@@ -114,28 +120,16 @@ class Contract extends Controller {
 
 	public function delContract() {
 
-		if( $this->model('Contract_model')->delContractData($_POST['id']) > 0 ) {
+		$result = $this->model('Contract_model')->delContractData($_POST['id']);
 
-			echo json_encode(['result' => '1']);
-			exit;
-		}else {
-
-			echo json_encode(['result' => '2']);
-			exit;
-		}
+		echo json_encode(['result' => $result]);
 	}
 
 	public function delBulkContract() {
 
-		if( $this->model('Contract_model')->delBulkContractData($_POST['ids']) > 0 ) {
+		$result = $this->model('Contract_model')->delBulkContractData($_POST['ids']);
 
-			echo json_encode(['result' => '1']);
-			exit;
-		}else {
-
-			echo json_encode(['result' => '2']);
-			exit;
-		}
+		echo json_encode(['result' => $result]);
 	}
 
 	public function getEditContractData() {

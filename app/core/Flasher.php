@@ -1,6 +1,5 @@
 <?php
 
-
 class Flasher {
 
 	// static function to avoid the need to instantiate this class

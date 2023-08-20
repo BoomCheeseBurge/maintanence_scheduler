@@ -40,13 +40,13 @@ class User extends Controller{
 	}
 
     public function addUser() {
-		
+
 		if ( $this->model('Signup_model')->isEmailTaken($_POST['email']) > 0 )  {
 			
 			echo json_encode(['result' => '1']);
-		}
-		elseif ( $this->model('User_model')->addNewUser($_POST) > 0 ) {
 
+		} elseif ( $this->model('User_model')->addNewUser($_POST) > 0 ) {
+			
 			$to = $_POST['email'];
 			$subject = "Welcome to ITPro Task Scheduler - Your Account Details";
 		
@@ -69,7 +69,7 @@ class User extends Controller{
 				<tr>
 				<td style="padding: 20px;">
 					<p>Dear '. $_POST['name'] .',</p>
-					<p>We welcome you to our ITPro Task Scheduler! Your account has been successfully created, and you can now start exploring all the features and benefits we offer.</p>
+					<p>We welcome you to our ITPro Task Scheduler! Your account has been successfully created.</p>
 					<p>Here are your account details:</p>
 					<ul>
 						<li><strong>Email:</strong> ' . $_POST['email'] .'</li>
@@ -100,49 +100,29 @@ class User extends Controller{
 		}
 	}
 
-	
-	public function editUser() {
+	public function saveUser() {
 
-		if( $this->model('User_model')->editUserData($_POST) > 0 ) {
+		if( $this->model('User_model')->saveUserData($_POST) > 0 ) {
 
-			Flasher::setFlash('User', ' successfully', ' saved', 'success');
-
-			header('Location: ' . BASEURL);
-			exit;
+			echo json_encode(['result' => '1']);
 		}else {
 
-			Flasher::setFlash('User', ' failed', ' to be saved', 'danger');
-
-			header('Location: ' . BASEURL);
-			exit;
+			echo json_encode(['result' => '2']);
 		}
 	}
 
 	public function delete() {
 
-		if( $this->model('User_model')->deleteUser($_POST['id']) > 0 ) {
-			
-			echo json_encode(['result' => '1']);
-		}else {
-
-			echo json_encode(['result' => '2']);
-		}
+		$result = $this->model('User_model')->deleteUser($_POST['id']);
+		
+		echo json_encode(['result' => $result]);
 	}
 
+	public function delBulkMaintenance() {
 
-	public function saveUser() {
-
-		if( $this->model('User_model')->saveUserData($_POST) > 0 ) {
-			
-            $_SESSION['name'] = $_POST['name'];
-            $_SESSION['email'] = $_POST['email'];
-            $_SESSION['role'] = $_POST['roleInput'];
-
-			echo json_encode(['result' => '1']);
-		}else {
-
-			echo json_encode(['result' => '2']);
-		}
+		$result = $this->model('User_model')->delBulkUserData($_POST['ids']);
+		
+		echo json_encode(['result' => $result]);
 	}
 
 	public function searchAssignee()
@@ -174,7 +154,6 @@ class User extends Controller{
 		}
 	}
 
-        
 	public function changePassword(){
 		// Check if the request method is POST
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -186,5 +165,49 @@ class User extends Controller{
 			http_response_code(405); // Method Not Allowed
 			echo json_encode(['result' => '4']);
 		}
+	}
+
+	public function getEmailConfig() {
+		header('Content-Type: application/json'); // Set JSON content type header
+		$response = array(
+			'supportEmail' => SUPPORT_EMAIL,
+			'supportPhoneNumber' => SUPPORT_PHONE_NUMBER,
+		);
+		echo json_encode($response);
+	}
+	
+
+	public function setEmailConfig() {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $supEmail = $_POST['supEmail'];
+            $supNumber = $_POST['supNumber'];
+
+            $configFile = __DIR__ . '/../config/config.php';
+            $configContent = file_get_contents($configFile);
+    
+            $configContent = preg_replace(
+                "/define\('SUPPORT_EMAIL', '(.*)'\);/",
+                "define('SUPPORT_EMAIL', '$supEmail');",
+                $configContent
+            );
+
+            $configContent = preg_replace(
+                "/define\('SUPPORT_PHONE_NUMBER', '(.*)'\);/",
+                "define('SUPPORT_PHONE_NUMBER', '$supNumber');",
+                $configContent
+            );
+
+            if( file_put_contents($configFile, $configContent) ) {
+
+                echo json_encode(['result' => '1']);
+                exit;
+            } else {
+                echo json_encode(['result' => '2']);
+                exit;
+            }
+        } else {
+            echo json_encode(['result' => '3']);
+            exit;
+        }
 	}
 }

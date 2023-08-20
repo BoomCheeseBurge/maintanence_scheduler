@@ -15,9 +15,9 @@ class Signup_model {
             return 0;
         }
 
-        $query = "INSERT INTO " . $this->table . " (id, full_name, password, role, email)
+        $query = "INSERT INTO " . $this->table . " (full_name, password, role, email)
                      VALUES 
-                    ('', :fullname, :password, :role, :email)";
+                    (:fullname, :password, :role, :email)";
 
         $hash = password_hash($data['password'].PEPPER, PASSWORD_DEFAULT); 
 

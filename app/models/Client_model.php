@@ -79,13 +79,23 @@ class Client_model {
 
 	public function delClientData($data) {
 
-		$query = 'DELETE FROM '. $this->table1 .' WHERE name = :client_name';
-		$this->db->query($query);
-		$this->db->bind(':client_name', $data['clientName']);
+		try {
+			$query = 'DELETE FROM '. $this->table1 .' WHERE name = :client_name';
+			$this->db->query($query);
+			$this->db->bind(':client_name', $data['clientName']);
 
-		$this->db->execute();
+			$this->db->execute();
 
-		return $this->db->rowCount();
+			return $this->db->rowCount();
+		} catch (PDOException $e) {
+			$errorCode = $e->getCode();
+			if ($errorCode === '23000' || $errorCode === '1451') {
+				return 2;
+			} else {
+				// Handle other errors
+				return $errorCode;
+			}
+		}
 	}
 
 	public function editClientPICData($data) {
@@ -108,45 +118,71 @@ class Client_model {
 		return $this->db->rowCount();
 	}
 
+	public function isDuplicateClientPIC($data) {
+        // Prepare the SQL query
+        $query = 'SELECT COUNT(*) AS count
+		FROM '. $this->table2 .'
+		WHERE client_id = :client_id,
+		name = :name,
+		email = :email';
+
+		$this->db->query($query);
+		$this->db->bind(':client_id', $data['client_id']);
+		$this->db->bind(':name', $data['pic_name']);
+		$this->db->bind(':email', $data['pic_email']);
+		$this->db->bind(':id', $data['id']);
+
+        $row = $this->db->single();
+
+        return $row['count'];
+    }
+
 	public function delClientPICData($id) {
 
-		$query = 'DELETE FROM '. $this->table2 .' WHERE id = :id';
-		$this->db->query($query);
-		$this->db->bind(':id', $id);
-
 		try {
+			$query = 'DELETE FROM '. $this->table2 .' WHERE id = :id';
+			$this->db->query($query);
+			$this->db->bind(':id', $id);
+			
 			$this->db->execute();
-			// Success: The client record was deleted successfully
+			
+			return $this->db->rowCount();
 		} catch (PDOException $e) {
-			// Error: The client record could not be deleted due to the foreign key constraint
-			echo "Error: Failed to delete client PIC";
+			$errorCode = $e->getCode();
+			if ($errorCode === '23000' || $errorCode === '1451') {
+				return 2;
+			} else {
+				// Handle other errors
+				return $errorCode;
+			}
 		}
-
-		return $this->db->rowCount();
 	}
 
 	public function delBulkClientPICData($ids) {
 
-		// Create placeholders for the IDs
-		$placeholders = implode(',', array_fill(0, count($ids), '?'));
-	
-		$query = 'DELETE FROM ' . $this->table2 . ' WHERE id IN (' . $placeholders . ')';
-		$this->db->query($query);
-	
-		// Bind the IDs
-		foreach ($ids as $index => $id) {
-			$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
-		}
-	
 		try {
+			// Create placeholders for the IDs
+			$placeholders = implode(',', array_fill(0, count($ids), '?'));
+		
+			$query = 'DELETE FROM ' . $this->table2 . ' WHERE id IN (' . $placeholders . ')';
+			$this->db->query($query);
+		
+			// Bind the IDs
+			foreach ($ids as $index => $id) {
+				$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
+			}
 			$this->db->execute();
-			// Success: The client record was deleted successfully
-		} catch (PDOException $e) {
-			// Error: The client record could not be deleted due to the foreign key constraint
-			echo "Error: Cannot delete the client record because it has related records in other tables.";
-		}
 
-		return $this->db->rowCount();
+			return $this->db->rowCount();
+		} catch (PDOException $e) {
+			$errorCode = $e->getCode();
+			if ($errorCode === '23000' || $errorCode === '1451') {
+				return 2;
+			} else {
+				// Handle other errors
+				return $errorCode;
+			}
+		}
 	}
 	
 

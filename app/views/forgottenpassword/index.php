@@ -17,7 +17,7 @@
 
                 <div class="d-flex justify-content-between mt-4">
                     <a class="" href="<?= BASEURL ?>/login">Login</a>
-                    <a class="" href="<?= BASEURL ?>/signup">Need an Account?</a>
+                    <!-- <a class="" href="/signup">Need an Account?</a> -->
                 </div>
             </div>
         </div>

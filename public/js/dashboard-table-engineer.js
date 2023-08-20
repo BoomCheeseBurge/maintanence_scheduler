@@ -1,22 +1,10 @@
 // Engineer Bootstrap Table Extended
-var $engineerDashboardTable = $('#engineer-dashboard-table')
+var $engineerDashboardTable = $('#engineer-dashboard-table');
 
 // Function to initialize Bootstrap 5.3 tooltips
 function initializeTooltips() {
 	const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 	tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-}
-
-// Function to display the flasher message after an action is triggered
-function setFlasher(column, message, action, type) {
-	
-	const flashContainer = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
-	const flashMessage =  $('<p>' + column + ' <strong>' + message + '</strong>' + action + '</p>');
-	const dismissBtn = $('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
-
-	flashContainer.append(flashMessage);
-	flashContainer.append(dismissBtn);
-	$('.flash-container').append(flashContainer);
 }
 
 function setForm() {
@@ -67,18 +55,37 @@ function setForm() {
 			success: function(response) {
 				if (response['result'] == '1') {
 					$('#formModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Scheduled date', ' successfully', ' set', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Scheduled date successfully set',
+						showConfirmButton: false,
+						timer: 2000
+					});
+					$('.setDateSubmitBtn').html('Set');
 					$('#engineer-dashboard-table').bootstrapTable('refresh');
 				} else if (response['result'] == '2') {
-					setFlasher('Scheduled date', ' failed', ' to be set', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Scheduled date failed to be set',
+						showConfirmButton: true
+					});
+					$('.setDateSubmitBtn').html('Set');
 				} else {
-					alert("Entry Failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Entry Failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('.setDateSubmitBtn').html('Set');
 				}
 			},
-			error: function(e) {
-				console.log(e);
-			// Request failed, handle error here
-			alert("Error setting scheduled date.");
+			error: function() {
+				// Request failed, handle error here
+				alert("Error setting scheduled date.");
+				$('.setDateSubmitBtn').html('Set');
 			}
 		});
 	});
@@ -111,17 +118,37 @@ function setForm() {
 
 				if (response['result'] == '1') {
 					$('#formModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Actual date', ' successfully', ' set', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Actual date successfully set',
+						showConfirmButton: false,
+						timer: 2000
+					});
+					$('.setDateSubmitBtn').html('Set');
 					$('#engineer-dashboard-table').bootstrapTable('refresh');
 				} else if (response['result'] == '2') {
-					setFlasher('Actual date', ' failed', ' to be set', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Actual date failed to be set',
+						showConfirmButton: true
+					});
+					$('.setDateSubmitBtn').html('Set');
 				} else {
-					alert("Entry failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Entry failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('.setDateSubmitBtn').html('Set');
 				}
 			},
 			error: function() {
-			// Request failed, handle error here
-			alert("Error setting actual date.");
+				// Request failed, handle error here
+				alert("Error setting actual date.");
+				$('.setDateSubmitBtn').html('Set');
 			}
 		});
 	});
@@ -141,17 +168,33 @@ function setButton() {
 			},
 			success: function(response) {
 				if (response['result'] == '1') {
-					setFlasher('Report', ' successfully', ' completed', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Report successfully completed',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#engineer-dashboard-table').bootstrapTable('refresh');
 				} else if (response['result'] == '2') {
-					setFlasher('Report', ' failed', ' to be completed', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Report failed to be completed',
+						showConfirmButton: true
+					});
 				} else {
-					alert("Entry failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Entry failed. Contact your administrator',
+						showConfirmButton: true
+					});
 				}
 			},
-			error: function(xhr, status, error) {
+			error: function() {
 			  // Handle the error, if any
-			  console.error(error);
+			  alert("Error report completion.");
 			}
 		});
 	});

@@ -41,8 +41,6 @@ class Client extends Controller {
 
 	public function addClient() {
 
-		// $_POST larger than zero indicates that there is new record found
-		// then that means the new data is successfully passed into the webserver
 		if( $this->model('Client_model')->addClientData($_POST) > 0 ) {
 
 			echo json_encode(['result' => '1']);
@@ -69,15 +67,9 @@ class Client extends Controller {
 
 	public function delClient() {
 
-		if( $this->model('Client_model')->delClientData($_POST) > 0 ) {
+		$result = $this->model('Client_model')->delClientData($_POST);
 
-			echo json_encode(['result' => '1']);
-			exit;
-		}else {
-
-			echo json_encode(['result' => '2']);
-			exit;
-		}
+		echo json_encode(['result' => $result]);
 	}
 
 	public function editClientPIC() {
@@ -89,46 +81,41 @@ class Client extends Controller {
 		if ($clientId !== null) {
 			$_POST['client_id'] = $clientId;
 
-			if( $this->model('Client_model')->editClientPICData($_POST) > 0 ) {
+			// Check if there is a duplicate client PIC
+			if ( $this->model('Client_model')->isDuplicateClientPIC($_POST) == 0 ) {
 
-				echo json_encode(['result' => '1']);
-				exit;
+				if( $this->model('Client_model')->editClientPICData($_POST) > 0 ) {
+
+					echo json_encode(['result' => '1']);
+					exit;
+				} else {
+					
+					echo json_encode(['result' => '2']);
+					exit;
+				}
 			} else {
-				
-				echo json_encode(['result' => '2']);
+				echo json_encode(['result' => '3']);
 				exit;
 			}
 		}else {
 
-			echo json_encode(['result' => '3']);
+			echo json_encode(['result' => '4']);
 			exit;
 		}
 	}
 
 	public function delClientPIC() {
 
-		if( $this->model('Client_model')->delClientPICData($_POST['id']) > 0 ) {
+		$result = $this->model('Client_model')->delClientPICData($_POST['id']);
 
-			echo json_encode(['result' => '1']);
-			exit;
-		}else {
-
-			echo json_encode(['result' => '2']);
-			exit;
-		}
+		echo json_encode(['result' => $result]);
 	}
 
 	public function delBulkClientPIC() {
 
-		if( $this->model('Client_model')->delBulkClientPICData($_POST['ids']) > 0 ) {
+		$result = $this->model('Client_model')->delBulkClientPICData($_POST['ids']);
 
-			echo json_encode(['result' => '1']);
-			exit;
-		}else {
-
-			echo json_encode(['result' => '2']);
-			exit;
-		}
+		echo json_encode(['result' => $result]);
 	}
 
 	public function searchClientName()

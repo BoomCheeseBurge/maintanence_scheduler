@@ -15,18 +15,6 @@ function initializeTooltips() {
 	tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 
-// Function to display the flasher message after an action is triggered
-function setFlasher(column, message, action, type) {
-	
-	const flashContainer = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
-	const flashMessage =  $('<p>' + column + ' <strong>' + message + '</strong>' + action + '</p>');
-	const dismissBtn = $('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
-
-	flashContainer.append(flashMessage);
-	flashContainer.append(dismissBtn);
-	$('.flash-container').append(flashContainer);
-}
-
 function setForm() {
 
 	// Event listener for the show.bs.modal event on the scheduledDateModal
@@ -69,17 +57,36 @@ function setForm() {
 
 				if (response['result'] == '1') {
 					$('#addClientModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Client', ' successfully', ' added', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Client successfully added',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#client-table').bootstrapTable('refresh');
 				} else if (response['result'] == '2') {
-					setFlasher('Client', ' failed', ' to be added', 'danger');
+					$('#addClientModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client failed to be added',
+						showConfirmButton: true
+					});
 				} else {
-					alert("Entry Failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Entry Failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('.addClientSubmitBtn').html('Add');
 				}
 			},
 			error: function() {
-			// Request failed, handle error here
-			alert("Error adding new client.");
+				// Request failed, handle error here
+				alert("Error adding new client");
+				$('.addClientSubmitBtn').html('Add');
 			}
 		});
 	});
@@ -110,17 +117,36 @@ function setForm() {
 
 				if (response['result'] == '1') {
 					$('#editClientModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Client', ' successfully', ' saved', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Client successfully updated',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#client-table').bootstrapTable('refresh');
 				} else if (response['result'] == '2') {
-					setFlasher('Client', ' failed', ' to be saved', 'danger');
+					$('#editClientModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client failed to be updated',
+						showConfirmButton: true
+					});
 				} else {
-					alert("Save changes failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Updated changes Failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('.editClientSubmitBtn').html('Save');
 				}
 			},
 			error: function() {
-			// Request failed, handle error here
-			alert("Error saving changes.");
+				// Request failed, handle error here
+				alert("Error saving changes");
+				$('.editClientSubmitBtn').html('Save');
 			}
 		});
 	});
@@ -151,17 +177,42 @@ function setForm() {
 
 				if (response['result'] == '1') {
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Client', ' successfully', ' deleted', 'success');
-					$('#client-table').bootstrapTable('refresh');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Client successfully deleted',
+						showConfirmButton: false,
+						timer: 2000
+					});
+				} else if (response['result'] == '0') {
+					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client failed to be deleted',
+						showConfirmButton: true
+					});
 				} else if (response['result'] == '2') {
-					setFlasher('Client', ' failed', ' to be deleted', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion denied. Please ensure the deleted record is not related elsewhere',
+						showConfirmButton: true
+					});
+					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
 				} else {
-					alert("Deletion Failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion Failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
 				}
 			},
 			error: function() {
-			// Request failed, handle error here
-			alert("Error deleting existing contract.");
+				// Request failed, handle error here
+				alert("Error deleting existing client");
 			}
 		});
 	});
@@ -213,19 +264,52 @@ function setForm() {
 
 				if (response['result'] == '1') {
 					$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Client PIC', ' successfully', ' saved', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Client PIC successfully updated',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#client-table').bootstrapTable('refresh');
 				} else if (response['result'] == '2') {
-					setFlasher('Client PIC', ' failed', ' to be saved', 'danger');
+					$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client PIC failed to be updated',
+						showConfirmButton: true
+					});
 				} else if (response['result'] == '3') {
-					setFlasher('Client PIC', ' failed', ' to be found', 'danger');
+					$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client PIC already exists',
+						showConfirmButton: true
+					});
+				} else if (response['result'] == '4') {
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client not found. Please try again',
+						showConfirmButton: true
+					});
+					$('.editClientPICSubmitBtn').html('Save');
 				} else {
-					alert("Save changes failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Updated changes failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('.editClientPICSubmitBtn').html('Save');
 				}
 			},
 			error: function() {
-			// Request failed, handle error here
-			alert("Error saving changes.");
+				// Request failed, handle error here
+				alert("Error saving changes");
+				$('.editClientPICSubmitBtn').html('Save');
 			}
 		});
 	});
@@ -256,17 +340,43 @@ function setForm() {
 
 				if (response['result'] == '1') {
 					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Client PIC', ' successfully', ' deleted', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Client PIC successfully deleted',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#client-table').bootstrapTable('refresh');
+				} else if (response['result'] == '0') {
+					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client PIC failed to be deleted',
+						showConfirmButton: true
+					});
 				} else if (response['result'] == '2') {
-					setFlasher('Client PIC', ' failed', ' to be deleted', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion denied. Please ensure the deleted record is not related elsewhere',
+						showConfirmButton: true
+					});
+					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 				} else {
-					alert("Deletion Failed. Contact your administrator.");
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion Failed. Contact your administrator',
+						showConfirmButton: true
+					});
+					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 				}
 			},
 			error: function() {
-			// Request failed, handle error here
-			alert("Error deleting existing contract.");
+				// Request failed, handle error here
+				alert("Error deleting existing client PIC");
 			}
 		});
 	});
@@ -276,12 +386,12 @@ function setForm() {
 function clientFormatter(value, row, index) {
     return [
 		'<span class="ms-2 editClientPICBtn" data-bs-toggle="modal" data-bs-target="#editClientPICModal" data-id="' + row.id + '">',
-		'<button class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">',
+		'<button class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">',
 		'<i class="fa-solid fa-pen-to-square"></i>',
 		'</button>',
 		'</span>',
 		'<span class="ms-2 delClientBtn" data-bs-toggle="modal" data-bs-target="#delClientPICModal" data-id="' + row.id + '">',
-		'<button class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">',
+		'<button class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">',
 		'<i class="fa-solid fa-trash-can"></i>',
 		'</button>',
 		'</span>',
@@ -357,7 +467,6 @@ function initClientTable() {
 
 		$('.bulkDeleteSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting PIC...</span>');
 	
-		// Send an AJAX request to the server to delete the selected rows
 		$.ajax({
 			url: BASEURL + '/client/delBulkClientPIC',
 			type: 'POST',
@@ -365,22 +474,49 @@ function initClientTable() {
 			dataType: 'json',
 			success: function (response) {
 
-				if (response['result'] == '1') {
+				if (response['result'] == ids.length) {
 					$('#delBulkClientPICModal [data-bs-dismiss="modal"]').trigger('click');
-					setFlasher('Client PIC', ' successfully', ' deleted', 'success');
+					Swal.fire({
+						position: 'top-end',
+						icon: 'success',
+						title: 'Client PICs successfully deleted',
+						showConfirmButton: false,
+						timer: 2000
+					});
 					$('#client-table').bootstrapTable('refresh');
 					$remove.prop('disabled', true);
+				} else if (response['result'] == '0') {
+					$('#delBulkClientPICModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client PICs failed to be deleted',
+						showConfirmButton: true
+					});
+					$remove.prop('disabled', true);
 				} else if (response['result'] == '2') {
-					setFlasher('Client PIC', ' failed', ' to be deleted', 'danger');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion denied. Please ensure the deleted records are not related elsewhere',
+						showConfirmButton: true
+					});
 					$remove.prop('disabled', true);
-				} else {
-					alert("Deletion Failed. Contact your administrator.");
+					$('#delBulkClientPICModal [data-bs-dismiss="modal"]').trigger('click');
+				}else {
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Deletion Failed. Contact your administrator',
+						showConfirmButton: true
+					});
 					$remove.prop('disabled', true);
+					$('#delBulkClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 				}
 			},
-			error: function (xhr, status, error) {
+			error: function () {
 				// Handle the error if any
-				console.error(error);
+				alert("Error deleting existing client PICs");
 			}
 		});
 	});

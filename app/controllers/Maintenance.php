@@ -102,15 +102,9 @@ class Maintenance extends Controller {
 
     public function delMaintenance() {
 
-        if( $this->model('Maintenance_model')->delMaintenanceData($_POST['id']) > 0 ) {
+        $result =  $this->model('Maintenance_model')->delMaintenanceData($_POST['id']);
 
-			echo json_encode(['result' => '1']);
-			exit;
-		}else {
-
-			echo json_encode(['result' => '2']);
-			exit;
-		}
+        echo json_encode(['result' => $result]);
     }
 
     public function getDataForEngineerPerformance() {

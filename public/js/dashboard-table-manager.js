@@ -1,5 +1,5 @@
 // Admin Bootstrap Table Extended
-var $dashboardTable = $('#dashboard-table')
+var $dashboardTable = $('#dashboard-table');
 
 function initDashboardTable() {
 	var icons = {
@@ -70,9 +70,9 @@ function initDashboardTable() {
 }
 
 $(function() {
-	initDashboardTable()
+	initDashboardTable();
 
 	$('#dashboard-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
-	})
+	});
 })
