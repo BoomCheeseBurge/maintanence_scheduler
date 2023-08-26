@@ -32,7 +32,7 @@ class Contract_model {
 		OR DATEDIFF(co.end_date, CURDATE()) = 30 
 		OR DATEDIFF(co.end_date, CURDATE()) = 60 
 		OR DATEDIFF(co.end_date, CURDATE()) = 90
-		ORDER BY DATEDIFF(co.end_date, CURDATE());';	
+		ORDER BY DATEDIFF(co.end_date, CURDATE());';
 
 		$this->db->query($query);
 		return $this->db->resultSet();

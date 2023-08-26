@@ -15,7 +15,7 @@ class Client_model {
 
 	public function getClientData() {
 
-		$this->db->query('SELECT p.id, cl.name AS client_name, p.name AS pic_name, p.email AS pic_email
+		$this->db->query('SELECT p.id AS pic_id, cl.id AS client_id, cl.name AS client_name, p.name AS pic_name, p.email AS pic_email
 		FROM '. $this->table1 .' cl
 		JOIN '. $this->table2 .' p ON cl.id = p.client_id');
 		return $this->db->resultSet();
@@ -47,15 +47,37 @@ class Client_model {
             $picNames = $data['picName'];
             $picEmails = $data['picEmail'];
 
-            // Loop through the pic data arrays and insert each set as a separate record
-            for ($i = 0; $i < count($picNames); $i++) {
-                $query2 = 'INSERT INTO '. $this->table2 .' (id, client_id, name, email) VALUES ("", :client_id, :pic_name, :pic_email)';
-                $this->db->query($query2);
-                $this->db->bind('client_id', $clientId);
-                $this->db->bind('pic_name', $picNames[$i]);
-                $this->db->bind('pic_email', $picEmails[$i]);
-                $this->db->execute();
-            }
+			// Check if a client PIC of this client was previously added
+			$queryCheck = 'SELECT COUNT(*) AS count FROM '. $this->table2 .' WHERE client_id = :clientId';
+			$this->db->query($queryCheck);
+			$this->db->bind(':clientId', $clientId);
+			$result = $this->db->single();
+			$countNum = intval($result['count']);
+
+			// Loop through the pic data arrays and insert each set as a separate record
+			for ($i = 0; $i < count($picNames); $i++) {
+
+				if ( $countNum === 1 && $i === 0 ) {
+					$query2 = 'UPDATE '. $this->table2 .' SET
+								name = :pic_name,
+								email = :pic_email
+							WHERE client_id = :client_id
+					';
+					
+					$this->db->query($query2);
+					$this->db->bind('client_id', $clientId);
+					$this->db->bind('pic_name', $picNames[$i]);
+					$this->db->bind('pic_email', $picEmails[$i]);
+					$this->db->execute();
+				} else {
+					$query2 = 'INSERT INTO '. $this->table2 .' (id, client_id, name, email) VALUES ("", :client_id, :pic_name, :pic_email)';
+					$this->db->query($query2);
+					$this->db->bind('client_id', $clientId);
+					$this->db->bind('pic_name', $picNames[$i]);
+					$this->db->bind('pic_email', $picEmails[$i]);
+					$this->db->execute();
+				}
+			}
         }
 
 		return $this->db->rowCount();
@@ -80,8 +102,15 @@ class Client_model {
 	public function delClientData($data) {
 
 		try {
-			$query = 'DELETE FROM '. $this->table1 .' WHERE name = :client_name';
+
+			$query = 'DELETE FROM '. $this->table2 .' WHERE client_id = :id';
 			$this->db->query($query);
+			$this->db->bind(':id', $data['client_id']);
+			
+			$this->db->execute();
+
+			$query2 = 'DELETE FROM '. $this->table1 .' WHERE name = :client_name';
+			$this->db->query($query2);
 			$this->db->bind(':client_name', $data['clientName']);
 
 			$this->db->execute();
@@ -122,31 +151,52 @@ class Client_model {
         // Prepare the SQL query
         $query = 'SELECT COUNT(*) AS count
 		FROM '. $this->table2 .'
-		WHERE client_id = :client_id,
-		name = :name,
-		email = :email';
+		WHERE client_id = :client_id
+		AND name = :name
+		AND email = :email';
 
 		$this->db->query($query);
 		$this->db->bind(':client_id', $data['client_id']);
 		$this->db->bind(':name', $data['pic_name']);
 		$this->db->bind(':email', $data['pic_email']);
-		$this->db->bind(':id', $data['id']);
 
         $row = $this->db->single();
 
         return $row['count'];
     }
 
-	public function delClientPICData($id) {
+	public function delClientPICData($data) {
 
 		try {
-			$query = 'DELETE FROM '. $this->table2 .' WHERE id = :id';
-			$this->db->query($query);
-			$this->db->bind(':id', $id);
-			
-			$this->db->execute();
-			
-			return $this->db->rowCount();
+
+			$queryCheck = 'SELECT COUNT(*) AS count FROM '. $this->table2 .' WHERE client_id = :clientId';
+			$this->db->query($queryCheck);
+			$this->db->bind(':clientId', $data['clientId']);
+			$result = $this->db->single();
+			$countNum = intval($result['count']);
+
+			// If there is only one PIC left from the said client, then delete the client as well
+			if ( $countNum === 1 ) {
+				$query = 'UPDATE '. $this->table2 .' SET
+						name = "--",
+						email = "--"
+						WHERE id = :picId
+				';
+
+				$this->db->query($query);
+				$this->db->bind(':picId', $data['picId']);
+
+				$this->db->execute();
+
+				return $this->db->rowCount();
+			} else {
+				$query = 'DELETE FROM '. $this->table2 .' WHERE id = :picId';
+				$this->db->query($query);
+				$this->db->bind(':picId', $data['picId']);
+				
+				$this->db->execute();
+				return $this->db->rowCount();
+			}
 		} catch (PDOException $e) {
 			$errorCode = $e->getCode();
 			if ($errorCode === '23000' || $errorCode === '1451') {

@@ -4,13 +4,18 @@ class Setup extends Controller
 {
     public function index()
     {
+        if ( $this->model('User_model')->isAdminUserExists() > 0 ) {
 
-        $data['title'] = 'Taskscheduler | Setup';
-        $data['activePage'] = 'setup';
-
-        $this->view('templates/setup_header', $data);
-        $this->view('setup/index');
-        $this->view('templates/footer');
+            header('Location: ' . BASEURL . '/login');
+            exit;
+        } else {
+            $data['title'] = 'Taskscheduler | Setup';
+            $data['activePage'] = 'setup';
+    
+            $this->view('templates/setup_header', $data);
+            $this->view('setup/index');
+            $this->view('templates/footer');
+        }
     }
 
     // Setup the Database Configuration
@@ -76,11 +81,11 @@ class Setup extends Controller
 
             if( file_put_contents($configFile, $configContent) ) {
                 $migrations = [
-                    new CreateMaintenanceTable(),
+                    new CreateUserTable(),
+                    new CreateClientTable(),
                     new CreatePICTable(),
                     new CreateContractTable(),
-                    new CreateClientTable(),
-                    new CreateUserTable()
+                    new CreateMaintenanceTable()
                 ];
         
                 try {
@@ -154,7 +159,7 @@ class Setup extends Controller
             $hEmail = $_POST['hostEmail'];
             $hUser = $_POST['hostUser'];
             $hPass = $_POST['hostPass'];
-            $hPort = $_POST['hostPort'];
+            $port = $_POST['port'];
             $sEmail = $_POST['supportEmail'];
             $sNumber = $_POST['supportNumber'];
 
@@ -185,7 +190,7 @@ class Setup extends Controller
                         "/\\\$mail->Host = \"(.*)\";/",
                         "/\\\$mail->Username = \"(.*)\";/",
                         "/\\\$mail->Password = \"(.*)\";/",
-                        "/\\\$mail->Port = \"(.*)\";/"
+                        "/\\\$mail->Port = (.*);/"
                     ],
                     [
                         "\$company_name = \"$cName\";",
@@ -193,7 +198,7 @@ class Setup extends Controller
                         "\$mail->Host = \"$hEmail\";",
                         "\$mail->Username = \"$hUser\";",
                         "\$mail->Password = \"$hPass\";",
-                        "\$mail->Port = \"$hPort\";"
+                        "\$mail->Port = $port;"
                     ],
                     $configContent2
                 );

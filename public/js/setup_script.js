@@ -1,14 +1,10 @@
 // ======================================== Multi-Form Setup Script =================================
 
 const slidePage = $('.slidePage');
-const firstNextBtn = $('.nextBtn');
-const prevBtnSec = $('.prev-1');
-const nextBtnSec = $('.next-1');
-const prevBtnThird = $('.prev-2');
-const nextBtnThird = $('.next-2');
-const prevBtnFourth = $('.prev-3');
-const nextBtnFourth = $('.next-3');
-const prevBtnFifth = $('.prev-4');
+const firstNextBtn = $('.next-1');
+const nextBtnSec = $('.next-2');
+const nextBtnThird = $('.next-3');
+const nextBtnFourth = $('.next-4');
 const loginBtn = $('.login');
 const progressText1 = $('.step .step-num');
 const progressText2 = $('.step .step-desc');
@@ -198,6 +194,8 @@ $(document).on('submit', '#emailConfigForm', function(event) {
     
     // Get the form data
     const formData = new FormData(document.getElementById('emailConfigForm'));
+
+    console.log($('#port').val());
     
     $.ajax({
         url: BASEURL + '/setup/configEmail',
@@ -247,48 +245,6 @@ loginBtn.click(function(){
 });
 
 // ------------------------------------------------------------------
-
-// Button event handlers to go back to the previous steps
-
-prevBtnSec.click(function(){
-    slidePage.css('marginLeft', '0%');
-
-    bullet.eq(current - 2).removeClass('active');
-    progressText1.eq(current - 2).removeClass('active');
-    progressText2.eq(current - 2).removeClass('active');
-    progressCheck.eq(current - 2).removeClass('active');
-    current -= 1;
-});
-
-prevBtnThird.click(function(){
-    slidePage.css('marginLeft', '-25%');
-
-    bullet.eq(current - 2).removeClass('active');
-    progressText1.eq(current - 2).removeClass('active');
-    progressText2.eq(current - 2).removeClass('active');
-    progressCheck.eq(current - 2).removeClass('active');
-    current -= 1;
-});
-
-prevBtnFourth.click(function(){
-    slidePage.css('marginLeft', '-50%');
-
-    bullet.eq(current - 2).removeClass('active');
-    progressText1.eq(current - 2).removeClass('active');
-    progressText2.eq(current - 2).removeClass('active');
-    progressCheck.eq(current - 2).removeClass('active');
-    current -= 1;
-});
-
-prevBtnFifth.click(function(){
-    slidePage.css('marginLeft', '-75%');
-
-    bullet.eq(current - 2).removeClass('active');
-    progressText1.eq(current - 2).removeClass('active');
-    progressText2.eq(current - 2).removeClass('active');
-    progressCheck.eq(current - 2).removeClass('active');
-    current -= 1;
-});
 
 $('document').ready(function(){
     $("#loading-bar").hide();

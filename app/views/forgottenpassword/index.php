@@ -15,7 +15,7 @@
                 
                 <a href="#" class="btn btn-primary w-100 resetPassword">Reset password</a>
 
-                <div class="d-flex justify-content-between mt-4">
+                <div class="text-justified text-center mt-4">
                     <a class="" href="<?= BASEURL ?>/login">Login</a>
                     <!-- <a class="" href="/signup">Need an Account?</a> -->
                 </div>

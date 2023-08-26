@@ -1,6 +1,5 @@
 body {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
@@ -16,11 +15,7 @@ body {
     text-align: center;
     font-size: 25px;
     font-weight: 600;
-    margin-top: -75px;
-}
-
-.final-text {
-    text-align: center;
+    margin-top: -150px;
 }
 
 #h2Text {
@@ -32,20 +27,13 @@ body {
     text-shadow: 2px 2px 4px #ccdbfd;
 }
 
-.reminder-text {
-    font-size: 20px;
-    color:#d43f8d;
-    font-family: 'Raleway',sans-serif;
-    font-weight: 500;
-    text-shadow: 2px 2px 4px #ccdbfd;
-}
-
 .step-container .form-outer {
     background: #E4E9F7;
     border: 2px solid #d2dcf7;
     border-radius: 5px;
-    padding: 30px 50px 15px 60px;
+    padding: 20px 50px 0 50px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    height: 450px;
 }
 
 .form-outer .page-holder {
@@ -59,6 +47,7 @@ body {
 }
 
 .page-holder .form-container .page {
+    position: relative;
     width: 25%;
     transition: margin-left 0.3s ease-in-out;
 }
@@ -69,55 +58,59 @@ body {
     font-weight: 500;
 }
 
-.page-holder .form-container .page #emailConfigForm {
-    height: 500px;
-}
-
-.page-holder .form-container .page .col-md-5 {
-    height: 95px;
-    width: 330px;
+.page-holder .form-container .page form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .horizontal-line {
+    position: absolute;
     border-top: 1px solid #ccc;
     width: 50%;
-    margin-bottom: 10px;
-    margin-left: 140px;
+    top: 270px;
+    right: 280px;
   }
 
 .page-holder .form-container .page .field {
     height: 45px;
-    width: 675px;
-    margin: 30px 0 45px 5px;
+    width: 400px;
     position: relative;
 }
 
 .page-holder .form-container .page .field label {
     position: absolute;
     top: -30px;
+    font-size: 15px;
     font-weight: bold;
 }
 
 .page-holder .form-container .page .field input {
-    height: 100%;
-    width: 45%;
+    height: 60%;
+    width: 50%;
     border: 1px solid #d2dcf7;
     border-radius: 5px;
     font-size: 18px;
 }
 
-.page-holder .form-container .page .field .center-input {
-    height: 100%;
-    width: 100%;
-    text-align: center;
+.page-holder .form-container .page form .input-group-1 {
+    margin:  0 0 50px 75px;
 }
 
+.page-holder .form-container .page form .input-group-2 {
+    margin:  25px 0 50px 10px;
+}
+
+.page-holder .form-container .page form .input-group-4 {
+    margin: 0 0 25px 50px;
+}
+  
 /* ============================== Button CSS ============================== */
 
-.page-holder .form-container .page .field button {
-    width: 40%;
-    height: calc(100% + 5px);
-    margin-left: 50px;
+.page-holder .form-container .page button {
+    width: 140px;
+    height: 45px;
+    position: relative;
     border: none;
     background: #d43f8d;
     color: #fff;
@@ -128,77 +121,37 @@ body {
     border-radius: 5px;
 }
 
-.page-holder .form-container .page .field button:hover {
+.page-holder .form-container .page button:hover {
     background: plum;
 }
 
-.page-holder .form-container .page .btns button {
-    margin-bottom: 20px;
-}
-
-.form-container .page .btns button .prev {
-    font-size: 17px;
-}
-
-.form-container .page .btns button .next {
-    margin-left: 30px;
-}
-
-#firstNextBtn {
-    position: absolute;
-    top: 143px;
-    left: 150px;
-}
-
-.prev-1,
 .next-1 {
     position: absolute;
-    top: 148px;
-}
-
-.next-1 {
-    left: 320px;
-}
-
-.prev-2,
-.next-2 {
-    position: absolute;
-    top: 145px;
+    top: 80px;
 }
 
 .next-2 {
-    left: 330px;
-}
-
-.prev-2 {
-    left: -35px;
-}
-
-.prev-3,
-.next-3 {
     position: absolute;
+    top: 130px;
+    right: 90px;
 }
 
 .next-3 {
-    left: 330px;
+    position: absolute;
+    top: 180px;
+    right: 90px;
 }
 
-.prev-3 {
-    left: -35px;
+.next-4 {
+    position: absolute;
+    top: -35px;
+    right: 85px;
 }
 
-.prev-4,
 .login {
     position: absolute;
-    top: 285px;
-}
-
-.login {
-    left: 330px;
-}
-
-.prev-4 {
-    left: -35px;
+    top: 185px;
+    left: 290px;
 }
 
 /* =============================== Progress Bar =============================== */
@@ -223,7 +176,7 @@ body {
 }
 
 .step-progress .step .step-desc {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     color: #000;
     margin-bottom: 8px;
@@ -337,4 +290,17 @@ body {
     0%,80% {
       transform: rotateY(360deg) 
     }
+  }
+
+  /* ======================== Accommodate Laptop Screen ============== */
+  @media (max-width: 1680px) {
+
+    .step-container header {
+        margin-top: 0;
+    }
+  
+    .step-container .step-progress {
+        margin: 10px 0;
+    }
+  
   }

@@ -616,7 +616,7 @@ function setForm() {
 				if (response['result'] == '1') {
 					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Contract successfully added',
 						showConfirmButton: false,
@@ -717,7 +717,7 @@ function setForm() {
 				if (response['result'] == '1') {
 					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Contract successfully updated',
 						showConfirmButton: false,
@@ -793,7 +793,7 @@ function setForm() {
 				if (response['result'] == '1') {
 					$('#delContractModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Contract successfully deleted',
 						showConfirmButton: false,
@@ -812,7 +812,7 @@ function setForm() {
 					Swal.fire({
 						position: 'center',
 						icon: 'warning',
-						title: 'Deletion denied. Please ensure the deleted record is not related elsewhere',
+						title: 'Deletion denied. Please ensure the deleted record is not related to any maintenance',
 						showConfirmButton: true
 					});
 					$('#delContractModal [data-bs-dismiss="modal"]').trigger('click');
@@ -985,7 +985,7 @@ function initContractTable() {
 				if (response['result'] == ids.length) {
 					$('#delBulkContractModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Contracts successfully deleted',
 						showConfirmButton: false,
@@ -1006,7 +1006,7 @@ function initContractTable() {
 					Swal.fire({
 						position: 'center',
 						icon: 'warning',
-						title: 'Deletion denied. Please ensure the deleted records are not related elsewhere',
+						title: 'Deletion denied. Please ensure the deleted records are not related to any maintenance',
 						showConfirmButton: true
 					});
 					$remove.prop('disabled', true);

@@ -81,7 +81,7 @@ $(function() {
             if (response.success) {
                 // Password reset successful, show success message
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Password reset successful',
                     showConfirmButton: false,
@@ -91,7 +91,7 @@ $(function() {
             } else {
                 // Password reset failed, show error message
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'warning',
                     title: 'Password reset failed. Please try again.',
                     showConfirmButton: false,
@@ -237,7 +237,7 @@ $(function() {
                     $('#emailConfigModal [data-bs-dismiss="modal"]').trigger('click');
                     $('[data-bs-dismiss="modal"]').trigger('click');
                     Swal.fire({
-                        position: 'top-end',
+                        position: 'center',
                         icon: 'success',
                         title: 'Email configuration successfully updated',
                         showConfirmButton: false,
@@ -335,7 +335,7 @@ $(function() {
             if (response['result'] == "1") {
                 $('[data-bs-dismiss="modal"]').trigger('click');
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Password has been updated',
                     showConfirmButton: false,

@@ -16,7 +16,7 @@ class Maintenance_model {
 
 	// For Admin Bootstrap Table
 	public function getMaintenanceList() {
-		$query = 'SELECT m.id AS id, u.full_name AS engineer_name, cl.name AS client_name, co.sop_number AS sopNumber, co.device AS deviceName, m.pm_count AS pmCount, m.scheduled_date AS scheduledDate, m.actual_date AS actualDate, m.maintenance_status AS maintenanceStatus, m.report_status AS reportStatus
+		$query = 'SELECT m.id AS id, u.full_name AS engineer_name, cl.name AS client_name, co.sop_number AS sopNumber, co.device AS deviceName, m.pm_count AS pmCount, m.scheduled_date AS scheduledDate, m.actual_date AS actualDate, m.maintenance_status AS maintenanceStatus, m.report_status AS reportStatus, m.report_date AS reportDate
 		FROM '. $this->table1 .' m
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
@@ -61,7 +61,7 @@ class Maintenance_model {
 	// For Engineer Bootstrap Table
 	public function getMaintenanceData() {
 		
-		$query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status
+		$query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
 		FROM '. $this->table1 . ' m
 		INNER JOIN '. $this->table2 . ' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 . ' cl ON m.client_id = cl.id
@@ -269,7 +269,7 @@ class Maintenance_model {
 		return $this->db->rowCount();
 	}
 
-	public function setReportValue($maintenanceId) {
+	public function setReportValue($data) {
 
 		$query = 'UPDATE '. $this->table1 .' SET
 					report_status = "delivered",
@@ -277,17 +277,11 @@ class Maintenance_model {
 				WHERE id = :id';
 	
 		$this->db->query($query);
-		$this->db->bind(':id', $maintenanceId);
+		$this->db->bind(':id', $data['id']);
 	
-		try {
-			$this->db->execute();
-			// Successful update, you can send a success response if needed.
-			// echo json_encode(['success' => true]);
-		} catch (PDOException $e) {
-			// Error occurred during the update, log the error and send an error response.
-			error_log("Database error: " . $e->getMessage());
-			// echo json_encode(['success' => false, 'error' => 'Database error']);
-		}
+		$this->db->execute();
+
+		return $this->db->rowCount();
 	}
 
 	public function getDataForEngineerPerformances() {

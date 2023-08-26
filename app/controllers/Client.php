@@ -67,15 +67,25 @@ class Client extends Controller {
 
 	public function delClient() {
 
-		$result = $this->model('Client_model')->delClientData($_POST);
+		// Retrieve the client_id using the client name
+		$clientId = $this->model('Client_model')->getClientIdByName($_POST['clientName']);
 
-		echo json_encode(['result' => $result]);
+		if ($clientId !== null) {
+			// Add the clientId and assigneeId to the $_POST data
+			$_POST['client_id'] = $clientId;
+
+			$result = $this->model('Client_model')->delClientData($_POST);
+
+			echo json_encode(['result' => $result]);
+		} else {
+			echo json_encode(['result' => 'clientNotFound']);
+		}
 	}
 
 	public function editClientPIC() {
 
 		// Retrieve the client_id using the client name
-		$clientId = $this->model('Client_model')->getClientIdByName($_POST['name']);
+		$clientId = $this->model('Client_model')->getClientIdByName($_POST['clientName']);
 
 		// If the client_id and assigneeId is found, add the data
 		if ($clientId !== null) {
@@ -106,7 +116,7 @@ class Client extends Controller {
 
 	public function delClientPIC() {
 
-		$result = $this->model('Client_model')->delClientPICData($_POST['id']);
+		$result = $this->model('Client_model')->delClientPICData($_POST);
 
 		echo json_encode(['result' => $result]);
 	}

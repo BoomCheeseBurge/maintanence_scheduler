@@ -1,4 +1,4 @@
-    <div class="step-container">
+<div class="step-container">
         <header>Pre-launch Setup</header>
         <hr>
         <div class="step-progress">
@@ -52,13 +52,13 @@
                         <form action="" method="post" id="dbConfigForm">
                             <div class="row mt-4">
                                 <div class="col-md-6">
-                                    <div class="field">
+                                    <div class="field input-group-1">
                                         <label for="baseUrl">URL</label>
                                         <input type="text" id="baseUrl" name="baseUrl" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="field">
+                                    <div class="field input-group-1">
                                         <label for="dbUser">DB User</label>
                                         <input type="text" id="dbUser" name="dbUser" required>
                                     </div>
@@ -66,21 +66,19 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="field">
+                                    <div class="field input-group-1">
                                         <label for="dbHost">Server Host</label>
                                         <input type="text" id="dbHost" name="dbHost" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="field">
+                                    <div class="field input-group-1">
                                         <label for="dbPass">DB Pass</label>
                                         <input type="password" id="dbPass" name="dbPass" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="field nextBtn">
-                                <button type="submit" id="firstNextBtn">Continue</button>
-                            </div>
+                            <button type="submit" class="next-1">Continue</button>
                         </form>
                     </div>
 
@@ -88,12 +86,14 @@
                         <div class="title">Create Database</div>
                         <hr>
                         <form action="" method="post" id="dbTableSetupForm">
-                            <div class="field" style="left: 200px; top: 50px;">
-                                <label for="dbName">Database Name</label>
-                                <input type="text" id="dbName" name="dbName" required>
+                            <div class="row">
+                                <div class="field input-group-2">
+                                    <label for="dbName">Database Name</label>
+                                    <input type="text" id="dbName" name="dbName" required>
+                                </div>
                             </div>
-                            <br><br>
-                            <div class="field">
+                            <br>
+                            <div class="field" style="right: 75px;">
                                 <div id="loading-bar">
                                     <div class="wavy">
                                         <span style="--i:1">S</span>
@@ -127,10 +127,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="field btns">
-                                <button class="prev-1 prev">Back</button>
-                                <button type="submit" class="next-1 next">Continue</button>
-                            </div>
+                            <br>
+                            <button type="submit" class="next-2 next">Continue</button>
                         </form>
                     </div>
 
@@ -138,30 +136,25 @@
                         <div class="title">Create Admin User</div>
                         <hr>
                         <form action="" method="post" id="adminSetupForm">
-                            <div class="row mt-5">
-                                <div class="col-md-5">
-                                    <div class="field">
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="field" style="left: 50px;">
                                         <label for="uName">Username</label>
                                         <input type="text" id="uName" name="uName" required>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <div class="field">
                                         <label for="uEmail">Admin Email</label>
                                         <input type="email" id="uEmail" name="uEmail" required>
                                     </div>
                                 </div>
-                                <div class="field">
-                                    <div class="center-input">
-                                        <label for="uPass">Admin Password</label>
-                                        <input type="password" id="uPass" name="uPass" required>
-                                    </div>
+                                <div class="field" style="top: 40px;left: 250px;">
+                                    <label for="uPass">Admin Password</label>
+                                    <input type="password" id="uPass" name="uPass" required>
                                 </div>
                             </div>
-                            <div class="field btns">
-                                <button class="prev-2 prev">Back</button>
-                                <button type="submit" class="next-2 next">Continue</button>
-                            </div>
+                            <button type="submit" class="next-3 next">Continue</button>
                         </form>
                     </div>
 
@@ -169,78 +162,63 @@
                         <div class="title">Email Configuration</div>
                         <hr>
                         <form action="" method="post" id="emailConfigForm">
-                            <div class="page-body">
-                                <div class="row" style="margin-left: 3px;">
-                                    <div class="col-md-5">
-                                        <div class="field">
-                                            <label for="companyName">Company Name</label>
-                                            <input type="text" id="companyName" name="companyName" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="field">
-                                            <label for="hostEmail">Host Email</label>
-                                            <input type="text" id="hostEmail" name="hostEmail" required>
-                                        </div>
+                            <div class="row mt-4 mb-2 ms-2">
+                                <div class="col-md-5">
+                                    <div class="field input-group-4">
+                                        <label for="companyName">Company Name</label>
+                                        <input type="text" id="companyName" name="companyName" required>
                                     </div>
                                 </div>
-                                <div class="row" style="height: 190px; margin-left: 3px;">
-                                    <div class="col-md-5">
-                                        <div class="field">
-                                            <label for="hostUser">Host Username</label>
-                                            <input type="email" id="hostUser" name="hostUser" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="field">
-                                            <label for="hostPass">Host Password</label>
-                                            <input type="password" id="hostPass" name="hostPass" required>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="center-input">
-                                            <label for="hostPort">Host Port</label>
-                                            <input type="number" id="hostPort" name="hostPort" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="horizontal-line"></div>
-                                <div class="row" style="margin-left: 3px;">
-                                    <div class="col-md-5">
-                                        <div class="field">
-                                            <label for="supportEmail">Support Email</label>
-                                            <input type="email" id="supportEmail" name="supportEmail" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="field">
-                                            <label for="supportNumber">Support Number</label>
-                                            <input type="number" id="supportNumber" name="supportNumber" required>
-                                        </div>
+                                <div class="col-md-5">
+                                    <div class="field input-group-4">
+                                        <label for="hostEmail">Host Email</label>
+                                        <input type="text" id="hostEmail" name="hostEmail" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="field btns">
-                                <button class="prev-3 prev">Back</button>
-                                <button type="submit" class="next-3 next">Continue</button>
+                            <div class="row mb-3 ms-2">
+                                <div class="col-md-5">
+                                    <div class="field input-group-4">
+                                        <label for="hostUser">Host Username</label>
+                                        <input type="email" id="hostUser" name="hostUser" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="field input-group-4">
+                                        <label for="hostPass">Host Password</label>
+                                        <input type="password" id="hostPass" name="hostPass" required>
+                                    </div>
+                                </div>
+                                <div class="field" style="left: 240px;">
+                                    <label for="port">Host Port</label>
+                                    <input type="number" id="port" name="port" required>
+                                </div>
                             </div>
+                            <div class="horizontal-line"></div>
+                            <div class="row mt-4 ms-2">
+                                <div class="col-md-5">
+                                    <div class="field input-group-4">
+                                        <label for="supportEmail">Support Email</label>
+                                        <input type="email" id="supportEmail" name="supportEmail" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="field input-group-4">
+                                    <label for="supportNumber">Support Number</label>
+                                        <input type="number" id="supportNumber" name="supportNumber" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="next-4 next">Continue</button>
                         </form>
                     </div>
 
                     <div class="page">
                         <div class="title">Final Step</div>
                         <hr>
-                        <div class="field final-text">
-                            <h2 id="h2Text">You're all set!</h2>
-                            <p class="reminder-text" style="margin-top: 50px;">Proceed into the web-app below</p>
-                            <p class="reminder-text">OR</p>
-                            <p class="reminder-text">Go back if you need to fix any input...</p>
-                        </div>
+                        <h2 id="h2Text" class="ms-5">You're all set!</h2>
                         <hr>
-                        <div class="field btns">
-                            <button class="prev-4 prev">Back</button>
-                            <button class="login">Login</button>
-                        </div>
+                        <button class="login">Login</button>
                     </div>
                 </div>
             </div>

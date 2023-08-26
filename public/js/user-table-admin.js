@@ -313,7 +313,7 @@ function setForm() {
                 Swal.fire({
                     position: 'center',
                     icon: 'warning',
-                    title: 'You cannot delete the user. Please ensure that the user you\'re trying to delete with is not being used elsewhere.',
+                    title: 'Deletion denied. Please ensure that the user to be deleted is not related to any contract.',
                     showConfirmButton: true
                 });     
             } else {
@@ -326,7 +326,7 @@ function setForm() {
                 });  
             }
           },
-          error: function(response) {
+          error: function() {
             // Request failed, handle error here
             Swal.fire({
                 position: 'center',
@@ -415,6 +415,8 @@ function initUserTable() {
 
 		var ids = getIdSelections();
 
+        console.log(ids);
+
 		$('.bulkDeleteSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting User...</span>');
 
 		// Send an AJAX request to the server to delete the selected rows
@@ -448,7 +450,7 @@ function initUserTable() {
                     Swal.fire({
                         position: 'center',
                         icon: 'warning',
-                        title: 'Deletion denied. Please ensure that the user records to be deleted are not related elsewhere',
+                        title: 'Deletion denied. Please ensure that the users to be deleted are not related to any contract.',
                         showConfirmButton: true
                     });
 					$('#delBulkUserModal [data-bs-dismiss="modal"]').trigger('click');

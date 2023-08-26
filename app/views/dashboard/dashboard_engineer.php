@@ -38,7 +38,7 @@
 					<button type="button" class="btn-close cancelSetDateBtn" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="" method="post" id="modalForm">
+					<form action="" method="post" id="" class="maintenanceForm">
 						<input type="hidden" name="id" id="id">
 						<div class="mb-3">
 							<input type="date" id="setdate" name="setdate" class="form-control dateInput" required>

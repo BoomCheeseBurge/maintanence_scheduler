@@ -145,10 +145,9 @@ $(document).ready(function () {
 
 		if(daysDifference > 7) {
 
-			const month = daysDifference / 30;
 			const notificationElement = $('<div class="list-group-item notification-item"></div>');
 			
-			notificationElement.html(`<strong>${contract.name}</strong> with SOP <strong>${contract.sop_number}</strong> is ending in <strong>${month}</strong> month${month === 1 ? '' : 's'}.`);
+			notificationElement.html(`<strong>${contract.name}</strong> with SOP <strong>${contract.sop_number}</strong> is ending in <strong>${daysDifference}</strong> days.`);
 			
 			$notificationContent.append(notificationElement);
 		} else if(daysDifference == 0) {

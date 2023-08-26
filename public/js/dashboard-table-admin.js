@@ -55,7 +55,7 @@ function setForm() {
 				if (response['result'] == '1') {
 					$('#delMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Maintenance successfully deleted',
 						showConfirmButton: false,
@@ -170,10 +170,13 @@ function initDashboardTable() {
 			sortable: true
 		}, {
 			title: 'Report Status',
-			field: 'reportStatus',
+			field: 'report',
 			align: 'center',
 			valign: 'middle',
-			sortable: true
+			sortable: true,
+			formatter: function (value, row) {
+				return [row.reportStatus, row.reportDate].join('<br>')
+			}
 		}, {
 			title: 'Action',
 			field: 'action',
@@ -220,7 +223,7 @@ function initDashboardTable() {
 				if (response['result'] == ids.length) {
 					$('#delBulkMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Maintenance successfully deleted',
 						showConfirmButton: false,

@@ -19,8 +19,11 @@ class CreateMaintenanceTable extends Migration
                     PRIMARY KEY (`id`),
                     KEY `contract_id` (`contract_id`),
                     KEY `client_id` (`client_id`,`engineer_id`),
-                    KEY `engineer_id` (`engineer_id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
+                    KEY `engineer_id` (`engineer_id`),
+                    CONSTRAINT `fk_maintenance_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE RESTRICT,
+                    CONSTRAINT `fk_maintenance_contract` FOREIGN KEY (`contract_id`) REFERENCES `contract` (`id`) ON DELETE RESTRICT,
+                    CONSTRAINT `fk_maintenance_engineer` FOREIGN KEY (`engineer_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT
+                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
 
         $this->db->query($query);
         $this->db->execute();

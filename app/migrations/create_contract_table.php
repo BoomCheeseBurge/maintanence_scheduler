@@ -15,8 +15,10 @@ class CreateContractTable extends Migration
                     `pm_frequency` int(11) NOT NULL,
                     PRIMARY KEY (`id`),
                     KEY `client_id` (`client_id`),
-                    KEY `engineer_id` (`engineer_id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
+                    KEY `engineer_id` (`engineer_id`),
+                    CONSTRAINT `fk_contract_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE RESTRICT,
+                    CONSTRAINT `fk_contract_engineer` FOREIGN KEY (`engineer_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT
+                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
 
         $this->db->query($query);
         $this->db->execute();

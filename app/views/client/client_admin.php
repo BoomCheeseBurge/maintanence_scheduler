@@ -36,7 +36,6 @@
 			data-click-to-select="true"
 			data-minimum-count-columns="2"
 			data-pagination="true"
-			data-id-field="id"
 			data-page-list="[10, 25, 50, 100, all]"
 			data-mobile-responsive="true"
 			data-show-search-clear-button="true"
@@ -149,8 +148,9 @@
 			<div class="modal-body">
 				<form action="" method="post" id="editClientPICForm">
 					<div class="form-floating mb-3">
-						<input type="search" class="form-control" name="name" id="client_name" required placeholder="name">
-						<label for="name">Client</label>
+						<input type="search" class="form-control" name="clientName" id="editClientName" required placeholder="clientName" autocomplete="off">
+						<div id="editClientNameList" class="clientNameList"></div>
+						<label for="editClientName">Client</label>
 					</div>
 					<h6>PIC Client</h6>
 					<input type="hidden" name="id" id="id">
@@ -183,12 +183,13 @@
 				<div class="modal-body">
 					<form action="" method="post" id="delClientPICForm">
 						<h6>Are you sure?</h6>
-						<input type="hidden" name="id" id="picId">
+						<input type="hidden" name="picId" id="picId">
+						<input type="hidden" name="clientId" id="clientId">
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary cancelDelClientPIC" data-bs-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-danger delClientPICSubmitBtn">Confirm</button>
-				</form>
+						<button type="button" class="btn btn-secondary cancelDelClientPIC" data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-danger delClientPICSubmitBtn">Confirm</button>
+					</form>
 				</div>
 			</div>
 		</div>

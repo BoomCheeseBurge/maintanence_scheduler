@@ -72,7 +72,7 @@ class Dashboard extends Controller {
     }
 
     public function setReportStatus() {
-        if( $this->model('Maintenance_model')->setReportValue($_POST['id']) > 0 ) {
+        if( $this->model('Maintenance_model')->setReportValue($_POST) > 0 ) {
 
 			echo json_encode(['result' => '1']);
 			exit;

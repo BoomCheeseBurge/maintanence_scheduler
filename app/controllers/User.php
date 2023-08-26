@@ -118,7 +118,7 @@ class User extends Controller{
 		echo json_encode(['result' => $result]);
 	}
 
-	public function delBulkMaintenance() {
+	public function delBulkUser() {
 
 		$result = $this->model('User_model')->delBulkUserData($_POST['ids']);
 		

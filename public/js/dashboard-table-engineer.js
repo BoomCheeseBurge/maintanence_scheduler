@@ -33,7 +33,7 @@ function setForm() {
 
 		$('#formModalLabel').html('Scheduled Maintenance Date');
 
-		$('#modalForm').attr('id', 'setScheduleDateForm');
+		$('.maintenanceForm').attr('id', 'setScheduleDateForm');
 	});
 
 	// Delegate the form submission handler to the document
@@ -56,7 +56,7 @@ function setForm() {
 				if (response['result'] == '1') {
 					$('#formModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Scheduled date successfully set',
 						showConfirmButton: false,
@@ -97,7 +97,7 @@ function setForm() {
 
 		$('#formModalLabel').html('Actual Maintenance Date');
 
-		$('#modalForm').attr('id', 'setActualDateForm');
+		$('.maintenanceForm').attr('id', 'setActualDateForm');
 	});
 
 	$(document).on('submit', '#setActualDateForm', function(event) {
@@ -119,7 +119,7 @@ function setForm() {
 				if (response['result'] == '1') {
 					$('#formModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Actual date successfully set',
 						showConfirmButton: false,
@@ -166,10 +166,11 @@ function setButton() {
 			data: {
 			  id: maintenanceId
 			},
+			dataType: 'json',
 			success: function(response) {
 				if (response['result'] == '1') {
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Report successfully completed',
 						showConfirmButton: false,
@@ -228,7 +229,7 @@ function engineerDashboardFormatter(value, row, index) {
 	// Check if the report is delivered
 	} else if (row.report_status !== 'delivered') {
 		return [
-			'<button class="btn btn-primary deliveredReport" data-id="' + row.id + '" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Report Delivered">',
+			'<button class="btn btn-primary deliveredReport" data-id="' + row.id + '" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Complete Report">',
 			'<i class="fa-solid fa-square-check"></i>',
 			'</button>'
 		].join('')
@@ -291,10 +292,13 @@ function initEngineerDashboardTable() {
 			sortable: true
 		}, {
 			title: 'Report Status',
-			field: 'report_status',
+			field: 'report',
 			align: 'center',
 			valign: 'middle',
-			sortable: true
+			sortable: true,
+			formatter: function (value, row) {
+				return [row.report_status, row.report_date].join('<br>')
+			}
 		}, {
 			title: 'Action',
 			field: 'action',

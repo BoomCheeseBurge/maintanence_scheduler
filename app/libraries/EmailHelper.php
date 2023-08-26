@@ -19,9 +19,9 @@ class EmailHelper {
         $mail->isSMTP();
         $mail->SMTPAuth = true;
         $mail->Username = "johndoe240600@gmail.com";
-        $mail->Password = "xcevzjcrtiitptwe";
+        $mail->Password = "ablgfvmmqqywuktd";
         $mail->SMTPSecure = "ssl"; //TLS
-        $mail->Port = 465; //587
+        $mail->Port = 465; // OR 587
         try {
             // Send the email
             $mail->setFrom($email_from, $company_name);

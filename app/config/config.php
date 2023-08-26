@@ -3,10 +3,10 @@
 define('BASEURL', 'http://localhost/taskscheduler/public');
 
 // Database Configuration
-define('DB_HOST', 'localhost:3306');
-define('DB_USER', 'test');
-define('DB_PASS', 'test');
-define('DB_NAME', 'taskscheduler');
+define('DB_HOST', 'localhost');
+define('DB_USER', 'test2');
+define('DB_PASS', 'test2');
+define('DB_NAME', 'taskschedulerdb');
 
 // salt and pepper hashing
 define('PEPPER', '9ZkW2m)Ayc_P_fk4sqCl');

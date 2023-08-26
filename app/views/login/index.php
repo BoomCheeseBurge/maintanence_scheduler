@@ -3,7 +3,7 @@
         <form id="loginForm" action="<?= BASEURL; ?>/login/validate" method="POST"> 
             <div> <?php Auth_Flasher::flash(); ?> </div>
             
-            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+            <h3 class="mb-3 fw-normal">Sign In</h3>
             <div class="form-floating">
                 <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com" required>
                 <label for="floatingInput">Email address</label>

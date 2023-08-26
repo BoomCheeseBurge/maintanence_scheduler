@@ -17,18 +17,6 @@ function initializeTooltips() {
 
 function setForm() {
 
-	// Event listener for the show.bs.modal event on the scheduledDateModal
-	$('#delClientPICModal').on('show.bs.modal', function(event) {
-		// Get the button that triggered the modal
-		var button = $(event.relatedTarget);
-		
-		// Extract the data-id attribute value from the button
-		var picId = button.data('id');
-
-		// Set the value of the input field in the modal form
-		$('#picId').val(picId);
-	});
-
 	// ==========================================================================================================
 	// Add Client Event Handler starts here
 
@@ -58,7 +46,7 @@ function setForm() {
 				if (response['result'] == '1') {
 					$('#addClientModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Client successfully added',
 						showConfirmButton: false,
@@ -118,7 +106,7 @@ function setForm() {
 				if (response['result'] == '1') {
 					$('#editClientModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Client successfully updated',
 						showConfirmButton: false,
@@ -178,12 +166,13 @@ function setForm() {
 				if (response['result'] == '1') {
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Client successfully deleted',
 						showConfirmButton: false,
 						timer: 2000
 					});
+					$('#client-table').bootstrapTable('refresh');
 				} else if (response['result'] == '0') {
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
@@ -196,7 +185,15 @@ function setForm() {
 					Swal.fire({
 						position: 'center',
 						icon: 'warning',
-						title: 'Deletion denied. Please ensure the deleted record is not related elsewhere',
+						title: 'Deletion denied. Please ensure the deleted record is unrelated to the contract or maintenance table',
+						showConfirmButton: true
+					});
+					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
+				} else if (response['result'] == 'clientNotFound') {
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client not found. Please try again',
 						showConfirmButton: true
 					});
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
@@ -239,7 +236,7 @@ function setForm() {
 			dataType: 'json',
 			success: function(data) {
 				$('#id').val(data.id);
-				$('#client_name').val(data.client_name);
+				$('#editClientName').val(data.client_name);
 				$('#pic_name').val(data.pic_name);
 				$('#pic_email').val(data.email);
 			}
@@ -265,7 +262,7 @@ function setForm() {
 				if (response['result'] == '1') {
 					$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Client PIC successfully updated',
 						showConfirmButton: false,
@@ -306,8 +303,9 @@ function setForm() {
 					$('.editClientPICSubmitBtn').html('Save');
 				}
 			},
-			error: function() {
+			error: function(xhr, status, error) {
 				// Request failed, handle error here
+				console.log(error);
 				alert("Error saving changes");
 				$('.editClientPICSubmitBtn').html('Save');
 			}
@@ -316,6 +314,21 @@ function setForm() {
 
 	// ==========================================================================================================
 	// Delete Client PIC Event Handler starts here
+
+	// Event listener for the show.bs.modal event on the scheduledDateModal
+	$('#delClientPICModal').on('show.bs.modal', function(event) {
+		// Get the button that triggered the modal
+		var button = $(event.relatedTarget);
+		
+		// Extract the data-id attribute value from the button
+		var picId = button.data('pic_id');
+		var clientId = button.data('client_id');
+
+		// Set the value of the input field in the modal form
+		$('#picId').val(picId);
+		$('#clientId').val(clientId);
+		console.log(picId, clientId);
+	});
 
 	$(document).on('click', '.cancelDelClientPIC', function() {
 
@@ -338,10 +351,12 @@ function setForm() {
 			dataType: 'json',
 			success: function(response) {
 
+				console.log(response['result']);
+
 				if (response['result'] == '1') {
 					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Client PIC successfully deleted',
 						showConfirmButton: false,
@@ -349,13 +364,13 @@ function setForm() {
 					});
 					$('#client-table').bootstrapTable('refresh');
 				} else if (response['result'] == '0') {
-					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
 						position: 'center',
 						icon: 'warning',
 						title: 'Client PIC failed to be deleted',
 						showConfirmButton: true
 					});
+					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 				} else if (response['result'] == '2') {
 					Swal.fire({
 						position: 'center',
@@ -374,7 +389,8 @@ function setForm() {
 					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 				}
 			},
-			error: function() {
+			error: function(xhr, status, error) {
+				console.log(error);
 				// Request failed, handle error here
 				alert("Error deleting existing client PIC");
 			}
@@ -385,12 +401,12 @@ function setForm() {
 
 function clientFormatter(value, row, index) {
     return [
-		'<span class="ms-2 editClientPICBtn" data-bs-toggle="modal" data-bs-target="#editClientPICModal" data-id="' + row.id + '">',
+		'<span class="ms-2 editClientPICBtn" data-bs-toggle="modal" data-bs-target="#editClientPICModal" data-id="' + row.pic_id + '">',
 		'<button class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">',
 		'<i class="fa-solid fa-pen-to-square"></i>',
 		'</button>',
 		'</span>',
-		'<span class="ms-2 delClientBtn" data-bs-toggle="modal" data-bs-target="#delClientPICModal" data-id="' + row.id + '">',
+		'<span class="ms-2 delClientBtn" data-bs-toggle="modal" data-bs-target="#delClientPICModal" data-pic_id="' + row.pic_id + '" data-client_id="' + row.client_id + '">',
 		'<button class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">',
 		'<i class="fa-solid fa-trash-can"></i>',
 		'</button>',
@@ -477,7 +493,7 @@ function initClientTable() {
 				if (response['result'] == ids.length) {
 					$('#delBulkClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
-						position: 'top-end',
+						position: 'center',
 						icon: 'success',
 						title: 'Client PICs successfully deleted',
 						showConfirmButton: false,

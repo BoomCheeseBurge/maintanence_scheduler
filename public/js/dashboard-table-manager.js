@@ -61,10 +61,13 @@ function initDashboardTable() {
 			sortable: true
 		}, {
 			title: 'Report Status',
-			field: 'reportStatus',
+			field: 'report',
 			align: 'center',
 			valign: 'middle',
-			sortable: true
+			sortable: true,
+			formatter: function (value, row) {
+				return [row.reportStatus, row.reportDate].join('<br>')
+			}
 		}]
 	})
 }

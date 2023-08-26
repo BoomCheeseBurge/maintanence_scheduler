@@ -11,11 +11,11 @@ class User_model {
 	}
 
 	public function isAdminUserExists() {
-		$query = 'SELECT COUNT(*) AS count
-		FROM '. $this->table .'
-		WHERE role = "admin"';
 
-		$this->db->query($query);
+		// Check if the table exists
+		$checkTableQuery = 'SHOW TABLES LIKE :tableName';
+		$this->db->query($checkTableQuery);
+		$this->db->bind(':tableName', $this->table);
 		$this->db->execute();
 
 		return $this->db->rowCount();

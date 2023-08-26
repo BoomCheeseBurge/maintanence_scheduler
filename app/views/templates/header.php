@@ -244,6 +244,7 @@
                   	<a class="navbar-brand ms-2 navbar-title" href="<?= BASEURL; ?>">Task-Scheduler</a>
                 </div>
                 <div class="d-flex justify-content-end">
+					<?php if ( $_SESSION['role'] != 'engineer' ): ?>
 					<!-- Bell Icon for Notifications -->
 					<button type="button" id="notificationBell" class="position-relative notification-btn">
 						<i class="fa-solid fa-bell fa-2xl notification-bell"></i>
@@ -261,6 +262,7 @@
 							</div>
 						</div>
 					</div>
+					<?php endif; ?>
 
                     <div class="btn-group dropstart">
                         <button type="button" class="btn userColor dropdown-toggle userBtn" data-bs-toggle="dropdown" aria-expanded="false">
