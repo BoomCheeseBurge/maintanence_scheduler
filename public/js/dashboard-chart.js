@@ -378,7 +378,8 @@ function initializeYearlyViewChart(year) {
           series: [{
             name: 'Late Report Count',
             type: 'bar',
-            data: processedData.lateCounts
+            data: processedData.lateCounts,
+			barWidth: '40%'
           }]
         };
 
@@ -431,7 +432,8 @@ function initializeMonthlyViewChart(month,year) {
           series: [{
             name: 'Late Report Count',
             type: 'bar',
-            data: processedData.lateCounts
+            data: processedData.lateCounts,
+			barWidth: '40%'
           }]
         };
 

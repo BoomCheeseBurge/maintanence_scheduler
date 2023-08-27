@@ -266,7 +266,7 @@
 
                     <div class="btn-group dropstart">
                         <button type="button" class="btn userColor dropdown-toggle userBtn" data-bs-toggle="dropdown" aria-expanded="false">
-                          <img id="userPhoto" src="<?= BASEURL ?>/img/users/<?= $_SESSION['photo'] ?>" alt="User Photo" class="user-photo ms-auto">
+                          <img id="userPhoto" src="<?= BASEURL ?>/img/users/<?= $_SESSION['photo'] ?>" alt="" class="user-photo ms-auto">
                           <div class="username-container user-name ms-1 mt-2">
                             <h6 id="username"><?= $_SESSION['name'] ?></h6>
                           </div>

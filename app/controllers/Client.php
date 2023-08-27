@@ -13,7 +13,7 @@ class Client extends Controller {
 
 	public function client_admin() {
 
-		$data['title'] = 'Task-Scheduler | Client';
+		$data['title'] = 'Client';
 		$data['identifier'] = 'client_admin';
 		$data['activePage'] = 'client';
 
@@ -24,7 +24,7 @@ class Client extends Controller {
 
 	public function client_manager() {
 
-		$data['title'] = 'Task-Scheduler | Client';
+		$data['title'] = 'Client';
 		$data['identifier'] = 'client_manager';
 		$data['activePage'] = 'client';
 

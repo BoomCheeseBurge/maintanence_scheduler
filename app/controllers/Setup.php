@@ -9,7 +9,7 @@ class Setup extends Controller
             header('Location: ' . BASEURL . '/login');
             exit;
         } else {
-            $data['title'] = 'Taskscheduler | Setup';
+            $data['title'] = 'Setup';
             $data['activePage'] = 'setup';
     
             $this->view('templates/setup_header', $data);

@@ -15,7 +15,7 @@ class Dashboard extends Controller {
 
 	public function dashboard_admin() {
 
-		$data['title'] = 'Task-Scheduler | Dashboard';
+		$data['title'] = 'Dashboard';
 		$data['identifier'] = 'dashboard_admin';
 		$data['activePage'] = 'dashboard';
 
@@ -26,7 +26,7 @@ class Dashboard extends Controller {
 
 	public function dashboard_manager() {
 
-		$data['title'] = 'Task-Scheduler | Dashboard';
+		$data['title'] = 'Dashboard';
 		$data['identifier'] = 'dashboard_manager';
 		$data['activePage'] = 'dashboard';
 
@@ -37,7 +37,7 @@ class Dashboard extends Controller {
 
 	public function dashboard_engineer() {
 
-		$data['title'] = 'Task-Scheduler | Dashboard';
+		$data['title'] = 'Dashboard';
 		$data['identifier'] = 'dashboard_engineer';
 		$data['activePage'] = 'dashboard';
 

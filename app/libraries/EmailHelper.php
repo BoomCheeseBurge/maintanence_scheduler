@@ -13,13 +13,13 @@ class EmailHelper {
     public static function sendEmail($to, $subject, $body) {
         $mail = new PHPMailer(true);
         // Configure PHPMailer (e.g., SMTP settings, sender info)
-        $company_name = "PT. ITPro Citra Indonesia";
-        $email_from = "johndoe240600@gmail.com";
-        $mail->Host = "smtp.gmail.com";
+        $company_name = "";
+        $email_from = "";
+        $mail->Host = "";
         $mail->isSMTP();
         $mail->SMTPAuth = true;
-        $mail->Username = "johndoe240600@gmail.com";
-        $mail->Password = "ablgfvmmqqywuktd";
+        $mail->Username = "";
+        $mail->Password = "";
         $mail->SMTPSecure = "ssl"; //TLS
         $mail->Port = 465; // OR 587
         try {

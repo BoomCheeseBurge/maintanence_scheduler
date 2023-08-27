@@ -185,7 +185,7 @@ function setForm() {
 					Swal.fire({
 						position: 'center',
 						icon: 'warning',
-						title: 'Deletion denied. Please ensure the deleted record is unrelated to the contract or maintenance table',
+						title: 'Deletion denied. Please ensure the deleted record is unrelated to any contract or maintenance',
 						showConfirmButton: true
 					});
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
@@ -375,7 +375,7 @@ function setForm() {
 					Swal.fire({
 						position: 'center',
 						icon: 'warning',
-						title: 'Deletion denied. Please ensure the deleted record is not related elsewhere',
+						title: 'Deletion denied. Please ensure the deleted record is not related to a client',
 						showConfirmButton: true
 					});
 					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');
@@ -514,7 +514,7 @@ function initClientTable() {
 					Swal.fire({
 						position: 'center',
 						icon: 'warning',
-						title: 'Deletion denied. Please ensure the deleted records are not related elsewhere',
+						title: 'Deletion denied. Please ensure the deleted records are not related to a client',
 						showConfirmButton: true
 					});
 					$remove.prop('disabled', true);

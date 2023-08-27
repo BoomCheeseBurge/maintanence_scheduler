@@ -15,7 +15,7 @@ class User extends Controller{
 
 	public function user_admin() {
 
-        $data['title'] = 'Task-Scheduler | User';
+        $data['title'] = 'User';
         $data['identifier'] = 'user_admin';
 		$data['activePage'] = 'user';
 
@@ -26,7 +26,7 @@ class User extends Controller{
 
 	public function user_manager() {
 
-        $data['title'] = 'Task-Scheduler | User';
+        $data['title'] = 'User';
         $data['identifier'] = 'user_manager';
 		$data['activePage'] = 'user';
 

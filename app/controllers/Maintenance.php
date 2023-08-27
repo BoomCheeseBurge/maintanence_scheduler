@@ -13,7 +13,7 @@ class Maintenance extends Controller {
 
     public function history_admin() {
 
-        $data['title'] = 'Task-Scheduler | MaintenanceSchedule';
+        $data['title'] = 'Maintenance Schedule';
         $data['identifier'] = 'history';
         $data['activePage'] = 'history';
 
@@ -24,7 +24,7 @@ class Maintenance extends Controller {
 
     public function history_manager() {
 
-        $data['title'] = 'Task-Scheduler | MaintenanceSchedule';
+        $data['title'] = 'Maintenance Schedule';
         $data['identifier'] = 'history';
         $data['activePage'] = 'history';
 

@@ -313,7 +313,7 @@ function setForm() {
                 Swal.fire({
                     position: 'center',
                     icon: 'warning',
-                    title: 'Deletion denied. Please ensure that the user to be deleted is not related to any contract.',
+                    title: 'Deletion denied. Please ensure that the user to be deleted is not related to any contract',
                     showConfirmButton: true
                 });     
             } else {
@@ -321,7 +321,7 @@ function setForm() {
                 Swal.fire({
                     position: 'center',
                     icon: 'warning',
-                    title: 'Delete Failed. Error Code: ' + response['result'] + '. Contact your administrator.',
+                    title: 'Delete Failed. Error Code: ' + response['result'] + '. Contact your administrator',
                     showConfirmButton: true
                 });  
             }
@@ -331,7 +331,7 @@ function setForm() {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'Error deleting changes. Contact your administrator.',
+                title: 'Error deleting changes. Contact your administrator',
                 showConfirmButton: true
             });
           }
@@ -450,7 +450,7 @@ function initUserTable() {
                     Swal.fire({
                         position: 'center',
                         icon: 'warning',
-                        title: 'Deletion denied. Please ensure that the users to be deleted are not related to any contract.',
+                        title: 'Deletion denied. Please ensure that the users to be deleted are not related to any contract',
                         showConfirmButton: true
                     });
 					$('#delBulkUserModal [data-bs-dismiss="modal"]').trigger('click');

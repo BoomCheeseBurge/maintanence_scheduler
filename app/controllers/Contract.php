@@ -13,7 +13,7 @@ class Contract extends Controller {
 
 	public function contract_admin() {
 
-		$data['title'] = 'Task-Scheduler | Contract';
+		$data['title'] = 'Contract';
 		$data['identifier'] = 'contract_admin';
 		$data['activePage'] = 'contract';
 
@@ -24,7 +24,7 @@ class Contract extends Controller {
 
 	public function contract_manager() {
 
-		$data['title'] = 'Task-Scheduler | Contract';
+		$data['title'] = 'Contract';
 		$data['identifier'] = 'contract_manager';
 		$data['activePage'] = 'contract';
 
