@@ -11,12 +11,6 @@ const progressText2 = $('.step .step-desc');
 const progressCheck = $('.step .check-icon');
 const bullet = $('.step .bullet');
 
-let max = 4;
-let current = 1;
-
-let dbUser;
-let dbPass;
-
 // Button event handlers to go proceed to the next steps
 
 // Setup the database configuration
@@ -133,9 +127,6 @@ $(document).on('submit', '#adminSetupForm', function(event) {
     // Get the form data
     const formData = new FormData(document.getElementById('adminSetupForm'));
 
-    formData.append('dbUser', dbUser);
-    formData.append('dbPass', dbPass);
-
     $.ajax({
         url: BASEURL + '/Setup/setAdmin',
         type: 'POST',
@@ -155,9 +146,7 @@ $(document).on('submit', '#adminSetupForm', function(event) {
                 progressText2.eq(current - 1).addClass('active');
                 progressCheck.eq(current - 1).addClass('active');
                 current += 1;
-            } else if(response['result'] == '2') {
-                alert("Support data failed to be written. Please try again.");
-            } else if(response['result'] == '3') {
+            }  else if(response['result'] == '2') {
                 alert("Admin entry failed. Please try again.");
             }else {
                 alert("Something went wrong with the request. Please try again.");

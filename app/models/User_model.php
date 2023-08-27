@@ -25,8 +25,8 @@ class User_model {
 
 		$hash = password_hash($uPass.PEPPER, PASSWORD_DEFAULT);
 
-		$query = "INSERT INTO " . $this->table . " (id, full_name, password, role, email) VALUES
-					('', :name, :password, 'admin', :email)";
+		$query = "INSERT INTO " . $this->table . " (full_name, password, role, email) VALUES
+					(:name, :password, 'admin', :email)";
 
 		$this->db->query($query);
 		$this->db->bind('name', $uName);

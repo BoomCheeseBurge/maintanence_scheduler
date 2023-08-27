@@ -92,39 +92,16 @@ class Setup extends Controller
             $uName = $_POST['uName'];
             $uEmail = $_POST['uEmail'];
             $uPass = $_POST['uPass'];
-            $dbUser = $_POST['dbUser'];
-            $dbPass = $_POST['dbPass'];
 
-            $configFile = __DIR__ . '/../config/config.php';
-            $configContent = file_get_contents($configFile);
-
-            $configContent = preg_replace(
-                "/define\('DB_USER', '(.*)'\);/",
-                "define('DB_USER', '$dbUser');",
-                $configContent
-            );
-        
-            $configContent = preg_replace(
-                "/define\('DB_PASS', '(.*)'\);/",
-                "define('DB_PASS', '$dbPass');",
-                $configContent
-            );
-
-            if( file_put_contents($configFile, $configContent) ) {
-            
-                if ( $this->model('User_model')->addAdmin($uName, $uEmail, $uPass) > 0 ) {
-                    echo json_encode(['result' => '1']);
-                    exit;
-                } else {
-                    echo json_encode(['result' => '2']);
-                    exit;
-                }
+            if ( $this->model('User_model')->addAdmin($uName, $uEmail, $uPass) > 0 ) {
+                echo json_encode(['result' => '1']);
+                exit;
             } else {
-                echo json_encode(['result' => '3']);
+                echo json_encode(['result' => '2']);
                 exit;
             }
         } else {
-            echo json_encode(['result' => '4']);
+            echo json_encode(['result' => '3']);
             exit;
         }
     }

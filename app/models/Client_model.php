@@ -33,7 +33,7 @@ class Client_model {
 			$clientId = $result['id'];
 
 		} else {
-			$query1 = 'INSERT INTO '. $this->table1 .' (id, name) VALUES ("", :client_name)';
+			$query1 = 'INSERT INTO '. $this->table1 .' (name) VALUES (:client_name)';
 			$this->db->query($query1);
 			$this->db->bind('client_name', $data['clientName']);
 			$this->db->execute();
@@ -70,7 +70,7 @@ class Client_model {
 					$this->db->bind('pic_email', $picEmails[$i]);
 					$this->db->execute();
 				} else {
-					$query2 = 'INSERT INTO '. $this->table2 .' (id, client_id, name, email) VALUES ("", :client_id, :pic_name, :pic_email)';
+					$query2 = 'INSERT INTO '. $this->table2 .' (client_id, name, email) VALUES (:client_id, :pic_name, :pic_email)';
 					$this->db->query($query2);
 					$this->db->bind('client_id', $clientId);
 					$this->db->bind('pic_name', $picNames[$i]);

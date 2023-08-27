@@ -107,8 +107,8 @@ class Contract_model {
 
     public function addContractData($data) {
 
-		$query = 'INSERT INTO '. $this->table1 .' (id, client_id, engineer_id, sop_number, start_date, end_date, device, pm_frequency)
-		VALUES ("", :client_id, :assignee_id, :sopNumber, :startDate, :endDate, :deviceName, :pmFreq)';
+		$query = 'INSERT INTO '. $this->table1 .' (client_id, engineer_id, sop_number, start_date, end_date, device, pm_frequency)
+		VALUES (:client_id, :assignee_id, :sopNumber, :startDate, :endDate, :deviceName, :pmFreq)';
 
 		$this->db->query($query);
 		$this->db->bind(':client_id', $data['client_id']);

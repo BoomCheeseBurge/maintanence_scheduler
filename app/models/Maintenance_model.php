@@ -148,8 +148,8 @@ class Maintenance_model {
 
 	public function addMaintenanceData($data) {
 
-		$query = 'INSERT INTO '. $this->table1 .' (id, client_id, engineer_id, contract_id, pm_count, month)
-		VALUES ("", :client_id, :assignee_id, :contract_id, :pm_count, :month)';
+		$query = 'INSERT INTO '. $this->table1 .' (client_id, engineer_id, contract_id, pm_count, month)
+		VALUES (:client_id, :assignee_id, :contract_id, :pm_count, :month)';
 
 		$this->db->query($query);
 		$this->db->bind(':client_id', $data['client_id']);
