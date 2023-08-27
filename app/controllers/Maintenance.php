@@ -8,7 +8,9 @@ class Maintenance extends Controller {
 			$this->history_admin();
 		} elseif ( $_SESSION['role'] == 'manager' ) {
 			$this->history_manager();
-		}
+		} else {
+            $this->dashboard_engineer();
+        }
 	}
 
     public function history_admin() {
@@ -32,6 +34,17 @@ class Maintenance extends Controller {
 		$this->view('maintenance/index');
 		$this->view('templates/footer', $data);
     }
+
+	public function dashboard_engineer() {
+
+		$data['title'] = 'Dashboard';
+		$data['identifier'] = 'dashboard_engineer';
+		$data['activePage'] = 'dashboard';
+
+		$this->view('templates/header', $data);
+		$this->view('dashboard/dashboard_engineer');
+		$this->view('templates/footer', $data);
+	}
 
     // For Admin Bootstrap Table
     public function getScheduleList() {

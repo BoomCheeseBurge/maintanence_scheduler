@@ -10,6 +10,8 @@ class User extends Controller{
 			$this->user_admin();
 		} elseif ( $_SESSION['role'] == 'manager' ) {
 			$this->user_manager();
+		} else {
+			$this->dashboard_engineer();
 		}
 	}
 
@@ -34,6 +36,17 @@ class User extends Controller{
 		$this->view('user/user_manager');
 		$this->view('templates/footer', $data);
     }
+
+	public function dashboard_engineer() {
+
+		$data['title'] = 'Dashboard';
+		$data['identifier'] = 'dashboard_engineer';
+		$data['activePage'] = 'dashboard';
+
+		$this->view('templates/header', $data);
+		$this->view('dashboard/dashboard_engineer');
+		$this->view('templates/footer', $data);
+	}
 
 	public function getAllUser(){
 		$this->model('User_model')->getAllUser();

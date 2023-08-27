@@ -8,6 +8,8 @@ class Contract extends Controller {
 			$this->contract_admin();
 		} elseif ( $_SESSION['role'] == 'manager' ) {
 			$this->contract_manager();
+		} else {
+			$this->dashboard_engineer();
 		}
 	}
 
@@ -30,6 +32,17 @@ class Contract extends Controller {
 
 		$this->view('templates/header', $data);
 		$this->view('contract/contract_manager');
+		$this->view('templates/footer', $data);
+	}
+
+	public function dashboard_engineer() {
+
+		$data['title'] = 'Dashboard';
+		$data['identifier'] = 'dashboard_engineer';
+		$data['activePage'] = 'dashboard';
+
+		$this->view('templates/header', $data);
+		$this->view('dashboard/dashboard_engineer');
 		$this->view('templates/footer', $data);
 	}
 
