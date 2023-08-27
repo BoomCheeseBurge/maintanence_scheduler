@@ -20,42 +20,23 @@ let dbPass;
 // Button event handlers to go proceed to the next steps
 
 // Setup the database configuration
-$(document).on('submit', '#dbConfigForm', function(event) {
-    event.preventDefault();
-
-    // slidePage.css('marginLeft', '-25%');
-
-    // bullet.eq(current - 1).addClass('active');
-    // progressText1.eq(current - 1).addClass('active');
-    // progressText2.eq(current - 1).addClass('active');
-    // progressCheck.eq(current - 1).addClass('active');
-    // current += 1;
-    
-    // Get the form data
-    const formData = new FormData(document.getElementById('dbConfigForm'));
-
-    dbUser = formData.get('dbUser');
-    dbPass = formData.get('dbPass');
+$(document).on('click', '.test-btn', function() {
     
     $.ajax({
-        url: BASEURL + '/setup/setConfig',
+        url: BASEURL + '/Setup/setConfig',
         type: 'POST',
-        data: formData,
         contentType: false,
         processData: false,
         dataType: 'json',
         success: function(response) {
 
-            console.log(response);
+            // console.log(response);
 
             if (response['result'] == '1') {
-                slidePage.css('marginLeft', '-25%');
 
-                bullet.eq(current - 1).addClass('active');
-                progressText1.eq(current - 1).addClass('active');
-                progressText2.eq(current - 1).addClass('active');
-                progressCheck.eq(current - 1).addClass('active');
-                current += 1;
+                $('.test-text').css('border-color', 'white');
+                $('.test-text').css('color', 'white');
+                $('.test-text').html('SUCCESSFUL CONNECTION');
             } else if (response['result'] == '2') {
                 alert("Configuration set failed. Please try again.");
             }else {
@@ -68,6 +49,16 @@ $(document).on('submit', '#dbConfigForm', function(event) {
             console.error(error);
         }
     });
+});
+
+$(document).on('click', '.next-1', function() {
+    slidePage.css('marginLeft', '-25%');
+
+    bullet.eq(current - 1).addClass('active');
+    progressText1.eq(current - 1).addClass('active');
+    progressText2.eq(current - 1).addClass('active');
+    progressCheck.eq(current - 1).addClass('active');
+    current += 1;
 });
 
 // Setup the necessary tables in the database
@@ -88,7 +79,7 @@ $(document).on('submit', '#dbTableSetupForm', function(event) {
     $("#loading-bar").show();
     
     $.ajax({
-        url: BASEURL + '/setup/setDatabase',
+        url: BASEURL + '/Setup/setDatabase',
         type: 'POST',
         data: formData,
         contentType: false,
@@ -96,7 +87,7 @@ $(document).on('submit', '#dbTableSetupForm', function(event) {
         dataType: 'json',
         success: function(response) {
 
-            console.log(response);
+            // console.log(response);
 
             if (response['result'] == '1') {
                 $("#loading-bar").hide();
@@ -146,7 +137,7 @@ $(document).on('submit', '#adminSetupForm', function(event) {
     formData.append('dbPass', dbPass);
 
     $.ajax({
-        url: BASEURL + '/setup/setAdmin',
+        url: BASEURL + '/Setup/setAdmin',
         type: 'POST',
         data: formData,
         contentType: false,
@@ -154,7 +145,7 @@ $(document).on('submit', '#adminSetupForm', function(event) {
         dataType: 'json',
         success: function(response) {
 
-            console.log(response);
+            // console.log(response);
 
             if (response['result'] == '1') {
                 slidePage.css('marginLeft', '-75%');
@@ -198,7 +189,7 @@ $(document).on('submit', '#emailConfigForm', function(event) {
     console.log($('#port').val());
     
     $.ajax({
-        url: BASEURL + '/setup/configEmail',
+        url: BASEURL + '/Setup/configEmail',
         type: 'POST',
         data: formData,
         contentType: false,
@@ -206,7 +197,7 @@ $(document).on('submit', '#emailConfigForm', function(event) {
         dataType: 'json',
         success: function(response) {
 
-            console.log(response);
+            // console.log(response);
 
             if (response['result'] == '1') {
                 slidePage.css('marginLeft', '-100%');

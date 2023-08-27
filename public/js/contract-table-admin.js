@@ -448,7 +448,7 @@ function filterTable() {
 
 			function updateTable() {
 				$.ajax({
-					url: BASEURL + '/contract/filterTable',
+					url: BASEURL + '/Contract/filterTable',
 					type: 'POST',
 					dataType: 'json',
 					data: {
@@ -605,7 +605,7 @@ function setForm() {
 		$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Adding contract...</span>');
 		
 		$.ajax({
-			url: BASEURL + '/contract/addContract',
+			url: BASEURL + '/Contract/addContract',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -677,7 +677,7 @@ function setForm() {
 		
 		$.ajax({
 
-			url: BASEURL + '/contract/getEditContractData',
+			url: BASEURL + '/Contract/getEditContractData',
 			data: {id : id},
 			method: 'POST',
 			dataType: 'json',
@@ -706,7 +706,7 @@ function setForm() {
 		$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Saving contract...</span>');
 
 		$.ajax({
-			url: BASEURL + '/contract/editContract',
+			url: BASEURL + '/Contract/editContract',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -782,7 +782,7 @@ function setForm() {
 		$('.delContractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting contract...</span>');
 
 		$.ajax({
-			url: BASEURL + '/contract/delContract',
+			url: BASEURL + '/Contract/delContract',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -842,7 +842,7 @@ function setForm() {
 
 		$.ajax({
 
-			url: BASEURL + '/contract/getSingleContractData',
+			url: BASEURL + '/Contract/getSingleContractData',
 			data: {id : id},
 			method: 'POST',
 			dataType: 'json',
@@ -976,7 +976,7 @@ function initContractTable() {
 	
 		// Send an AJAX request to the server to delete the selected rows
 		$.ajax({
-			url: BASEURL + '/contract/delBulkContract',
+			url: BASEURL + '/Contract/delBulkContract',
 			type: 'POST',
 			data: { ids: ids },
 			dataType: 'json',

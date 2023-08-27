@@ -25,7 +25,7 @@ $(function() {
         $('.resetPassword').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Sending email...</span>');
 
         $.ajax({
-            url: BASEURL + '/forgottenpassword/validateEmail',
+            url: BASEURL + '/ForgottenPassword/validateEmail',
             data: {email : email},
             method: 'post',
             dataType: 'json',
@@ -74,7 +74,7 @@ $(function() {
         // If the passwords match, send data to the backend using AJAX
         $.ajax({
         type: 'POST',
-        url: BASEURL + '/forgottenpassword/change_password',
+        url: BASEURL + '/ForgottenPassword/change_password',
         data: { newPassword: newPassword, token: token },
         dataType: 'json',
         success: function(response) {
@@ -173,7 +173,7 @@ $(function() {
     
         // Send the AJAX request
         $.ajax({
-          url: BASEURL + '/user/updateUserProfile',
+          url: BASEURL + '/User/updateUserProfile',
           type: 'POST',
           data: formData,
           contentType: false,
@@ -199,7 +199,7 @@ $(function() {
         event.preventDefault();
 
 		$.ajax({
-			url: BASEURL + '/user/getEmailConfig',
+			url: BASEURL + '/User/getEmailConfig',
 			method: 'POST',
             contentType: false,
             processData: false,
@@ -223,7 +223,7 @@ $(function() {
         const formData = new FormData(document.getElementById('configEmailForm'));
         
         $.ajax({
-            url: BASEURL + '/user/setEmailConfig',
+            url: BASEURL + '/User/setEmailConfig',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -326,7 +326,7 @@ $(function() {
         
         // If the form is valid, you can use the formData object to handle the form submission
         $.ajax({
-        url: BASEURL + '/user/changepassword', // Replace with the server-side script to handle form data
+        url: BASEURL + '/User/changePassword', // Replace with the server-side script to handle form data
         type: 'POST',
         data: formData,
         dataType: 'json',

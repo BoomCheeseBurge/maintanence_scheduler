@@ -350,7 +350,7 @@ function processData(data) {
 function initializeYearlyViewChart(year) {
   // Make an AJAX request to fetch the yearly view data
   $.ajax({
-    url: BASEURL + '/maintenance/getYearlyEngineerPerformance',
+    url: BASEURL + '/Maintenance/getYearlyEngineerPerformance',
     type: 'GET',
     dataType: 'json',
 	data: {year : year},
@@ -401,7 +401,7 @@ function initializeYearlyViewChart(year) {
 function initializeMonthlyViewChart(month,year) {
   // Make an AJAX request to fetch the monthly view data
   $.ajax({
-    url: BASEURL + '/maintenance/getMonthlyEngineerPerformance',
+    url: BASEURL + '/Maintenance/getMonthlyEngineerPerformance',
     type: 'GET',
     dataType: 'json',
 	data: {

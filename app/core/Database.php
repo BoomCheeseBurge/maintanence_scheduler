@@ -35,6 +35,18 @@ class Database {
 		}
 	}
 
+	public function checkConn($host, $dbname, $username, $password) {
+
+		// Check the database connection
+		try {
+			$pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			return 1;
+		} catch (PDOException $e) {
+			return 0;
+		}
+	}
+
 	// Generic purpose query
 	public function query($query) {
 

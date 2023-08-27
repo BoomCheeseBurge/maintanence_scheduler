@@ -104,7 +104,7 @@ $(document).ready(function () {
 
 	function getContracts() {
 		$.ajax({
-			url: BASEURL + '/contract/getEndingContract',
+			url: BASEURL + '/Contract/getEndingContract',
 			type: 'GET',
 			dataType: 'json',
 			success: function (contracts) {

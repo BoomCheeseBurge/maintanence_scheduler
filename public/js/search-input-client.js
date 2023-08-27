@@ -10,7 +10,7 @@ document.getElementById('searchClientName').addEventListener('input', function (
   
 	// Make an AJAX request to fetch the client names based on the search query
 	$.ajax({
-	  url: BASEURL + '/client/searchClientName',
+	  url: BASEURL + '/Client/searchClientName',
 	  type: 'GET',
 	  dataType: 'json',
 	  data: { keyword: searchQuery }, // Pass the search query as data
@@ -61,7 +61,7 @@ document.getElementById('delClientName').addEventListener('input', function () {
   
 	// Make an AJAX request to fetch the client names based on the search query
 	$.ajax({
-	  url: BASEURL + '/client/searchClientName',
+	  url: BASEURL + '/Client/searchClientName',
 	  type: 'GET',
 	  dataType: 'json',
 	  data: { keyword: searchQuery }, // Pass the search query as data
@@ -112,7 +112,7 @@ document.getElementById('editClientName').addEventListener('input', function () 
   
 	// Make an AJAX request to fetch the client names based on the search query
 	$.ajax({
-	  url: BASEURL + '/client/searchClientName',
+	  url: BASEURL + '/Client/searchClientName',
 	  type: 'GET',
 	  dataType: 'json',
 	  data: { keyword: searchQuery }, // Pass the search query as data

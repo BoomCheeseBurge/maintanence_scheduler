@@ -125,9 +125,23 @@ body {
     background: plum;
 }
 
+.test-text {
+    background-color:#d43f8d;
+    border: 2px solid rgb(107, 107, 107);
+    width: 300px;
+    height: 40px;
+    font-size: 20px;
+}
+
+.test-btn {
+    position: absolute;
+    right: 50px;
+    bottom: 5px;
+}
+
 .next-1 {
     position: absolute;
-    top: 80px;
+    top: 177px;
 }
 
 .next-2 {
@@ -255,7 +269,7 @@ body {
 .step-progress .step .check-icon {
     position: absolute;
     left: 45%;
-    top: 42%;
+    top: 38%;
     font-size: 20px;
     transform: translate(-50%, -50%);
     display: none;

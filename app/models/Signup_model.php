@@ -41,4 +41,9 @@ class Signup_model {
         return $this->db->rowCount();
     }
 
+    public function checkConn() {
+        $result = $this->db->checkConn(DB_HOST, DB_NAME, DB_USER, DB_PASS);
+
+        return $result;
+    }
 }

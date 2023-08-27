@@ -96,7 +96,7 @@ function filterTable() {
 			$('#filter').prop("disabled", true);
 
 			$.ajax({
-				url: BASEURL + '/maintenance/filterTable',
+				url: BASEURL + '/Maintenance/filterTable',
 				type: 'POST',
 				dataType: 'json',
 				data: {
@@ -190,7 +190,7 @@ function filterTable() {
 				$('#filter').prop("disabled", false);
 
 				$.ajax({
-					url: BASEURL + '/maintenance/getMaintenanceHistory',
+					url: BASEURL + '/Maintenance/getMaintenanceHistory',
 					type: 'POST',
 					dataType: 'json',
 					success: function (data) {

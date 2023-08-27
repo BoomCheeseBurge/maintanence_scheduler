@@ -98,7 +98,7 @@ function setForm() {
 
         // Send the AJAX request
         $.ajax({
-          url: BASEURL + '/user/adduser',
+          url: BASEURL + '/User/addUser',
           type: 'POST',
           data: formData,
           contentType: false,
@@ -175,7 +175,7 @@ function setForm() {
 		id = $(this).data('id');
 
 		$.ajax({
-			url:  BASEURL + '/user/getUserById',
+			url:  BASEURL + '/User/getUserById',
 			data: {id : id},
 			method: 'POST',
 			dataType: 'json',
@@ -199,7 +199,7 @@ function setForm() {
 
         // Send the AJAX request
         $.ajax({
-          url: BASEURL + '/user/saveuser',
+          url: BASEURL + '/User/saveUser',
           type: 'POST',
           data: formData,
           contentType: false,
@@ -258,7 +258,7 @@ function setForm() {
 		id = $(this).data('id');
 
 		$.ajax({
-			url:  BASEURL + '/user/getUserById',
+			url:  BASEURL + '/User/getUserById',
 			data: {id : id},
 			method: 'POST',
 			dataType: 'json',
@@ -280,7 +280,7 @@ function setForm() {
         
         // Send the AJAX request
         $.ajax({
-          url: BASEURL + '/user/delete',
+          url: BASEURL + '/User/delete',
           type: 'POST',
           data: formData,
           contentType: false,
@@ -421,7 +421,7 @@ function initUserTable() {
 
 		// Send an AJAX request to the server to delete the selected rows
 		$.ajax({
-			url: BASEURL + '/user/delBulkUser',
+			url: BASEURL + '/User/delBulkUser',
 			type: 'POST',
 			data: { ids: ids },
 			dataType: 'json',

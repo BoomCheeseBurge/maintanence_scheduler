@@ -10,7 +10,7 @@ $(document).on('input', '#filterClientName', function () {
   
 	// Make an AJAX request to fetch the client names based on the search query
 	$.ajax({
-	  url: BASEURL + '/client/searchClientName',
+	  url: BASEURL + '/Client/searchClientName',
 	  type: 'GET',
 	  dataType: 'json',
 	  data: { keyword: searchQuery }, // Pass the search query as data

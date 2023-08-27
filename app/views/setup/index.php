@@ -8,7 +8,7 @@
                     <span></span>
                 </div>
                 <i class="fa-solid fa-check check-icon"></i>
-                <p class="step-desc">Database Configuration</p>
+                <p class="step-desc">Test Database</p>
             </div>
             <div class="step">
                 <p class="step-num">Step 2</p>
@@ -47,38 +47,16 @@
             <div class="page-holder">
                 <div class="form-container">
                     <div class="page slidePage">
-                        <div class="title">Database Configuration</div>
+                        <div class="title">Test Database</div>
                         <hr>
                         <form action="" method="post" id="dbConfigForm">
                             <div class="row mt-4">
-                                <div class="col-md-6">
-                                    <div class="field input-group-1">
-                                        <label for="baseUrl">URL</label>
-                                        <input type="text" id="baseUrl" name="baseUrl" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="field input-group-1">
-                                        <label for="dbUser">DB User</label>
-                                        <input type="text" id="dbUser" name="dbUser" required>
-                                    </div>
-                                </div>
+                                <span class="field input-group-1">
+                                    <p class="test-text text-center"></p>
+                                </span>
+                                <button type="button" class="test-btn">Test</button>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="field input-group-1">
-                                        <label for="dbHost">Server Host</label>
-                                        <input type="text" id="dbHost" name="dbHost" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="field input-group-1">
-                                        <label for="dbPass">DB Pass</label>
-                                        <input type="password" id="dbPass" name="dbPass" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="next-1">Continue</button>
+                            <button type="button" class="next-1">Continue</button>
                         </form>
                     </div>
 

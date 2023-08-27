@@ -46,7 +46,7 @@ function setForm() {
 		$('.setDateSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Setting date...</span>');
 		
 		$.ajax({
-			url: BASEURL + '/dashboard/setScheduledDate',
+			url: BASEURL + '/Dashboard/setScheduledDate',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -108,7 +108,7 @@ function setForm() {
 		$('.setDateSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Setting date...</span>');
 
 		$.ajax({
-			url: BASEURL + '/dashboard/setActualDate',
+			url: BASEURL + '/Dashboard/setActualDate',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -161,7 +161,7 @@ function setButton() {
 		var maintenanceId = $(this).data('id');
 
 		$.ajax({
-			url: BASEURL + '/dashboard/setReportStatus',
+			url: BASEURL + '/Dashboard/setReportStatus',
 			method: 'POST',
 			data: {
 			  id: maintenanceId

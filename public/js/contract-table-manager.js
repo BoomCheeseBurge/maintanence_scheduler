@@ -431,7 +431,7 @@ function filterTable() {
 
 			function updateTable() {
 				$.ajax({
-					url: BASEURL + '/contract/filterTable',
+					url: BASEURL + '/Contract/filterTable',
 					type: 'POST',
 					dataType: 'json',
 					data: {

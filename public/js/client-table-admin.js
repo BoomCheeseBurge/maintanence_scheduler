@@ -35,7 +35,7 @@ function setForm() {
 		$('.addClientSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Adding client...</span>');
 
 		$.ajax({
-			url: BASEURL + '/client/addClient',
+			url: BASEURL + '/Client/addClient',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -95,7 +95,7 @@ function setForm() {
 		$('.editClientSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Saving client...</span>');
 
 		$.ajax({
-			url: BASEURL + '/client/editClient',
+			url: BASEURL + '/Client/editClient',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -155,7 +155,7 @@ function setForm() {
 		$('.delClientSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting client...</span>');
 
 		$.ajax({
-			url: BASEURL + '/client/delClient',
+			url: BASEURL + '/Client/delClient',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -230,7 +230,7 @@ function setForm() {
 
 		$.ajax({
 
-			url: BASEURL + '/client/getClientPICData',
+			url: BASEURL + '/Client/getClientPICData',
 			data: {id : id},
 			method: 'POST',
 			dataType: 'json',
@@ -251,7 +251,7 @@ function setForm() {
 		$('.editClientPICSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Saving PIC...</span>');
 
 		$.ajax({
-			url: BASEURL + '/client/editClientPIC',
+			url: BASEURL + '/Client/editClientPIC',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -343,7 +343,7 @@ function setForm() {
 		$('.delClientPICSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting PIC...</span>');
 
 		$.ajax({
-			url: BASEURL + '/client/delClientPIC',
+			url: BASEURL + '/Client/delClientPIC',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -484,7 +484,7 @@ function initClientTable() {
 		$('.bulkDeleteSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting PIC...</span>');
 	
 		$.ajax({
-			url: BASEURL + '/client/delBulkClientPIC',
+			url: BASEURL + '/Client/delBulkClientPIC',
 			type: 'POST',
 			data: { ids: ids },
 			dataType: 'json',

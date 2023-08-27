@@ -21,35 +21,11 @@ class Setup extends Controller
     // Setup the Database Configuration
     public function setConfig() {
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $url = $_POST['baseUrl'];
-            $host = $_POST['dbHost'];
-
-            // Update the configuration values
-            $configFile = __DIR__ . '/../config/config.php';
-            $configContent = file_get_contents($configFile);
-
-            $configContent = preg_replace(
-                "/define\('BASEURL', '.*\/public'\);/",
-                "define('BASEURL', '$url/public');",
-                $configContent
-            );
-
-            $configContent = preg_replace(
-                "/define\('DB_HOST', '(.*)'\);/",
-                "define('DB_HOST', '$host');",
-                $configContent
-            );
-        
-            if( file_put_contents($configFile, $configContent) ) {
-                echo json_encode(['result' => '1']);
-                exit;
-            } else {
-                echo json_encode(['result' => '2']);
-                exit;
-            }
+        if( $this->model('Signup_model')->checkConn() == 1 ) {
+            echo json_encode(['result' => '1']);
+            exit;
         } else {
-            echo json_encode(['result' => '3']);
+            echo json_encode(['result' => '2']);
             exit;
         }
     }

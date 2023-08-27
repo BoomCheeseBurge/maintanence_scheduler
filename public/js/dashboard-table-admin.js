@@ -44,7 +44,7 @@ function setForm() {
 		$('.delMaintenanceSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Deleting maintenance...</span>');
 
 		$.ajax({
-			url: BASEURL + '/maintenance/delMaintenance',
+			url: BASEURL + '/Maintenance/delMaintenance',
 			type: 'POST',
 			data: formData,
 			contentType: false,
@@ -214,7 +214,7 @@ function initDashboardTable() {
 
 		// Send an AJAX request to the server to delete the selected rows
 		$.ajax({
-			url: BASEURL + '/dashboard/delBulkMaintenance',
+			url: BASEURL + '/Dashboard/delBulkMaintenance',
 			type: 'POST',
 			data: { ids: ids },
 			dataType: 'json',
