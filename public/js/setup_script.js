@@ -11,6 +11,9 @@ const progressText2 = $('.step .step-desc');
 const progressCheck = $('.step .check-icon');
 const bullet = $('.step .bullet');
 
+let max = 4;
+let current = 1;
+
 // Button event handlers to go proceed to the next steps
 
 // Setup the database configuration
