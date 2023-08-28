@@ -90,7 +90,7 @@ class User extends Controller{
 					</ul>
 					<p>Please follow the steps below to sign in to your account:</p>
 					<ol>
-						<li>Click on the <a href="' . BASEURL . '/login">Login Task Scheduler</a></li>
+						<li>Click on the <a href="' . BASEURL . '/Login">Login Task Scheduler</a></li>
 						<li>Enter your email and the password provided.</li>
 					</ol>
 					<p>If you have any questions or encounter any issues during the sign-in process, feel free to contact our support team at <a href="mailto:' . SUPPORT_EMAIL . '">' . SUPPORT_EMAIL . '</a> or call us at ' . SUPPORT_PHONE_NUMBER . ' We\'re here to assist you every step of the way.</p>

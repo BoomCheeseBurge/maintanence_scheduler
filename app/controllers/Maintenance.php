@@ -89,26 +89,26 @@ class Maintenance extends Controller {
 
                     Flasher::setFlash('Maintenance schedule', ' successfully', ' added', 'success');
 
-                    header('Location: ' . BASEURL . '/dashboard');
+                    header('Location: ' . BASEURL . '/Dashboard');
                     exit;
                 }else {
 
                     Flasher::setFlash('Maintenance schedule', ' failed', ' to be added', 'danger');
         
-                    header('Location: ' . BASEURL . '/dashboard');
+                    header('Location: ' . BASEURL . '/Dashboard');
                     exit;
                 }
             } else {
                 Flasher::setFlash('Maintenance', ' already', ' exist', 'warning');
 	
-				header('Location: ' . BASEURL . '/contract');
+				header('Location: ' . BASEURL . '/Contract');
 				exit;
             }
         }else {
 
             Flasher::setFlash('Maintenance schedule', ' failed', ' to be added', 'danger');
 
-            header('Location: ' . BASEURL . '/dashboard');
+            header('Location: ' . BASEURL . '/Dashboard');
             exit;
         }
 	}

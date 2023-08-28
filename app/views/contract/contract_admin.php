@@ -35,7 +35,7 @@
 			data-mobile-responsive="true"
 			data-show-search-clear-button="true"
 			data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/contract/getAllContract'
+			data-url='<?= BASEURL; ?>/Contract/getAllContract'
 			data-resizable="true">
 			</table>
 		</div>
@@ -101,7 +101,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="<?= BASEURL; ?>/maintenance/createMaintenance" method="post">
+					<form action="<?= BASEURL; ?>/Maintenance/createMaintenance" method="post">
 						<input type="hidden" name="id" id="id">
 						<div class="mb-3">
 							<label for="name" class="form-label">Client Name</label>

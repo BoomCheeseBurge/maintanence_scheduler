@@ -33,7 +33,7 @@
             data-mobile-responsive="true"
 			data-show-search-clear-button="true"
             data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/maintenance/getScheduleList'
+			data-url='<?= BASEURL; ?>/Maintenance/getScheduleList'
             data-resizable="true">
 			</table>
 		</div>

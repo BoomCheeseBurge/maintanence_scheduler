@@ -1,5 +1,5 @@
     <main class="form-signin w-100 m-auto">
-        <form action="<?= BASEURL; ?>/signup/add" method="POST">
+        <form action="<?= BASEURL; ?>/Signup/add" method="POST">
             <div> <?php Flasher::flash(); ?> </div>
             
             <h1 class="h3 mb-3 fw-normal">Please fill the form</h1>

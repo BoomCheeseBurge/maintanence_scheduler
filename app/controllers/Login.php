@@ -8,7 +8,7 @@ class Login extends Controller
         $this->model('Login_model')->isCookieSet();
 
         if (isset($_SESSION["role"])) {
-            header('Location:'. BASEURL .'/dashboard');
+            header('Location:'. BASEURL .'/Dashboard');
             exit;
         }
 
@@ -21,11 +21,11 @@ class Login extends Controller
     public function validate()
     {
         if($this->model('Login_model')->validateUser($_POST) > 0) {
-            header('Location: ' . BASEURL . '/dashboard');
+            header('Location: ' . BASEURL . '/Dashboard');
             exit;
         } else {
             Auth_Flasher::setFlash('Wrong email or password', 'danger');
-            header('Location: ' . BASEURL . '/login');
+            header('Location: ' . BASEURL . '/Login');
             exit;
         }
     }

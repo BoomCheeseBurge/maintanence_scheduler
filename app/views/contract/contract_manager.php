@@ -25,7 +25,7 @@
 			data-mobile-responsive="true"
 			data-show-search-clear-button="true"
 			data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/contract/getAllContract'
+			data-url='<?= BASEURL; ?>/Contract/getAllContract'
 			data-resizable="true">
 			</table>
 		</div>

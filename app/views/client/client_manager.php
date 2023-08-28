@@ -20,7 +20,7 @@
 			data-mobile-responsive="true"
 			data-show-search-clear-button="true"
 			data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/client/getAllClient'
+			data-url='<?= BASEURL; ?>/Client/getAllClient'
 			data-resizable="true">
 			</table>
 		</div>

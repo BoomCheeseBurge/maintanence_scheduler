@@ -14,11 +14,11 @@ class Signup extends Controller
     {
         if($this->model('Signup_model')->addUser($_POST) > 0) {
             Auth_Flasher::setFlash('The user has been successfully added', 'success');
-            header('Location: ' . BASEURL . '/login');
+            header('Location: ' . BASEURL . '/Login');
             exit;
         } else {
             Auth_Flasher::setFlash('Adding a new user failed. Already existed', 'danger');
-            header('Location: ' . BASEURL . '/signup');
+            header('Location: ' . BASEURL . '/Signup');
             exit;
         }
     }

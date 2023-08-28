@@ -23,7 +23,7 @@
             data-mobile-responsive="true"
 			data-show-search-clear-button="true"
             data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/maintenance/getMaintenanceSchedule'
+			data-url='<?= BASEURL; ?>/Maintenance/getMaintenanceSchedule'
             data-resizable="true">
 			</table>
 		</div>

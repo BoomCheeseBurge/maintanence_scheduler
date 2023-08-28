@@ -30,7 +30,7 @@
             data-mobile-responsive="true"
 			data-show-search-clear-button="true"
             data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/maintenance/getMaintenanceHistory'
+			data-url='<?= BASEURL; ?>/Maintenance/getMaintenanceHistory'
             data-resizable="true">
 			</table>
         </div>

@@ -25,6 +25,6 @@ class Logout extends Controller
         // setcookie("index", "", time() - 3600);
         // setcookie("value", "", time() - 3600);
 
-        header('Location: ' . BASEURL . '/login');
+        header('Location: ' . BASEURL . '/Login');
     }
 }

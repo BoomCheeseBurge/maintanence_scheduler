@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center py-4 bg-body-tertiary">
     <main class="form-signin w-100 m-auto">
-        <form id="loginForm" action="<?= BASEURL; ?>/login/validate" method="POST"> 
+        <form id="loginForm" action="<?= BASEURL; ?>/Login/validate" method="POST"> 
             <div> <?php Auth_Flasher::flash(); ?> </div>
             
             <h3 class="mb-3 fw-normal">Sign In</h3>

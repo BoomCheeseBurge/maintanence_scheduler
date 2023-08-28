@@ -53,12 +53,12 @@
 
 				<li class="nav-link">
 					<?php if ( isset($data['activePage']) && $data['activePage'] === 'history' ): ?>
-						<a href="<?= BASEURL; ?>/maintenance" style="background-color: #695CFE;">
+						<a href="<?= BASEURL; ?>/Maintenance" style="background-color: #695CFE;">
 							<i class="fa-solid fa-list icon" style="color: #E4E9F7;"></i>
 							<span class="text nav-text" style="color: #E4E9F7;">Maintenance</span>
 						</a>
 					<?php else: ?>
-						<a href="<?= BASEURL; ?>/maintenance">
+						<a href="<?= BASEURL; ?>/Maintenance">
 							<i class="fa-solid fa-list icon"></i>
 							<span class="text nav-text">Maintenance</span>
 						</a>
@@ -67,12 +67,12 @@
 
 				<li class="nav-link">
 					<?php if ( isset($data['activePage']) && $data['activePage'] === 'contract' ): ?>
-						<a href="<?= BASEURL; ?>/contract" style="background-color: #695CFE;">
+						<a href="<?= BASEURL; ?>/Contract" style="background-color: #695CFE;">
 							<i class="fa-solid fa-file-signature icon" style="color: #E4E9F7;"></i>
 							<span class="text nav-text" style="color: #E4E9F7;">Contract</span>
 						</a>
 					<?php else: ?>
-						<a href="<?= BASEURL; ?>/contract">
+						<a href="<?= BASEURL; ?>/Contract">
 							<i class="fa-solid fa-file-signature icon"></i>
 							<span class="text nav-text">Contract</span>
 						</a>
@@ -81,12 +81,12 @@
 
 				<li class="nav-link">
 					<?php if ( isset($data['activePage']) && $data['activePage'] === 'client' ): ?>
-						<a href="<?= BASEURL; ?>/client" style="background-color: #695CFE;">
+						<a href="<?= BASEURL; ?>/Client" style="background-color: #695CFE;">
 							<i class="fa-solid fa-user-tie icon" style="color: #E4E9F7;"></i>
 							<span class="text nav-text" style="color: #E4E9F7;">Client</span>
 						</a>
 					<?php else: ?>
-						<a href="<?= BASEURL; ?>/client">
+						<a href="<?= BASEURL; ?>/Client">
 							<i class="fa-solid fa-user-tie icon"></i>
 							<span class="text nav-text">Client</span>
 						</a>
@@ -95,12 +95,12 @@
 
 				<li class="nav-link">
 					<?php if ( isset($data['activePage']) && $data['activePage'] === 'user' ): ?>
-						<a href="<?= BASEURL; ?>/user" style="background-color: #695CFE;">
+						<a href="<?= BASEURL; ?>/User" style="background-color: #695CFE;">
 							<i class="fa-solid fa-users icon" style="color: #E4E9F7;"></i>
 							<span class="text nav-text" style="color: #E4E9F7;">User</span>
 						</a>
 					<?php else: ?>
-						<a href="<?= BASEURL; ?>/user">
+						<a href="<?= BASEURL; ?>/User">
 							<i class="fa-solid fa-users icon"></i>
 							<span class="text nav-text">User</span>
 						</a>
@@ -154,12 +154,12 @@
 
 					<li class="nav-link">
 						<?php if ( isset($data['activePage']) && $data['activePage'] === 'history' ): ?>
-							<a href="<?= BASEURL; ?>/maintenance" style="background-color: #695CFE;">
+							<a href="<?= BASEURL; ?>/Maintenance" style="background-color: #695CFE;">
 								<i class="fa-solid fa-list icon" style="color: #E4E9F7;"></i>
 								<span class="text nav-text" style="color: #E4E9F7;">Maintenance</span>
 							</a>
 						<?php else: ?>
-							<a href="<?= BASEURL; ?>/maintenance">
+							<a href="<?= BASEURL; ?>/Maintenance">
 								<i class="fa-solid fa-list icon"></i>
 								<span class="text nav-text">Maintenance</span>
 							</a>
@@ -168,12 +168,12 @@
 
 					<li class="nav-link">
 						<?php if ( isset($data['activePage']) && $data['activePage'] === 'contract' ): ?>
-							<a href="<?= BASEURL; ?>/contract" style="background-color: #695CFE;">
+							<a href="<?= BASEURL; ?>/Contract" style="background-color: #695CFE;">
 								<i class="fa-solid fa-file-signature icon" style="color: #E4E9F7;"></i>
 								<span class="text nav-text" style="color: #E4E9F7;">Contract</span>
 							</a>
 						<?php else: ?>
-							<a href="<?= BASEURL; ?>/contract">
+							<a href="<?= BASEURL; ?>/Contract">
 								<i class="fa-solid fa-file-signature icon"></i>
 								<span class="text nav-text">Contract</span>
 							</a>
@@ -182,12 +182,12 @@
 
 					<li class="nav-link">
 						<?php if ( isset($data['activePage']) && $data['activePage'] === 'client' ): ?>
-							<a href="<?= BASEURL; ?>/client" style="background-color: #695CFE;">
+							<a href="<?= BASEURL; ?>/Client" style="background-color: #695CFE;">
 								<i class="fa-solid fa-user-tie icon" style="color: #E4E9F7;"></i>
 								<span class="text nav-text" style="color: #E4E9F7;">Client</span>
 							</a>
 						<?php else: ?>
-							<a href="<?= BASEURL; ?>/client">
+							<a href="<?= BASEURL; ?>/Client">
 								<i class="fa-solid fa-user-tie icon"></i>
 								<span class="text nav-text">Client</span>
 							</a>
@@ -196,12 +196,12 @@
 
 					<li class="nav-link">
 						<?php if ( isset($data['activePage']) && $data['activePage'] === 'user' ): ?>
-							<a href="<?= BASEURL; ?>/user" style="background-color: #695CFE;">
+							<a href="<?= BASEURL; ?>/User" style="background-color: #695CFE;">
 								<i class="fa-solid fa-users icon" style="color: #E4E9F7;"></i>
 								<span class="text nav-text" style="color: #E4E9F7;">User</span>
 							</a>
 						<?php else: ?>
-							<a href="<?= BASEURL; ?>/user">
+							<a href="<?= BASEURL; ?>/User">
 								<i class="fa-solid fa-users icon"></i>
 								<span class="text nav-text">User</span>
 							</a>

@@ -6,7 +6,7 @@ class Setup extends Controller
     {
         if ( $this->model('User_model')->isAdminUserExists() > 0 ) {
 
-            header('Location: ' . BASEURL . '/login');
+            header('Location: ' . BASEURL . '/Login');
             exit;
         } else {
             $data['title'] = 'Setup';
