@@ -574,6 +574,11 @@ function setForm() {
 		$('#contractId').val(contractId);
 	});
 
+	$(document).on('click', '.cancelContractForm', function() {
+
+		$(".contractForm").trigger("reset");
+	});
+
 	// ==========================================================================================================
 	// Add Contract Event Handler starts here
 

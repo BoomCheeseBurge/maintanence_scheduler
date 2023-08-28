@@ -26,6 +26,7 @@ function setForm() {
 
 	$(document).on('click', '.cancelSetDateBtn', function() {
 
+		$(".maintenanceForm").trigger("reset");
 		$('.setDateSubmitBtn').html('Set');
 	});
 

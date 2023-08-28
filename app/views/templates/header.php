@@ -333,11 +333,11 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close cancelChangePassForm" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<!-- Change Password Form -->
-					<form>
+					<form id="changePasswordForm">
 							<input type="hidden" id="userid" name="userid" value="<?=$_SESSION['id']?>">
 					<div class="mb-3">
 						<label for="currentPassword" class="form-label">Current Password</label>
@@ -354,7 +354,7 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-secondary cancelChangePassForm" data-bs-dismiss="modal">Cancel</button>
 					<button type="button" id="saveChangePasswordForm" class="btn btn-primary">Save Password</button>
 				</div>
 			</div>
@@ -367,7 +367,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="emailConfigModalLabel">Email Configuration</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close cancelConfigForm" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 				<form action="" method="post" id="configEmailForm">
@@ -381,8 +381,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Save Changes</button>
+					<button type="button" class="btn btn-secondary cancelConfigForm" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary emailConfigSubmitBtn">Save Changes</button>
 				</form>
 				</div>
 			</div>

@@ -28,10 +28,15 @@ function setForm() {
 	// ==========================================================================================================
 	// Add User Event Handler starts here
 
+    $(document).on('click', '.cancelAddUser', function() {
+
+		$("#addUser").trigger("reset");
+	});
+
 	$(document).on('click', '.newUserBtn', function() {
 
 		$('#userModalLabel').html('New User');
-		$('#addUser').attr('action', BASEURL + '/user/addUser');
+		$('#addUser').attr('action', BASEURL + '/User/addUser');
 		$('.addUserSubmitBtn').html('Add');
 	});
 
@@ -167,6 +172,12 @@ function setForm() {
 
 	// ==========================================================================================================
 	// Edit User Event Handler starts here
+
+    $(document).on('click', '.cancelEditUser', function() {
+
+		$("#editUser").trigger("reset");
+		$('.editUserSubmitBtn').html('Save');
+	});
 
 	$(document).on('click', '.editUserBtn', function() {
 

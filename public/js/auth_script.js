@@ -87,7 +87,7 @@ $(function() {
                     showConfirmButton: false,
                     timer: 2000
                 });
-                window.location.href = BASEURL + '/login';
+                window.location.href = BASEURL + '/Login';
             } else {
                 // Password reset failed, show error message
                 Swal.fire({
@@ -216,11 +216,19 @@ $(function() {
 		});
 	});
 
+    $(document).on('click', '.cancelConfigForm', function() {
+
+        $("#configEmailForm").trigger("reset");
+		$('.emailConfigSubmitBtn').html('Save Changes');
+	});
+
     $(document).on('submit', '#configEmailForm', function(event) {
         event.preventDefault();
         
         // Get the form data
         const formData = new FormData(document.getElementById('configEmailForm'));
+
+        $('.emailConfigSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Updating...</span>');
         
         $.ajax({
             url: BASEURL + '/User/setEmailConfig',
@@ -231,7 +239,7 @@ $(function() {
             dataType: 'json',
             success: function(response) {
     
-                console.log(response);
+                // console.log(response);
     
                 if (response['result'] == '1') {
                     $('#emailConfigModal [data-bs-dismiss="modal"]').trigger('click');
@@ -243,6 +251,7 @@ $(function() {
                         showConfirmButton: false,
                         timer: 2000
                     });
+                    $("#configEmailForm").trigger("reset");
                 } else if(response['result'] == '2') {
                     Swal.fire({
                         position: 'center',
@@ -261,6 +270,11 @@ $(function() {
             }
         });
     });
+
+    $(document).on('click', '.cancelChangePassForm', function() {
+
+        $("#changePasswordForm").trigger("reset");
+	});
 
      // Save Change Password from Change Password Modal - Dashboard index View
     // Handle click event for the "Save Password" button
@@ -341,6 +355,7 @@ $(function() {
                     showConfirmButton: false,
                     timer: 2000
                 });
+                $("#changePasswordForm").trigger("reset");
             } else if (response['result'] == "3") {
                 Swal.fire({
                     position: 'center',

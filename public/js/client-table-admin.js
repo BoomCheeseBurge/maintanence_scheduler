@@ -22,6 +22,7 @@ function setForm() {
 
 	$(document).on('click', '.cancelAddClient', function() {
 
+		$("#addClientForm").trigger("reset");
 		$('.addClientSubmitBtn').html('Add');
 	});
 
@@ -44,6 +45,7 @@ function setForm() {
 			success: function(response) {
 
 				if (response['result'] == '1') {
+					$("#addClientForm").trigger("reset");
 					$('#addClientModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
 						position: 'center',
@@ -84,6 +86,7 @@ function setForm() {
 
 	$(document).on('click', '.cancelEditClient', function() {
 
+		$("#editClientForm").trigger("reset");
 		$('.editClientSubmitBtn').html('Save');
 	});
 
@@ -104,6 +107,7 @@ function setForm() {
 			success: function(response) {
 
 				if (response['result'] == '1') {
+					$("#editClientForm").trigger("reset");
 					$('#editClientModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
 						position: 'center',
@@ -164,6 +168,7 @@ function setForm() {
 			success: function(response) {
 
 				if (response['result'] == '1') {
+					$("#delClientForm").trigger("reset");
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
 						position: 'center',
@@ -221,6 +226,7 @@ function setForm() {
 
 	$(document).on('click', '.cancelEditClientPIC', function() {
 
+		$("#editClientPICForm").trigger("reset");
 		$('.editClientPICSubmitBtn').html('Save');
 	});
 
@@ -260,6 +266,7 @@ function setForm() {
 			success: function(response) {
 
 				if (response['result'] == '1') {
+					$("#editClientPICForm").trigger("reset");
 					$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
 						position: 'center',

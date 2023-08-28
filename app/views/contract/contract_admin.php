@@ -47,10 +47,10 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h6 class="modal-title fs-5" id="contractModalLabel"></h6>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close cancelContractForm" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="" method="post" id="contractForm">
+					<form action="" method="post" id="contractForm" class="contractForm">
 						<input type="hidden" name="id" id="id">
 						<div class="form-floating mb-3">
 							<input type="search" class="form-control" name="clientName" id="clientName" required placeholder="clientName" autocomplete="off">
@@ -84,7 +84,7 @@
 						</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger cancelContractForm" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-primary contractSubmitBtn"></button>
 					</form>
 				</div>

@@ -32,22 +32,22 @@
             data-mobile-responsive="true"
             data-show-search-clear-button="true"
             data-check-on-init="true"
-            data-url='<?= BASEURL ?>/user/getAllUser'
+            data-url='<?= BASEURL; ?>/User/getAllUser'
             data-resizable="true">
             </table>
         </div>
     </section>
 
-    <!-- ==================================== Add and Edit User Modal ======================================== -->
+    <!-- ==================================== Add User Modal ======================================== -->
     <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="userModalLabel"></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close cancelAddUser" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addUser" action="<?= BASEURL ?>/user/adduser" method="post">
+                    <form id="addUser" action="<?= BASEURL; ?>/User/addUser" method="post">
                         <input type="hidden" name="id" id="id">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="name" name="name" placeholder="fullname" required>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="modal-footer">
                   
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger cancelAddUser" data-bs-dismiss="modal">Cancel</button>
 
                         <button type="submit" class="btn btn-primary addUserSubmitBtn"></button>
                 </div>
@@ -79,16 +79,16 @@
     </div>
 
 
-    <!-- ==================================== DA Edit User Modal ======================================== -->
+    <!-- ==================================== Edit User Modal ======================================== -->
     <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="editUserModalLabel">Edit User</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close cancelEditUser" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editUser" action="<?= BASEURL ?>/user/getuserbyid" method="post">
+                    <form id="editUser" action="<?= BASEURL; ?>/User/getUserById" method="post">
                         <input type="hidden" name="id" id="id">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="name" name="name" placeholder="fullname" required>
@@ -110,7 +110,7 @@
                 </div>
                 <div class="modal-footer">
 
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger cancelEditUser" data-bs-dismiss="modal">Cancel</button>
 
                         <button type="submit" class="btn btn-primary editUserSubmitBtn">Save</button>
                 </div>
@@ -120,7 +120,7 @@
     </div>
 
 
-    <!-- ==================================== DA Delete User Modal ======================================== -->
+    <!-- ==================================== Delete User Modal ======================================== -->
     <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -129,7 +129,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="deleteUser" action="<?= BASEURL ?>/user/delete" method="post">
+                    <form id="deleteUser" action="<?= BASEURL; ?>/User/delete" method="post">
                         <input type="hidden" name="id" id="id">
                         <h5 class="text-center">Delete <span id="userNameDelete"></span>?</h5>
                 </div>
