@@ -18,18 +18,6 @@ class Setup extends Controller
         }
     }
 
-    // Setup the Database Configuration
-    public function setConfig() {
-
-        if( $this->model('Signup_model')->checkConn() == 1 ) {
-            echo json_encode(['result' => '1']);
-            exit;
-        } else {
-            echo json_encode(['result' => '2']);
-            exit;
-        }
-    }
-
     // Setup the Database Tables
     public function setDatabase() {
 
@@ -114,7 +102,6 @@ class Setup extends Controller
             $hPass = $_POST['hostPass'];
             $port = $_POST['port'];
             $sEmail = $_POST['supportEmail'];
-            $sNumber = $_POST['supportNumber'];
 
             $configFile = __DIR__ . '/../config/config.php';
             $configContent = file_get_contents($configFile);
@@ -122,12 +109,6 @@ class Setup extends Controller
             $configContent = preg_replace(
                 "/define\('SUPPORT_EMAIL', '(.*)'\);/",
                 "define('SUPPORT_EMAIL', '$sEmail');",
-                $configContent
-            );
-
-            $configContent = preg_replace(
-                "/define\('SUPPORT_PHONE_NUMBER', '(.*)'\);/",
-                "define('SUPPORT_PHONE_NUMBER', '$sNumber');",
                 $configContent
             );
 

@@ -93,7 +93,7 @@ class User extends Controller{
 						<li>Click on the <a href="' . BASEURL . '/Login">Login Task Scheduler</a></li>
 						<li>Enter your email and the password provided.</li>
 					</ol>
-					<p>If you have any questions or encounter any issues during the sign-in process, feel free to contact our support team at <a href="mailto:' . SUPPORT_EMAIL . '">' . SUPPORT_EMAIL . '</a> or call us at ' . SUPPORT_PHONE_NUMBER . ' We\'re here to assist you every step of the way.</p>
+					<p>If you have any questions or encounter any issues during the sign-in process, feel free to contact our support team at <a href="mailto:' . SUPPORT_EMAIL . '">' . SUPPORT_EMAIL . '</a>. We\'re here to assist you every step of the way.</p>
 					<p>Best regards,<br>
 					ITPro Admin Task Scheduler
 				</td>
@@ -183,8 +183,7 @@ class User extends Controller{
 	public function getEmailConfig() {
 		header('Content-Type: application/json'); // Set JSON content type header
 		$response = array(
-			'supportEmail' => SUPPORT_EMAIL,
-			'supportPhoneNumber' => SUPPORT_PHONE_NUMBER,
+			'supportEmail' => SUPPORT_EMAIL
 		);
 		echo json_encode($response);
 	}
@@ -193,7 +192,6 @@ class User extends Controller{
 	public function setEmailConfig() {
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $supEmail = $_POST['supEmail'];
-            $supNumber = $_POST['supNumber'];
 
             $configFile = __DIR__ . '/../config/config.php';
             $configContent = file_get_contents($configFile);
@@ -201,12 +199,6 @@ class User extends Controller{
             $configContent = preg_replace(
                 "/define\('SUPPORT_EMAIL', '(.*)'\);/",
                 "define('SUPPORT_EMAIL', '$supEmail');",
-                $configContent
-            );
-
-            $configContent = preg_replace(
-                "/define\('SUPPORT_PHONE_NUMBER', '(.*)'\);/",
-                "define('SUPPORT_PHONE_NUMBER', '$supNumber');",
                 $configContent
             );
 

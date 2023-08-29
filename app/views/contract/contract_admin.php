@@ -50,7 +50,7 @@
 					<button type="button" class="btn-close cancelContractForm" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="" method="post" id="contractForm" class="contractForm">
+					<form action="" method="post" id="" class="contractForm">
 						<input type="hidden" name="id" id="id">
 						<div class="form-floating mb-3">
 							<input type="search" class="form-control" name="clientName" id="clientName" required placeholder="clientName" autocomplete="off">

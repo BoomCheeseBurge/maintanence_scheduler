@@ -375,10 +375,6 @@
 						<label for="supEmail" class="form-label">Support Email</label>
 						<input type="email" class="form-control" id="supEmail" name="supEmail" required>
 					</div>
-					<div class="mb-3">
-						<label for="supNumber" class="form-label">Support Number</label>
-						<input type="number" class="form-control" id="supNumber" name="supNumber" required>
-					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary cancelConfigForm" data-bs-dismiss="modal">Close</button>

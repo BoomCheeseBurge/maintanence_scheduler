@@ -17,11 +17,70 @@ function initializeTooltips() {
 
 function setForm() {
 
+	// ================
+	// Add client form
+	// ================
+
+	// Initialize the counter variable
+	let picCounter = 2;
+
+	// Container for the delete button
+	const deleteButton = $(`<button type="button" class="btn btn-danger delete-pic mb-4">-</button>`);
+
+	// Click event for the plus button
+	$('#addPicFieldsBtn').click(function() {
+		// Create a unique ID for the new set of input fields
+		const uniqueId = `picClient${picCounter}`;
+		
+		// Create a new PIC fields div
+		const picFieldsDiv = $(`<div class="pic-fields" id="${uniqueId}">`);
+		// Add the input fields to the div
+		picFieldsDiv.append(`<h6>PIC Client ${picCounter}</h6>`);
+		picFieldsDiv.append('<div class="form-floating mb-1">' +
+			'<input type="text" class="form-control" name="picName[]" required placeholder="picName">' +
+			`<label ${uniqueId}-name>PIC Name</label>` +
+			'</div>');
+		picFieldsDiv.append('<div class="form-floating mb-4">' +
+			'<input type="email" class="form-control" name="picEmail[]" required placeholder="picEmail">' +
+			`<label for="${uniqueId}-email">PIC Email</label>` +
+			'</div>');
+		
+		// Append the delete button to the newly added PIC fields div
+		picFieldsDiv.append(deleteButton);
+
+		// Append the new PIC fields div to the container
+		$('#picFieldsContainer').append(picFieldsDiv);
+
+		// Increment the counter
+		picCounter++;
+	});
+	
+	// Event delegation to handle the click event of delete buttons
+	$('#picFieldsContainer').on('click', '.delete-pic', function() {
+		// Get the parent div of the delete button (i.e., the PIC fields div)
+		const picFieldsDiv = $(this).closest('.pic-fields');
+
+		// Remove the current set of input fields
+		picFieldsDiv.remove();
+
+		// Decrement the counter
+		picCounter--;
+
+		// Get the previous set of PIC fields and add the delete button to it
+		const prevPicFieldsId = `picClient${picCounter - 1}`;
+		const prevPicFieldsDiv = $(`#${prevPicFieldsId}`);
+		prevPicFieldsDiv.append(deleteButton);
+	});
+
 	// ==========================================================================================================
 	// Add Client Event Handler starts here
 
 	$(document).on('click', '.cancelAddClient', function() {
-
+		for (let i = 1; i < picCounter; i++) {
+			$('#picClient'+(i+1)).remove();
+		}
+		picCounter = 2;
+		
 		$("#addClientForm").trigger("reset");
 		$('.addClientSubmitBtn').html('Add');
 	});
@@ -55,6 +114,11 @@ function setForm() {
 						timer: 2000
 					});
 					$('#client-table').bootstrapTable('refresh');
+					
+					for (let i = 1; i < picCounter; i++) {
+						$('#picClient'+(i+1)).remove();
+					}
+					picCounter = 2;
 				} else if (response['result'] == '2') {
 					$('#addClientModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
@@ -292,14 +356,6 @@ function setForm() {
 						title: 'Client PIC already exists',
 						showConfirmButton: true
 					});
-				} else if (response['result'] == '4') {
-					Swal.fire({
-						position: 'center',
-						icon: 'warning',
-						title: 'Client not found. Please try again',
-						showConfirmButton: true
-					});
-					$('.editClientPICSubmitBtn').html('Save');
 				} else {
 					Swal.fire({
 						position: 'center',
@@ -334,7 +390,7 @@ function setForm() {
 		// Set the value of the input field in the modal form
 		$('#picId').val(picId);
 		$('#clientId').val(clientId);
-		console.log(picId, clientId);
+		// console.log(picId, clientId);
 	});
 
 	$(document).on('click', '.cancelDelClientPIC', function() {
@@ -358,7 +414,7 @@ function setForm() {
 			dataType: 'json',
 			success: function(response) {
 
-				console.log(response['result']);
+				// console.log(response['result']);
 
 				if (response['result'] == '1') {
 					$('#delClientPICModal [data-bs-dismiss="modal"]').trigger('click');

@@ -147,12 +147,6 @@
 			</div>
 			<div class="modal-body">
 				<form action="" method="post" id="editClientPICForm">
-					<div class="form-floating mb-3">
-						<input type="search" class="form-control" name="clientName" id="editClientName" required placeholder="clientName" autocomplete="off">
-						<div id="editClientNameList" class="clientNameList"></div>
-						<label for="editClientName">Client</label>
-					</div>
-					<h6>PIC Client</h6>
 					<input type="hidden" name="id" id="id">
 					<div class="form-floating mb-1">
 						<input type="text" class="form-control" id="pic_name" name="pic_name" required placeholder="pic_name">

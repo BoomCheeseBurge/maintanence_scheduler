@@ -595,7 +595,7 @@ function setForm() {
 		$('#pmFreq').val('');
 		$('#assignee').val('');
 
-		$('#contractForm').attr('id', 'addContractForm');
+		$('.contractForm').attr('id', 'addContractForm');
 
 		$('.modal-footer .contractSubmitBtn').html('Add');
 	});
@@ -698,7 +698,7 @@ function setForm() {
 			}
 		});
 
-		$('#contractForm').attr('id', 'editContractForm');
+		$('.contractForm').attr('id', 'editContractForm');
 
 		$('.modal-footer .contractSubmitBtn').html('Save');
 	});

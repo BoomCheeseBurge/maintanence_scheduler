@@ -8,7 +8,7 @@
                     <span></span>
                 </div>
                 <i class="fa-solid fa-check check-icon"></i>
-                <p class="step-desc">Test Database</p>
+                <p class="step-desc">Create Database</p>
             </div>
             <div class="step">
                 <p class="step-num">Step 2</p>
@@ -16,7 +16,7 @@
                     <span></span>
                 </div>
                 <i class="fa-solid fa-check check-icon"></i>
-                <p class="step-desc">Create Database</p>
+                <p class="step-desc">Create Admin User</p>
             </div>
             <div class="step">
                 <p class="step-num">Step 3</p>
@@ -24,18 +24,10 @@
                     <span></span>
                 </div>
                 <i class="fa-solid fa-check check-icon"></i>
-                <p class="step-desc">Create Admin User</p>
-            </div>
-            <div class="step">
-                <p class="step-num">Step 4</p>
-                <div class="bullet">
-                    <span></span>
-                </div>
-                <i class="fa-solid fa-check check-icon"></i>
                 <p class="step-desc">Email Configuration</p>
             </div>
             <div class="step">
-                <p class="step-num">Step 5</p>
+                <p class="step-num">Step 4</p>
                 <div class="bullet">
                     <span></span>
                 </div>
@@ -47,31 +39,17 @@
             <div class="page-holder">
                 <div class="form-container">
                     <div class="page slidePage">
-                        <div class="title">Test Database</div>
-                        <hr>
-                        <form action="" method="post" id="dbConfigForm">
-                            <div class="row mt-4">
-                                <span class="field input-group-1">
-                                    <p class="test-text text-center"></p>
-                                </span>
-                                <button type="button" class="test-btn">Test</button>
-                            </div>
-                            <button type="button" class="next-1">Continue</button>
-                        </form>
-                    </div>
-
-                    <div class="page">
                         <div class="title">Create Database</div>
                         <hr>
                         <form action="" method="post" id="dbTableSetupForm">
                             <div class="row">
-                                <div class="field input-group-2">
+                                <div class="field input-group-1">
                                     <label for="dbName">Database Name</label>
                                     <input type="text" id="dbName" name="dbName" required>
                                 </div>
                             </div>
                             <br>
-                            <div class="field" style="right: 75px;">
+                            <div class="field">
                                 <div id="loading-bar">
                                     <div class="wavy">
                                         <span style="--i:1">S</span>
@@ -106,7 +84,7 @@
                                 </div>
                             </div>
                             <br>
-                            <button type="submit" class="next-2 next">Continue</button>
+                            <button type="submit" class="next-1 next">Continue</button>
                         </form>
                     </div>
 
@@ -116,23 +94,23 @@
                         <form action="" method="post" id="adminSetupForm">
                             <div class="row mt-4">
                                 <div class="col-md-6">
-                                    <div class="field" style="left: 50px;">
+                                    <div class="field" style="left: 100px;">
                                         <label for="uName">Username</label>
                                         <input type="text" id="uName" name="uName" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="field">
+                                    <div class="field" style="left: 50px;">
                                         <label for="uEmail">Admin Email</label>
                                         <input type="email" id="uEmail" name="uEmail" required>
                                     </div>
                                 </div>
-                                <div class="field" style="top: 40px;left: 250px;">
+                                <div class="field" style="top: 40px;left: 260px;">
                                     <label for="uPass">Admin Password</label>
                                     <input type="password" id="uPass" name="uPass" required>
                                 </div>
                             </div>
-                            <button type="submit" class="next-3 next">Continue</button>
+                            <button type="submit" class="next-2 next">Continue</button>
                         </form>
                     </div>
 
@@ -140,54 +118,50 @@
                         <div class="title">Email Configuration</div>
                         <hr>
                         <form action="" method="post" id="emailConfigForm">
-                            <div class="row mt-4 mb-2 ms-2">
+                            <div class="row mt-4 mb-2">
                                 <div class="col-md-5">
-                                    <div class="field input-group-4">
-                                        <label for="companyName">Company Name</label>
-                                        <input type="text" id="companyName" name="companyName" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="field input-group-4">
+                                    <div class="field input-group-3">
                                         <label for="hostEmail">Host Email</label>
                                         <input type="text" id="hostEmail" name="hostEmail" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3 ms-2">
                                 <div class="col-md-5">
-                                    <div class="field input-group-4">
+                                    <div class="field input-group-3">
+                                        <label for="port">Host Port</label>
+                                        <input type="number" id="port" name="port" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-5">
+                                    <div class="field input-group-3">
                                         <label for="hostUser">Host Username</label>
                                         <input type="email" id="hostUser" name="hostUser" required>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
-                                    <div class="field input-group-4">
+                                    <div class="field input-group-3">
                                         <label for="hostPass">Host Password</label>
                                         <input type="password" id="hostPass" name="hostPass" required>
                                     </div>
                                 </div>
-                                <div class="field" style="left: 240px;">
-                                    <label for="port">Host Port</label>
-                                    <input type="number" id="port" name="port" required>
-                                </div>
                             </div>
                             <div class="horizontal-line"></div>
-                            <div class="row mt-4 ms-2">
+                            <div class="row mt-4">
                                 <div class="col-md-5">
-                                    <div class="field input-group-4">
+                                    <div class="field input-group-3">
+                                        <label for="companyName">Company Name</label>
+                                        <input type="text" id="companyName" name="companyName" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="field input-group-3">
                                         <label for="supportEmail">Support Email</label>
                                         <input type="email" id="supportEmail" name="supportEmail" required>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
-                                    <div class="field input-group-4">
-                                    <label for="supportNumber">Support Number</label>
-                                        <input type="number" id="supportNumber" name="supportNumber" required>
-                                    </div>
-                                </div>
                             </div>
-                            <button type="submit" class="next-4 next">Continue</button>
+                            <button type="submit" class="next-3 next">Continue</button>
                         </form>
                     </div>
 

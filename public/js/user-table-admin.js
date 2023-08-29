@@ -426,7 +426,7 @@ function initUserTable() {
 
 		var ids = getIdSelections();
 
-        console.log(ids);
+        // console.log(ids);
 
 		$('.bulkDeleteSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Deleting User...</span>');
 

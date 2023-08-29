@@ -130,14 +130,12 @@ class Client_model {
 	public function editClientPICData($data) {
 
 		$query = 'UPDATE '. $this->table2 .' SET
-					client_id = :client_id,
 					name = :name,
 					email = :email
 				WHERE id = :id
 		';
 
 		$this->db->query($query);
-		$this->db->bind(':client_id', $data['client_id']);
 		$this->db->bind(':name', $data['pic_name']);
 		$this->db->bind(':email', $data['pic_email']);
 		$this->db->bind(':id', $data['id']);
@@ -151,12 +149,10 @@ class Client_model {
         // Prepare the SQL query
         $query = 'SELECT COUNT(*) AS count
 		FROM '. $this->table2 .'
-		WHERE client_id = :client_id
-		AND name = :name
+		WHERE name = :name
 		AND email = :email';
 
 		$this->db->query($query);
-		$this->db->bind(':client_id', $data['client_id']);
 		$this->db->bind(':name', $data['pic_name']);
 		$this->db->bind(':email', $data['pic_email']);
 

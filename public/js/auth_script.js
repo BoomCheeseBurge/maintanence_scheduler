@@ -206,7 +206,6 @@ $(function() {
 			dataType: 'json',
 			success: function(data) {     
 				$('#supEmail').val(data.supportEmail);
-				$('#supNumber').val(data.supportPhoneNumber);
 			},
             error: function(xhr, status, error) {
                 // Handle the error if any

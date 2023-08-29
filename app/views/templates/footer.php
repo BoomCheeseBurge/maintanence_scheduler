@@ -44,7 +44,6 @@
 		<script src="<?= BASEURL; ?>/js/user-table-manager.js"></script>
 	<?php elseif ( isset($data['identifier']) && $data['identifier'] === 'client_admin' ): ?>
 		<script src="<?= BASEURL; ?>/js/client-table-admin.js"></script>
-		<script src="<?= BASEURL; ?>/js/client-form.js"></script>
 		<script src="<?= BASEURL; ?>/js/search-input-client.js"></script>
 	<?php elseif ( isset($data['identifier']) && $data['identifier'] === 'client_manager' ): ?>
 		<script src="<?= BASEURL; ?>/js/client-table-manager.js"></script>

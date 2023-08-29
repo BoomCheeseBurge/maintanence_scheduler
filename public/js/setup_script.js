@@ -1,10 +1,6 @@
 // ======================================== Multi-Form Setup Script =================================
 
 const slidePage = $('.slidePage');
-const firstNextBtn = $('.next-1');
-const nextBtnSec = $('.next-2');
-const nextBtnThird = $('.next-3');
-const nextBtnFourth = $('.next-4');
 const loginBtn = $('.login');
 const progressText1 = $('.step .step-num');
 const progressText2 = $('.step .step-desc');
@@ -16,53 +12,11 @@ let current = 1;
 
 // Button event handlers to go proceed to the next steps
 
-// Setup the database configuration
-$(document).on('click', '.test-btn', function() {
-    
-    $.ajax({
-        url: BASEURL + '/Setup/setConfig',
-        type: 'POST',
-        contentType: false,
-        processData: false,
-        dataType: 'json',
-        success: function(response) {
-
-            // console.log(response);
-
-            if (response['result'] == '1') {
-
-                $('.test-text').css('border-color', 'white');
-                $('.test-text').css('color', 'white');
-                $('.test-text').html('SUCCESSFUL CONNECTION');
-            } else if (response['result'] == '2') {
-                alert("Configuration set failed. Please try again.");
-            }else {
-                alert("Something went wrong with the request. Please try again.");
-            }
-        },
-        error: function(xhr, status, error) {
-            // Handle the error if any
-            alert("Error!");
-            console.error(error);
-        }
-    });
-});
-
-$(document).on('click', '.next-1', function() {
-    slidePage.css('marginLeft', '-25%');
-
-    bullet.eq(current - 1).addClass('active');
-    progressText1.eq(current - 1).addClass('active');
-    progressText2.eq(current - 1).addClass('active');
-    progressCheck.eq(current - 1).addClass('active');
-    current += 1;
-});
-
 // Setup the necessary tables in the database
 $(document).on('submit', '#dbTableSetupForm', function(event) {
     event.preventDefault();
 
-    // slidePage.css('marginLeft', '-50%');
+    // slidePage.css('marginLeft', '-25%');
 
     // bullet.eq(current - 1).addClass('active');
     // progressText1.eq(current - 1).addClass('active');
@@ -88,7 +42,7 @@ $(document).on('submit', '#dbTableSetupForm', function(event) {
 
             if (response['result'] == '1') {
                 $("#loading-bar").hide();
-                slidePage.css('marginLeft', '-50%');
+                slidePage.css('marginLeft', '-25%');
 
                 bullet.eq(current - 1).addClass('active');
                 progressText1.eq(current - 1).addClass('active');
@@ -119,7 +73,7 @@ $(document).on('submit', '#dbTableSetupForm', function(event) {
 $(document).on('submit', '#adminSetupForm', function(event) {
     event.preventDefault();
 
-    // slidePage.css('marginLeft', '-75%');
+    // slidePage.css('marginLeft', '-50%');
 
     // bullet.eq(current - 1).addClass('active');
     // progressText1.eq(current - 1).addClass('active');
@@ -142,7 +96,7 @@ $(document).on('submit', '#adminSetupForm', function(event) {
             // console.log(response);
 
             if (response['result'] == '1') {
-                slidePage.css('marginLeft', '-75%');
+                slidePage.css('marginLeft', '-50%');
 
                 bullet.eq(current - 1).addClass('active');
                 progressText1.eq(current - 1).addClass('active');
@@ -167,7 +121,7 @@ $(document).on('submit', '#adminSetupForm', function(event) {
 $(document).on('submit', '#emailConfigForm', function(event) {
     event.preventDefault();
 
-    // slidePage.css('marginLeft', '-100%');
+    // slidePage.css('marginLeft', '-75%');
 
     // bullet.eq(current - 1).addClass('active');
     // progressText1.eq(current - 1).addClass('active');
@@ -177,8 +131,6 @@ $(document).on('submit', '#emailConfigForm', function(event) {
     
     // Get the form data
     const formData = new FormData(document.getElementById('emailConfigForm'));
-
-    console.log($('#port').val());
     
     $.ajax({
         url: BASEURL + '/Setup/configEmail',
@@ -192,7 +144,7 @@ $(document).on('submit', '#emailConfigForm', function(event) {
             // console.log(response);
 
             if (response['result'] == '1') {
-                slidePage.css('marginLeft', '-100%');
+                slidePage.css('marginLeft', '-75%');
 
                 bullet.eq(current - 1).addClass('active');
                 progressText1.eq(current - 1).addClass('active');

@@ -97,32 +97,20 @@ class Client extends Controller {
 
 	public function editClientPIC() {
 
-		// Retrieve the client_id using the client name
-		$clientId = $this->model('Client_model')->getClientIdByName($_POST['clientName']);
+		// Check if there is a duplicate client PIC
+		if ( $this->model('Client_model')->isDuplicateClientPIC($_POST) == 0 ) {
 
-		// If the client_id and assigneeId is found, add the data
-		if ($clientId !== null) {
-			$_POST['client_id'] = $clientId;
+			if( $this->model('Client_model')->editClientPICData($_POST) > 0 ) {
 
-			// Check if there is a duplicate client PIC
-			if ( $this->model('Client_model')->isDuplicateClientPIC($_POST) == 0 ) {
-
-				if( $this->model('Client_model')->editClientPICData($_POST) > 0 ) {
-
-					echo json_encode(['result' => '1']);
-					exit;
-				} else {
-					
-					echo json_encode(['result' => '2']);
-					exit;
-				}
+				echo json_encode(['result' => '1']);
+				exit;
 			} else {
-				echo json_encode(['result' => '3']);
+				
+				echo json_encode(['result' => '2']);
 				exit;
 			}
-		}else {
-
-			echo json_encode(['result' => '4']);
+		} else {
+			echo json_encode(['result' => '3']);
 			exit;
 		}
 	}
