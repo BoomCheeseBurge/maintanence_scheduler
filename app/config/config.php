@@ -1,6 +1,6 @@
 <?php
 
-define('BASEURL', 'http://localhost/taskscheduler/public');
+define('BASEURL', 'http://localhost');
 
 // Database Configuration
 define('DB_HOST', 'localhost');
@@ -12,4 +12,4 @@ define('DB_NAME', 'taskschedulerdb');
 define('PEPPER', '9ZkW2m)Ayc_P_fk4sqCl');
 
 // Support Email
-define('SUPPORT_EMAIL', 'johndoe240600@gmail.com');
+define('SUPPORT_EMAIL', '');
