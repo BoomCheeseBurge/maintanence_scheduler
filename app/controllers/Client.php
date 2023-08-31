@@ -67,13 +67,20 @@ class Client extends Controller {
 
 	public function editClient() {
 
-		if( $this->model('Client_model')->editClientData($_POST) > 0 ) {
+		// Check if there is a duplicate client PIC
+		if ( $this->model('Client_model')->isDuplicateClient($_POST) == 0 ) {
+			
+			if( $this->model('Client_model')->editClientData($_POST) > 0 ) {
 
-			echo json_encode(['result' => '1']);
-			exit;
-		}else {
+				echo json_encode(['result' => '1']);
+				exit;
+			}else {
 
-			echo json_encode(['result' => '2']);
+				echo json_encode(['result' => '2']);
+				exit;
+			}
+		} else {
+			echo json_encode(['result' => '3']);
 			exit;
 		}
 	}

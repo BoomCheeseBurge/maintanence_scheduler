@@ -21,7 +21,7 @@ class EmailHelper {
         $mail->Username = "";
         $mail->Password = "";
         $mail->SMTPSecure = "ssl"; //TLS
-        $mail->Port = 465; // OR 587
+        $mail->Port = 465; // OR 587 (Depends on your email server)
         try {
             // Send the email
             $mail->setFrom($email_from, $company_name);

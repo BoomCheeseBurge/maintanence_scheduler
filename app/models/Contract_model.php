@@ -130,20 +130,12 @@ class Contract_model {
 		FROM '. $this->table1 .'
 		WHERE client_id = :client_id 
 		AND engineer_id = :assignee_id 
-		AND sop_number = :sopNumber 
-		AND start_date = :startDate 
-		AND end_date = :endDate 
-		AND device = :deviceName 
-		AND pm_frequency = :pmFreq';
+		AND sop_number = :sopNumber';
 
         $this->db->query($query);
 		$this->db->bind(':client_id', $data['client_id']);
 		$this->db->bind(':assignee_id', $data['assignee_id']);
 		$this->db->bind(':sopNumber', $data['sopNumber']);
-		$this->db->bind(':startDate', $data['startDate']);
-		$this->db->bind(':endDate', $data['endDate']);
-        $this->db->bind(':deviceName', $data['deviceName']);
-        $this->db->bind(':pmFreq', $data['pmFreq']);
 
         $row = $this->db->single();
 

@@ -59,24 +59,6 @@ class User_model {
 		return $this->db->rowCount();
 	}
 
-	public function isDuplicateUser($data) {
-        // Prepare the SQL query
-        $query = 'SELECT COUNT(*) AS count
-		FROM '. $this->table .'
-		WHERE full_name = :name 
-		AND role = :role 
-		AND email = :email';
-
-		$this->db->query($query);
-		$this->db->bind('name', $data['name']);
-		$this->db->bind('role', $data['roleInput']);
-		$this->db->bind('email', $data['email']);
-
-        $row = $this->db->single();
-
-        return $row['count'] > 0;
-    }
-
 	public function saveUserData($data) {
 
 		$query = "UPDATE " . $this->table . " SET

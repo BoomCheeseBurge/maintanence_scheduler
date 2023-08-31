@@ -189,6 +189,14 @@ function setForm() {
 						title: 'Client failed to be updated',
 						showConfirmButton: true
 					});
+				} else if (response['result'] == '3') {
+					$('#editClientModal [data-bs-dismiss="modal"]').trigger('click');
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'Client already exists',
+						showConfirmButton: true
+					});
 				} else {
 					Swal.fire({
 						position: 'center',

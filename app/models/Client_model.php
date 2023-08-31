@@ -99,6 +99,20 @@ class Client_model {
 		return $this->db->rowCount();
 	}
 
+	public function isDuplicateClient($data) {
+        // Prepare the SQL query
+        $query = 'SELECT COUNT(*) AS count
+		FROM '. $this->table1 .'
+		WHERE name = :client_name';
+
+		$this->db->query($query);
+		$this->db->bind(':client_name', $data['clientName']);
+
+        $row = $this->db->single();
+
+        return $row['count'];
+    }
+
 	public function delClientData($data) {
 
 		try {
@@ -149,11 +163,9 @@ class Client_model {
         // Prepare the SQL query
         $query = 'SELECT COUNT(*) AS count
 		FROM '. $this->table2 .'
-		WHERE name = :name
-		AND email = :email';
+		WHERE email = :email';
 
 		$this->db->query($query);
-		$this->db->bind(':name', $data['pic_name']);
 		$this->db->bind(':email', $data['pic_email']);
 
         $row = $this->db->single();
