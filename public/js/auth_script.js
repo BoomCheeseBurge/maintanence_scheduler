@@ -350,7 +350,7 @@ $(function() {
         success: function(response) {
             // Handle the response from the server here (e.g., display success message)
             if (response['result'] == "1") {
-                $('[data-bs-dismiss="modal"]').trigger('click');
+                $('#changePasswordModal [data-bs-dismiss="modal"]').trigger('click');
                 Swal.fire({
                     position: 'center',
                     icon: 'success',

@@ -48,7 +48,7 @@ class Client_model {
             $picEmails = $data['picEmail'];
 
 			// Check if a client PIC of this client was previously added
-			$queryCheck = 'SELECT COUNT(*) AS count FROM '. $this->table2 .' WHERE client_id = :clientId';
+			$queryCheck = 'SELECT COUNT(*) AS count FROM '. $this->table2 .' WHERE client_id = :clientId AND name = "--" AND email = "--"';
 			$this->db->query($queryCheck);
 			$this->db->bind(':clientId', $clientId);
 			$result = $this->db->single();
@@ -83,6 +83,20 @@ class Client_model {
 		return $this->db->rowCount();
 	}
 
+	public function isDuplicateClientPICEmail($email) {
+        // Prepare the SQL query
+        $query = 'SELECT COUNT(*) AS count
+		FROM '. $this->table2 .'
+		WHERE email = :email';
+
+		$this->db->query($query);
+		$this->db->bind(':email', $email);
+
+        $row = $this->db->single();
+
+        return $row['count'];
+    }
+
 	public function editClientData($data) {
 
 		$query = 'UPDATE '. $this->table1 .' SET
@@ -106,7 +120,7 @@ class Client_model {
 		WHERE name = :client_name';
 
 		$this->db->query($query);
-		$this->db->bind(':client_name', $data['clientName']);
+		$this->db->bind(':client_name', $data['name']);
 
         $row = $this->db->single();
 
@@ -121,15 +135,16 @@ class Client_model {
 			$this->db->query($query);
 			$this->db->bind(':id', $data['client_id']);
 			
-			$this->db->execute();
+			if($this->db->execute()) {
 
-			$query2 = 'DELETE FROM '. $this->table1 .' WHERE name = :client_name';
-			$this->db->query($query2);
-			$this->db->bind(':client_name', $data['clientName']);
+				$query2 = 'DELETE FROM '. $this->table1 .' WHERE name = :client_name';
+				$this->db->query($query2);
+				$this->db->bind(':client_name', $data['clientName']);
 
-			$this->db->execute();
-
-			return $this->db->rowCount();
+				$this->db->execute();
+				
+				return $this->db->rowCount();
+			}
 		} catch (PDOException $e) {
 			$errorCode = $e->getCode();
 			if ($errorCode === '23000' || $errorCode === '1451') {
@@ -219,19 +234,62 @@ class Client_model {
 	public function delBulkClientPICData($ids) {
 
 		try {
+
 			// Create placeholders for the IDs
-			$placeholders = implode(',', array_fill(0, count($ids), '?'));
-		
-			$query = 'DELETE FROM ' . $this->table2 . ' WHERE id IN (' . $placeholders . ')';
+			$placeholders = implode(',', $ids);
+
+			$query = 'SELECT DISTINCT client_id FROM ' . $this->table2 . ' WHERE id IN (' . $placeholders . ')';
 			$this->db->query($query);
+
+			$distinctClientIds = $this->db->resultSet();
+
+			// Loop through each client_id and delete corresponding pics
+			foreach ($distinctClientIds as $row) {
+
+				$clientId = $row['client_id'];
+
+				foreach ($ids as $picId) {
+
+					$query2 = 'SELECT COUNT(*)
+					FROM ' . $this->table2 . '
+					WHERE client_id = :clientId';
+
+					$this->db->query($query2);
+					$this->db->bind(':clientId', $clientId);
+					$picCount = $this->db->single();
+
+					if($picCount['COUNT(*)'] == 1) {
+
+						// If there's only one pic, update it
+						$updateQuery = 'UPDATE ' . $this->table2 . '
+						SET name = "--", email = "--"
+						WHERE client_id = :clientId
+						AND id = :picId';
+			
+						$this->db->query($updateQuery);
+						$this->db->bind(':picId', $picId);
+						$this->db->bind(':clientId', $clientId);
+						$this->db->execute();
+					} else {
+					
+						$query = 'DELETE FROM ' . $this->table2 . ' 
+						WHERE client_id = :clientId 
+						AND id = :picId';
+
+						$this->db->query($query);
+						$this->db->bind(':picId', $picId);
+						$this->db->bind(':clientId', $clientId);
+						$this->db->execute();
+					}
+				}
+			}
 		
 			// Bind the IDs
-			foreach ($ids as $index => $id) {
-				$this->db->bind($index + 1, $id, PDO::PARAM_INT); // Assuming IDs are integers
+			for($i = 0; $i < count($ids); $i++) {
+				$this->db->bind(':picId', $ids[$i]);
 			}
-			$this->db->execute();
 
-			return $this->db->rowCount();
+			return count($ids);
 		} catch (PDOException $e) {
 			$errorCode = $e->getCode();
 			if ($errorCode === '23000' || $errorCode === '1451') {
@@ -242,6 +300,7 @@ class Client_model {
 			}
 		}
 	}
+		
 	
 
 	public function getClientPICById($id) {

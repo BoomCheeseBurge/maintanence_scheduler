@@ -5,7 +5,7 @@ var selections = [];
 
 function getIdSelections() {
 	return $.map($clientTable.bootstrapTable('getSelections'), function (row) {
-		return row.id;
+		return row.pic_id;
 	})
 }
 
@@ -259,6 +259,7 @@ function setForm() {
 					});
 					$('#client-table').bootstrapTable('refresh');
 				} else if (response['result'] == '0') {
+					$("#delClientForm").trigger("reset");
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
 						position: 'center',
@@ -273,6 +274,7 @@ function setForm() {
 						title: 'Deletion denied. Please ensure the deleted record is unrelated to any contract or maintenance',
 						showConfirmButton: true
 					});
+					$("#delClientForm").trigger("reset");
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
 				} else if (response['result'] == 'clientNotFound') {
 					Swal.fire({
@@ -281,6 +283,7 @@ function setForm() {
 						title: 'Client not found. Please try again',
 						showConfirmButton: true
 					});
+					$("#delClientForm").trigger("reset");
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
 				} else {
 					Swal.fire({
@@ -289,6 +292,7 @@ function setForm() {
 						title: 'Deletion Failed. Contact your administrator',
 						showConfirmButton: true
 					});
+					$("#delClientForm").trigger("reset");
 					$('#delClientModal [data-bs-dismiss="modal"]').trigger('click');
 				}
 			},
@@ -583,6 +587,8 @@ function initClientTable() {
 			data: { ids: ids },
 			dataType: 'json',
 			success: function (response) {
+
+				// console.log(response);
 
 				if (response['result'] == ids.length) {
 					$('#delBulkClientPICModal [data-bs-dismiss="modal"]').trigger('click');

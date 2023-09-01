@@ -56,7 +56,7 @@ class Client extends Controller {
 
 		// Check if there is a duplicate client PIC
 		for ($i = 0; $i < count($_POST['picName']); $i++) {
-			if ( $this->model('Client_model')->isDuplicateClient($_POST) != 0 ) {
+			if ( $this->model('Client_model')->isDuplicateClientPICEmail($_POST['picEmail'][$i]) != 0 ) {
 				echo json_encode(['result' => '3']);
 				exit;
 			}
