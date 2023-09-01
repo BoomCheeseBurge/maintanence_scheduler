@@ -107,21 +107,21 @@ class Contract extends Controller {
 			$_POST['client_id'] = $clientId;
 			$_POST['assignee_id'] = $assigneeId;
 
-			// Check if there is a duplicate contract
-			if ( $this->model('Contract_model')->isDuplicateContract($_POST) == 0 ) {
-
-				if( $this->model('Contract_model')->editContractData($_POST) > 0 ) {
-
-					echo json_encode(['result' => '1']);
-					exit;
-				}else {
-
-					echo json_encode(['result' => '2']);
+			if ($_POST['anyChange'] == 'true') {
+				// Check if there is a duplicate contract
+				if ( $this->model('Contract_model')->isDuplicateContract($_POST) != 0 ) {
+					echo json_encode(['result' => '3']);
 					exit;
 				}
+			}
+
+			if( $this->model('Contract_model')->editContractData($_POST) > 0 ) {
+
+				echo json_encode(['result' => '1']);
+				exit;
 			}else {
 
-				echo json_encode(['result' => '3']);
+				echo json_encode(['result' => '2']);
 				exit;
 			}
 		}else {

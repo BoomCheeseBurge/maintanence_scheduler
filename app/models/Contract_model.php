@@ -128,13 +128,9 @@ class Contract_model {
         // Prepare the SQL query
         $query = 'SELECT COUNT(*) AS count
 		FROM '. $this->table1 .'
-		WHERE client_id = :client_id 
-		AND engineer_id = :assignee_id 
-		AND sop_number = :sopNumber';
+		WHERE sop_number = :sopNumber';
 
         $this->db->query($query);
-		$this->db->bind(':client_id', $data['client_id']);
-		$this->db->bind(':assignee_id', $data['assignee_id']);
 		$this->db->bind(':sopNumber', $data['sopNumber']);
 
         $row = $this->db->single();

@@ -54,6 +54,14 @@ class Client extends Controller {
 
 	public function addClient() {
 
+		// Check if there is a duplicate client PIC
+		for ($i = 0; $i < count($_POST['picName']); $i++) {
+			if ( $this->model('Client_model')->isDuplicateClient($_POST) != 0 ) {
+				echo json_encode(['result' => '3']);
+				exit;
+			}
+		}
+	
 		if( $this->model('Client_model')->addClientData($_POST) > 0 ) {
 
 			echo json_encode(['result' => '1']);
@@ -104,20 +112,21 @@ class Client extends Controller {
 
 	public function editClientPIC() {
 
-		// Check if there is a duplicate client PIC
-		if ( $this->model('Client_model')->isDuplicateClientPIC($_POST) == 0 ) {
-
-			if( $this->model('Client_model')->editClientPICData($_POST) > 0 ) {
-
-				echo json_encode(['result' => '1']);
-				exit;
-			} else {
-				
-				echo json_encode(['result' => '2']);
+		if ($_POST['emailChanged'] == 'true') {
+			// Check if there is a duplicate client PIC
+			if ( $this->model('Client_model')->isDuplicateClientPIC($_POST) != 0 ) {
+				echo json_encode(['result' => '3']);
 				exit;
 			}
+		} 
+			
+		if( $this->model('Client_model')->editClientPICData($_POST) > 0 ) {
+
+			echo json_encode(['result' => '1']);
+			exit;
 		} else {
-			echo json_encode(['result' => '3']);
+			
+			echo json_encode(['result' => '2']);
 			exit;
 		}
 	}

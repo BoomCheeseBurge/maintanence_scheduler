@@ -115,6 +115,13 @@ class User extends Controller{
 
 	public function saveUser() {
 
+		if ($_POST['emailChanged'] == 'true') {
+			// Check if there is a duplicate user
+			if ( $this->model('Signup_model')->isEmailTaken($_POST['email']) > 0 )  {
+				echo json_encode(['result' => '3']);
+			}
+		}
+
 		if( $this->model('User_model')->saveUserData($_POST) > 0 ) {
 
 			echo json_encode(['result' => '1']);

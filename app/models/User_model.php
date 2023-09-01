@@ -10,7 +10,7 @@ class User_model {
 		$this->db = new Database;
 	}
 
-	public function isAdminUserExists() {
+	public function isUserTableExist() {
 
 		// Check if the table exists
 		$checkTableQuery = 'SHOW TABLES LIKE :tableName';

@@ -173,6 +173,10 @@ function setForm() {
 	// ==========================================================================================================
 	// Edit User Event Handler starts here
 
+    let userName;
+    let userEmail;
+    let userRole;
+
     $(document).on('click', '.cancelEditUser', function() {
 
 		$("#editUser").trigger("reset");
@@ -195,8 +199,11 @@ function setForm() {
 				$('#editUser #name').val(data.full_name);
 				$('#editUser #email').val(data.email);
 				$('#editUser #roleInput').val(data.role);
+
+                userName = data.full_name;
+                userEmail = data.email;
+                userRole = data.role;
 			}
-			
 		});
 	});
 
@@ -206,58 +213,76 @@ function setForm() {
 		// Get the form data
 		const formData = new FormData(document.getElementById('editUser'));
 
-		$('.editUserSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Saving user...</span>');
+        // Check if the email has been changed
+		if(formData.get('email') != userEmail) {
+			formData.append('emailChanged', 'true');
+		} else {
+			formData.append('emailChanged', 'false');
+		}
 
-        // Send the AJAX request
-        $.ajax({
-          url: BASEURL + '/User/saveUser',
-          type: 'POST',
-          data: formData,
-          contentType: false,
-          processData: false,
-          dataType: 'json',
-          success: function(response) {
-            // Handle the response from the server here (e.g., display success message)
-            if (response['result'] == '1') {
-                $('#editUserModal [data-bs-dismiss="modal"]').trigger('click');
-                $('#editUserModal .editUserSubmitBtn').html('Save');
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'The User has been updated',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                // Refresh the table data
-				$('#user-table').bootstrapTable('refresh');
-            } else if (response['result'] == "2") {
-                $('#editUserModal .editUserSubmitBtn').html('Save');
+        if(formData.get('name') != userName || formData.get('email') != userEmail || formData.get('roleInput') != userRole) {
+
+		    $('.editUserSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status">Saving user...</span>');
+
+            // Send the AJAX request
+            $.ajax({
+            url: BASEURL + '/User/saveUser',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(response) {
+                // Handle the response from the server here (e.g., display success message)
+                if (response['result'] == '1') {
+                    $('#editUserModal [data-bs-dismiss="modal"]').trigger('click');
+                    $('#editUserModal .editUserSubmitBtn').html('Save');
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'The User has been updated',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    // Refresh the table data
+                    $('#user-table').bootstrapTable('refresh');
+                } else if (response['result'] == "2") {
+                    $('#editUserModal .editUserSubmitBtn').html('Save');
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: 'Email address already exists',
+                        showConfirmButton: true
+                    });
+                } else if (response['result'] == "3") {
+                    $('#editUserModal .editUserSubmitBtn').html('Save');
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: 'Update failed',
+                        showConfirmButton: true
+                    });
+                } else {
+                    $('#editUserModal .editUserSubmitBtn').html('Save');
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: 'Update failed. Contact your administrator.',
+                        showConfirmButton: true
+                    });
+                }
+            },
+            error: function() {
+                // Request failed, handle error here
                 Swal.fire({
                     position: 'center',
                     icon: 'warning',
-                    title: 'Update failed',
-                    showConfirmButton: false
-                });
-            } else {
-                $('#editUserModal .editUserSubmitBtn').html('Save');
-                Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
-                    title: 'Update failed. Contact your administrator.',
+                    title: 'Error update. Contact your administrator.',
                     showConfirmButton: false
                 });
             }
-          },
-          error: function() {
-            // Request failed, handle error here
-            Swal.fire({
-                position: 'center',
-                icon: 'warning',
-                title: 'Error update. Contact your administrator.',
-                showConfirmButton: false
             });
-          }
-        });
+        } else {$('#editUserModal [data-bs-dismiss="modal"]').trigger('click');}
 	});
 
 	// ==========================================================================================================

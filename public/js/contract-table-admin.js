@@ -637,13 +637,13 @@ function setForm() {
 						showConfirmButton: true
 					});
 				} else if (response['result'] == '3') {
-					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
 						position: 'center',
 						icon: 'warning',
 						title: 'Contract already exists',
 						showConfirmButton: true
 					});
+					$('.modal-footer .contractSubmitBtn').html('Add');
 				} else if (response['result'] == '4') {
 					Swal.fire({
 						position: 'center',
@@ -673,6 +673,14 @@ function setForm() {
 	// ==========================================================================================================
 	// Edit Contract Event Handler starts here
 
+	let clientName;
+	let sopNumber;
+	let startDate;
+	let endDate;
+	let deviceName;
+	let pmFreq;
+	let assignee;
+
 	$(document).on('click', '.editContractBtn', function() {
 
 		$('#contractModalLabel').html('Edit Contract');
@@ -695,6 +703,14 @@ function setForm() {
 				$('#deviceName').val(data.device);
 				$('#pmFreq').val(data.pm_frequency);
 				$('#assignee').val(data.full_name);
+
+				clientName = data.name;
+				sopNumber = data.sop_number;
+				startDate = data.start_date;
+				endDate = data.end_date;
+				deviceName = data.device;
+				pmFreq = data.pm_frequency;
+				assignee = data.full_name;
 			}
 		});
 
@@ -708,67 +724,77 @@ function setForm() {
 		
 		const formData = new FormData(document.getElementById('editContractForm'));
 
-		$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Saving contract...</span>');
+		// Check if the any of the following has been changed
+		if(formData.get('clientName') != clientName || formData.get('assignee') != assignee || formData.get('sopNumber') != sopNumber) {
+			formData.append('anyChange', 'true');
+		} else {
+			formData.append('anyChange', 'false');
+		}
 
-		$.ajax({
-			url: BASEURL + '/Contract/editContract',
-			type: 'POST',
-			data: formData,
-			contentType: false,
-			processData: false,
-			dataType: 'json',
-			success: function(response) {
+		if(formData.get('clientName') != clientName || formData.get('sopNumber') != sopNumber || formData.get('startDate') != startDate || formData.get('endDate') != endDate || formData.get('deviceName') != deviceName || formData.get('pmFreq') != pmFreq || formData.get('assignee') != assignee){
 
-				if (response['result'] == '1') {
-					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
-					Swal.fire({
-						position: 'center',
-						icon: 'success',
-						title: 'Contract successfully updated',
-						showConfirmButton: false,
-						timer: 2000
-					});
-					$('#contract-table').bootstrapTable('refresh');
-				} else if (response['result'] == '2') {
-					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
-					Swal.fire({
-						position: 'center',
-						icon: 'warning',
-						title: 'Contract failed to be updated',
-						showConfirmButton: true
-					});
-				} else if (response['result'] == '3') {
-					$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
-					Swal.fire({
-						position: 'center',
-						icon: 'warning',
-						title: 'Contract already exists',
-						showConfirmButton: true
-					});
-				} else if (response['result'] == '4') {
-					Swal.fire({
-						position: 'center',
-						icon: 'warning',
-						title: 'Client or engineer not found. Please try again',
-						showConfirmButton: true
-					});
-					$('.modal-footer .contractSubmitBtn').html('Save');
-				} else {
-					Swal.fire({
-						position: 'center',
-						icon: 'warning',
-						title: 'Updated changes failed. Contact your administrator',
-						showConfirmButton: true
-					});
+			$('.contractSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Saving contract...</span>');
+
+			$.ajax({
+				url: BASEURL + '/Contract/editContract',
+				type: 'POST',
+				data: formData,
+				contentType: false,
+				processData: false,
+				dataType: 'json',
+				success: function(response) {
+
+					if (response['result'] == '1') {
+						$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'Contract successfully updated',
+							showConfirmButton: false,
+							timer: 2000
+						});
+						$('#contract-table').bootstrapTable('refresh');
+					} else if (response['result'] == '2') {
+						$('#contractModal [data-bs-dismiss="modal"]').trigger('click');
+						Swal.fire({
+							position: 'center',
+							icon: 'warning',
+							title: 'Contract failed to be updated',
+							showConfirmButton: true
+						});
+					} else if (response['result'] == '3') {
+						Swal.fire({
+							position: 'center',
+							icon: 'warning',
+							title: 'Contract already exists',
+							showConfirmButton: true
+						});
+						$('.modal-footer .contractSubmitBtn').html('Save');
+					} else if (response['result'] == '4') {
+						Swal.fire({
+							position: 'center',
+							icon: 'warning',
+							title: 'Client or engineer not found. Please try again',
+							showConfirmButton: true
+						});
+						$('.modal-footer .contractSubmitBtn').html('Save');
+					} else {
+						Swal.fire({
+							position: 'center',
+							icon: 'warning',
+							title: 'Updated changes failed. Contact your administrator',
+							showConfirmButton: true
+						});
+						$('.modal-footer .contractSubmitBtn').html('Save');
+					}
+				},
+				error: function() {
+					// Request failed, handle error here
+					alert("Error saving changes");
 					$('.modal-footer .contractSubmitBtn').html('Save');
 				}
-			},
-			error: function() {
-				// Request failed, handle error here
-				alert("Error saving changes");
-				$('.modal-footer .contractSubmitBtn').html('Save');
-			}
-		});
+			});
+		} else {$('#contractModal [data-bs-dismiss="modal"]').trigger('click');}
 	});
 
 	// ==========================================================================================================

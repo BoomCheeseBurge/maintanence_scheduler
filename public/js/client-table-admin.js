@@ -127,6 +127,14 @@ function setForm() {
 						title: 'Client failed to be added',
 						showConfirmButton: true
 					});
+				} else if (response['result'] == '3') {
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: 'One or more client PICs\' email address already exist',
+						showConfirmButton: true
+					});
+					$('.addClientSubmitBtn').html('Add');
 				} else {
 					Swal.fire({
 						position: 'center',
@@ -190,13 +198,13 @@ function setForm() {
 						showConfirmButton: true
 					});
 				} else if (response['result'] == '3') {
-					$('#editClientModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
 						position: 'center',
 						icon: 'warning',
 						title: 'Client already exists',
 						showConfirmButton: true
 					});
+					$('.editClientSubmitBtn').html('Save');
 				} else {
 					Swal.fire({
 						position: 'center',
@@ -296,6 +304,9 @@ function setForm() {
 	// ==========================================================================================================
 	// Edit Client PIC Event Handler starts here
 
+	let pic_name;
+	let pic_email;
+
 	$(document).on('click', '.cancelEditClientPIC', function() {
 
 		$("#editClientPICForm").trigger("reset");
@@ -314,9 +325,11 @@ function setForm() {
 			dataType: 'json',
 			success: function(data) {
 				$('#id').val(data.id);
-				$('#editClientName').val(data.client_name);
 				$('#pic_name').val(data.pic_name);
 				$('#pic_email').val(data.email);
+
+				pic_name = data.pic_name;
+				pic_email = data.email;
 			}
 		});
 	});
@@ -326,61 +339,71 @@ function setForm() {
 		
 		const formData = new FormData(document.getElementById('editClientPICForm'));
 
-		$('.editClientPICSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Saving PIC...</span>');
+		// Check if the email has been changed
+		if(formData.get('pic_email') != pic_email) {
+			formData.append('emailChanged', 'true');
+		} else {
+			formData.append('emailChanged', 'false');
+		}
 
-		$.ajax({
-			url: BASEURL + '/Client/editClientPIC',
-			type: 'POST',
-			data: formData,
-			contentType: false,
-			processData: false,
-			dataType: 'json',
-			success: function(response) {
+		if(formData.get('pic_name') != pic_name || formData.get('pic_email') != pic_email) {
 
-				if (response['result'] == '1') {
-					$("#editClientPICForm").trigger("reset");
-					$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
-					Swal.fire({
-						position: 'center',
-						icon: 'success',
-						title: 'Client PIC successfully updated',
-						showConfirmButton: false,
-						timer: 2000
-					});
-					$('#client-table').bootstrapTable('refresh');
-				} else if (response['result'] == '2') {
-					$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
-					Swal.fire({
-						position: 'center',
-						icon: 'warning',
-						title: 'Client PIC failed to be updated',
-						showConfirmButton: true
-					});
-				} else if (response['result'] == '3') {
-					$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
-					Swal.fire({
-						position: 'center',
-						icon: 'warning',
-						title: 'Client PIC already exists',
-						showConfirmButton: true
-					});
-				} else {
-					Swal.fire({
-						position: 'center',
-						icon: 'warning',
-						title: 'Updated changes failed. Contact your administrator',
-						showConfirmButton: true
-					});
+			$('.editClientPICSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Saving PIC...</span>');
+
+			$.ajax({
+				url: BASEURL + '/Client/editClientPIC',
+				type: 'POST',
+				data: formData,
+				contentType: false,
+				processData: false,
+				dataType: 'json',
+				success: function(response) {
+
+					if (response['result'] == '1') {
+						$("#editClientPICForm").trigger("reset");
+						$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'Client PIC successfully updated',
+							showConfirmButton: false,
+							timer: 2000
+						});
+						$('#client-table').bootstrapTable('refresh');
+					} else if (response['result'] == '2') {
+						$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');
+						Swal.fire({
+							position: 'center',
+							icon: 'warning',
+							title: 'Client PIC failed to be updated',
+							showConfirmButton: true
+						});
+					} else if (response['result'] == '3') {
+						Swal.fire({
+							position: 'center',
+							icon: 'warning',
+							title: 'Client PIC already exists',
+							showConfirmButton: true
+						});
+						$('.editClientPICSubmitBtn').html('Save');
+					} else {
+						Swal.fire({
+							position: 'center',
+							icon: 'warning',
+							title: 'Updated changes failed. Contact your administrator',
+							showConfirmButton: true
+						});
+						$('.editClientPICSubmitBtn').html('Save');
+					}
+				},
+				error: function(xhr, status, error) {
+					// Request failed, handle error here
+					console.log(error);
+					alert("Error saving changes");
 					$('.editClientPICSubmitBtn').html('Save');
 				}
-			},
-			error: function(xhr, status, error) {
-				// Request failed, handle error here
-				console.log(error);
-				alert("Error saving changes");
-				$('.editClientPICSubmitBtn').html('Save');
-			}
-		});
+			});
+		} else {$('#editClientPICModal [data-bs-dismiss="modal"]').trigger('click');}
 	});
 
 	// ==========================================================================================================

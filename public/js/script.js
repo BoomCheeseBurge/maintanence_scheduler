@@ -120,10 +120,8 @@ $(document).ready(function () {
 
 		if(contracts.length > 99) {
 			$("#notification-num").text('99+');
-			$('#myElement').addClass('new-notification');
 		} else if(contracts.length > 0) {
 			$("#notification-num").text(`${contracts.length}`);
-			$('#myElement').addClass('new-notification');
 		} else {
 			$("#notification-num").text('0');
 			const $noNotificationElement = $('<div id="no-notification" class="list-group-item">You have a new notification.</div>');

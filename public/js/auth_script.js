@@ -194,6 +194,8 @@ $(function() {
           }
         });
     });
+
+    let configEmail;
     
     $('#emailConfigModalBtn').on('click', function(event) {
         event.preventDefault();
@@ -206,6 +208,7 @@ $(function() {
 			dataType: 'json',
 			success: function(data) {     
 				$('#supEmail').val(data.supportEmail);
+                configEmail = data.supportEmail;
 			},
             error: function(xhr, status, error) {
                 // Handle the error if any
@@ -227,47 +230,48 @@ $(function() {
         // Get the form data
         const formData = new FormData(document.getElementById('configEmailForm'));
 
-        $('.emailConfigSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Updating...</span>');
+        if(formData.get('supEmail') != configEmail) {
+            $('.emailConfigSubmitBtn').html('<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span><span role="status" class="ms-1">Updating...</span>');
+            
+            $.ajax({
+                url: BASEURL + '/User/setEmailConfig',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(response) {
         
-        $.ajax({
-            url: BASEURL + '/User/setEmailConfig',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(response) {
-    
-                // console.log(response);
-    
-                if (response['result'] == '1') {
-                    $('#emailConfigModal [data-bs-dismiss="modal"]').trigger('click');
-                    $('[data-bs-dismiss="modal"]').trigger('click');
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Email configuration successfully updated',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    $("#configEmailForm").trigger("reset");
-                } else if(response['result'] == '2') {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'warning',
-                        title: 'Updated data failed to be written. Please try again',
-                        showConfirmButton: true
-                    });
-                } else {
-                    console.log(response);
+                    // console.log(response);
+        
+                    if (response['result'] == '1') {
+                        $('#emailConfigModal [data-bs-dismiss="modal"]').trigger('click');
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Email configuration successfully updated',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        $("#configEmailForm").trigger("reset");
+                    } else if(response['result'] == '2') {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'warning',
+                            title: 'Updated data failed to be written. Please try again',
+                            showConfirmButton: true
+                        });
+                    } else {
+                        console.log(response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error if any
+                    alert("Error!");
+                    console.error(error);
                 }
-            },
-            error: function(xhr, status, error) {
-                // Handle the error if any
-                alert("Error!");
-                console.error(error);
-            }
-        });
+            });
+        } else {$('[data-bs-dismiss="modal"]').trigger('click');}
     });
 
     $(document).on('click', '.cancelChangePassForm', function() {

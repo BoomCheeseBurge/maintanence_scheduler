@@ -4,7 +4,7 @@ class Setup extends Controller
 {
     public function index()
     {
-        if ( $this->model('User_model')->isAdminUserExists() > 0 ) {
+        if ( $this->model('User_model')->isUserTableExist() > 0 ) {
 
             header('Location: ' . BASEURL . '/Login');
             exit;
