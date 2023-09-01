@@ -229,7 +229,7 @@ class User_model {
 	}
 
 	public function getAllUser() {
-		$this->db->query('SELECT id, full_name, email, role FROM ' . $this->table . ' WHERE role = "engineer"');
+		$this->db->query('SELECT id, full_name, email, role FROM ' . $this->table);
         $data = $this->db->resultSet();
 		// var_dump($data);
 		echo json_encode($data);
