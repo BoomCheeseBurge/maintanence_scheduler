@@ -1,15 +1,15 @@
 <?php
 
-define('BASEURL', 'http://localhost/taskscheduler/public');
+define('BASEURL', 'http://localhost');
 
 // Database Configuration
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'taskscheduler');
+define('DB_NAME', 'taskschedulerdb');
 
 // Salt and Pepper Hashing
 define('PEPPER', '9ZkW2m)Ayc_P_fk4sqCl');
 
 // Support Email
-define('SUPPORT_EMAIL', 'johndoe240600@gmail.com');
+define('SUPPORT_EMAIL', '');
