@@ -134,8 +134,9 @@ class Client_model {
 			$query = 'DELETE FROM '. $this->table2 .' WHERE client_id = :id';
 			$this->db->query($query);
 			$this->db->bind(':id', $data['client_id']);
+			$this->db->execute();
 			
-			if($this->db->execute()) {
+			if($this->db->rowCount() > 0) {
 
 				$query2 = 'DELETE FROM '. $this->table1 .' WHERE name = :client_name';
 				$this->db->query($query2);
