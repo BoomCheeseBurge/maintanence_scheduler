@@ -21,38 +21,6 @@ class Maintenance_model {
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 		INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
-		WHERE m.actual_date IS NULL OR m.report_status = "in-progress" OR
-		( m.report_status = "delivered" AND
-		(
-			CASE 
-				WHEN m.month = "January" THEN 1
-				WHEN m.month = "February" THEN 2
-				WHEN m.month = "March" THEN 3
-				WHEN m.month = "April" THEN 4
-				WHEN m.month = "May" THEN 5
-				WHEN m.month = "June" THEN 6
-				WHEN m.month = "July" THEN 7
-				WHEN m.month = "August" THEN 8
-				WHEN m.month = "September" THEN 9
-				WHEN m.month = "October" THEN 10
-				WHEN m.month = "November" THEN 11
-				WHEN m.month = "December" THEN 12
-			END = MONTH(NOW()) OR 
-			CASE 
-				WHEN m.month = "January" THEN 1
-				WHEN m.month = "February" THEN 2
-				WHEN m.month = "March" THEN 3
-				WHEN m.month = "April" THEN 4
-				WHEN m.month = "May" THEN 5
-				WHEN m.month = "June" THEN 6
-				WHEN m.month = "July" THEN 7
-				WHEN m.month = "August" THEN 8
-				WHEN m.month = "September" THEN 9
-				WHEN m.month = "October" THEN 10
-				WHEN m.month = "November" THEN 11
-				WHEN m.month = "December" THEN 12
-			END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-        ))
 		ORDER BY
 		CASE
 			WHEN m.scheduled_date IS NULL THEN 1
@@ -73,39 +41,7 @@ class Maintenance_model {
 		FROM '. $this->table1 . ' m
 		INNER JOIN '. $this->table2 . ' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 . ' cl ON m.client_id = cl.id
-		WHERE (m.actual_date IS NULL OR m.report_status = "in-progress" OR
-		( m.report_status = "delivered" AND
-		(
-			CASE 
-				WHEN m.month = "January" THEN 1
-				WHEN m.month = "February" THEN 2
-				WHEN m.month = "March" THEN 3
-				WHEN m.month = "April" THEN 4
-				WHEN m.month = "May" THEN 5
-				WHEN m.month = "June" THEN 6
-				WHEN m.month = "July" THEN 7
-				WHEN m.month = "August" THEN 8
-				WHEN m.month = "September" THEN 9
-				WHEN m.month = "October" THEN 10
-				WHEN m.month = "November" THEN 11
-				WHEN m.month = "December" THEN 12
-			END = MONTH(NOW()) OR 
-			CASE 
-				WHEN m.month = "January" THEN 1
-				WHEN m.month = "February" THEN 2
-				WHEN m.month = "March" THEN 3
-				WHEN m.month = "April" THEN 4
-				WHEN m.month = "May" THEN 5
-				WHEN m.month = "June" THEN 6
-				WHEN m.month = "July" THEN 7
-				WHEN m.month = "August" THEN 8
-				WHEN m.month = "September" THEN 9
-				WHEN m.month = "October" THEN 10
-				WHEN m.month = "November" THEN 11
-				WHEN m.month = "December" THEN 12
-			END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-        ))) AND
-		m.engineer_id = ' . $_SESSION["id"] .'
+		WHERE m.engineer_id = ' . $_SESSION["id"] .'
 		ORDER BY
 		CASE
 			WHEN m.scheduled_date IS NULL THEN 1
@@ -174,37 +110,7 @@ class Maintenance_model {
 			INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 			INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
-			WHERE m.scheduled_date IS NULL 
-			AND (
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(NOW()) OR 
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-			)';
+			WHERE m.scheduled_date IS NULL';
 	
 			$this->db->query($query);
 			return $this->db->resultSet();
@@ -217,37 +123,7 @@ class Maintenance_model {
 			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 			INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
 			WHERE m.scheduled_date IS NOT NULL 
-			AND m.actual_date IS NULL
-			AND (
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(NOW()) OR 
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-			)';
+			AND m.actual_date IS NULL';
 	
 			$this->db->query($query);
 			return $this->db->resultSet();
@@ -261,37 +137,7 @@ class Maintenance_model {
 			INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
 			WHERE m.scheduled_date IS NOT NULL 
 			AND m.actual_date IS NOT NULL
-			AND m.report_date IS NULL
-			AND (
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(NOW()) OR 
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-			)';
+			AND m.report_date IS NULL';
 	
 			$this->db->query($query);
 			return $this->db->resultSet();
@@ -303,38 +149,6 @@ class Maintenance_model {
 			INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 			INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
-			WHERE m.actual_date IS NULL OR m.report_status = "in-progress" OR
-			( m.report_status = "delivered" AND
-			(
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(NOW()) OR 
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-			))
 			ORDER BY
 			CASE
 				WHEN m.scheduled_date IS NULL THEN 1
@@ -358,37 +172,7 @@ class Maintenance_model {
 			INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 			WHERE m.scheduled_date IS NULL 
-			AND (
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(NOW()) OR 
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-			) AND
-			m.engineer_id = ' . $_SESSION["id"];
+			AND m.engineer_id = ' . $_SESSION["id"];
 	
 			$this->db->query($query);
 			return $this->db->resultSet();
@@ -401,37 +185,7 @@ class Maintenance_model {
 			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
 			WHERE m.scheduled_date IS NOT NULL 
 			AND m.actual_date IS NULL
-			AND (
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(NOW()) OR 
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-			) AND
-			m.engineer_id = ' . $_SESSION["id"];
+			AND m.engineer_id = ' . $_SESSION["id"];
 	
 			$this->db->query($query);
 			return $this->db->resultSet();
@@ -445,37 +199,7 @@ class Maintenance_model {
 			WHERE m.scheduled_date IS NOT NULL 
 			AND m.actual_date IS NOT NULL
 			AND m.report_date IS NULL
-			AND (
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(NOW()) OR 
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-			) AND
-			m.engineer_id = ' . $_SESSION["id"];
+			AND m.engineer_id = ' . $_SESSION["id"];
 	
 			$this->db->query($query);
 			return $this->db->resultSet();
@@ -486,39 +210,7 @@ class Maintenance_model {
 			FROM '. $this->table1 . ' m
 			INNER JOIN '. $this->table2 . ' co ON m.contract_id = co.id
 			INNER JOIN '. $this->table3 . ' cl ON m.client_id = cl.id
-			WHERE (m.actual_date IS NULL OR m.report_status = "in-progress" OR
-			( m.report_status = "delivered" AND
-			(
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(NOW()) OR 
-				CASE 
-					WHEN m.month = "January" THEN 1
-					WHEN m.month = "February" THEN 2
-					WHEN m.month = "March" THEN 3
-					WHEN m.month = "April" THEN 4
-					WHEN m.month = "May" THEN 5
-					WHEN m.month = "June" THEN 6
-					WHEN m.month = "July" THEN 7
-					WHEN m.month = "August" THEN 8
-					WHEN m.month = "September" THEN 9
-					WHEN m.month = "October" THEN 10
-					WHEN m.month = "November" THEN 11
-					WHEN m.month = "December" THEN 12
-				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-			))) AND
-			m.engineer_id = ' . $_SESSION["id"];
+			WHERE m.engineer_id = ' . $_SESSION["id"];
 			
 			$this->db->query($query);
 			return $this->db->resultSet();
