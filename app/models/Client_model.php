@@ -131,20 +131,21 @@ class Client_model {
 
 		try {
 
-			$query = 'DELETE FROM '. $this->table2 .' WHERE client_id = :id';
-			$this->db->query($query);
-			$this->db->bind(':id', $data['client_id']);
+			$query2 = 'DELETE FROM '. $this->table1 .' WHERE name = :client_name';
+			$this->db->query($query2);
+			$this->db->bind(':client_name', $data['clientName']);
+
 			$this->db->execute();
 			
 			if($this->db->rowCount() > 0) {
 
-				$query2 = 'DELETE FROM '. $this->table1 .' WHERE name = :client_name';
-				$this->db->query($query2);
-				$this->db->bind(':client_name', $data['clientName']);
-
+				$query = 'DELETE FROM '. $this->table2 .' WHERE client_id = :id';
+				$this->db->query($query);
+				$this->db->bind(':id', $data['client_id']);
 				$this->db->execute();
 				
-				return $this->db->rowCount();
+				return "1";
+
 			}
 		} catch (PDOException $e) {
 			$errorCode = $e->getCode();
