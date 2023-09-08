@@ -1,6 +1,51 @@
 // Admin Bootstrap Table Extended
 var $dashboardTable = $('#dashboard-table');
 
+function reportFormatter(row) {
+    return [row.reportStatus, row.reportDate].join('<br>');
+}
+
+function filterTable() {
+	// Filter the maintenance table
+	$('#maintenance').change(function() {
+		// Get the selected option's value
+		var selectedValue = $(this).val();
+		
+		$.ajax({
+			url: BASEURL + '/Maintenance/filterMaintenance',
+			data: {selectedValue : selectedValue},
+			type: 'POST',
+			dataType: 'json',
+			success: function (data) {
+		
+				// Prepare the data for the Bootstrap Table
+				var tableData = [];
+				for (var i = 0; i < data.length; i++) {
+					var rowData = {
+						engineer_name: data[i].engineer_name,
+						client_name: data[i].client_name,
+						sopNumber: data[i].sopNumber,
+						deviceName: data[i].deviceName,
+						pmCount: data[i].pmCount,
+						pmMonth: data[i].pmMonth,
+						scheduledDate: data[i].scheduledDate,
+						actualDate: data[i].actualDate,
+						maintenanceStatus: data[i].maintenanceStatus,
+						report: reportFormatter(data[i])
+					};
+					tableData.push(rowData);
+				}
+		
+				// Update the data and refresh the table
+				$('#dashboard-table').bootstrapTable('load', tableData);
+			},
+			error: function (xhr, status, error) {
+				console.error('AJAX Error:' + error);
+			},
+		});
+	});
+}
+
 function initDashboardTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
@@ -83,4 +128,6 @@ $(function() {
 	$('#dashboard-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
 	});
+
+	filterTable();
 })

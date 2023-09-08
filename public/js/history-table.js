@@ -1,11 +1,11 @@
 // Admin Bootstrap Table Extended
-var $maintenanceTable = $('#maintenance-table');
+var $historyTable = $('#history-table');
 var $remove = $('#remove');
 var selections = [];
 
 // Function to retrieve the selected rows from the table
 function getIdSelections() {
-	return $.map($maintenanceTable.bootstrapTable('getSelections'), function (row) {
+	return $.map($historyTable.bootstrapTable('getSelections'), function (row) {
 		return row.id
 	})
 }
@@ -96,7 +96,7 @@ function setForm() {
 							showConfirmButton: false,
 							timer: 2000
 						});
-						$('#maintenance-table').bootstrapTable('refresh');
+						$('#history-table').bootstrapTable('refresh');
 					} else if (response['result'] == "2") {
 						$('#editMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
 						Swal.fire({
@@ -174,7 +174,7 @@ function setForm() {
 						showConfirmButton: false,
 						timer: 2000
 					});
-					$('#maintenance-table').bootstrapTable('refresh');
+					$('#history-table').bootstrapTable('refresh');
 				} else if (response['result'] == "0") {
 					$('#delMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
 					Swal.fire({
@@ -212,7 +212,7 @@ function setForm() {
 function maintenanceFormatter(value, row, index) {
 	return [
 		'<span class="ms-2 editMaintenanceBtn" data-bs-toggle="modal" data-bs-target="#editMaintenanceModal" data-id="' + row.id + '" data-sop="' + row.sop_number + '">',
-		'<button class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">',
+		'<button class="btn btn-warning btn-sm mb-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">',
 		'<i class="fa-solid fa-pen-to-square"></i>',
 		'</button>',
 		'</span>',
@@ -338,6 +338,7 @@ function filterTable() {
 							device: data[i].device,
 							pm_frequency: data[i].pm_frequency,
 							pm_count: data[i].pm_count,
+							month: data[i].month,
 							scheduled_date: data[i].scheduled_date,
 							actual_date: data[i].actual_date,
 							report_date: data[i].report_date
@@ -346,7 +347,7 @@ function filterTable() {
 					}
 			
 					// Update the data and refresh the table
-					$('#maintenance-table').bootstrapTable('load', tableData);
+					$('#history-table').bootstrapTable('load', tableData);
 				},
 				error: function (xhr, status, error) {
 					console.error('AJAX Error:' + error);
@@ -413,7 +414,7 @@ function filterTable() {
 				$('#filter').prop("disabled", false);
 
 				$.ajax({
-					url: BASEURL + '/Maintenance/getMaintenanceList',
+					url: BASEURL + '/Maintenance/getMaintenanceHistory',
 					type: 'POST',
 					dataType: 'json',
 					success: function (data) {
@@ -428,6 +429,7 @@ function filterTable() {
 								device: data[i].device,
 								pm_frequency: data[i].pm_frequency,
 								pm_count: data[i].pm_count,
+								month: data[i].month,
 								scheduled_date: data[i].scheduled_date,
 								actual_date: data[i].actual_date,
 								report_date: data[i].report_date
@@ -436,7 +438,7 @@ function filterTable() {
 						}
 				
 						// Update the data and refresh the table
-						$('#maintenance-table').bootstrapTable('load', tableData);
+						$('#history-table').bootstrapTable('load', tableData);
 					},
 					error: function (xhr, status, error) {
 						console.error('AJAX Error:' + error);
@@ -465,13 +467,13 @@ function filterTable() {
 	// ================================================================= Filter Query End =================================================================
 }
 
-function initMaintenanceTable() {
+function initHistoryTable() {
 	var icons = {
 		columns: 'bi-layout-sidebar-inset-reverse',
 		fullscreen: 'bi-arrows-fullscreen',
 		clearSearch: 'bi bi-x-lg'
 	}
-	$maintenanceTable.bootstrapTable('destroy').bootstrapTable({
+	$historyTable.bootstrapTable('destroy').bootstrapTable({
 		icons: icons,
         exportTypes: ['csv', 'excel', 'pdf'],
 		locale: 'en-US',
@@ -554,10 +556,10 @@ function initMaintenanceTable() {
 		}
 	});
 
-	$maintenanceTable.on('check.bs.table uncheck.bs.table ' +
+	$historyTable.on('check.bs.table uncheck.bs.table ' +
 		'check-all.bs.table uncheck-all.bs.table',
 	function () {
-		$remove.prop('disabled', !$maintenanceTable.bootstrapTable('getSelections').length);
+		$remove.prop('disabled', !$historyTable.bootstrapTable('getSelections').length);
 
 		// save your data, here just save the current page
 		selections = getIdSelections()
@@ -593,7 +595,7 @@ function initMaintenanceTable() {
 						showConfirmButton: false,
 						timer: 2000
 					});
-					$('#maintenance-table').bootstrapTable('refresh');
+					$('#history-table').bootstrapTable('refresh');
 					$remove.prop('disabled', true);
 				} else if (response['result'] == '0') {
 					$('#delBulkMaintenanceModal [data-bs-dismiss="modal"]').trigger('click');
@@ -637,9 +639,9 @@ function initMaintenanceTable() {
 
 $(document).ready(function () {
 
-	initMaintenanceTable();
+	initHistoryTable();
 
-	$('#maintenance-table').bootstrapTable('refreshOptions', {
+	$('#history-table').bootstrapTable('refreshOptions', {
 		buttonsOrder: ['refresh', 'columns', 'export', 'fullscreen']
 	});
 

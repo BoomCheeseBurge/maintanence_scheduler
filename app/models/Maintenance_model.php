@@ -52,7 +52,15 @@ class Maintenance_model {
 				WHEN m.month = "November" THEN 11
 				WHEN m.month = "December" THEN 12
 			END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
-        ))';
+        ))
+		ORDER BY
+		CASE
+			WHEN m.scheduled_date IS NULL THEN 1
+			WHEN m.actual_date IS NULL AND m.scheduled_date IS NOT NULL THEN 2
+			WHEN m.report_date IS NULL AND m.actual_date IS NOT NULL AND m.scheduled_date IS NOT NULL THEN 3
+			ELSE 4
+		END,
+		scheduledDate;';
 
 		$this->db->query($query);
 		return $this->db->resultSet();
@@ -97,25 +105,36 @@ class Maintenance_model {
 				WHEN m.month = "December" THEN 12
 			END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
         ))) AND
-		m.engineer_id = ' . $_SESSION["id"];
+		m.engineer_id = ' . $_SESSION["id"] .'
+		ORDER BY
+		CASE
+			WHEN m.scheduled_date IS NULL THEN 1
+			WHEN m.actual_date IS NULL AND m.scheduled_date IS NOT NULL THEN 2
+			WHEN m.report_date IS NULL AND m.actual_date IS NOT NULL AND m.scheduled_date IS NOT NULL THEN 3
+			ELSE 4
+		END,
+		scheduled_date';
 		
 		$this->db->query($query);
 		return $this->db->resultSet();
 	}
 
-	// For Maintenance List Bootstrap Table
-	public function getListData() {
+	// For History Bootstrap Table
+	public function getHistoryData() {
 		$query = 'SELECT m.id, u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.month, m.scheduled_date, m.actual_date, m.report_date
 		FROM '. $this->table1 .' m
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
-		INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id';
+		INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
+		WHERE YEAR(m.scheduled_date) = YEAR(NOW())
+		AND report_status IS NOT NULL
+		AND report_date IS NOT NULL';
 
 		$this->db->query($query);
 		return $this->db->resultSet();
 	}
 
-	// For Filtered Maintenance List Bootstrap Table by Month
+	// For Filtered History Bootstrap Table by Month
 	public function filterTableData($selectedMonth, $selectedYear) {
 
 		$month = intval($selectedMonth);
@@ -132,7 +151,7 @@ class Maintenance_model {
 			$endDate = "{$year}-12-31";
 		}
 
-		$query = 'SELECT u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.scheduled_date, m.actual_date, m.report_date
+		$query = 'SELECT u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.month, m.scheduled_date, m.actual_date, m.report_date
 		FROM '. $this->table1 .' m
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
@@ -144,6 +163,366 @@ class Maintenance_model {
 		$this->db->bind('end_date', $endDate);
 
 		return $this->db->resultSet();
+	}
+
+	public function filterMaintenanceData($value) {
+
+		if($value == "unscheduled") {
+
+			$query = 'SELECT m.id AS id, u.full_name AS engineer_name, cl.name AS client_name, co.sop_number AS sopNumber, co.device AS deviceName, m.pm_count AS pmCount, m.month AS pmMonth, m.scheduled_date AS scheduledDate, m.actual_date AS actualDate, m.maintenance_status AS maintenanceStatus, m.report_status AS reportStatus, m.report_date AS reportDate
+			FROM '. $this->table1 .' m
+			INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
+			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
+			INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
+			WHERE m.scheduled_date IS NULL 
+			AND (
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(NOW()) OR 
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
+			)';
+	
+			$this->db->query($query);
+			return $this->db->resultSet();
+
+		} else if($value == "unmaintained") {
+
+			$query = 'SELECT m.id AS id, u.full_name AS engineer_name, cl.name AS client_name, co.sop_number AS sopNumber, co.device AS deviceName, m.pm_count AS pmCount, m.month AS pmMonth, m.scheduled_date AS scheduledDate, m.actual_date AS actualDate, m.maintenance_status AS maintenanceStatus, m.report_status AS reportStatus, m.report_date AS reportDate
+			FROM '. $this->table1 .' m
+			INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
+			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
+			INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
+			WHERE m.scheduled_date IS NOT NULL 
+			AND m.actual_date IS NULL
+			AND (
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(NOW()) OR 
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
+			)';
+	
+			$this->db->query($query);
+			return $this->db->resultSet();
+
+		} else if($value == "unsubmitted") {
+
+			$query = 'SELECT m.id AS id, u.full_name AS engineer_name, cl.name AS client_name, co.sop_number AS sopNumber, co.device AS deviceName, m.pm_count AS pmCount, m.month AS pmMonth, m.scheduled_date AS scheduledDate, m.actual_date AS actualDate, m.maintenance_status AS maintenanceStatus, m.report_status AS reportStatus, m.report_date AS reportDate
+			FROM '. $this->table1 .' m
+			INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
+			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
+			INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
+			WHERE m.scheduled_date IS NOT NULL 
+			AND m.actual_date IS NOT NULL
+			AND m.report_date IS NULL
+			AND (
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(NOW()) OR 
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
+			)';
+	
+			$this->db->query($query);
+			return $this->db->resultSet();
+
+		} else if($value == "none") {
+
+			$query = 'SELECT m.id AS id, u.full_name AS engineer_name, cl.name AS client_name, co.sop_number AS sopNumber, co.device AS deviceName, m.pm_count AS pmCount, m.month AS pmMonth, m.scheduled_date AS scheduledDate, m.actual_date AS actualDate, m.maintenance_status AS maintenanceStatus, m.report_status AS reportStatus, m.report_date AS reportDate
+			FROM '. $this->table1 .' m
+			INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
+			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
+			INNER JOIN '. $this->table4 .' u ON m.engineer_id = u.id
+			WHERE m.actual_date IS NULL OR m.report_status = "in-progress" OR
+			( m.report_status = "delivered" AND
+			(
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(NOW()) OR 
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
+			))
+			ORDER BY
+			CASE
+				WHEN m.scheduled_date IS NULL THEN 1
+				WHEN m.actual_date IS NULL AND m.scheduled_date IS NOT NULL THEN 2
+				WHEN m.report_date IS NULL AND m.actual_date IS NOT NULL AND m.scheduled_date IS NOT NULL THEN 3
+				ELSE 4
+			END,
+			scheduledDate;';
+			
+			$this->db->query($query);
+			return $this->db->resultSet();
+		}
+	}
+
+	public function filterEngineerData($value) {
+
+		if($value == "unscheduled") {
+
+			$query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.month, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
+			FROM '. $this->table1 .' m
+			INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
+			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
+			WHERE m.scheduled_date IS NULL 
+			AND (
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(NOW()) OR 
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
+			) AND
+			m.engineer_id = ' . $_SESSION["id"];
+	
+			$this->db->query($query);
+			return $this->db->resultSet();
+
+		} else if($value == "unmaintained") {
+
+			$query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.month, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
+			FROM '. $this->table1 .' m
+			INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
+			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
+			WHERE m.scheduled_date IS NOT NULL 
+			AND m.actual_date IS NULL
+			AND (
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(NOW()) OR 
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
+			) AND
+			m.engineer_id = ' . $_SESSION["id"];
+	
+			$this->db->query($query);
+			return $this->db->resultSet();
+
+		} else if($value == "unsubmitted") {
+
+			$query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.month, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
+			FROM '. $this->table1 .' m
+			INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
+			INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
+			WHERE m.scheduled_date IS NOT NULL 
+			AND m.actual_date IS NOT NULL
+			AND m.report_date IS NULL
+			AND (
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(NOW()) OR 
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
+			) AND
+			m.engineer_id = ' . $_SESSION["id"];
+	
+			$this->db->query($query);
+			return $this->db->resultSet();
+
+		} else if($value == "none") {
+
+			$query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.month, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
+			FROM '. $this->table1 . ' m
+			INNER JOIN '. $this->table2 . ' co ON m.contract_id = co.id
+			INNER JOIN '. $this->table3 . ' cl ON m.client_id = cl.id
+			WHERE (m.actual_date IS NULL OR m.report_status = "in-progress" OR
+			( m.report_status = "delivered" AND
+			(
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(NOW()) OR 
+				CASE 
+					WHEN m.month = "January" THEN 1
+					WHEN m.month = "February" THEN 2
+					WHEN m.month = "March" THEN 3
+					WHEN m.month = "April" THEN 4
+					WHEN m.month = "May" THEN 5
+					WHEN m.month = "June" THEN 6
+					WHEN m.month = "July" THEN 7
+					WHEN m.month = "August" THEN 8
+					WHEN m.month = "September" THEN 9
+					WHEN m.month = "October" THEN 10
+					WHEN m.month = "November" THEN 11
+					WHEN m.month = "December" THEN 12
+				END = MONTH(DATE_ADD(NOW(), INTERVAL 1 MONTH))
+			))) AND
+			m.engineer_id = ' . $_SESSION["id"];
+			
+			$this->db->query($query);
+			return $this->db->resultSet();
+		}
 	}
 
 	public function addMaintenanceData($data) {

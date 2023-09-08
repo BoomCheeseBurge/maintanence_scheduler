@@ -155,6 +155,49 @@ function setForm() {
 	});
 }
 
+function reportFormatter(row) {
+    return [row.report_status, row.report_date].join('<br>');
+}
+
+function filterTable() {
+	// Filter the maintenance table
+	$('#maintenance').change(function() {
+		// Get the selected option's value
+		var selectedValue = $(this).val();
+		
+		$.ajax({
+			url: BASEURL + '/Maintenance/filterEngineerDashboard',
+			data: {selectedValue : selectedValue},
+			type: 'POST',
+			dataType: 'json',
+			success: function (data) {
+		
+				// Prepare the data for the Bootstrap Table
+				var tableData = [];
+				for (var i = 0; i < data.length; i++) {
+					var rowData = {
+						name: data[i].name,
+						device: data[i].device,
+						pm_count: data[i].pm_count,
+						month: data[i].month,
+						scheduled_date: data[i].scheduled_date,
+						actual_date: data[i].actual_date,
+						maintenance_status: data[i].maintenance_status,
+						report: reportFormatter(data[i])
+					};
+					tableData.push(rowData);
+				}
+		
+				// Update the data and refresh the table
+				$('#engineer-dashboard-table').bootstrapTable('load', tableData);
+			},
+			error: function (xhr, status, error) {
+				console.error('AJAX Error:' + error);
+			},
+		});
+	});
+}
+
 function setButton() {
 
 	$(document).on('click', '.deliveredReport', function() {
@@ -217,7 +260,7 @@ function engineerDashboardFormatter(value, row, index) {
 	} else if(!row.actual_date) {
 		return [
 			'<span data-bs-toggle="modal" data-bs-target="#formModal" data-id="' + row.id + '">',
-			'<button class="btn btn-primary scheduledDateBtn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Reschedule the scheduled date">',
+			'<button class="btn btn-primary scheduledDateBtn mb-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Reschedule the scheduled date">',
 			'<i class="fa-regular fa-calendar-days"></i>',
 			'</button>',
 			'</span>',
@@ -328,5 +371,6 @@ $(function() {
 	});
 
 	setForm();
+	filterTable();
 	setButton();
 });

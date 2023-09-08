@@ -5,7 +5,7 @@
                 </div>
             </div>
 
-            <h3 class="header-title">Maintenance List</h3>
+            <h3 class="header-title">Maintenance History</h3>
 
 			<span id="toolbar">
 				<button class="btn btn-danger" id="remove" data-bs-toggle="modal" data-bs-target="#delBulkMaintenanceModal" disabled>
@@ -17,7 +17,7 @@
 			</span>
 
             <table
-			id="maintenance-table"
+			id="history-table"
 			data-toolbar="#toolbar"
 			data-search="true"
 			data-advanced-search="true"
@@ -33,7 +33,7 @@
             data-mobile-responsive="true"
 			data-show-search-clear-button="true"
             data-check-on-init="true"
-			data-url='<?= BASEURL; ?>/Maintenance/getMaintenanceList'
+			data-url='<?= BASEURL; ?>/Maintenance/getMaintenanceHistory'
             data-resizable="true">
 			</table>
         </div>

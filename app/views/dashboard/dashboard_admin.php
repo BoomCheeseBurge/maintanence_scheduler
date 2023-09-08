@@ -8,6 +8,18 @@
 
 			<h3 class="header-title">Dashboard</h3>
 
+			<span id="toolbar">
+				<div class="input-group">
+					<div class="input-group-text" id="btnGroupAddon2">Filter by</div>
+					<select class="form-select" id="maintenance" name="maintenance" required>
+						<option selected>none</option>
+						<option value="unscheduled">not yet scheduled</option>
+						<option value="unmaintained">not yet maintained</option>
+						<option value="unsubmitted">unsubmitted report</option>
+					</select>
+				</div>
+			</span>
+
 			<table
 			id="dashboard-table"
 			data-toolbar="#toolbar"

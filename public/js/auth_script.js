@@ -181,7 +181,10 @@ $(function() {
           success: function(response) {
             // Change username and photo if changed by the user
             $('#username').text(formData.get('name'));
-            $('#userPhoto').attr('src', BASEURL + '/img/users/' + formData.get('photo')['name']);
+            if ((formData.get('photo')['name'].trim() !== '')) {
+                // The 'name' property of 'photo' in formData is not empty.
+                $('#userPhoto').attr('src', BASEURL + '/img/users/' + formData.get('photo')['name']);
+            }  
           },
           error: function() {
             // Request failed, handle error here

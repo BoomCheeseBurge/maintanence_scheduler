@@ -61,8 +61,8 @@ class Maintenance extends Controller {
     }
 
     // For Maintenance List Bootstrap Table
-    public function getMaintenanceList() {
-        $maintenanceData = $this->model('Maintenance_model')->getListData();
+    public function getMaintenanceHistory() {
+        $maintenanceData = $this->model('Maintenance_model')->getHistoryData();
 
         echo json_encode($maintenanceData);
     }
@@ -101,7 +101,7 @@ class Maintenance extends Controller {
             } else {
                 Flasher::setFlash('Maintenance', ' already', ' exist', 'warning');
 	
-				header('Location: ' . BASEURL . '/Contract');
+				header('Location: ' . BASEURL . '/Dashboard');
 				exit;
             }
         }else {
@@ -185,5 +185,13 @@ class Maintenance extends Controller {
         $filteredTableData = $this->model('Maintenance_model')->filterTableData($selectedMonth, $selectedYear);
     
         echo json_encode($filteredTableData);
+    }
+
+    public function filterMaintenance() {
+        echo json_encode($this->model('Maintenance_model')->filterMaintenanceData($_POST['selectedValue']));
+    }
+
+    public function filterEngineerDashboard() {
+        echo json_encode($this->model('Maintenance_model')->filterEngineerData($_POST['selectedValue']));
     }
 }
