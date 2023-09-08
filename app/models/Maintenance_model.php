@@ -16,7 +16,7 @@ class Maintenance_model {
 
 	// For Admin Bootstrap Table
 	public function getMaintenanceList() {
-		$query = 'SELECT m.id AS id, u.full_name AS engineer_name, cl.name AS client_name, co.sop_number AS sopNumber, co.device AS deviceName, m.pm_count AS pmCount, m.scheduled_date AS scheduledDate, m.actual_date AS actualDate, m.maintenance_status AS maintenanceStatus, m.report_status AS reportStatus, m.report_date AS reportDate
+		$query = 'SELECT m.id AS id, u.full_name AS engineer_name, cl.name AS client_name, co.sop_number AS sopNumber, co.device AS deviceName, m.pm_count AS pmCount, m.month AS pmMonth, m.scheduled_date AS scheduledDate, m.actual_date AS actualDate, m.maintenance_status AS maintenanceStatus, m.report_status AS reportStatus, m.report_date AS reportDate
 		FROM '. $this->table1 .' m
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
@@ -61,7 +61,7 @@ class Maintenance_model {
 	// For Engineer Bootstrap Table
 	public function getMaintenanceData() {
 		
-		$query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
+		$query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.month, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
 		FROM '. $this->table1 . ' m
 		INNER JOIN '. $this->table2 . ' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 . ' cl ON m.client_id = cl.id
@@ -103,9 +103,9 @@ class Maintenance_model {
 		return $this->db->resultSet();
 	}
 
-	// For History Bootstrap Table
-	public function getHistoryData() {
-		$query = 'SELECT u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.scheduled_date, m.actual_date, m.report_date
+	// For Maintenance List Bootstrap Table
+	public function getListData() {
+		$query = 'SELECT m.id, u.full_name, cl.name, co.sop_number, co.device, co.pm_frequency, m.pm_count, m.month, m.scheduled_date, m.actual_date, m.report_date
 		FROM '. $this->table1 .' m
 		INNER JOIN '. $this->table2 .' co ON m.contract_id = co.id
 		INNER JOIN '. $this->table3 .' cl ON m.client_id = cl.id
@@ -115,7 +115,7 @@ class Maintenance_model {
 		return $this->db->resultSet();
 	}
 
-	// For Filtered History Bootstrap Table by Month
+	// For Filtered Maintenance List Bootstrap Table by Month
 	public function filterTableData($selectedMonth, $selectedYear) {
 
 		$month = intval($selectedMonth);
@@ -184,6 +184,53 @@ class Maintenance_model {
 
         return $row['count'] > 0;
     }
+
+	public function isDuplicatePM($data) {
+        // Prepare the SQL query
+        $query = 'SELECT COUNT(*) AS count
+		FROM '. $this->table1 .' m
+		INNER JOIN contract co ON m.contract_id = co.id 
+		WHERE co.sop_number = :sopNum 
+		AND pm_count = :pmCount 
+		AND month = :month';
+
+        $this->db->query($query);
+		$this->db->bind(':sopNum', $data['sopNum']);
+		$this->db->bind(':pmCount', $data['pmCount']);
+		$this->db->bind(':month', $data['month']);
+
+        $row = $this->db->single();
+
+        return $row['count'] > 0;
+    }
+
+	public function editMaintenanceData($data) {
+		$query = 'UPDATE '. $this->table1 .' SET
+			pm_count = :pmCount,
+			month = :month
+			WHERE id = :id
+		';
+
+		$this->db->query($query);
+		$this->db->bind(':pmCount', $data['pmCount']);
+		$this->db->bind(':month', $data['month']);
+		$this->db->bind(':id', $data['id']);
+
+		$this->db->execute();
+
+		return $this->db->rowCount();
+	}
+
+	public function getMaintenanceById($id) {
+
+		$query = 'SELECT m.pm_count, m.month
+				FROM '. $this->table1 .' m
+				WHERE m.id = :id';
+		// :id will store the binded data (to prevent SQL injection)
+		$this->db->query($query);
+		$this->db->bind(':id', $id);
+		return $this->db->single();
+	}
 
 	public function delMaintenanceData($id) {
 

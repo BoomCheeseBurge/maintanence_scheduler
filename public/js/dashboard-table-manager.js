@@ -41,6 +41,11 @@ function initDashboardTable() {
 			field: 'pmCount',
 			align: 'center',
 			valign: 'middle'
+		},{
+			title: 'PM Month',
+			field: 'pmMonth',
+			align: 'center',
+			valign: 'middle'
 		}, {
 			title: 'Scheduled Date',
 			field: 'scheduledDate',

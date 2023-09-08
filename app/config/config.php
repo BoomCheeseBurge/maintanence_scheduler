@@ -1,6 +1,6 @@
 <?php
 
-define('BASEURL', 'http://localhost/');
+define('BASEURL', 'http://localhost/taskscheduler/public');
 
 // Database Configuration
 define('DB_HOST', 'localhost');

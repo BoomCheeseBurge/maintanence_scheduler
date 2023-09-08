@@ -137,7 +137,7 @@
 						</div>
 						<div class="mb-3">
 							<label for="month" class="form-label">Maintenance Month</label>
-							<select class="form-select" id="month" name="month" aria-label="Default select example" required>
+							<select class="form-select" id="month" name="month" required>
 								<option selected>Choose month</option>
 								<option value="January">January</option>
 								<option value="February">February</option>

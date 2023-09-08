@@ -5,30 +5,30 @@ class Maintenance extends Controller {
 	public function index() {
 
 		if ( $_SESSION['role'] == 'admin' ) {
-			$this->history_admin();
+			$this->maintenance_admin();
 		} elseif ( $_SESSION['role'] == 'manager' ) {
-			$this->history_manager();
+			$this->maintenance_manager();
 		} else {
             $this->dashboard_engineer();
         }
 	}
 
-    public function history_admin() {
+    public function maintenance_admin() {
 
         $data['title'] = 'Maintenance Schedule';
-        $data['identifier'] = 'history';
-        $data['activePage'] = 'history';
+        $data['identifier'] = 'maintenance';
+        $data['activePage'] = 'maintenance';
 
 		$this->view('templates/header', $data);
 		$this->view('maintenance/index');
 		$this->view('templates/footer', $data);
     }
 
-    public function history_manager() {
+    public function maintenance_manager() {
 
         $data['title'] = 'Maintenance Schedule';
-        $data['identifier'] = 'history';
-        $data['activePage'] = 'history';
+        $data['identifier'] = 'maintenance';
+        $data['activePage'] = 'maintenance';
 
 		$this->view('templates/header', $data);
 		$this->view('maintenance/index');
@@ -60,11 +60,11 @@ class Maintenance extends Controller {
 		echo json_encode($maintenanceData);
     }
 
-    // For Maintenance History Bootstrap Table
-    public function getMaintenanceHistory() {
-        $historyData = $this->model('Maintenance_model')->getHistoryData();
+    // For Maintenance List Bootstrap Table
+    public function getMaintenanceList() {
+        $maintenanceData = $this->model('Maintenance_model')->getListData();
 
-        echo json_encode($historyData);
+        echo json_encode($maintenanceData);
     }
 
 	public function createMaintenance() {
@@ -113,12 +113,44 @@ class Maintenance extends Controller {
         }
 	}
 
+    public function editMaintenance() {
+
+        if ($_POST['anyChange'] == 'true') {
+            // Check if there is a duplicate contract
+            if ( $this->model('Maintenance_model')->isDuplicatePM($_POST) ) {
+                echo json_encode(['result' => '3']);
+                exit;
+            }
+        }
+
+        if( $this->model('Maintenance_model')->editMaintenanceData($_POST) > 0 ) {
+
+            echo json_encode(['result' => '1']);
+            exit;
+        }else {
+
+            echo json_encode(['result' => '2']);
+            exit;
+        }
+	}
+
     public function delMaintenance() {
 
         $result =  $this->model('Maintenance_model')->delMaintenanceData($_POST['id']);
 
         echo json_encode(['result' => $result]);
     }
+
+    public function delBulkMaintenance() {
+
+		$result = $this->model('Maintenance_model')->delBulkMaintenanceData($_POST['ids']);
+
+		echo json_encode(['result' => $result]);
+	}
+
+    public function getSingleMaintenanceData() {
+		echo json_encode($this->model('Maintenance_model')->getMaintenanceById($_POST['id']));
+	}
 
     public function getDataForEngineerPerformance() {
         $lateReportData = $this->model('Maintenance_model')->getDataForEngineerPerformances();

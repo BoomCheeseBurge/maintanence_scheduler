@@ -82,11 +82,4 @@ class Dashboard extends Controller {
 			exit;
         }
     }
-
-	public function delBulkMaintenance() {
-
-		$result = $this->model('Maintenance_model')->delBulkMaintenanceData($_POST['ids']);
-
-		echo json_encode(['result' => $result]);
-	}
 }

@@ -273,6 +273,11 @@ function initEngineerDashboardTable() {
 			field: 'pm_count',
 			align: 'center',
 			valign: 'middle'
+		},{
+			title: 'PM Month',
+			field: 'month',
+			align: 'center',
+			valign: 'middle'
 		}, {
 			title: 'Scheduled Date',
 			field: 'scheduled_date',

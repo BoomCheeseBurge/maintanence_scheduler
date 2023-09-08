@@ -52,7 +52,7 @@
 				</li>
 
 				<li class="nav-link">
-					<?php if ( isset($data['activePage']) && $data['activePage'] === 'history' ): ?>
+					<?php if ( isset($data['activePage']) && $data['activePage'] === 'maintenance' ): ?>
 						<a href="<?= BASEURL; ?>/Maintenance" style="background-color: #695CFE;">
 							<i class="fa-solid fa-list icon" style="color: #E4E9F7;"></i>
 							<span class="text nav-text" style="color: #E4E9F7;">Maintenance</span>
@@ -153,7 +153,7 @@
 					</li>
 
 					<li class="nav-link">
-						<?php if ( isset($data['activePage']) && $data['activePage'] === 'history' ): ?>
+						<?php if ( isset($data['activePage']) && $data['activePage'] === 'maintenance' ): ?>
 							<a href="<?= BASEURL; ?>/Maintenance" style="background-color: #695CFE;">
 								<i class="fa-solid fa-list icon" style="color: #E4E9F7;"></i>
 								<span class="text nav-text" style="color: #E4E9F7;">Maintenance</span>

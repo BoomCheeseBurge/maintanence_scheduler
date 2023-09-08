@@ -38,7 +38,7 @@ class Contract_model {
 		return $this->db->resultSet();
 	}
 
-	// For Filtered History Bootstrap Table by Month
+	// For Filtered Maintenance List Bootstrap Table by Month
 	public function filterTableData($clientName, $endMonth, $endYear) {
 
 		$end_month = intval($endMonth);
