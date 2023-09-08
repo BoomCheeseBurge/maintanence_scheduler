@@ -466,7 +466,7 @@ function initUserTable() {
 			dataType: 'json',
 			success: function (response) {
 
-				if (response['result'] == '1') {
+				if (response['result'] == ids.length) {
 					$('#delBulkUserModal [data-bs-dismiss="modal"]').trigger('click');
 					$('.deleteUserSubmitBtn').html('Delete');
                     Swal.fire({
