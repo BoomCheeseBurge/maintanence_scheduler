@@ -181,6 +181,7 @@ $(function() {
           success: function(response) {
             // Change username and photo if changed by the user
             $('#username').text(formData.get('name'));
+            // If the user changed the photo profile
             if ((formData.get('photo')['name'].trim() !== '')) {
                 // The 'name' property of 'photo' in formData is not empty.
                 $('#userPhoto').attr('src', BASEURL + '/img/users/' + formData.get('photo')['name']);
