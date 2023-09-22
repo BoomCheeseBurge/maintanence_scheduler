@@ -206,14 +206,16 @@ class Maintenance_model {
 
 		} else if($value == "none") {
 
-			$query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.month, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
-			FROM '. $this->table1 . ' m
-			INNER JOIN '. $this->table2 . ' co ON m.contract_id = co.id
-			INNER JOIN '. $this->table3 . ' cl ON m.client_id = cl.id
-			WHERE m.engineer_id = ' . $_SESSION["id"];
+			// $query = 'SELECT m.id, cl.name, co.device, m.pm_count, m.month, m.scheduled_date, m.actual_date, m.maintenance_status, m.report_status, m.report_date
+			// FROM '. $this->table1 . ' m
+			// INNER JOIN '. $this->table2 . ' co ON m.contract_id = co.id
+			// INNER JOIN '. $this->table3 . ' cl ON m.client_id = cl.id
+			// WHERE m.engineer_id = ' . $_SESSION["id"];
 			
-			$this->db->query($query);
-			return $this->db->resultSet();
+			// $this->db->query($query);
+			// return $this->db->resultSet();
+
+			return 'none';
 		}
 	}
 

@@ -171,25 +171,31 @@ function filterTable() {
 			type: 'POST',
 			dataType: 'json',
 			success: function (data) {
+
+				if(data === 'none') {
+					$('#engineer-dashboard-table').bootstrapTable('refresh');
+				} else {
 		
-				// Prepare the data for the Bootstrap Table
-				var tableData = [];
-				for (var i = 0; i < data.length; i++) {
-					var rowData = {
-						name: data[i].name,
-						device: data[i].device,
-						pm_count: data[i].pm_count,
-						month: data[i].month,
-						scheduled_date: data[i].scheduled_date,
-						actual_date: data[i].actual_date,
-						maintenance_status: data[i].maintenance_status,
-						report: reportFormatter(data[i])
-					};
-					tableData.push(rowData);
+					// Prepare the data for the Bootstrap Table
+					var tableData = [];
+					for (var i = 0; i < data.length; i++) {
+						var rowData = {
+							name: data[i].name,
+							device: data[i].device,
+							pm_count: data[i].pm_count,
+							month: data[i].month,
+							scheduled_date: data[i].scheduled_date,
+							actual_date: data[i].actual_date,
+							maintenance_status: data[i].maintenance_status,
+							report: reportFormatter(data[i])
+						};
+						tableData.push(rowData);
+						
+					}
+			
+					// Update the data and refresh the table
+					$('#engineer-dashboard-table').bootstrapTable('load', tableData);
 				}
-		
-				// Update the data and refresh the table
-				$('#engineer-dashboard-table').bootstrapTable('load', tableData);
 			},
 			error: function (xhr, status, error) {
 				console.error('AJAX Error:' + error);
