@@ -1033,7 +1033,7 @@ function initContractTable() {
 						showConfirmButton: true
 					});
 					$remove.prop('disabled', true);
-				} else if (response['result'] == '2') {
+				} else if (response['result'] == 'invalid') {
 					Swal.fire({
 						position: 'center',
 						icon: 'warning',

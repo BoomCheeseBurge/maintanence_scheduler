@@ -191,7 +191,15 @@ class Maintenance extends Controller {
         echo json_encode($this->model('Maintenance_model')->filterMaintenanceData($_POST['selectedValue']));
     }
 
+    public function filterManagerMaintenance() {
+        echo json_encode($this->model('Maintenance_model')->filterManagerMaintenanceData($_POST['selectedValue'], $_POST['viewValue']));
+    }
+
     public function filterEngineerDashboard() {
         echo json_encode($this->model('Maintenance_model')->filterEngineerData($_POST['selectedValue']));
+    }
+
+    public function switchManagerView() {
+        echo json_encode($this->model('Maintenance_model')->switchManagerViewData($_POST['selectedValue']));
     }
 }

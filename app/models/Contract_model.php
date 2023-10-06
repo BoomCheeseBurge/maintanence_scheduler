@@ -207,7 +207,7 @@ class Contract_model {
 		} catch (PDOException $e) {
 			$errorCode = $e->getCode();
 			if ($errorCode === '23000' || $errorCode === '1451') {
-				return 2;
+				return 'invalid';
 			} else {
 				// Handle other errors
 				return $errorCode;

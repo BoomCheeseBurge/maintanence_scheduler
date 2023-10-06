@@ -121,7 +121,7 @@ class User_model {
 		} catch (PDOException $e) {
 			$errorCode = $e->getCode();
 			if ($errorCode === '23000' || $errorCode === '1451') {
-				return 2;
+				return 'invalid';
 			} else {
 				// Handle other errors
 				return $errorCode;
@@ -131,7 +131,7 @@ class User_model {
 
     public function getAssignee($keyword)
     {
-        $query = 'SELECT full_name FROM user WHERE role = "engineer" AND full_name LIKE :keyword';
+        $query = 'SELECT full_name FROM user WHERE (role = "engineer" OR role = "manager") AND full_name LIKE :keyword';
         $this->db->query($query);
         $this->db->bind('keyword', "%$keyword%");
         return $this->db->resultSet();

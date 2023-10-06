@@ -240,27 +240,32 @@ function filterTable() {
 			type: 'POST',
 			dataType: 'json',
 			success: function (data) {
+
+				if(data === 'none') {
+					$('#dashboard-table').bootstrapTable('refresh');
+				} else {
 		
-				// Prepare the data for the Bootstrap Table
-				var tableData = [];
-				for (var i = 0; i < data.length; i++) {
-					var rowData = {
-						engineer_name: data[i].engineer_name,
-						client_name: data[i].client_name,
-						sopNumber: data[i].sopNumber,
-						deviceName: data[i].deviceName,
-						pmCount: data[i].pmCount,
-						pmMonth: data[i].pmMonth,
-						scheduledDate: data[i].scheduledDate,
-						actualDate: data[i].actualDate,
-						maintenanceStatus: data[i].maintenanceStatus,
-						report: reportFormatter(data[i])
-					};
-					tableData.push(rowData);
+					// Prepare the data for the Bootstrap Table
+					var tableData = [];
+					for (var i = 0; i < data.length; i++) {
+						var rowData = {
+							engineer_name: data[i].engineer_name,
+							client_name: data[i].client_name,
+							sopNumber: data[i].sopNumber,
+							deviceName: data[i].deviceName,
+							pmCount: data[i].pmCount,
+							pmMonth: data[i].pmMonth,
+							scheduledDate: data[i].scheduledDate,
+							actualDate: data[i].actualDate,
+							maintenanceStatus: data[i].maintenanceStatus,
+							report: reportFormatter(data[i])
+						};
+						tableData.push(rowData);
+					}
+			
+					// Update the data and refresh the table
+					$('#dashboard-table').bootstrapTable('load', tableData);
 				}
-		
-				// Update the data and refresh the table
-				$('#dashboard-table').bootstrapTable('load', tableData);
 			},
 			error: function (xhr, status, error) {
 				console.error('AJAX Error:' + error);

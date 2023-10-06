@@ -485,7 +485,7 @@ function initUserTable() {
                         title: 'Users failed to be deleted',
                         showConfirmButton: true
                     });
-				} else if (response['result'] == "2") {
+				} else if (response['result'] == "invalid") {
                     Swal.fire({
                         position: 'center',
                         icon: 'warning',
