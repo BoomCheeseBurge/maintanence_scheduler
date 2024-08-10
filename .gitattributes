@@ -1,2 +1,8 @@
-# Example of a `.gitattributes` file which reclassifies `.typescript` files as PHP:
-.ts linguist-language=php
+# Example of a `.gitattributes` file which reclassifies `.ts` files as PHP:
+# .ts linguist-language=php
+# The configuration above doesnt work!
+
+# This configuration work!
+*.ts linguist-detectable=false
+*.html linguist-detectable=false
+*.js linguist-detectable=false
