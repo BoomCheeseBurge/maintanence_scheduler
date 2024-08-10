@@ -1,0 +1,2 @@
+# Example of a `.gitattributes` file which reclassifies `.typescript` files as PHP:
+.typscript linguist-language=PHP
