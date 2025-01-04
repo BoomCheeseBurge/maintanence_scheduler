@@ -32,7 +32,7 @@ __Manager users__ are able to view and track which users are late on their maint
 
 __Engineer users__ ONLY has access to this page to keep track of their scheduled maintenances.
 
-__Engineer users_ can perform actions on every row to change the status of the on-going maintenance from scheduled date (available maintenance date set by the engineer), actual date (agreed schedule date between the engineer and the client), maintenance status (in-progress or finished), and report status (on which date the maintenance report was delivered).
+__Engineer users__ can perform actions on every row to change the status of the on-going maintenance from scheduled date (available maintenance date set by the engineer), actual date (agreed schedule date between the engineer and the client), maintenance status (in-progress or finished), and report status (on which date the maintenance report was delivered).
 
 * __Maintenance__
 
