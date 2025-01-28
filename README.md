@@ -1,6 +1,6 @@
 # Maintenance Scheduler
 
-## Built on PHP 8 with Bootstrap5.
+## Built on PHP 8.3 with Bootstrap5.
 
 This project was part of an internship task to manage the maintanence schedule for employees in the technical support department where users can track and manage their upcoming, in-progress, or finished maintenances.
 
